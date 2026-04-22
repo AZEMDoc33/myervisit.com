@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Dr. Eric Cummins, MD</title>
+  <meta name="description" content="Share your feedback or reach out to Dr. Eric Cummins, MD. Your experience in the emergency department matters." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-brand">
+          <span class="brand-name">Eric Cummins, MD</span>
+          <span class="brand-tagline">Anyone. Anything. Anytime.</span>
+        </a>
+        <ul class="navbar-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="contact.html" class="active navbar-cta">Contact</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="blog.html">Blog</a>
+    <a href="resources.html">Resources</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-dots"></div>
+    <div class="container page-hero-inner">
+      <span class="section-tag" style="color:var(--gold);background:rgba(201,151,58,0.15);">Your Voice Matters</span>
+      <h1>Get in Touch</h1>
+      <p>Share what went well, point out what could be better, or just say hello. Every message is read.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="section" style="background:var(--cream);">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- LEFT: Info -->
+        <div data-aos="fade-right">
+          <span class="section-tag">Reach Out</span>
+          <h2 class="contact-info" style="color:var(--navy);">Your Experience<br/>Matters to Me</h2>
+          <div class="accent-line"></div>
+          <p style="color:var(--muted);">Whether something went really well or there's room to improve — I genuinely want to hear about it. Honest feedback is what helps us get better, one patient at a time.</p>
+          <p style="color:var(--muted);">I'm also working on a secure, HIPAA-compliant communication channel for more private messages. Stay tuned.</p>
+
+          <div class="contact-info-items">
+            <div class="contact-info-item">
+              <div class="contact-icon">🏥</div>
+              <div>
+                <h4>Banner Gateway Medical Center</h4>
+                <p>Gilbert, Arizona — Part of the Banner Health system</p>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon">📋</div>
+              <div>
+                <h4>Patient Experience Surveys</h4>
+                <p>You may receive a survey via text or email after your visit. Your feedback through those surveys is incredibly valuable.</p>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon">⚠️</div>
+              <div>
+                <h4>Medical Emergencies</h4>
+                <p>This form is not monitored for urgent medical concerns. If you are having a medical emergency, call <strong>911</strong> immediately.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Form -->
+        <div data-aos="fade-left">
+          <div class="contact-form-wrap">
+            <h3 style="color:var(--navy);margin-bottom:6px;">Send a Message</h3>
+            <p style="color:var(--muted);font-size:0.9rem;margin-bottom:28px;">All fields marked * are required.</p>
+
+            <form action="#" method="POST">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First Name *</label>
+                  <input type="text" id="firstName" name="firstName" placeholder="Jane" required />
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" id="lastName" name="lastName" placeholder="Smith" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+              </div>
+
+              <div class="form-group">
+                <label for="subject">What is this about?</label>
+                <select id="subject" name="subject">
+                  <option value="">Select a topic...</option>
+                  <option value="feedback-positive">Sharing a positive experience</option>
+                  <option value="feedback-improvement">Suggesting an improvement</option>
+                  <option value="website">Question about this website</option>
+                  <option value="other">Something else</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Your Message *</label>
+                <textarea id="message" name="message" placeholder="Share your thoughts here..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-gold btn-block">Send Message</button>
+
+              <p class="form-note">
+                ⚠️ Please do not include personal health information in this form. For medical questions, contact your care team directly. This form does not constitute a doctor-patient relationship.
+              </p>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY NOTE -->
+  <section class="section" style="background:var(--warm-white);padding:60px 0;" data-aos="fade-up">
+    <div class="container" style="max-width:720px;text-align:center;">
+      <span class="section-tag">Privacy & HIPAA</span>
+      <h2 style="color:var(--navy);">A Note on Your Privacy</h2>
+      <div class="accent-line center"></div>
+      <p style="color:var(--muted);">I am actively building a secure, HIPAA-compliant avenue for direct communication with patients. In the meantime, please do not share personal health details through this form. For questions related to your care, please contact Banner Gateway Medical Center directly or reach out to your primary care physician.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="brand-name">Eric Cummins, MD</div>
+          <p>Helping patients and families navigate the emergency department with clarity, confidence, and a little less stress. Anyone. Anything. Anytime.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Me</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="resources.html">Free Resources</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Free Resources</h4>
+          <ul>
+            <li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/ed.visit.planner-A0xvxDB9kJUaa9oB.pdf" target="_blank">ER Visit Companion</a></li>
+            <li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/simple-medication-log-sheet-planner-Yg242RrpxohG8BBl.pdf" target="_blank">Medication List</a></li>
+            <li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/medical-history-planner-sheet-mp848RxRjeIjBKLe.pdf" target="_blank">Medical History Form</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider" />
+      <div class="footer-bottom">
+        <p class="footer-disclaimer">This website is for informational purposes only and does not constitute medical advice. If you are experiencing a medical emergency, call 911 or go to your nearest emergency department immediately.</p>
+        <span class="footer-copy">© 2025 Eric Cummins, MD</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

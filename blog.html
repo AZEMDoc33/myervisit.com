@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Dr. Eric Cummins, MD | Emergency Medicine Insights</title>
+  <meta name="description" content="Honest answers, plain language, and a little humor — Dr. Eric Cummins breaks down what you need to know about emergency medicine and your ER visit." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-brand">
+          <span class="brand-name">Eric Cummins, MD</span>
+          <span class="brand-tagline">Anyone. Anything. Anytime.</span>
+        </a>
+        <ul class="navbar-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html" class="active">Blog</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="blog.html">Blog</a>
+    <a href="resources.html">Resources</a>
+    <a href="index.html#reviews">Share Your Experience</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-dots"></div>
+    <div class="container page-hero-inner">
+      <span class="section-tag" style="color:var(--gold);background:rgba(201,151,58,0.15);">Pulling Back the Curtain</span>
+      <h1>The Blog</h1>
+      <p>Honest, plain-language answers to what patients actually want to know — with a side of humor and a lot of heart.</p>
+    </div>
+  </section>
+
+  <!-- BLOG SECTION -->
+  <section class="section" style="background:var(--cream);">
+    <div class="container">
+
+      <!-- Filter Bar -->
+      <div class="filter-bar" data-aos="fade-up">
+        <button class="filter-btn active" data-filter="all">All Posts</button>
+        <button class="filter-btn" data-filter="before">Before Your Visit</button>
+        <button class="filter-btn" data-filter="during">During Your Visit</button>
+        <button class="filter-btn" data-filter="after">After Your Visit</button>
+        <button class="filter-btn" data-filter="conditions">Common Conditions</button>
+      </div>
+
+      <!-- Blog Grid -->
+      <div class="blog-grid">
+
+        <div class="blog-card" data-category="before" data-aos="fade-up" data-aos-delay="0">
+          <div class="blog-card-image bg-1">🏥</div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">Before Your Visit</span>
+              <span class="read-time">4 min read</span>
+            </div>
+            <h3>What Actually Happens When You Walk Into the ER</h3>
+            <p>The triage nurse, the waiting room, the vitals check — here's what each step actually means and why it matters for your care.</p>
+            <span class="blog-card-link" style="cursor:default;opacity:0.6;">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="blog-card" data-category="conditions" data-aos="fade-up" data-aos-delay="80">
+          <div class="blog-card-image bg-2">❤️‍🩹</div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">Common Conditions</span>
+              <span class="read-time">5 min read</span>
+            </div>
+            <h3>High Blood Pressure in the ER: Should You Panic?</h3>
+            <p>Your BP reads 178/102 and the nurse doesn't seem alarmed. Here's why — and what that number actually means for you right now.</p>
+            <span class="blog-card-link" style="cursor:default;opacity:0.6;">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="blog-card" data-category="during" data-aos="fade-up" data-aos-delay="160">
+          <div class="blog-card-image bg-3">⏰</div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">During Your Visit</span>
+              <span class="read-time">4 min read</span>
+            </div>
+            <h3>Why Is the Wait So Long? An Honest Answer</h3>
+            <p>It's the most-asked question in emergency medicine. Here's the real, behind-the-scenes answer — no sugarcoating.</p>
+            <span class="blog-card-link" style="cursor:default;opacity:0.6;">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="blog-card" data-category="after" data-aos="fade-up" data-aos-delay="0">
+          <div class="blog-card-image bg-2">📋</div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">After Your Visit</span>
+              <span class="read-time">3 min read</span>
+            </div>
+            <h3>Your Discharge Instructions Actually Matter — Here's Why</h3>
+            <p>Most patients admit they don't read them. Here's what you might be missing — and why it could affect how quickly you recover.</p>
+            <span class="blog-card-link" style="cursor:default;opacity:0.6;">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="blog-card" data-category="before" data-aos="fade-up" data-aos-delay="80">
+          <div class="blog-card-image bg-1">💊</div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">Before Your Visit</span>
+              <span class="read-time">3 min read</span>
+            </div>
+            <h3>The One Thing You Should Always Bring to the ER</h3>
+            <p>No, it's not your phone charger — though that's not a bad idea either. This one item could speed up your care significantly.</p>
+            <span class="blog-card-link" style="cursor:default;opacity:0.6;">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="blog-card" data-category="conditions" data-aos="fade-up" data-aos-delay="160">
+          <div class="blog-card-image bg-3">🧠</div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">Common Conditions</span>
+              <span class="read-time">6 min read</span>
+            </div>
+            <h3>Back Pain in the ER: When Do You Actually Need an MRI?</h3>
+            <p>Most back pain doesn't need an MRI — but some absolutely does. Here's how ER doctors think about it.</p>
+            <span class="blog-card-link" style="cursor:default;opacity:0.6;">Coming Soon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER/NOTIFY CTA -->
+  <section class="cta-section" style="background:var(--warm-white);" data-aos="fade-up">
+    <div class="container">
+      <span class="section-tag">Stay in the Loop</span>
+      <h2>New Posts Are on the Way</h2>
+      <p>More articles, honest answers, and ER insights are coming soon. In the meantime, grab a free resource below.</p>
+      <a href="resources.html" class="btn btn-primary">Get Free Resources</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="brand-name">Eric Cummins, MD</div>
+          <p>Helping patients and families navigate the emergency department with clarity, confidence, and a little less stress. Anyone. Anything. Anytime.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Me</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="resources.html">Free Resources</a></li>
+            <li><a href="index.html#reviews">Share Your Experience</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Free Resources</h4>
+          <ul>
+            <li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/ed.visit.planner-A0xvxDB9kJUaa9oB.pdf" target="_blank">ER Visit Companion</a></li>
+            <li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/simple-medication-log-sheet-planner-Yg242RrpxohG8BBl.pdf" target="_blank">Medication List</a></li>
+            <li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/medical-history-planner-sheet-mp848RxRjeIjBKLe.pdf" target="_blank">Medical History Form</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider" />
+      <div class="footer-bottom">
+        <p class="footer-disclaimer">This website is for informational purposes only and does not constitute medical advice. If you are experiencing a medical emergency, call 911 or go to your nearest emergency department immediately.</p>
+        <span class="footer-copy">© 2025 Eric Cummins, MD</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
