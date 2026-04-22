@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your AI Chatbot Isn't a Doctor — It Just Plays One on the Internet | Eric Cummins, MD</title>
+  <meta name="description" content="Where does ChatGPT actually get its medical information? An ER doctor breaks down what's safe, what's dangerous, and what you should never ask an AI chatbot." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <style>
+    .post-hero { background: var(--navy); padding: 150px 0 80px; position: relative; overflow: hidden; }
+    .post-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 48px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
+    .post-hero-dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; }
+    .post-hero-inner { position: relative; z-index: 1; max-width: 780px; }
+    .post-hero h1 { color: white; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.2; }
+    .post-subtitle { color: rgba(255,255,255,0.65); font-size: 1.1rem; margin-top: 14px; font-style: italic; }
+    .post-meta { display: flex; align-items: center; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+    .post-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
+
+    .post-body { max-width: 760px; margin: 0 auto; padding: 60px 28px 80px; }
+    .post-body p { color: var(--charcoal); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; }
+    .post-body h2 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.55rem; margin: 2.8rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
+
+    .back-to-blog { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-bottom: 36px; }
+    .back-to-blog:hover { gap: 12px; }
+
+    /* Source breakdown chart */
+    .source-breakdown { background: var(--warm-white); border-radius: var(--radius); padding: 32px; margin: 28px 0; border: 1px solid rgba(30,58,95,0.08); }
+    .source-breakdown h3 { color: var(--navy); font-size: 1.1rem; margin-bottom: 20px; font-family: 'Playfair Display', serif; }
+    .source-item { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+    .source-bar-wrap { flex: 1; background: var(--cream-dark); border-radius: 4px; height: 10px; overflow: hidden; }
+    .source-bar { height: 100%; border-radius: 4px; background: var(--teal); transition: width 1s ease; }
+    .source-label { font-size: 0.85rem; color: var(--charcoal); min-width: 260px; }
+    .source-pct { font-size: 0.82rem; font-weight: 700; color: var(--navy); min-width: 36px; text-align: right; }
+    .source-note { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 4px; }
+
+    /* Warning box */
+    .warning-box { background: #FFF3CD; border: 1px solid #FFCA28; border-left: 4px solid #F59E0B; border-radius: var(--radius); padding: 24px 28px; margin: 28px 0; }
+    .warning-box .warning-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #92400E; margin-bottom: 8px; }
+    .warning-box p { color: #78350F; margin: 0; font-size: 0.97rem; line-height: 1.7; }
+
+    /* Do / Don't boxes */
+    .do-dont-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 28px 0; }
+    .do-box, .dont-box { border-radius: var(--radius); padding: 24px; }
+    .do-box { background: rgba(61,122,138,0.08); border: 1px solid rgba(61,122,138,0.2); }
+    .dont-box { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.18); }
+    .do-box h4 { color: var(--teal); font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 14px; }
+    .dont-box h4 { color: #DC2626; font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 14px; }
+    .do-dont-item { display: flex; gap: 10px; font-size: 0.9rem; color: var(--charcoal); line-height: 1.5; margin-bottom: 10px; }
+    .do-dont-item:last-child { margin-bottom: 0; }
+    .do-icon { color: var(--teal); font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .dont-icon { color: #DC2626; font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+    /* Trusted sources */
+    .trusted-sources { background: var(--navy); border-radius: var(--radius); padding: 32px; margin: 28px 0; }
+    .trusted-sources h3 { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 20px; }
+    .source-link-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; color: white; font-size: 0.93rem; line-height: 1.5; }
+    .source-link-item:last-child { margin-bottom: 0; }
+    .source-check { color: var(--gold); flex-shrink: 0; }
+
+    /* Closing callout */
+    .closing-box { background: linear-gradient(135deg, var(--navy), var(--navy-light)); border-radius: var(--radius); padding: 36px; margin: 40px 0; text-align: center; color: white; }
+    .closing-box p { color: rgba(255,255,255,0.82); margin-bottom: 0; font-size: 1.05rem; line-height: 1.75; }
+    .closing-box .closing-sig { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 16px !important; }
+
+    .post-footer-note { font-size: 0.82rem; color: var(--muted); font-style: italic; border-top: 1px solid var(--cream-dark); padding-top: 20px; margin-top: 40px; }
+
+    .post-cta-band { background: linear-gradient(135deg, var(--gold), #A87A20); padding: 60px 0; text-align: center; }
+    .post-cta-band h2 { color: white; }
+    .post-cta-band p { color: rgba(255,255,255,0.85); max-width: 480px; margin: 12px auto 28px; }
+
+    @media (max-width: 640px) {
+      .do-dont-grid { grid-template-columns: 1fr; }
+      .source-label { min-width: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar scrolled" id="navbar" style="position:relative;background:rgba(30,58,95,0.97);">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-brand">
+          <span class="brand-name">Eric Cummins, MD</span>
+          <span class="brand-tagline">Anyone. Anything. Anytime.</span>
+        </a>
+        <ul class="navbar-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html" class="active">Blog</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="index.html">Home</a><a href="about.html">About</a>
+    <a href="blog.html">Blog</a><a href="resources.html">Resources</a>
+    <a href="index.html#reviews">Share Your Experience</a>
+  </div>
+
+  <section class="post-hero">
+    <div class="post-hero-dots"></div>
+    <div class="container post-hero-inner">
+      <span class="section-tag" style="color:var(--gold);background:rgba(201,151,58,0.15);">Common Conditions</span>
+      <h1>Your AI Chatbot Isn't a Doctor — It Just Plays One on the Internet</h1>
+      <p class="post-subtitle">Where does ChatGPT get its information? Sure, it's fast — but is it actually accurate?</p>
+      <div class="post-meta">
+        <span class="post-meta-item">⏱ 6 min read</span>
+        <span class="post-meta-item">✍️ Dr. Eric Cummins, MD</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="post-body">
+    <a href="blog.html" class="back-to-blog">← Back to Blog</a>
+
+    <figure class="post-image" style="margin:0 0 36px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-md);">
+      <img
+        src="images/chatgpt-doctor.png"
+        alt="A cartoon showing a ChatGPT robot in a doctor's coat treating a worried patient while the real doctor is tied up helplessly in the doorway"
+        style="width:100%;height:auto;display:block;"
+      />
+      <figcaption style="background:var(--navy);color:rgba(255,255,255,0.7);font-size:0.82rem;padding:12px 20px;font-style:italic;text-align:center;">
+        Don't worry — the actual doctor hasn't gone anywhere. That said, this is closer to reality than we'd like to admit. 😅
+      </figcaption>
+    </figure>
+
+    <p>Let's be real — we've all done it. That weird rash pops up, and before you can say "WebMD," you're three clicks deep into the internet, convinced you have a rare parasitic infection. Welcome to modern healthcare, where everyone has a medical degree from the University of Google. 🎓</p>
+
+    <p>But here's the thing: not all online health information is created equal. And with AI chatbots like ChatGPT, Gemini, Grok, and Claude becoming popular sources for medical advice, we need to talk about what's actually safe — and what might land you in the ER.</p>
+
+    <h2>The Rise of Dr. ChatGPT 🤖</h2>
+
+    <p>AI chatbots have become surprisingly popular for health questions. A recent survey found that one in six adults uses AI chatbots for medical information at least once a month. That's a lot of people asking their phones about their symptoms!</p>
+
+    <p>And honestly? I get the appeal. AI chatbots are available 24/7, they don't judge you for asking about that embarrassing rash, and they're free. No waiting room, no copay, no awkward small talk about the hot AZ weather.</p>
+
+    <p>But here's where things get scary.</p>
+
+    <h2>Where AI Learned "Medicine" (Hint: It's Not Med School) 📚</h2>
+
+    <p>AI chatbots learn by reading enormous amounts of content and answering questions based on what they've "read." Sounds great, right? Here's the problem — AI doesn't just learn from medical textbooks and peer-reviewed journals. Look at where ChatGPT actually gets its information:</p>
+
+    <div class="source-breakdown" data-aos="fade-up">
+      <h3>ChatGPT's Information Sources</h3>
+
+      <div class="source-item">
+        <span class="source-label">Third-Party Blogs &amp; Expert Reviews <span class="source-note">(Who determines if the "expert" is actually an expert?)</span></span>
+        <div class="source-bar-wrap"><div class="source-bar" style="width:34%;background:var(--navy);"></div></div>
+        <span class="source-pct">34%</span>
+      </div>
+      <div class="source-item">
+        <span class="source-label">Review Platforms <span class="source-note">(Think Yelp, but for everything)</span></span>
+        <div class="source-bar-wrap"><div class="source-bar" style="width:18%;background:var(--teal);"></div></div>
+        <span class="source-pct">18%</span>
+      </div>
+      <div class="source-item">
+        <span class="source-label">Wikipedia <span class="source-note">(Anyone can edit this, by the way)</span></span>
+        <div class="source-bar-wrap"><div class="source-bar" style="width:15%;background:var(--teal);"></div></div>
+        <span class="source-pct">15%</span>
+      </div>
+      <div class="source-item">
+        <span class="source-label">News &amp; Industry Publications</span>
+        <div class="source-bar-wrap"><div class="source-bar" style="width:15%;background:var(--gold);"></div></div>
+        <span class="source-pct">15%</span>
+      </div>
+      <div class="source-item">
+        <span class="source-label">Vendor Product Pages <span class="source-note">(Companies selling you stuff)</span></span>
+        <div class="source-bar-wrap"><div class="source-bar" style="width:6%;background:#E07A5F;"></div></div>
+        <span class="source-pct">6%</span>
+      </div>
+      <div class="source-item">
+        <span class="source-label">Product-Specific Blogs</span>
+        <div class="source-bar-wrap"><div class="source-bar" style="width:5%;background:#E07A5F;"></div></div>
+        <span class="source-pct">5%</span>
+      </div>
+      <div class="source-item">
+        <span class="source-label">Reddit &amp; Community Threads <span class="source-note">(Same place that debates whether hot dogs are sandwiches)</span></span>
+        <div class="source-bar-wrap"><div class="source-bar" style="width:4%;background:#DC2626;"></div></div>
+        <span class="source-pct">4%</span>
+      </div>
+      <div class="source-item">
+        <span class="source-label">YouTube Review Videos <span class="source-note">(Home of cat videos and "doctors" with strong opinions)</span></span>
+        <div class="source-bar-wrap"><div class="source-bar" style="width:3%;background:#DC2626;"></div></div>
+        <span class="source-pct">3%</span>
+      </div>
+
+      <p style="margin-top:18px;font-size:0.85rem;color:var(--muted);font-style:italic;margin-bottom:0;">Notice what's missing? Peer-reviewed medical journals. Evidence-based guidelines. Actual medical textbooks. Source: Concurate.com</p>
+    </div>
+
+    <p>Would you trust medical advice based mostly on blogs and review sites? I hope not! But that's essentially what you might be getting when you ask AI for health advice.</p>
+
+    <h2>When AI Goes Dangerously Wrong ⚠️</h2>
+
+    <p>Still think AI medical advice is harmless? Let me share a terrifying real-life example.</p>
+
+    <div class="warning-box" data-aos="fade-up">
+      <div class="warning-label">⚠️ Real Patient Case</div>
+      <p>A 60-year-old man wanted to reduce the amount of salt in his diet — a perfectly reasonable health goal. So he asked ChatGPT for advice. The AI recommended he take <strong>sodium bromate</strong>. Here's the problem: sodium bromate is <strong>toxic to humans</strong>. The man ended up in the emergency department with bromate toxicity, suffering from paranoid delusions and other serious symptoms. All because he trusted AI advice without checking with a real doctor.</p>
+    </div>
+
+    <p>This isn't just a "whoops" moment. This was life-threatening.</p>
+
+    <h2>Why AI Makes a Terrible Doctor 🩺</h2>
+
+    <p>AI chatbots have some serious limitations when it comes to healthcare:</p>
+
+    <p><strong>They're inconsistent.</strong> Ask the same question twice, get different answers. Your real doctor wouldn't tell you one thing on Monday and something completely different on Tuesday.</p>
+
+    <p><strong>They can't see you.</strong> AI can't look at your rash, check your breathing, or notice the worried look that tells an experienced doctor something's wrong.</p>
+
+    <p><strong>They hallucinate.</strong> No, not like that. AI can make up false information or cite studies that don't exist. Imagine receiving advice based on research that never took place. 😬</p>
+
+    <p><strong>They don't know YOU.</strong> AI can't account for your personal health history, medications, allergies, or living situation. Good healthcare is personal.</p>
+
+    <p><strong>They make mistakes with real consequences.</strong> Such as recommending toxic substances for salt reduction. Need I say more?</p>
+
+    <h2>Where You Should Actually Get Health Info ✅</h2>
+
+    <p>The internet has great health resources — you just need to know where to look.</p>
+
+    <div class="trusted-sources" data-aos="fade-up">
+      <h3>🏥 Your Trusted Health Sources</h3>
+      <div class="source-link-item"><span class="source-check">✅</span><span><strong>MedlinePlus</strong> — Run by the National Library of Medicine with reliable, up-to-date information</span></div>
+      <div class="source-link-item"><span class="source-check">✅</span><span><strong>National Institutes of Health (NIH)</strong> — The gold standard for medical research</span></div>
+      <div class="source-link-item"><span class="source-check">✅</span><span><strong>Centers for Disease Control and Prevention (CDC)</strong> — Your go-to for diseases, vaccines, and public health</span></div>
+      <div class="source-link-item"><span class="source-check">✅</span><span><strong>Mayo Clinic</strong> — One of the most respected medical institutions in the world</span></div>
+      <div class="source-link-item"><span class="source-check">✅</span><span><strong>FamilyDoctor.org</strong> — Created by actual family doctors, for patients</span></div>
+    </div>
+
+    <p>These sites are written and reviewed by real medical professionals — not Reddit users with strong opinions.</p>
+
+    <h2>Can You Ever Use AI for Health Stuff? 🤔</h2>
+
+    <p>
