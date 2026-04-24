@@ -8,6 +8,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="description" content="Instant Obs vs Inpatient criteria — Banner Gateway Emergency Department.">
 <title>Gateway · Obs or Inpatient?</title>
+<link rel="manifest" href="/criteria-manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='38' fill='%231B3A6B'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='120' fill='white'%3EG%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
@@ -193,7 +196,7 @@ html, body {
    HERO — typewriter, no gradient clip (fixes ? cutoff)
 ════════════════════════════════════════════════════════ */
 .hero {
-  padding: 10px 4px 22px;
+  padding: 10px 4px 14px;
 }
 .hero-eyebrow {
   font-size: 11px;
@@ -211,8 +214,8 @@ html, body {
   line-height: 1.22;
   letter-spacing: -0.01em;
   color: var(--text);
-  margin-bottom: 8px;
-  min-height: 2.6em; /* reserve space during typewriter */
+  margin-bottom: 4px;
+  min-height: 1.4em; /* reserve space during typewriter */
 }
 .hero h1 .cursor {
   display: inline-block;
@@ -234,6 +237,7 @@ html, body {
   font-weight: 500;
   line-height: 1.55;
   max-width: 380px;
+  margin-top: 2px;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1024,6 +1028,220 @@ html, body {
 /* ═══════════════════════════════════════════════════════
    RESPONSIVE
 ════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════
+   ID / CONTACT PRECAUTIONS VIEW
+════════════════════════════════════════════════════════ */
+.prec-link-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 15px;
+  background: var(--surface);
+  border: 1px solid var(--bgmc-border);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--text);
+  text-align: left;
+  box-shadow: var(--shadow-sm), var(--highlight);
+  transition: all 0.2s var(--ease);
+  margin-top: 10px;
+  -webkit-tap-highlight-color: transparent;
+}
+.prec-link-btn:hover {
+  background: var(--bgmc-bg);
+  border-color: var(--bgmc);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md), var(--highlight);
+}
+.prec-link-btn:active { transform: translateY(0); }
+.prec-link-ico { font-size: 20px; flex-shrink: 0; }
+.prec-link-txt  { flex: 1; }
+.prec-link-title { font-size: 13.5px; font-weight: 700; color: var(--text); }
+.prec-link-sub   { font-size: 11.5px; color: var(--text-2); margin-top: 1px; }
+.prec-link-arrow { color: var(--text-3); display: flex; }
+.prec-link-arrow svg { width: 16px; height: 16px; }
+
+/* Legend row */
+.prec-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-bottom: 16px;
+}
+.prec-legend-item {
+  padding: 9px 12px;
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  border: 1px solid var(--border);
+}
+.prec-legend-item.req   { background: #FFF0F0; border-color: var(--ip-border); color: var(--ip-dim); }
+.prec-legend-item.rec   { background: var(--obs-bg); border-color: var(--obs-border); color: var(--obs-dim); }
+.prec-legend-item.no    { background: var(--surface-2); border-color: var(--border); color: var(--text-2); }
+.prec-legend-item.def   { background: var(--bgmc-bg); border-color: var(--bgmc-border); color: var(--bgmc); font-style: italic; }
+html[data-theme="dark"] .prec-legend-item.req { background: var(--ip-bg); }
+
+/* Section header */
+.prec-section-hdr {
+  padding: 11px 14px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-radius: var(--r-sm);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.prec-section-hdr.resp { background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border); }
+.prec-section-hdr.mdro { background: var(--ip-bg); color: var(--ip-dim); border: 1px solid var(--ip-border); }
+
+/* Precaution row cards */
+.prec-rows { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+.prec-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-sm), var(--highlight);
+  position: relative;
+  overflow: hidden;
+}
+.prec-row::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: var(--r-md) 0 0 var(--r-md);
+}
+.prec-row.req-row::before  { background: var(--ip); }
+.prec-row.rec-row::before  { background: var(--obs); }
+.prec-row.no-row::before   { background: var(--text-3); }
+.prec-row-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+}
+.prec-row-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  flex: 1;
+  min-width: 120px;
+}
+.prec-type-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 9px;
+  border-radius: var(--r-full);
+  white-space: nowrap;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+}
+.prec-room-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--r-full);
+  white-space: nowrap;
+  border: 1px solid;
+}
+.prec-room-badge.req-badge { background: var(--ip-bg); color: var(--ip-dim); border-color: var(--ip-border); }
+.prec-room-badge.rec-badge { background: var(--obs-bg); color: var(--obs-dim); border-color: var(--obs-border); }
+.prec-room-badge.no-badge  { background: var(--surface-2); color: var(--text-2); border-color: var(--border); }
+.prec-row-note {
+  font-size: 12.5px;
+  color: var(--text-2);
+  line-height: 1.5;
+  padding-left: 0;
+}
+
+/* Note footer */
+.prec-footer {
+  padding: 11px 14px;
+  background: var(--surface-2);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.55;
+  border: 1px solid var(--border);
+  font-style: italic;
+}
+.prec-footer strong { color: var(--text); font-style: normal; }
+
+
+/* OOU-appropriate green block */
+.prec-oou-ok-wrap {
+  background: #F0FAF4;
+  border: 2px solid #2E7D52;
+  border-radius: var(--r-lg);
+  padding: 14px 14px 10px;
+  margin-bottom: 0;
+  position: relative;
+}
+html[data-theme="dark"] .prec-oou-ok-wrap {
+  background: rgba(46,125,82,0.12);
+  border-color: rgba(46,125,82,0.50);
+}
+.prec-oou-ok-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.prec-oou-ok-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #2E7D52;
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 5px 14px;
+  border-radius: var(--r-full);
+  white-space: nowrap;
+}
+.prec-oou-ok-sub {
+  font-size: 12px;
+  color: #2E7D52;
+  font-weight: 600;
+}
+html[data-theme="dark"] .prec-oou-ok-sub { color: #5FBA83; }
+/* Override row border for rows inside the green block */
+.prec-oou-ok-wrap .prec-row.no-row::before { background: #2E7D52; }
+.prec-oou-ok-wrap .prec-row {
+  border-color: rgba(46,125,82,0.20);
+}
+
+/* Divider banner */
+.prec-divider-not-ok {
+  text-align: center;
+  padding: 9px 14px;
+  margin: 10px 0 12px;
+  background: var(--ip-bg);
+  border: 1px dashed var(--ip-border);
+  border-radius: var(--r-sm);
+  font-size: 12.5px;
+  color: var(--ip-dim);
+  font-weight: 600;
+  line-height: 1.5;
+}
+html[data-theme="dark"] .prec-divider-not-ok {
+  background: var(--ip-bg);
+  border-color: var(--ip-border);
+}
+
 @media (min-width: 480px) {
   .hero h1 { font-size: 40px; }
   .dx-name { font-size: 44px; }
@@ -1214,6 +1432,12 @@ html, body {
     <div id="dxContent"></div>
   </div>
 
+
+  <!-- ══ ID / CONTACT PRECAUTIONS ══ -->
+  <div class="view" id="view-id-precautions">
+    <div id="idPrecContent"></div>
+  </div>
+
   <!-- ══ OOU ══ -->
   <div class="view" id="view-oou">
     <div id="oouContent"></div>
@@ -1289,11 +1513,11 @@ const DX = [
         'Acute Portal or Splenic Vein Thrombosis: symptoms <60 days + no pre-existing cirrhosis/portal HTN + intestinal ischemia or infarction'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'lower-gi-bleed', name:'Lower GI Bleed', cat:'gi',
-    ip:['Shock index >1 (HR ÷ SBP)',
-        'Active bleeding (melena, hematochezia, BRBPR) persisting despite obs or colonoscopic treatment',
+    ip:['Anemia with: AMS, acute CHF, MI, dyspnea at rest, syncope, or other signs of inadequate perfusion — AND transfusion/volume in observation inappropriate or ineffective',
+        'Shock index >1 (HR ÷ SBP)',
+        'Active bleeding (melena, hematochezia, BRBPR) persisting despite observation or colonoscopic treatment',
         'Colonoscopy findings requiring continued hospitalization (high rebleed risk)',
         'Suspected or confirmed ischemic colitis as the bleeding etiology',
-        'Anemia with: AMS, acute CHF, MI, dyspnea at rest, syncope, or other signs of inadequate perfusion — AND transfusion/volume in obs inappropriate or ineffective',
         'Bowel perforation suspected (peritoneal signs, free air on imaging)'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'pancreatitis', name:'Pancreatitis', cat:'gi',
@@ -1306,16 +1530,17 @@ const DX = [
         'Hypoxemia (<90%)',
         'Severe electrolyte abnormalities requiring inpatient management'],
     obs:null,
+    notesLabel:'Diagnostic Criteria for Pancreatitis',
     notes:'Serum lipase >3× ULN alone is NOT an inpatient criterion. Diagnosis requires 2 of 3: (1) characteristic abdominal pain, (2) lipase >3× ULN, (3) CTAP findings consistent with pancreatitis.',
     alwaysIP:false, flags:[] },
   { id:'upper-gi-bleed', name:'Upper GI Bleed', cat:'gi',
     ip:['Active bleeding (hematemesis, melena, hematochezia) persisting despite obs or endoscopic therapy',
         'Peptic ulcer with high-risk endoscopic features (active bleeding, nonbleeding visible vessel, adherent clot, angiodysplasia, or lesion requiring hemostatic therapy)',
-        'Variceal bleeding (known or confirmed)',
+        'Variceal bleeding (known or confirmed) with active treatment (octreotide/vasoactive drugs), and urgent endoscopy',
         'Anemia with: AMS, acute CHF, MI, dyspnea at rest, syncope, peripheral ischemia, or AKI >2× baseline — AND transfusion/volume in obs inappropriate or ineffective',
         'Gastric outlet obstruction or bowel perforation (free air)',
         'Inability to maintain PO requiring IV fluids beyond obs'],
-    obs:'Vital sign abnormality. Active/suspected bleeding pending endoscopy. Upper endoscopy needed prior to discharge. Suspected variceal bleeding (e.g., cirrhosis). Coagulopathy with short-term bleed risk. Symptomatic anemia. Rising creatinine. Orthostatic hypotension. Unclear ability to maintain PO. Abdominal pain with possible perforation.',
+    obs:'Vital sign abnormality. Active/suspected bleeding pending endoscopy. Suspected variceal bleeding (e.g., cirrhosis) — stable, not requiring vasoactive medications like octreotide. Coagulopathy with short-term bleed risk. Symptomatic anemia. Orthostatic hypotension. Unclear ability to maintain PO.',
     notes:null, alwaysIP:false, flags:[] },
 
   /* ── Cardio ───────────────────────────────────────── */
@@ -1334,7 +1559,7 @@ const DX = [
   { id:'chest-pain', name:'Chest Pain / ACS Rule Out', cat:'cardio',
     ip:['High-risk patient + persistent chest pain + positive troponin or delta troponin >5 ng/L: consult Cardiology BEFORE speaking with OOU — may require transfer'],
     obs:null, notes:null, alwaysIP:false,
-    flags:['Consult Cardiology BEFORE calling OOU for any high-risk patient with a positive troponin or delta troponin >5 ng/L. Cardiology may request transfer.'] },
+    flags:['Strongly consider consulting Cardiology before calling OOU for any high-risk patient with a positive troponin or delta troponin >5 ng/L. Cardiology may request transfer.'] },
   { id:'chf', name:'CHF Exacerbation', cat:'cardio',
     ip:['Malignant arrhythmias (AF with RVR, VT)',
         'Acute myocardial ischemia',
@@ -1343,11 +1568,11 @@ const DX = [
         'AMS',
         'Hypotension',
         'Persistent pulmonary edema requiring new or increased O₂ AND not improved with obs (appropriately dosed IV diuretics)',
-        'Tachypnea persisting despite obs',
-        'Dyspnea above baseline persisting despite obs',
+        'Tachypnea that persists despite observation care',
+        'Dyspnea above baseline persisting despite observation care',
         'New creatinine elevation (GFR <50% of baseline)'],
     obs:null,
-    notes:'New onset CHF is NOT an inpatient diagnosis by itself.',
+    notes:'New onset CHF is NOT an inpatient diagnosis by itself. Bilateral pulmonary edema does not equal inpatient — it must be severe pulmonary edema meeting criteria above.',
     alwaysIP:false, flags:[] },
   { id:'dvt', name:'DVT', cat:'cardio',
     ip:['High risk for hemorrhage upon anticoagulation initiation',
@@ -1376,7 +1601,7 @@ const DX = [
     ip:['Persistent AMS',
         'Cardiac disease or findings requiring immediate intervention (AICD, EPS, surgery, antiarrhythmic initiation, or telemetry beyond observation)',
         'Persistent hypotension despite IVF',
-        'Recurrent syncope during observation',
+        'Recurrent syncope during observation care',
         'Severe or persistent dehydration',
         'Severe injury requiring inpatient care'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
@@ -1417,7 +1642,7 @@ const DX = [
         'Acute peripheral ischemia (cool, mottled, or cyanotic extremity)',
         'High-risk thrombocytopenia (platelets <20,000)',
         'AKI >2× baseline creatinine',
-        'Clinically significant symptoms persisting or severe despite obs: acute CHF, MI, dyspnea at rest, recurrent syncope',
+        'Clinically significant symptoms persisting or severe despite observation care: acute CHF, MI, dyspnea at rest, recurrent syncope',
         'Complex anticoagulation management (reversal, bridging)'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'cancer-pain', name:'Cancer-Related Pain', cat:'heme',
@@ -1470,7 +1695,7 @@ const DX = [
     obs:'No improvement with oral antibiotics but still stable, localized infection, tolerating PO → short IV course in obs, reassess, likely discharge.',
     notes:'Failure of outpatient antibiotics does NOT automatically = inpatient. OBS appropriate when: oral failure + still stable + localized + tolerating PO. Inpatient when: oral failure + systemic compromise, rapid progression, high-risk anatomy, immunosuppression, or need for multiple days of IV antibiotics.',
     alwaysIP:false,
-    flags:['Preseptal / periorbital cellulitis is appropriate for OOU. True orbital cellulitis is NOT.'] },
+    flags:[] },
   { id:'osteomyelitis', name:'Osteomyelitis', cat:'id',
     ip:['Fever, wound purulence, or exposed bone',
         'MRI-confirmed marrow edema',
@@ -1493,24 +1718,24 @@ const DX = [
         'Hypoxemia (<90%)',
         'AMS',
         'New coagulopathy (thrombocytopenia or new prolonged PT)',
-        'Tachypnea persisting despite obs',
+        'Tachypnea persisting despite observation care',
         'Severe or persistent dehydration',
         'Inability to maintain PO requiring ongoing IV fluids beyond obs',
         'End-organ dysfunction severe or persisting despite obs (rising creatinine, MI, elevated LFTs)',
         'Core temperature ≤35°C thought to be infection-related',
         'Parenteral antimicrobials requiring inpatient administration or monitoring',
-        'Isolation precautions not safely implementable in OOU'],
+        'Isolation precautions not safely implementable in OOU — <a href="#" onclick="event.preventDefault();showIDPrecautions()" style="color:var(--bgmc);font-weight:700;text-decoration:underline;text-underline-offset:2px">View ID Precautions →</a>'],
     obs:null,
     notes:'SIRS / Sepsis criteria alone ≠ inpatient admission.',
     alwaysIP:false,
-    flags:['Contact / isolation precautions that cannot be safely managed in OOU (non-private rooms) may require inpatient placement. Discuss with charge nurse.'] },
+    flags:[] },
   { id:'septic-arthritis', name:'Septic Arthritis', cat:'id',
     ip:['Always meets inpatient criteria'],
     obs:null, notes:null, alwaysIP:true, flags:[] },
   { id:'uti', name:'UTI / Pyelonephritis', cat:'id',
     ip:['AMS',
         'AKI >2× baseline creatinine',
-        'Persistent or worsening clinical findings (fever, pain, dehydration, vomiting) despite obs',
+        'Persistent or worsening clinical findings (fever, pain, dehydration, vomiting) despite observation care',
         'Pregnancy with suspected pyelonephritis',
         'Kidney transplant recipient with suspected pyelonephritis',
         'Significant uropathy (obstructive defect, moderate–severe VUR)',
@@ -1549,15 +1774,15 @@ const DX = [
 
   /* ── OB/GYN ───────────────────────────────────────── */
   { id:'hyperemesis', name:'Hyperemesis Gravidarum', cat:'obgyn',
-    ip:['Severe symptoms at >20 weeks gestation (OOU accepts <20 weeks only)',
+    ip:['Severe symptoms at >21 weeks gestation (OOU accepts <21 weeks only)',
         'Severe or persistent vomiting',
         'Severe or persistent dehydration',
-        'Inability to maintain PO (IV fluid support required beyond obs)',
+        'Inability to maintain PO (IV fluid support required beyond observation care)',
         'Severe electrolyte abnormalities requiring inpatient management',
         'Metabolic disorder (e.g., hypochloremic alkalosis) severe or persisting despite obs',
         'Coagulopathy (elevated PT or PTT)'],
     obs:null, notes:null, alwaysIP:false,
-    flags:['OOU accepts Hyperemesis Gravidarum at <20 weeks gestation ONLY. ≥20 weeks = inpatient admission.'] },
+    flags:['OOU accepts Hyperemesis Gravidarum at <21 weeks gestation ONLY. ≥21 weeks = inpatient admission.'] },
   { id:'pid', name:'PID', cat:'obgyn',
     ip:['Pregnancy','Tubo-ovarian abscess','Bacteremia (positive blood cultures)',
         'Severe or persistent vomiting','Severe pain requiring acute inpatient management','Peritoneal signs'],
@@ -1572,8 +1797,8 @@ const DX = [
         'PaCO₂ ≥42 mmHg (without chronic hypercarbia)',
         'PaCO₂ ≥60 mmHg or pH ≤7.25 (with chronic hypercarbia)',
         'PaCO₂ ≥35 mmHg in pregnancy',
-        'Persistent dyspnea or accessory muscle use despite obs',
-        'PEF or FEV₁ 40–60% despite obs care',
+        'Persistent dyspnea or accessory muscle use despite observation care',
+        'PEF or FEV₁ 40–60% despite observation care',
         'Radiographic complication (e.g., tension pneumothorax)'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'copd', name:'COPD Exacerbation', cat:'pulm',
@@ -1582,7 +1807,7 @@ const DX = [
         'Hypoxemia (<90%)',
         'Worsening pre-existing hypoxemia (increased O₂ requirement)',
         'BiPAP or high-flow oxygen',
-        'New or worsened signs/symptoms from baseline despite obs',
+        'New or worsened signs/symptoms from baseline despite observation care',
         'Hypercarbia-induced respiratory acidosis (PCO₂ >40 + pH <7.35) persisting despite obs',
         'Rising PCO₂ on ABG/VBG despite ED care'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
@@ -1596,13 +1821,16 @@ const DX = [
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'pneumonia', name:'Pneumonia', cat:'pulm',
     ip:['Hypoxia (<90%)','AMS','Bacteremia','Hypotension or signs of septic shock',
-        'PSI Class IV or V','CURB-65 ≥3',
+        'PSI Class IV or V — <a href="https://www.mdcalc.com/calc/33/psi-port-score-pneumonia-severity-index-cap" target="_blank" rel="noopener" style="color:var(--bgmc);font-weight:600;text-decoration:underline;text-underline-offset:2px">Calculate PSI/PORT →</a>',
+        'CURB-65 ≥3',
         'Complicated pleural effusion (empyema, loculated)',
-        'Tachypnea persisting despite obs',
+        'Tachypnea persisting despite observation care',
         'Risk factors for poor outcome: cavitary infiltrate, neuromuscular weakness, cystic fibrosis',
         'Outpatient failure: insufficient improvement on appropriate regimen of sufficient duration, or inability to tolerate outpatient regimen'],
     obs:null,
-    notes:'CURB-65 (1 point each): Confusion (new) · BUN >18 mg/dL · RR >29 · SBP <90 or DBP <60 · Age >65. Score ≥3 = inpatient.',
+    notesLabel:'CURB-65 Score',
+    notes:'CURB-65 (1 point each): Confusion (new) · BUN >18 mg/dL · RR >29 · SBP <90 or DBP <60 · Age >65. <strong>CURB-65 Score ≥3 = Inpatient.</strong>',
+    notesRaw:'CURB-65 (1 point each): Confusion (new) · BUN >18 mg/dL · RR >29 · SBP <90 or DBP <60 · Age >65. CURB-65 Score ≥3 = Inpatient.',
     alwaysIP:false, flags:[] },
   { id:'pneumothorax', name:'Pneumothorax', cat:'pulm',
     ip:['Tension pneumothorax (hypotension)',
@@ -1611,6 +1839,7 @@ const DX = [
         'Infection requiring inpatient management',
         'Intervention beyond obs required (chest tube with active evacuation)'],
     obs:null,
+    notesLabel:'Clinical Notes — Sizing Classifications',
     notes:'Size reference: Small <2 cm · Moderate 2–3.5 cm · Large >3.5 cm (typically requires pigtail catheter).',
     alwaysIP:false, flags:[] },
   { id:'pe', name:'Pulmonary Embolism', cat:'pulm',
@@ -1632,7 +1861,7 @@ const DX = [
   { id:'aki', name:'Acute Kidney Injury', cat:'renal',
     ip:['Creatinine >3× rise from baseline','Creatinine >4 with acute rise ≥0.5',
         'Reduction of GFR >75% from baseline',
-        'Worsening creatinine on repeat labs despite treatment','Anuria'],
+        'Worsening creatinine on repeat labs despite treatment in the ED/OOU','Anuria'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'kidney-stone', name:'Kidney Stone', cat:'renal',
     ip:['AKI >2× baseline creatinine or >50% GFR reduction',
@@ -1668,14 +1897,9 @@ const DX = [
         'Need for ICP or cerebral edema monitoring'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'non-op-fracture', name:'Non-Operative Fractures', cat:'trauma',
-    ip:['Elderly or medically fragile patient with non-operative injury (pelvic or extremity fracture) who CANNOT ambulate — high risk for DVT/PE, infection, skin breakdown, complex pain management',
-        'Inability to safely bear weight or mobilize (requires nursing support, pain control, PT)',
-        'Safe disposition expected to require >48 hours to determine (home with services vs. SNF)',
-        'Aggressive non-oral pain management requiring frequent reassessment and titration',
-        'Daily multidisciplinary evaluations required (physician, orthopedics, PT/OT)',
-        'PT trials for mobilization extending beyond 24 hours'],
-    obs:null,
-    notes:'Medicare SNF coverage requires a 3-day qualifying inpatient stay. Time in observation does NOT count. Non-operative pelvic or fragility fractures with inability to ambulate nearly always qualify for inpatient (≥2 midnight expectation).',
+    ip:[],
+    obs:'Elderly or medically fragile patients with non-operative injury (pelvic or extremity fracture) who CANNOT ambulate — appropriate for observation when ANY of the following apply:\n• Inability to safely bear weight or mobilize (requires nursing support, pain control, PT)\n• Aggressive non-oral pain management requiring frequent reassessment and titration\n• Daily multidisciplinary evaluations required (physician, orthopedics, PT/OT)\n• PT trials for mobilization extending beyond 24 hours',
+    notes:'Medicare SNF coverage requires a 3-day qualifying inpatient stay. Time in observation does NOT count. Upgrade to inpatient if ≥2 midnight stay expected and patient meets MCG inpatient criteria.',
     alwaysIP:false, flags:[] },
 ];
 
@@ -1891,7 +2115,10 @@ function renderDx(dxId, push=true) {
 
   // Verdict
   let vCls, vIco, vTitle, vSub;
-  if (d.alwaysIP) {
+  if (!d.ip || d.ip.length === 0) {
+    vCls='obs-eligible'; vIco=svg('half',2);
+    vTitle='Observation-Appropriate'; vSub='Listed criteria support observation placement.';
+  } else if (d.alwaysIP) {
     vCls='always-ip'; vIco=svg('bang',2.5);
     vTitle='Always Meets Inpatient'; vSub='Direct admit — OOU is not appropriate.';
   } else if (d.obs) {
@@ -1922,7 +2149,8 @@ function renderDx(dxId, push=true) {
     </div>`;
   });
 
-  // Inpatient criteria
+  // Inpatient criteria (skip if empty)
+  if (d.ip && d.ip.length > 0) {
   html += `<div class="crit-card">
     <div class="crit-header">
       <div class="crit-title"><span class="crit-dot"></span>Inpatient Criteria</div>
@@ -1932,12 +2160,13 @@ function renderDx(dxId, push=true) {
       <ul class="crit-list">`;
   d.ip.forEach(item => { html += `<li>${markThresholds(item)}</li>`; });
   html += `</ul></div></div>`;
+  } // end ip.length check
 
   if (d.obs) {
     html += `<div class="expand-card" id="obsCard">
       <button class="expand-btn obs-btn" onclick="tog('obsCard')">
         <div class="exp-ico">🕐</div>
-        <div class="expand-label">When Observation is Appropriate</div>
+        <div class="expand-label">${d.obsLabel || 'When Observation is Appropriate'}</div>
         <div class="expand-chev">${svg('chevDn')}</div>
       </button>
       <div class="expand-body"><div class="expand-body-inner">${escHTML(d.obs)}</div></div>
@@ -1947,10 +2176,10 @@ function renderDx(dxId, push=true) {
     html += `<div class="expand-card" id="noteCard">
       <button class="expand-btn note-btn" onclick="tog('noteCard')">
         <div class="exp-ico">ℹ️</div>
-        <div class="expand-label">Clinical Notes</div>
+        <div class="expand-label">${d.notesLabel || 'Clinical Notes'}</div>
         <div class="expand-chev">${svg('chevDn')}</div>
       </button>
-      <div class="expand-body"><div class="expand-body-inner">${escHTML(d.notes)}</div></div>
+      <div class="expand-body"><div class="expand-body-inner">${d.notesRaw ? d.notes : escHTML(d.notes)}</div></div>
     </div>`;
   }
 
@@ -1959,6 +2188,11 @@ function renderDx(dxId, push=true) {
 }
 
 function markThresholds(text) {
+  // Preserve any pre-inserted HTML links
+  if (text.includes('<a ') || text.includes('<strong>')) return text.replace(
+    /([<>≥≤]\s?\d+(?:\.\d+)?(?:\s?(?:mg\/dL|mEq\/L|mmHg|mOsm\/kg|ng\/L|mm³|ng\/mL|%|°C|°F|weeks))?(?:\s?×\s?(?:ULN|baseline|normal))?)/g,
+    '<span class="thr">$1</span>'
+  );
   return escHTML(text).replace(
     /([<>≥≤]\s?\d+(?:\.\d+)?(?:\s?(?:mg\/dL|mEq\/L|mmHg|mOsm\/kg|ng\/L|mm³|ng\/mL|%|°C|°F|weeks))?(?:\s?×\s?(?:ULN|baseline|normal))?)/g,
     '<span class="thr">$1</span>'
@@ -1988,6 +2222,17 @@ function showOOU() {
   });
   html += `</div><div class="section-label" style="margin-top:18px">Important Notes</div>`;
   OOU_NOTES.forEach(n => { html += `<div class="oou-note">${n}</div>`; });
+  // Add contact precautions link button
+  html += `<button class="prec-link-btn" onclick="showIDPrecautions()">
+    <div class="prec-link-ico">🦠</div>
+    <div class="prec-link-txt">
+      <div class="prec-link-title">Infectious Disease — Contact Precautions</div>
+      <div class="prec-link-sub">Which conditions require a private room vs. OOU-acceptable</div>
+    </div>
+    <div class="prec-link-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </button>`;
   document.getElementById('oouContent').innerHTML = html;
   showView('oou');
 }
@@ -2104,8 +2349,137 @@ document.addEventListener('keydown', e => {
   if (e.key==='Escape' && !isInput && state.stack.length) { e.preventDefault(); goBack(); }
 });
 
+
+/* ═══════════════════════════════════════════════════════
+   ID / CONTACT PRECAUTIONS VIEW
+════════════════════════════════════════════════════════ */
+function showIDPrecautions() {
+  state.stack.push({ type: 'id-precautions' });
+
+  /* ── OOU-APPROPRIATE (green section) ── */
+  const OOU_OK = [
+    { name:'Parainfluenza', type:'Standard', room:'no', roomLabel:'✗ Not Required',
+      note:'Acceptable for OOU / semi-private room.' },
+    { name:'Cellulitis (Hx MRSA)', type:'Standard', room:'no', roomLabel:'✗ Not Required',
+      note:'Standard precautions if no active/draining wound or active infection. Acceptable for OOU.' },
+  ];
+
+  /* ── RESPIRATORY / CONTACT — requires private room ── */
+  const RESP_PRIV = [
+    { name:'RSV', type:'Contact + Droplet', room:'rec', roomLabel:'⚠ Recommended*',
+      note:'Standard precautions if immunocompetent adult. *Required if immunocompromised or young children.' },
+    { name:'Influenza A/B', type:'Droplet', room:'rec', roomLabel:'⚠ Recommended',
+      note:'Standard surgical mask for HCW within 6 ft.' },
+    { name:'COVID-19', type:'Enhanced', room:'req', roomLabel:'✓ Required',
+      note:'Private room with door closed. Door required during aerosol-generating procedures (AGP).' },
+    { name:'Rhinovirus', type:'Droplet', room:'rec', roomLabel:'⚠ Recommended',
+      note:'Private room preferred when available.' },
+    { name:'C-diff (Confirmed)', type:'Contact', room:'rec', roomLabel:'⚠ Recommended',
+      note:'Discontinue after 48 hrs resolution of loose stool (after Tx initiated + resolution of s/s for positive toxin).' },
+    { name:'C-diff (Rule-Out)', type:'Contact', room:'rec', roomLabel:'⚠ Recommended',
+      note:'Maintain precautions until result returns negative.' },
+    { name:'Metapneumovirus', type:'Contact', room:'rec', roomLabel:'⚠ Recommended',
+      note:'Private room preferred when available.' },
+  ];
+
+  /* ── MDROs — all require private room ── */
+  const MDRO = [
+    { name:'VRE', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'EVS terminal clean required at discharge.' },
+    { name:'VISA / VRSA', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'Vancomycin-resistant S. aureus. EVS terminal clean required.' },
+    { name:'CRE', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'Carbapenem-resistant Enterobacteriaceae. EVS terminal clean required.' },
+    { name:'MDRO Enterics', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'Resistant to ≥1 agent in each of 3 drug classes. EVS terminal clean required.' },
+    { name:'MDR/Pan-R Pseudomonas', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'Multi-drug or pan-resistant P. aeruginosa. EVS terminal clean required.' },
+    { name:'CephR Klebsiella', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'Cephalosporin-resistant Klebsiella. EVS terminal clean required.' },
+    { name:'C. auris', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'High colonization risk. EVS terminal clean required. High-level disinfection per protocol.' },
+    { name:'MDRO UTI', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'NOT appropriate for OOU — shared bathroom in the observation unit creates cross-contamination risk. Requires inpatient room with dedicated bathroom. EVS terminal clean required.' },
+  ];
+
+  function makeRow(r) {
+    return `<div class="prec-row ${r.room === 'req' ? 'req-row' : r.room === 'rec' ? 'rec-row' : 'no-row'}">
+      <div class="prec-row-top">
+        <div class="prec-row-name">${escHTML(r.name)}</div>
+        <span class="prec-type-badge">${escHTML(r.type)}</span>
+        <span class="prec-room-badge ${r.room}-badge">${escHTML(r.roomLabel)}</span>
+      </div>
+      <div class="prec-row-note">${escHTML(r.note)}</div>
+    </div>`;
+  }
+
+  let html = `
+  <!-- Header -->
+  <div class="oou-hero" style="border-color:var(--bgmc-border)">
+    <div class="oou-hero-ico" style="background:var(--bgmc-bg)">🦠</div>
+    <div>
+      <div class="oou-hero-label" style="color:var(--bgmc)">Infectious Disease</div>
+      <div class="oou-hero-title">Contact Precautions</div>
+      <div class="oou-hero-sub">Gateway OOU · Isolation requirements and private room guidance</div>
+    </div>
+  </div>
+
+  <!-- ══ GREEN BLOCK — OOU APPROPRIATE ══ -->
+  <div class="prec-oou-ok-wrap">
+    <div class="prec-oou-ok-label">
+      <span class="prec-oou-ok-pill">✓ OOU Appropriate</span>
+      <span class="prec-oou-ok-sub">Standard precautions — semi-private room acceptable</span>
+    </div>
+    <div class="prec-rows">${OOU_OK.map(makeRow).join('')}</div>
+  </div>
+
+  <!-- Divider -->
+  <div class="prec-divider-not-ok">
+    <span>⬇ Everything below requires a private room — <strong>not OOU appropriate</strong></span>
+  </div>
+
+  <!-- Respiratory section -->
+  <div class="prec-section-hdr resp">🫁 &nbsp;Respiratory / Contact Conditions</div>
+  <div class="prec-rows">${RESP_PRIV.map(makeRow).join('')}</div>
+
+  <!-- MDRO section -->
+  <div class="prec-section-hdr mdro">⚠ &nbsp;MDROs — Mandatory Contact × 1 Year &nbsp;|&nbsp; Private Room + EVS Terminal Clean</div>
+  <div class="prec-rows">${MDRO.map(makeRow).join('')}</div>
+
+  <!-- Legend (moved to bottom as reference) -->
+  <div class="prec-legend" style="margin-top:4px">
+    <div class="prec-legend-item req">✓ <strong>Required</strong><br>Private Room (Closed Door)</div>
+    <div class="prec-legend-item rec">⚠ <strong>Recommended</strong><br>Private Room When Available</div>
+    <div class="prec-legend-item no">✓ <strong>OOU OK</strong><br>Semi-Private Acceptable</div>
+    <div class="prec-legend-item def"><em>OOU = Observation Unit<br>MDRO = Multi-Drug-Resistant Organism</em></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="prec-footer" style="margin-top:10px">
+    <strong>Note:</strong> MDRO contact precaution flag should automatically populate for 1 year from the positive culture date.
+    Questions regarding isolation status: Infectious Disease <strong>480-543-2280</strong>.
+  </div>`;
+
+  document.getElementById('idPrecContent').innerHTML = html;
+  showView('id-precautions');
+}
+
 function escHTML(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+<script>
+// ── Service Worker registration for offline/PWA support ──────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/criteria-sw.js', { scope: '/criteria' })
+      .then(reg => {
+        console.log('[Gateway] Service Worker registered, scope:', reg.scope);
+        // Check for updates on each load
+        reg.update();
+      })
+      .catch(err => console.log('[Gateway] SW registration failed:', err));
+  });
 }
 </script>
 </body>

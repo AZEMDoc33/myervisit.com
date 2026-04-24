@@ -1,0 +1,27 @@
+{
+  "name": "Gateway — Obs or Inpatient?",
+  "short_name": "Gateway",
+  "description": "Instant Obs vs Inpatient criteria for Banner Gateway Emergency Department.",
+  "start_url": "/criteria",
+  "scope": "/criteria",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F5F2EE",
+  "theme_color": "#1B3A6B",
+  "lang": "en",
+  "categories": ["medical", "health"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='38' fill='%231B3A6B'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='120' fill='white'%3EG%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%231B3A6B'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='320' fill='white'%3EG%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
