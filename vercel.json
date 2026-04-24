@@ -4,7 +4,12 @@
   "redirects": [
     {
       "source": "/portal",
-      "destination": "/inpatient-criteria-pdf",
+      "destination": "/criteria",
+      "permanent": false
+    },
+    {
+      "source": "/inpatient-criteria-pdf",
+      "destination": "/criteria",
       "permanent": false
     }
   ]
