@@ -1,16 +1,10 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
+  "rewrites": [
     {
       "source": "/portal",
-      "destination": "/criteria",
-      "permanent": false
-    },
-    {
-      "source": "/inpatient-criteria-pdf",
-      "destination": "/criteria",
-      "permanent": false
+      "destination": "/inpatient-criteria-pdf.html"
     }
   ]
 }
