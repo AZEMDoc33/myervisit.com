@@ -1,382 +1,364 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>Clinical Portal — Banner Gateway ED</title>
-  <meta name="robots" content="noindex, nofollow" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #F7F3EE;
-      color: #2D2D2D;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    :root {
-      --navy: #1E3A5F;
-      --gold: #C9973A;
-      --teal: #3D7A8A;
-      --cream: #F7F3EE;
-      --warm-white: #FEFCF9;
-      --muted: #6B7280;
-      --radius: 16px;
-      --shadow: 0 4px 24px rgba(30,58,95,0.12);
-      --shadow-hover: 0 8px 36px rgba(30,58,95,0.2);
-    }
-
-    /* HEADER */
-    .header {
-      background: var(--navy);
-      padding: 20px 24px 18px;
-      text-align: center;
-      position: relative;
-    }
-    .header-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(201,151,58,0.2);
-      border: 1px solid rgba(201,151,58,0.4);
-      color: var(--gold);
-      font-size: 0.68rem; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 4px 12px; border-radius: 20px;
-      margin-bottom: 8px;
-    }
-    .header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem; font-weight: 700;
-      color: white; line-height: 1.2;
-    }
-    .header p {
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.5);
-      margin-top: 5px;
-    }
-
-    /* MAIN CONTENT */
-    .main {
-      flex: 1;
-      padding: 28px 20px 40px;
-      max-width: 480px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    .section-label {
-      font-size: 0.68rem; font-weight: 600;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 14px;
-      padding-left: 4px;
-    }
-
-    /* PORTAL CARDS */
-    .portal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 32px;
-    }
-
-    .portal-card {
-      background: var(--warm-white);
-      border-radius: var(--radius);
-      padding: 24px 16px 20px;
-      text-align: center;
-      text-decoration: none;
-      color: inherit;
-      box-shadow: var(--shadow);
-      border: 1.5px solid rgba(30,58,95,0.07);
-      transition: all 0.25s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      -webkit-tap-highlight-color: transparent;
-      cursor: pointer;
-    }
-    .portal-card:active {
-      transform: scale(0.97);
-      box-shadow: 0 2px 12px rgba(30,58,95,0.1);
-    }
-    @media (hover: hover) {
-      .portal-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-hover);
-        border-color: var(--gold);
-      }
-    }
-
-    /* ICON FLOAT ANIMATION — all cards */
-    .card-icon-wrap {
-      width: 64px; height: 64px;
-      border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2rem;
-      flex-shrink: 0;
-      animation: iconFloat 3.2s ease-in-out infinite;
-    }
-    .portal-card:nth-child(2) .card-icon-wrap { animation-delay: 0.5s; }
-    .portal-card:nth-child(3) .card-icon-wrap { animation-delay: 1s; }
-    .portal-card:nth-child(4) .card-icon-wrap { animation-delay: 1.5s; }
-    @keyframes iconFloat {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-7px); }
-    }
-    .icon-blue   { background: rgba(30,58,95,0.08); }
-    .icon-teal   { background: rgba(61,122,138,0.1); }
-    .icon-gold   { background: rgba(201,151,58,0.1); }
-    .icon-green  { background: rgba(34,197,94,0.1); }
-
-    /* PRIORITY CARD — Option D: gold shimmer + pulsing glow */
-    .portal-card.priority {
-      position: relative;
-      border: 2.5px solid var(--gold);
-      background: var(--warm-white);
-      overflow: hidden;
-      animation: goldPulse 2s ease-in-out infinite;
-    }
-    .portal-card.priority::before {
-      content: '';
-      position: absolute;
-      top: -50%; left: -60%;
-      width: 40%; height: 200%;
-      background: linear-gradient(
-        105deg,
-        transparent 20%,
-        rgba(255,215,100,0.85) 45%,
-        rgba(255,255,200,1) 50%,
-        rgba(255,215,100,0.85) 55%,
-        transparent 80%
-      );
-      animation: glisten 2.5s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
-    @keyframes goldPulse {
-      0%, 100% {
-        border-color: var(--gold);
-        box-shadow: 0 0 0 0 rgba(201,151,58,0.6), 0 0 12px rgba(201,151,58,0.2);
-      }
-      50% {
-        border-color: var(--gold-light);
-        box-shadow: 0 0 0 8px rgba(201,151,58,0), 0 0 24px rgba(201,151,58,0.5);
-      }
-    }
-    @keyframes glisten {
-      0%   { left: -60%; opacity: 0; }
-      10%  { opacity: 1; }
-      80%  { opacity: 1; }
-      100% { left: 130%; opacity: 0; }
-    }
-
-    /* Priority label badge */
-    .priority-badge {
-      font-size: 0.6rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--gold);
-      background: rgba(201,151,58,0.12);
-      border: 1px solid rgba(201,151,58,0.3);
-      padding: 2px 8px; border-radius: 10px;
-      margin-bottom: -4px;
-    }
-
-    .card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.92rem; font-weight: 600;
-      color: var(--navy);
-      line-height: 1.3;
-    }
-    .card-subtitle {
-      font-size: 0.72rem;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    /* COMING SOON CARD */
-    .portal-card.coming-soon {
-      opacity: 0.55;
-      cursor: default;
-      pointer-events: none;
-    }
-    .coming-label {
-      font-size: 0.65rem; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--muted);
-      background: var(--cream);
-      padding: 2px 8px; border-radius: 10px;
-    }
-
-    /* ADD TO HOME SCREEN — inline below icons */
-    .home-screen-wrap {
-      display: flex;
-      justify-content: center;
-      margin-top: 8px;
-      margin-bottom: 8px;
-    }
-    .floating-btn-outer {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px;
-    }
-    .floating-sparkles {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-    .sparkle {
-      position: absolute;
-      color: var(--gold);
-      animation: sparkleFloat 2.4s ease-in-out infinite;
-      font-size: 0.75rem;
-      opacity: 0.8;
-    }
-    .sp1 { top: 0; left: 14%; animation-delay: 0s; }
-    .sp2 { top: 2%; right: 10%; font-size: 0.95rem; animation-delay: 0.35s; }
-    .sp3 { bottom: 5%; left: 6%; animation-delay: 0.7s; }
-    .sp4 { bottom: 0; right: 14%; font-size: 0.65rem; animation-delay: 1.05s; }
-    .sp5 { top: 38%; left: -2%; font-size: 0.85rem; animation-delay: 1.4s; }
-    .sp6 { top: 35%; right: -2%; font-size: 0.7rem; animation-delay: 1.75s; }
-    @keyframes sparkleFloat {
-      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
-      50% { transform: translateY(-6px) rotate(15deg); opacity: 1; }
-    }
-
-    .btn-home-screen {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 24px;
-      background: var(--navy);
-      color: white;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 4px 20px rgba(30,58,95,0.35);
-      animation: btnPulse 3s ease-in-out infinite;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-home-screen::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -80%;
-      width: 50%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transform: skewX(-20deg);
-      animation: shimmer 3.5s ease-in-out infinite;
-    }
-    @keyframes shimmer {
-      0% { left: -80%; }
-      60%, 100% { left: 160%; }
-    }
-    @keyframes btnPulse {
-      0%, 100% { box-shadow: 0 4px 20px rgba(30,58,95,0.35), 0 0 0 0 rgba(201,151,58,0.4); }
-      50% { box-shadow: 0 6px 28px rgba(30,58,95,0.4), 0 0 0 8px rgba(201,151,58,0); }
-    }
-    .btn-home-screen:active { transform: scale(0.97); }
-
-    /* FOOTER */
-    .footer-note {
-      text-align: center;
-      font-size: 0.72rem;
-      color: rgba(107,114,128,0.6);
-      padding: 0 20px 16px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>Clinical Portal — Banner Gateway ED</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #F7F3EE;
+  color: #2D2D2D;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+:root {
+  --navy: #1E3A5F;
+  --gold: #C9973A;
+  --teal: #3D7A8A;
+  --cream: #F7F3EE;
+  --warm-white: #FEFCF9;
+  --muted: #6B7280;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(30,58,95,0.12);
+  --shadow-hover: 0 8px 36px rgba(30,58,95,0.2);
+}
+/* HEADER */
+.header {
+  background: var(--navy);
+  padding: 20px 24px 18px;
+  text-align: center;
+  position: relative;
+}
+.header-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(201,151,58,0.2);
+  border: 1px solid rgba(201,151,58,0.4);
+  color: var(--gold);
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 20px;
+  margin-bottom: 8px;
+}
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 700;
+  color: white; line-height: 1.2;
+}
+.header p {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 5px;
+}
+/* MAIN CONTENT */
+.main {
+  flex: 1;
+  padding: 28px 20px 40px;
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
+}
+.section-label {
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 14px;
+  padding-left: 4px;
+}
+/* PORTAL CARDS */
+.portal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.portal-card {
+  background: var(--warm-white);
+  border-radius: var(--radius);
+  padding: 24px 16px 20px;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow);
+  border: 1.5px solid rgba(30,58,95,0.07);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+.portal-card:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 12px rgba(30,58,95,0.1);
+}
+@media (hover: hover) {
+  .portal-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--gold);
+  }
+}
+/* ICON FLOAT ANIMATION — all cards */
+.card-icon-wrap {
+  width: 64px; height: 64px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+  animation: iconFloat 3.2s ease-in-out infinite;
+}
+.portal-card:nth-child(2) .card-icon-wrap { animation-delay: 0.5s; }
+.portal-card:nth-child(3) .card-icon-wrap { animation-delay: 1s; }
+.portal-card:nth-child(4) .card-icon-wrap { animation-delay: 1.5s; }
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-7px); }
+}
+.icon-blue { background: rgba(30,58,95,0.08); }
+.icon-teal { background: rgba(61,122,138,0.1); }
+.icon-gold { background: rgba(201,151,58,0.1); }
+.icon-green { background: rgba(34,197,94,0.1); }
+/* PRIORITY CARD */
+.portal-card.priority {
+  position: relative;
+  border: 2.5px solid var(--gold);
+  background: var(--warm-white);
+  overflow: hidden;
+  animation: goldPulse 2s ease-in-out infinite;
+}
+.portal-card.priority::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -60%;
+  width: 40%; height: 200%;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(255,215,100,0.85) 45%,
+    rgba(255,255,200,1) 50%,
+    rgba(255,215,100,0.85) 55%,
+    transparent 80%
+  );
+  animation: glisten 2.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes goldPulse {
+  0%, 100% {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 0 rgba(201,151,58,0.6), 0 0 12px rgba(201,151,58,0.2);
+  }
+  50% {
+    border-color: #E0B35A;
+    box-shadow: 0 0 0 8px rgba(201,151,58,0), 0 0 24px rgba(201,151,58,0.5);
+  }
+}
+@keyframes glisten {
+  0% { left: -60%; opacity: 0; }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { left: 130%; opacity: 0; }
+}
+/* Priority label badge */
+.priority-badge {
+  font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(201,151,58,0.12);
+  border: 1px solid rgba(201,151,58,0.3);
+  padding: 2px 8px; border-radius: 10px;
+  margin-bottom: -4px;
+}
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.92rem; font-weight: 600;
+  color: var(--navy);
+  line-height: 1.3;
+}
+.card-subtitle {
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+/* COMING SOON CARD */
+.portal-card.coming-soon {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+}
+.coming-label {
+  font-size: 0.65rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted);
+  background: var(--cream);
+  padding: 2px 8px; border-radius: 10px;
+}
+/* ADD TO HOME SCREEN */
+.home-screen-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.floating-btn-outer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+}
+.floating-sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.sparkle {
+  position: absolute;
+  color: var(--gold);
+  animation: sparkleFloat 2.4s ease-in-out infinite;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+.sp1 { top: 0; left: 14%; animation-delay: 0s; }
+.sp2 { top: 2%; right: 10%; font-size: 0.95rem; animation-delay: 0.35s; }
+.sp3 { bottom: 5%; left: 6%; animation-delay: 0.7s; }
+.sp4 { bottom: 0; right: 14%; font-size: 0.65rem; animation-delay: 1.05s; }
+.sp5 { top: 38%; left: -2%; font-size: 0.85rem; animation-delay: 1.4s; }
+.sp6 { top: 35%; right: -2%; font-size: 0.7rem; animation-delay: 1.75s; }
+@keyframes sparkleFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+  50% { transform: translateY(-6px) rotate(15deg); opacity: 1; }
+}
+.btn-home-screen {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: var(--navy);
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(30,58,95,0.35);
+  animation: btnPulse 3s ease-in-out infinite;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-home-screen::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -80%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: skewX(-20deg);
+  animation: shimmer 3.5s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { left: -80%; }
+  60%, 100% { left: 160%; }
+}
+@keyframes btnPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(30,58,95,0.35), 0 0 0 0 rgba(201,151,58,0.4); }
+  50% { box-shadow: 0 6px 28px rgba(30,58,95,0.4), 0 0 0 8px rgba(201,151,58,0); }
+}
+.btn-home-screen:active { transform: scale(0.97); }
+/* FOOTER */
+.footer-note {
+  text-align: center;
+  font-size: 0.72rem;
+  color: rgba(107,114,128,0.6);
+  padding: 0 20px 16px;
+}
+</style>
 </head>
 <body>
 
-  <div class="header">
-    <div class="header-badge">🔒 Clinical Staff — Banner Gateway ED</div>
-    <h1>Clinical Portal</h1>
-    <p>Quick access to tools and resources for your shift</p>
-  </div>
+<div class="header">
+  <div class="header-badge">🔒 Clinical Staff — Banner Gateway ED</div>
+  <h1>Clinical Portal</h1>
+  <p>Quick access to tools and resources for your shift</p>
+</div>
 
-  <div class="main">
+<div class="main">
+  <div class="section-label">Quick Access Tools</div>
 
-    <div class="section-label">Quick Access Tools</div>
+  <div class="portal-grid">
 
-    <div class="portal-grid">
-
-      <!-- Inpatient vs Observation Criteria — PRIORITY -->
-      <a class="portal-card priority"
-         href="/criteria">
-        <div class="priority-badge">👇🏻 OOU START HERE</div>
-        <div class="card-icon-wrap icon-blue">🏥</div>
-        <div>
-          <div class="card-title">Inpatient vs Observation</div>
-          <div class="card-subtitle">Criteria reference PDF</div>
-        </div>
-      </a>
-
-      <!-- Gateway Phone Directory -->
-      <a class="portal-card"
-         href="https://directory.myervisit.com"
-         rel="noopener">
-        <div class="card-icon-wrap icon-teal">📞</div>
-        <div>
-          <div class="card-title">Gateway Phone Book</div>
-          <div class="card-subtitle">Staff directory & extensions</div>
-        </div>
-      </a>
-
-      <!-- Educational Podcasts -->
-      <a class="portal-card" href="team.html">
-        <div class="card-icon-wrap icon-gold">🎙️</div>
-        <div>
-          <div class="card-title">ED Podcasts</div>
-          <div class="card-subtitle">Educational audio series</div>
-        </div>
-      </a>
-
-      <!-- Placeholder for future tool -->
-      <div class="portal-card coming-soon">
-        <div class="card-icon-wrap icon-green">📊</div>
-        <div>
-          <div class="card-title">ED Metrics</div>
-          <div class="card-subtitle coming-label">Coming Soon</div>
-        </div>
+    <!-- Inpatient vs Observation Criteria — PRIORITY -->
+    <a class="portal-card priority" href="/criteria">
+      <div class="priority-badge">👇🏻 OOU START HERE</div>
+      <div class="card-icon-wrap icon-blue">🏥</div>
+      <div>
+        <div class="card-title">Inpatient vs Observation</div>
+        <div class="card-subtitle">Criteria reference PDF</div>
       </div>
+    </a>
 
-    </div>
+    <!-- Gateway Phone Directory — ?ref=portal added so directory shows back button -->
+    <a class="portal-card" href="https://directory.myervisit.com?ref=portal" rel="noopener">
+      <div class="card-icon-wrap icon-teal">📞</div>
+      <div>
+        <div class="card-title">Gateway Phone Book</div>
+        <div class="card-subtitle">Staff directory & extensions</div>
+      </div>
+    </a>
 
-    <!-- ADD TO HOME SCREEN — right below icons -->
-    <div class="home-screen-wrap">
-      <div class="floating-btn-outer">
-        <div class="floating-sparkles">
-          <span class="sparkle sp1">✦</span>
-          <span class="sparkle sp2">★</span>
-          <span class="sparkle sp3">✦</span>
-          <span class="sparkle sp4">✦</span>
-          <span class="sparkle sp5">★</span>
-          <span class="sparkle sp6">✦</span>
-        </div>
-        <a href="add-to-home-screen.html" class="btn-home-screen">
-          📲 Add to Your Phone's Home Screen
-        </a>
+    <!-- Educational Podcasts -->
+    <a class="portal-card" href="team.html">
+      <div class="card-icon-wrap icon-gold">🎙️</div>
+      <div>
+        <div class="card-title">ED Podcasts</div>
+        <div class="card-subtitle">Educational audio series</div>
+      </div>
+    </a>
+
+    <!-- Placeholder for future tool -->
+    <div class="portal-card coming-soon">
+      <div class="card-icon-wrap icon-green">📊</div>
+      <div>
+        <div class="card-title">ED Metrics</div>
+        <div class="card-subtitle coming-label">Coming Soon</div>
       </div>
     </div>
 
   </div>
 
-  <p class="footer-note">For clinical staff use only · Not for patient distribution · © 2025 Eric Cummins, MD</p>
+  <!-- ADD TO HOME SCREEN -->
+  <div class="home-screen-wrap">
+    <div class="floating-btn-outer">
+      <div class="floating-sparkles">
+        <span class="sparkle sp1">✦</span>
+        <span class="sparkle sp2">★</span>
+        <span class="sparkle sp3">✦</span>
+        <span class="sparkle sp4">✦</span>
+        <span class="sparkle sp5">★</span>
+        <span class="sparkle sp6">✦</span>
+      </div>
+      <a href="add-to-home-screen.html" class="btn-home-screen">
+        📲 Add to Your Phone's Home Screen
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<p class="footer-note">For clinical staff use only · Not for patient distribution · © 2025 Eric Cummins, MD</p>
 
 </body>
 </html>
