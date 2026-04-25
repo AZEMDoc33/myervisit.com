@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/portal",
-      "destination": "/inpatient-criteria-pdf.html"
+      "destination": "/inpatient-criteria-pdf"
     }
   ]
 }
