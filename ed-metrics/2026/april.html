@@ -625,6 +625,21 @@
     </div>
   </div>
 
+
+</div><!-- end report-body -->
+
+<!-- ══════════════════════════════════════
+     DIRECTOR-ONLY ZONE (PIN PROTECTED)
+═══════════════════════════════════════ -->
+<div id="director-zone">
+  <div style="max-width:1300px;margin:0 auto;padding:0 34px 56px;">
+    <div class="director-banner">
+      <div style="font-size:28px;">🔐</div>
+      <div>
+        <div class="director-banner-text">Director View — April 2026</div>
+        <div class="director-banner-sub">Operational Insights · Recommended Actions · Data Quality Notes · Not visible to clinical staff</div>
+      </div>
+    </div>
   <!-- SECTION 10: INSIGHTS -->
   <div class="section">
     <div class="section-header">
@@ -718,286 +733,24 @@
 
 </div><!-- end report-body -->
 
-<div class="report-footer">
-  🏥 Banner Gateway Medical Center · Emergency Department · Monthly Operating Report · April 2026 &nbsp;|&nbsp; Internal Use Only
+  </div>
 </div>
 
-<!-- CHARTS -->
-<script>
-Chart.defaults.font.family = "'Nunito', sans-serif";
-Chart.defaults.color = '#5a6a7a';
+<div class="report-footer">
+  🏥 Banner Gateway Medical Center · Emergency Department · Monthly Operating Report · April 2026 &nbsp;|&nbsp; Internal Use Only · Prepared by Eric Cummins, MD
+  <span class="lock-btn" id="lockBtn" onclick="openPinModal()" title="Director Access">🔒</span>
+</div>
 
-const hourLabels = Array.from({length:24}, (_,i) => `${String(i).padStart(2,'0')}:00`);
-
-// ── HOURLY ARRIVALS ──────────────────────────────────────────────────────────
-const hourlyData = [2.80,2.67,2.10,1.57,1.90,2.27,3.20,4.30,6.07,8.73,9.17,9.10,9.00,9.07,8.47,8.40,7.77,9.17,8.20,7.93,7.30,5.83,5.30,3.40];
-new Chart(document.getElementById('hourlyArrivalsChart'), {
-  type:'bar',
-  data:{
-    labels:hourLabels,
-    datasets:[{ label:'Avg Arrivals/Hour', data:hourlyData, backgroundColor:'rgba(90,143,160,0.6)', borderColor:'rgba(42,100,120,0.9)', borderWidth:1.5, borderRadius:5 }]
-  },
-  options:{
-    responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:ctx=>` ${ctx.parsed.y.toFixed(2)} avg arrivals` } } },
-    scales:{
-      x:{ grid:{display:false}, ticks:{maxRotation:45, font:{size:10}} },
-      y:{ beginAtZero:true, title:{display:true, text:'Avg Arrivals', font:{size:11,weight:'600'}}, grid:{color:'rgba(0,0,0,0.05)'} }
-    }
-  }
-});
-
-// ── DOW with ERROR BARS + STAR ────────────────────────────────────────────────
-const dowLabels = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-const dowAvg  = [142.5, 148.5, 150.2, 149.0, 148.4, 142.0, 122.8];
-const dowHigh = [159, 156, 162, 160, 165, 150, 129];
-const dowLow  = [127, 136, 141, 138, 132, 136, 116];
-const isWeekend = [true, false, false, false, false, false, true];
-const BUSIEST_IDX = 2; // Tuesday
-
-// Custom plugin: error bars + star annotation
-const dowAnnotationPlugin = {
-  id: 'dowAnnotation',
-  afterDatasetsDraw(chart) {
-    const ctx = chart.ctx;
-    const meta = chart.getDatasetMeta(0);
-    const yScale = chart.scales.y;
-
-    meta.data.forEach((bar, i) => {
-      const x = bar.x;
-      const yHi = yScale.getPixelForValue(dowHigh[i]);
-      const yLo = yScale.getPixelForValue(dowLow[i]);
-      const cap = 8;
-
-      ctx.save();
-      ctx.strokeStyle = isWeekend[i] ? 'rgba(56,142,60,0.55)' : 'rgba(56,142,60,0.9)';
-      ctx.lineWidth = 2.5;
-
-      // Vertical range line
-      ctx.beginPath(); ctx.moveTo(x, yHi); ctx.lineTo(x, yLo); ctx.stroke();
-      // Top cap
-      ctx.beginPath(); ctx.moveTo(x-cap, yHi); ctx.lineTo(x+cap, yHi); ctx.stroke();
-      // Bottom cap
-      ctx.beginPath(); ctx.moveTo(x-cap, yLo); ctx.lineTo(x+cap, yLo); ctx.stroke();
-
-      ctx.restore();
-    });
-
-    // Gold star above busiest day bar
-    const busiestBar = meta.data[BUSIEST_IDX];
-    const starX = busiestBar.x;
-    const starY = busiestBar.y - 22;
-    ctx.save();
-    ctx.font = 'bold 22px serif';
-    ctx.fillStyle = '#c9a94b';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('★', starX, starY);
-    ctx.restore();
-  }
-};
-
-new Chart(document.getElementById('dowChart'), {
-  type:'bar',
-  data:{
-    labels:dowLabels,
-    datasets:[{
-      label:'Avg Daily Arrivals',
-      data:dowAvg,
-      backgroundColor:dowLabels.map((_,i)=> isWeekend[i] ? 'rgba(102,187,106,0.45)' : 'rgba(102,187,106,0.82)'),
-      borderColor:'rgba(56,142,60,0.9)',
-      borderWidth:1.5,
-      borderRadius:5
-    }]
-  },
-  plugins: [dowAnnotationPlugin],
-  options:{
-    responsive:true, maintainAspectRatio:false,
-    plugins:{
-      legend:{display:false},
-      tooltip:{
-        callbacks:{
-          label: ctx => {
-            const i = ctx.dataIndex;
-            return [` Avg: ${ctx.parsed.y.toFixed(1)}`, ` High: ${dowHigh[i]}`, ` Low: ${dowLow[i]}`];
-          }
-        }
-      }
-    },
-    scales:{
-      x:{ grid:{display:false}, ticks:{font:{size:11}} },
-      y:{ min:100, title:{display:true, text:'Avg Daily Arrivals', font:{size:11,weight:'600'}}, grid:{color:'rgba(0,0,0,0.05)'} }
-    },
-    layout:{ padding:{ top:30 } }
-  }
-});
-
-// ── LWOT TOTAL ────────────────────────────────────────────────────────────────
-const lwotTotal = [0,0,2,1,0,1,0,2,0,3,4,4,4,4,3,4,2,8,4,4,4,2,1,3];
-new Chart(document.getElementById('lwotChart'), {
-  type:'bar',
-  data:{
-    labels:hourLabels,
-    datasets:[{
-      label:'LWOT Events',
-      data:lwotTotal,
-      backgroundColor:lwotTotal.map(v => v>=6 ? 'rgba(192,57,43,0.8)' : v>=3 ? 'rgba(159,122,234,0.8)' : 'rgba(159,122,234,0.5)'),
-      borderColor:lwotTotal.map(v => v>=6 ? 'rgba(155,44,44,1)' : 'rgba(107,70,193,1)'),
-      borderWidth:1.5,
-      borderRadius:5
-    }]
-  },
-  options:{
-    responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:ctx=>` ${ctx.parsed.y} LWOT events` } } },
-    scales:{
-      x:{ grid:{display:false}, ticks:{maxRotation:45, font:{size:10}} },
-      y:{ beginAtZero:true, ticks:{stepSize:1}, title:{display:true, text:'Total LWOT Events', font:{size:11,weight:'600'}}, grid:{color:'rgba(0,0,0,0.05)'} }
-    }
-  }
-});
-
-// ── PROVIDER LOS — ESI 3/4/5 with GOAL LINE + ALL LABELS ────────────────────
-const provNames = ['RIGBY D','BUNKER C','WINTER A','LOGGINS B','EGBERT J','WALLBRECHT J','LOMBARDI K','ANDES J','PAVLUE B','WRIGHT E','FAKLER R','FREEMAN H','BERMAN D','JONES S','BOESCH D','WOLSEY C','HUNTER J','FIGUEROA A','MCKELVY A','CUMMINS E','BATIZY L','JIMENEZ A','HAPEMAN B','MCDOWELL M','HAMBLIN L'];
-const provLOS  = [155.7,186.6,191.8,202.1,202.2,204.3,208.0,218.7,220.5,221.1,231.8,234.3,238.0,240.0,244.7,252.1,252.4,253.0,253.9,256.4,257.6,260.6,261.1,261.7,268.7];
-const provN    = [22,27,173,37,218,39,176,185,201,46,248,19,104,125,134,24,144,197,166,132,25,193,147,113,178];
-const n = provNames.length;
-const tercile1 = Math.floor(n/3);    // 8
-const tercile2 = Math.ceil(2*n/3);   // 17
-
-const provBg = provNames.map((_,i) => {
-  if (i < tercile1)  return 'rgba(58,138,90,0.72)';
-  if (i >= tercile2) return 'rgba(192,57,43,0.68)';
-  return 'rgba(124,92,191,0.68)';
-});
-const provBorder = provNames.map((_,i) => {
-  if (i < tercile1)  return 'rgba(39,103,73,1)';
-  if (i >= tercile2) return 'rgba(155,44,44,1)';
-  return 'rgba(85,60,154,1)';
-});
-
-// Goal line plugin — draws vertical dashed line at x=300
-const goalLinePlugin = {
-  id: 'goalLine',
-  afterDraw(chart) {
-    const ctx = chart.ctx;
-    const xScale = chart.scales.x;
-    const xPos = xScale.getPixelForValue(300);
-    const top = chart.chartArea.top;
-    const bottom = chart.chartArea.bottom;
-
-    ctx.save();
-    ctx.strokeStyle = 'rgba(192,57,43,0.85)';
-    ctx.lineWidth = 2.5;
-    ctx.setLineDash([7, 5]);
-    ctx.beginPath();
-    ctx.moveTo(xPos, top);
-    ctx.lineTo(xPos, bottom);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Label
-    ctx.fillStyle = 'rgba(192,57,43,0.9)';
-    ctx.font = 'bold 11px Nunito, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
-    ctx.fillText('🎯 Goal: <300 min', xPos + 5, top + 4);
-    ctx.restore();
-  }
-};
-
-new Chart(document.getElementById('providerLOSChart'), {
-  type:'bar',
-  data:{
-    labels: provNames,
-    datasets:[{
-      label:'Mean DC LOS (min)',
-      data: provLOS,
-      backgroundColor: provBg,
-      borderColor: provBorder,
-      borderWidth: 1.5,
-      borderRadius: 4
-    }]
-  },
-  plugins: [goalLinePlugin],
-  options:{
-    indexAxis:'y',
-    responsive:true, maintainAspectRatio:false,
-    plugins:{
-      legend:{display:false},
-      tooltip:{ callbacks:{ label:ctx=>` ${ctx.parsed.x.toFixed(1)} min  (n=${provN[ctx.dataIndex]})` } }
-    },
-    scales:{
-      x:{
-        min:120, max:320,
-        title:{display:true, text:'Mean Discharge LOS (minutes)', font:{size:11,weight:'600'}},
-        grid:{color:'rgba(0,0,0,0.05)'}
-      },
-      y:{
-        grid:{display:false},
-        ticks:{
-          font:{size:11.5},
-          autoSkip: false,        // ← show ALL provider names
-          maxTicksLimit: 999
-        }
-      }
-    }
-  }
-});
-
-// ── ESI 2 D2D BY HOUR ────────────────────────────────────────────────────────
-const esi2D2D = [10.0,14.1,16.1,11.9,7.4,14.4,11.0,6.9,8.3,13.0,18.2,17.9,14.8,17.4,35.8,14.8,11.4,14.4,18.8,12.9,13.7,11.1,10.2,9.0];
-new Chart(document.getElementById('esi2D2DChart'), {
-  type:'bar',
-  data:{
-    labels:hourLabels,
-    datasets:[
-      {
-        label:'Mean D2D (min)',
-        data:esi2D2D,
-        backgroundColor:esi2D2D.map(v=> v>25 ? 'rgba(192,57,43,0.75)' : 'rgba(90,143,160,0.7)'),
-        borderColor:esi2D2D.map(v=> v>25 ? 'rgba(155,44,44,1)' : 'rgba(42,100,120,0.9)'),
-        borderWidth:1.5, borderRadius:4, order:2
-      },
-      {
-        label:'25-min Target',
-        data:Array(24).fill(25),
-        type:'line',
-        borderColor:'rgba(192,57,43,0.85)',
-        borderWidth:2,
-        borderDash:[6,4],
-        pointRadius:0,
-        fill:false,
-        order:1
-      }
-    ]
-  },
-  options:{
-    responsive:true, maintainAspectRatio:false,
-    plugins:{
-      legend:{display:true, position:'top', labels:{boxWidth:14, font:{size:11}}},
-      tooltip:{ callbacks:{ label:ctx=> ctx.dataset.label==='25-min Target' ? null : ` ${ctx.parsed.y.toFixed(1)} min` } }
-    },
-    scales:{
-      x:{ grid:{display:false}, ticks:{maxRotation:45, font:{size:10}} },
-      y:{ beginAtZero:true, title:{display:true, text:'Mean D2D (minutes)', font:{size:11,weight:'600'}}, grid:{color:'rgba(0,0,0,0.05)'} }
-    }
-  }
-// ── PROVIDER PT/HR PLACEHOLDER (ghost chart under blur) ──────────────────────
-const ghostPPH = provNames.map(() => +(1.2 + Math.random()*1.4).toFixed(2));
-new Chart(document.getElementById('providerPPHPlaceholder'), {
-  type:'bar',
-  data:{
-    labels:provNames,
-    datasets:[{ data:ghostPPH, backgroundColor:'rgba(90,143,160,0.5)', borderColor:'rgba(42,100,120,0.6)', borderWidth:1, borderRadius:4 }]
-  },
-  options:{
-    indexAxis:'y', responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{display:false}, tooltip:{enabled:false} },
-    scales:{ x:{display:false}, y:{ grid:{display:false}, ticks:{font:{size:11}} } },
-    animation:false
-  }
-});
-</script>
-</body>
-</html>
+<!-- ══════ PIN MODAL ══════ -->
+<div class="pin-overlay" id="pinOverlay">
+  <div class="pin-modal">
+    <div class="pin-modal-icon">🔐</div>
+    <div class="pin-modal-title">Director Access</div>
+    <div class="pin-modal-sub">Enter your PIN to view operational insights, recommended actions, and data quality notes</div>
+    <input class="pin-input" id="pinInput" type="password" maxlength="10" placeholder="••••••"
+      onkeydown="if(event.key==='Enter')checkPin()" autocomplete="off">
+    <div class="pin-error-msg" id="pinError"></div>
+    <button class="pin-btn" onclick="checkPin()">Unlock Director View</button>
+    <div class="pin-cancel" onclick="closePinModal()">Cancel</div>
+  </div>
+</div>
