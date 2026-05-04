@@ -584,7 +584,15 @@ Every MOR page header should include:
 
 ---
 
-## ✅ NEW MONTH CHECKLIST
+## ⚠️ LESSONS LEARNED
+
+- **Never patch existing MOR files with automated Python restructuring.** This approach has previously stripped all chart JavaScript from the file, leaving blank charts. If structural changes are needed to an existing month, make them manually with str_replace on specific targeted sections only.
+- **After any edit to an existing MOR file, verify:** `grep -c 'new Chart(' filename.html` should return 6 or more. If it returns 0, the chart JS was lost and needs to be re-injected.
+- **Always build new months as complete standalone files** — never build incrementally by patching a template. Each month's HTML should be fully self-contained from creation.
+
+---
+
+
 
 - [ ] Upload raw Excel file
 - [ ] Confirm MD hours and APC hours for the month
