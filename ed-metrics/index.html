@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ED Metrics | Banner Gateway ED</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f2e8da;
+    --header: #243b55;
+    --gold: #c9a94b;
+    --gold-light: #e8c870;
+    --teal: #5a8fa0;
+    --card: #ffffff;
+    --card-hover: #fdfaf6;
+    --border: #e0d4c4;
+    --text: #2c3a47;
+    --text-mid: #5a6a7a;
+    --text-light: #9aabb8;
+    --green: #3a8a5a;
+    --shadow: 0 2px 14px rgba(44,58,71,0.09);
+    --shadow-lg: 0 6px 28px rgba(44,58,71,0.14);
+    --radius: 18px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--header);
+    padding: 28px 32px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 250px; height: 250px;
+    border-radius: 50%;
+    background: rgba(201,169,75,0.07);
+  }
+  .header-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201,169,75,0.2);
+    border: 1px solid rgba(201,169,75,0.35);
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 5px;
+  }
+  header p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.45);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-bottom: 18px;
+    letter-spacing: 0.3px;
+    transition: color 0.15s;
+  }
+  .back-link:hover { color: var(--gold-light); }
+
+  /* ── BODY ── */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 36px 24px 64px;
+  }
+
+  /* ── YEAR SECTION ── */
+  .year-section { margin-bottom: 44px; }
+  .year-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--teal);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .year-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── MONTH GRID ── */
+  .month-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  /* ── MONTH CARD ── */
+  .month-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 16px 16px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    position: relative;
+    min-height: 110px;
+    justify-content: center;
+  }
+  .month-card.live {
+    border-color: var(--gold);
+    cursor: pointer;
+  }
+  .month-card.live:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    background: var(--card-hover);
+    border-color: var(--gold);
+  }
+  .month-card.coming-soon {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+  }
+  .month-emoji { font-size: 24px; }
+  .month-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: 0.2px;
+  }
+  .month-card.coming-soon .month-name { color: var(--text-mid); }
+
+  .month-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+  .tag-live { background: rgba(201,169,75,0.15); color: #8a6005; }
+  .tag-soon { background: rgba(154,171,184,0.15); color: var(--text-light); }
+  .tag-new {
+    background: rgba(58,138,90,0.12);
+    color: var(--green);
+  }
+
+  /* NEW badge in corner */
+  .new-badge {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    background: var(--green);
+    color: white;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border-radius: 0 var(--radius) 0 8px;
+  }
+
+  /* ── INFO CARD ── */
+  .info-card {
+    background: var(--header);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .info-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .info-text { color: rgba(255,255,255,0.6); font-size: 13px; line-height: 1.65; }
+  .info-text strong { color: rgba(255,255,255,0.85); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 20px 24px;
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    background: var(--header);
+    color: rgba(255,255,255,0.3);
+  }
+
+  @media (max-width: 600px) {
+    .month-grid { grid-template-columns: repeat(2, 1fr); }
+    header h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/portal" class="back-link">← Back to Clinical Portal</a>
+  <div class="header-pill">📊 Banner Gateway Medical Center · ED</div>
+  <h1>ED Metrics</h1>
+  <p>Monthly Operating Reports · Department Performance Data</p>
+</header>
+
+<main>
+
+  <div class="info-card">
+    <div class="info-icon">📋</div>
+    <div class="info-text">
+      <strong>For clinical staff use only.</strong> Monthly Operating Reports are published each month and include volume metrics, provider LOS data, door-to-doc times, LWOT analysis, and predictive staffing tools. Select a month below to view the report.
+    </div>
+  </div>
+
+  <!-- 2026 -->
+  <div class="year-section">
+    <div class="year-label">📅 2026</div>
+    <div class="month-grid">
+
+      <a href="/ed-metrics/2026/january.html" class="month-card coming-soon">
+        <div class="month-emoji">❄️</div>
+        <div class="month-name">January</div>
+        <div class="month-tag tag-soon">Coming Soon</div>
+      </a>
+
+      <a href="/ed-metrics/2026/february.html" class="month-card coming-soon">
+        <div class="month-emoji">💝</div>
+        <div class="month-name">February</div>
+        <div class="month-tag tag-soon">Coming Soon</div>
+      </a>
+
+      <a href="/ed-metrics/2026/march.html" class="month-card coming-soon">
+        <div class="month-emoji">🌱</div>
+        <div class="month-name">March</div>
+        <div class="month-tag tag-soon">Coming Soon</div>
+      </a>
+
+      <a href="/ed-metrics/2026/april.html" class="month-card live">
+        <div class="new-badge">NEW</div>
+        <div class="month-emoji">🌸</div>
+        <div class="month-name">April</div>
+        <div class="month-tag tag-live">Published</div>
+      </a>
+
+      <a href="/ed-metrics/2026/may.html" class="month-card coming-soon">
+        <div class="month-emoji">☀️</div>
+        <div class="month-name">May</div>
+        <div class="month-tag tag-soon">Coming Soon</div>
+      </a>
+
+      <a href="/ed-metrics/2026/june.html" class="month-card coming-soon">
+        <div class="month-emoji">🏖️</div>
+        <div class="month-name">June</div>
+        <div class="month-tag tag-soon">Coming Soon</div>
+      </a>
+
+      <a href="/ed-metrics/2026/july.html" class="month-card coming-soon">
+        <div class="month-emoji">🎆</div>
+        <div class="month-name">July</div>
+        <div class="month-tag tag-soon">Coming Soon</div>
+      </a>
+
+      <a href="/ed-metrics/2026/august.html" class="month-card coming-soon">
+        <div class="month-emoji">🌻</div>
+        <div class="month-name">August</div>
+        <div class="month-tag tag-soon">Coming Soon</div>
+      </a>
+
+      <a href="/ed-metrics/2026/september.html" class="month-card coming-soon">
+        <div class="month-emoji">🍂</div>
+        <div class="month-name">September</div>
+        <div class="month-tag tag-soon">Coming Soon</div>
+      </a>
+
+      <a href="/ed-metrics/2026/october.html" class="month-card coming-soon">
+        <div class="month-emoji">🎃</div>
+        <div class="month-name">October</div>
+        <div class="month-tag tag-soon">Coming Soon</div>
+      </a>
+
+      <a href="/ed-metrics/2026/november.html" class="month-card coming-soon">
+        <div class="month-emoji">🍁</div>
+        <div class="month-name">November</div>
+        <div class="month-tag tag-soon">Coming Soon</div>
+      </a>
+
+      <a href="/ed-metrics/2026/december.html" class="month-card coming-soon">
+        <div class="month-emoji">🎄</div>
+        <div class="month-name">December</div>
+        <div class="month-tag tag-soon">Coming Soon</div>
+      </a>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  🏥 Banner Gateway Medical Center · Emergency Department · For clinical staff use only · © 2026 Eric Cummins, MD
+</footer>
+
+</body>
+</html>
