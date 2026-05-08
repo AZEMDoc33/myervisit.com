@@ -322,3 +322,287 @@ Before making any change, confirm:
 | Add a provider to the directory | index.html | bgmc-directory |
 | Update a phone number | index.html | bgmc-directory |
 | Add a new directory specialty group | index.html (add rows + section header if used) | bgmc-directory |
+
+---
+
+---
+
+# 📊 ED MONTHLY OPERATING REPORT (MOR) — FULL PIPELINE
+
+> **One-sentence start prompt for future months:**
+> *"Here's [Month].xlsx — run the full MOR pipeline and push to the site."*
+> Claude will handle everything: data analysis → HTML build → GitHub push → Vercel deploy.
+
+---
+
+## 🔑 CREDENTIALS & IDs
+
+| Item | Value |
+|---|---|
+| GitHub Repo | `AZEMDoc33/myervisit.com` |
+| GitHub Token | `[YOUR_GITHUB_TOKEN — store in Claude Project instructions, not here]` |
+| Vercel Team ID | `team_KFSPAFbGtf3qi3lA1WzW96lS` |
+| Vercel Project ID | `prj_cHSm7Skhr9h6BoDC1xvNBKqydlbq` |
+| Director PIN | `3227` |
+| Live URL | `myervisit.com/ed-metrics` |
+| MOR file path pattern | `ed-metrics/2026/[month].html` |
+| Index hub file | `ed-metrics/index.html` |
+
+---
+
+## 📁 FILE STRUCTURE FOR ED METRICS
+
+```
+ed-metrics/
+  index.html              ← Month selector hub (flip cards from "Coming Soon" to "Published")
+  2026/
+    january.html          ← ✅ Published
+    february.html         ← ✅ Published
+    march.html            ← ✅ Published
+    april.html            ← ✅ Published
+    may.html              ← Coming Soon
+    june.html             ← Coming Soon
+    ...
+```
+
+---
+
+## ⚡ PRODUCTIVITY FORMULAS
+
+```
+Eligible Volume = Total Visits − LWOT patients
+Pt/Hr  = Eligible Volume ÷ (MD Hours + APC Hours)
+aPPH   = Eligible Volume ÷ (MD Hours + 0.5 × APC Hours)
+```
+
+**Goals:** Pt/Hr ≥ 1.85 · aPPH ≥ 2.45
+
+**Color coding in the productivity card:**
+- At or above goal → green (`#6ee7a0`) with ✅ ABOVE GOAL badge
+- Below goal → amber (`#fdba74`) with ⚠️ BELOW GOAL badge
+
+**Always ask for MD hours and APC hours** if not provided with the Excel file. If not provided, use the prior month's hours as a provisional estimate and clearly mark with † in the card.
+
+---
+
+## 🏥 Q1 2026 HOURS REFERENCE
+
+| Month | MD Hours | APC Hours | Pt/Hr | aPPH |
+|---|---|---|---|---|
+| January | 1,201.00 | 1,055.33 | 1.91 ✅ | 2.49 ✅ |
+| February | 1,095.00 | 962.00 | 2.07 ✅ | 2.70 ✅ |
+| March | 1,286.00 | 997.75 | 1.99 ✅ | 2.55 ✅ |
+| April | 1,268.25 | 985.25 | 1.89 ✅ | 2.41 ⚠️ |
+
+---
+
+## 📋 EXCEL COLUMN MAPPING
+
+| Field | Column | Notes |
+|---|---|---|
+| Check-in timestamp | `CHECKIN_DATE` | Parse as datetime |
+| Check-out timestamp | `CHECKOUT_DATE` | Parse as datetime |
+| Disposition | `CHECKOUT_DISPOSITION` | Classify into discharge/admit/obs/LWOT |
+| Acuity (ESI) | `ACUITY` | Float 1.0–5.0 |
+| Primary provider | `PRIM_PHYSICIAN` | Format as LASTNAME FI |
+| Door-to-doc | `DOOR_TO_DOC` | HH:MM string → parse to minutes |
+| Encounter ID | `FIN_NUMBER` | Unique key |
+
+---
+
+## 📊 DISPOSITION DEFINITIONS
+
+**Discharge** (include in discharge LOS & provider LOS):
+`Home (routine)`, `Acute Care Facility (Banner)`, `Acute Care Facility (non-Banne)`, `Assisted Living/Group Home`, `Home with Hospice Care`, `Home with Home Health`, `Skilled nursing facility (non-)`, `Federal /VA Hospital`, `Rehabilitation Facility`, `Long Term Care Facility`, `Pediatric facility`, `Skilled nursing facility (Bann)`, `Routine Discharge`
+
+**Admission:** `Admit to Inpatient`
+**Observation:** `Place in Observation`
+**LWOT:** `Left without Treatment (LWOT)`, `Eloped (left unannounced)`, `LWOT`
+
+---
+
+## 🧮 CALCULATION RULES
+
+- **LOS:** `(CHECKOUT_DATE − CHECKIN_DATE).total_seconds() / 60`
+- **Cap LOS at 1,440 min (24h)** — anything over is a registration error (admit checkout dates)
+- **D2D:** Parse `HH:MM` string → `hours×60 + minutes`
+- **Median** (not mean) for LOS and D2D metrics
+- **Arrivals normalized** by distinct calendar dates, not total rows
+- **DOW order:** Sunday → Saturday (dayofweek: 6,0,1,2,3,4,5)
+- **Provider format:** LASTNAME FI — uppercase last name, first initial only, no credentials
+- **Minimum provider sample:** 15 encounters for LOS chart; no minimum for PPH (use all providers shown in TeamHealth data)
+
+---
+
+## 📈 STANDARD MOR SECTIONS (in order)
+
+1. Header with KPIs (7 metrics in header strip)
+2. Month navigation (← prev · current · next →)
+3. Core Volume & Throughput Metrics (2 rows of 4 metric cards)
+4. Q1/YTD Trend Summary table (include when 2+ months exist)
+5. Provider Productivity card (dark navy gradient)
+6. Admissions & Disposition Breakdown table
+7. Patient Arrival Volume by Hour (light blue bars)
+8. Patient Arrival Volume by Day of Week (green bars + error bars + gold ★ on busiest day)
+9. LWOT Analysis by Hour (purple bars, total count not average)
+10. Provider Productivity — Pt/Hr by Clinician (real chart when PPH data available, blurred placeholder otherwise)
+11. Provider Discharge LOS — ESI 3/4/5 (horizontal bar, sorted low→high, 300-min goal line)
+12. ESI 2 Door-to-Doc by Hour (bars + red dashed 25-min target line)
+13. Predictive Staffing Trigger Analysis (trigger boxes + validation table)
+14. **[PIN LOCKED — Director Only]** Operational Insights
+15. **[PIN LOCKED — Director Only]** Recommended Actions
+16. **[PIN LOCKED — Director Only]** Data Quality Notes
+
+---
+
+## 🎨 CHART COLOR REFERENCE
+
+| Chart | Bar Color | Border |
+|---|---|---|
+| Hourly arrivals | `rgba(90,143,160,0.6)` light teal | `rgba(42,100,120,0.9)` |
+| Day of week | `rgba(102,187,106,0.82)` green | `rgba(56,142,60,0.9)` |
+| LWOT by hour | `rgba(159,122,234,0.75)` purple | `rgba(107,70,193,1)` |
+| Provider LOS (low tertile) | `rgba(58,138,90,0.72)` green | `rgba(39,103,73,1)` |
+| Provider LOS (mid tertile) | `rgba(124,92,191,0.68)` purple | `rgba(85,60,154,1)` |
+| Provider LOS (high tertile) | `rgba(192,57,43,0.68)` red | `rgba(155,44,44,1)` |
+| PPH below goal (<1.85) | `rgba(217,119,6,0.72)` amber | `rgba(161,87,4,0.9)` |
+| PPH below dept avg | `rgba(90,143,160,0.72)` teal | `rgba(42,100,120,0.9)` |
+| PPH above dept avg | `rgba(58,138,90,0.72)` green | `rgba(39,103,73,0.9)` |
+| ESI 2 D2D (within target) | `rgba(90,143,160,0.7)` | `rgba(42,100,120,0.9)` |
+| ESI 2 D2D (above 25 min) | `rgba(192,57,43,0.75)` red | `rgba(155,44,44,1)` |
+
+**Design palette (CSS vars):**
+`--cream: #f2e8da` · `--header: #243b55` · `--gold: #c9a94b` · `--teal: #5a8fa0`
+Fonts: Nunito (body) + Playfair Display (title)
+
+---
+
+## 🔐 DIRECTOR PIN SYSTEM
+
+All MOR files have a `🔒` icon in the footer. Tapping it opens a PIN modal.
+
+- **PIN:** `3227`
+- Hidden sections: Operational Insights, Recommended Actions, Data Quality Notes
+- These sections are wrapped in `<div id="director-zone">` which has `display:none` by default
+- Correct PIN calls `unlockDirector()` which adds class `unlocked` to show the zone
+- The PIN JS constant is: `const DIRECTOR_PIN = '3227';`
+- To change the PIN: find `DIRECTOR_PIN` in the HTML file, update value, push to GitHub
+
+---
+
+## 🔮 PREDICTIVE STAFFING TRIGGER
+
+**Thresholds:** Weekday >142 arrivals · Weekend >122 arrivals
+
+**4-month validated noon trigger (use ≥50 as standing protocol):**
+
+| Month | Threshold | Sensitivity | PPV |
+|---|---|---|---|
+| January | ≥51 by noon | 77% | 83% |
+| February | ≥45 by noon | 94% | 100% |
+| March | ≥54 by noon | 81% | 93% |
+| April | ≥55 by noon | 71% | 91% |
+
+**Recommendation:** If ≥50 patients arrive by noon on a weekday → alert charge RN → initiate supplemental coverage discussion.
+
+---
+
+## 🚀 DEPLOYMENT PIPELINE
+
+```bash
+# Step 1: Clone repo (first session only — will already be cloned in project)
+git clone "https://[TOKEN]@github.com/AZEMDoc33/myervisit.com.git" site
+
+# Step 2: Build MOR HTML file
+# Output: site/ed-metrics/2026/[month].html
+
+# Step 3: Update index hub
+# site/ed-metrics/index.html — flip month card from coming-soon to live, move NEW badge
+
+# Step 4: Commit and push
+cd site
+git config user.email "ed-metrics@myervisit.com"
+git config user.name "Eric Cummins MD"
+git add ed-metrics/2026/[month].html ed-metrics/index.html
+git commit -m "Add [Month] 2026 MOR + activate [month] card"
+git push "https://[TOKEN]@github.com/AZEMDoc33/myervisit.com.git" main
+
+# Vercel auto-deploys in ~20-30 seconds after push
+```
+
+**To verify deployment:** Use `Vercel:list_deployments` with projectId `prj_cHSm7Skhr9h6BoDC1xvNBKqydlbq` and teamId `team_KFSPAFbGtf3qi3lA1WzW96lS` — look for `state: READY` on the latest entry.
+
+---
+
+## 📅 INDEX HUB — MONTH CARD FLIP INSTRUCTIONS
+
+When publishing a new month, update `ed-metrics/index.html`:
+
+**Coming Soon card (before):**
+```html
+<a href="/ed-metrics/2026/[month]" class="month-card coming-soon">
+  <div class="month-emoji">[emoji]</div>
+  <div class="month-name">[Month]</div>
+  <div class="month-tag tag-soon">Coming Soon</div>
+</a>
+```
+
+**Published card (after):**
+```html
+<a href="/ed-metrics/2026/[month]" class="month-card live">
+  <div class="new-badge">NEW</div>
+  <div class="month-emoji">[emoji]</div>
+  <div class="month-name">[Month]</div>
+  <div class="month-tag tag-live">Published</div>
+</a>
+```
+
+Also **remove** the `NEW` badge from the previous month's card.
+
+**Month emojis:** Jan ❄️ · Feb 💝 · Mar 🌱 · Apr 🌸 · May ☀️ · Jun 🏖️ · Jul 🎆 · Aug 🌻 · Sep 🍂 · Oct 🎃 · Nov 🍁 · Dec 🎄
+
+---
+
+## 📊 PROVIDER PPH CHART
+
+PPH data comes from a TeamHealth screenshot (not from the Excel file).
+- When screenshot is provided: build real bar chart with `canvas id="providerPPHChart"`
+- When not provided: show blurred placeholder card with ghost bars underneath
+- Chart is sorted **lowest → highest** (least productive at top, most at bottom)
+- Two reference lines: dotted goal at 1.85 · dashed dept cohort average
+- Color code: amber = below goal · teal = below avg · green = above avg
+
+---
+
+## 🏷️ HEADER / ATTRIBUTION
+
+Every MOR page header should include:
+```html
+<div class="meta-val" style="font-size:15px;font-weight:800;color:white;">Eric Cummins, MD</div>
+<div class="meta-val" style="font-size:11px;color:rgba(255,255,255,0.5);font-weight:600;">ED Medical Director</div>
+```
+
+---
+
+## ⚠️ LESSONS LEARNED
+
+- **Never patch existing MOR files with automated Python restructuring.** This approach has previously stripped all chart JavaScript from the file, leaving blank charts. If structural changes are needed to an existing month, make them manually with str_replace on specific targeted sections only.
+- **After any edit to an existing MOR file, verify:** `grep -c 'new Chart(' filename.html` should return 6 or more. If it returns 0, the chart JS was lost and needs to be re-injected.
+- **Always build new months as complete standalone files** — never build incrementally by patching a template. Each month's HTML should be fully self-contained from creation.
+
+---
+
+
+
+- [ ] Upload raw Excel file
+- [ ] Confirm MD hours and APC hours for the month
+- [ ] Confirm PPH screenshot from TeamHealth (or note as placeholder)
+- [ ] Run full data analysis (all 14 metrics)
+- [ ] Build HTML file from template, update all data/JS
+- [ ] Update productivity card with real hours (color-coded green/amber)
+- [ ] Update Q1/YTD trend table
+- [ ] Set director PIN to `3227`
+- [ ] Push `ed-metrics/2026/[month].html` to GitHub
+- [ ] Update `ed-metrics/index.html` — flip card, move NEW badge
+- [ ] Verify Vercel deployment `state: READY`
+- [ ] Confirm live at `myervisit.com/ed-metrics/2026/[month]`

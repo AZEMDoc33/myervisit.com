@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ED Monthly Operating Report — March 2026 | Banner Gateway Medical Center</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:#f2e8da;--header:#243b55;--header-mid:#2e4e6e;
+    --gold:#c9a94b;--gold-light:#e8c870;--gold-pale:#f5e9c8;
+    --teal:#5a8fa0;--teal-light:#7ab5c7;--teal-pale:#e4f2f6;
+    --card:#ffffff;--card-alt:#faf6f1;--border:#e0d4c4;
+    --text:#2c3a47;--text-mid:#5a6a7a;--text-light:#8a9aaa;
+    --green:#3a8a5a;--green-pale:#e6f5ed;--red:#c0392b;--red-pale:#fdecea;
+    --amber:#d97706;--amber-pale:#fef3e2;--blue:#2980b9;--blue-pale:#e8f4fb;
+    --purple:#7c5cbf;--purple-pale:#f0ebfa;
+    --shadow:0 2px 12px rgba(44,58,71,0.08);--shadow-lg:0 4px 24px rgba(44,58,71,0.12);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);font-size:14px;line-height:1.6;}
+
+  /* HEADER */
+  .report-header{background:var(--header);color:white;padding:38px 48px 32px;position:relative;overflow:hidden;}
+  .report-header::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(201,169,75,0.08);}
+  .header-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;position:relative;}
+  .header-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(201,169,75,0.2);border:1px solid rgba(201,169,75,0.4);color:var(--gold-light);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border-radius:999px;margin-bottom:12px;}
+  .header-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:800;color:white;margin-bottom:5px;}
+  .header-subtitle{font-size:13px;color:rgba(255,255,255,0.5);font-weight:400;}
+  .header-meta{text-align:right;}
+  .header-meta .meta-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.4);margin-bottom:2px;font-weight:700;}
+  .header-meta .meta-val{font-size:13px;color:rgba(255,255,255,0.8);font-weight:600;}
+  .header-kpis{display:flex;flex-wrap:wrap;margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.12);}
+  .hkpi{flex:1;min-width:110px;padding:0 18px 0 0;margin-right:18px;border-right:1px solid rgba(255,255,255,0.1);}
+  .hkpi:last-child{border-right:none;margin-right:0;}
+  .hkpi-emoji{font-size:19px;margin-bottom:3px;}
+  .hkpi-val{font-size:26px;font-weight:800;color:white;letter-spacing:-0.5px;line-height:1;}
+  .hkpi-unit{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);margin-left:2px;}
+  .hkpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.45);margin-top:3px;}
+  .hkpi-sub{font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px;}
+  .hkpi-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px;}
+  .badge-gold{background:rgba(201,169,75,0.25);color:var(--gold-light);}
+  .badge-green-hdr{background:rgba(58,138,90,0.3);color:#7dd4a8;}
+  .badge-red-hdr{background:rgba(192,57,43,0.3);color:#ff9999;}
+
+  /* BODY */
+  .report-body{max-width:1300px;margin:0 auto;padding:30px 34px 56px;}
+
+  /* SECTIONS */
+  .section{margin-bottom:38px;}
+  .section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .section-emoji{font-size:18px;}
+  .section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--teal);}
+  .section-line{flex:1;height:1px;background:var(--border);margin-left:8px;}
+
+  /* CARDS */
+  .card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:20px 24px;box-shadow:var(--shadow);}
+  .card-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:13px;}
+
+  /* METRIC CARDS */
+  .metric-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);transition:transform 0.15s;}
+  .metric-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+  .metric-card.gold-border{border-color:var(--gold);}
+  .metric-card.green-border{border-color:var(--green);}
+  .metric-card.teal-border{border-color:var(--teal);}
+  .metric-card.red-border{border-color:var(--red);}
+  .metric-card.warn-border{border-color:var(--amber);}
+  .mc-emoji{font-size:24px;margin-bottom:7px;display:block;}
+  .mc-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-light);margin-bottom:4px;}
+  .mc-val{font-size:26px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1;}
+  .mc-unit{font-size:13px;font-weight:600;color:var(--text-mid);margin-left:2px;}
+  .mc-sub{font-size:11px;color:var(--text-light);margin-top:5px;line-height:1.4;}
+  .mc-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;margin-top:7px;text-transform:uppercase;letter-spacing:0.5px;}
+  .badge-success{background:var(--green-pale);color:var(--green);}
+  .badge-warn{background:var(--amber-pale);color:var(--amber);}
+  .badge-alert{background:var(--red-pale);color:var(--red);}
+  .badge-teal{background:var(--teal-pale);color:var(--teal);}
+  .badge-info{background:var(--blue-pale);color:var(--blue);}
+
+  /* GRIDS */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .grid-chart-side{display:grid;grid-template-columns:1fr 310px;gap:16px;}
+
+  /* CHART CARDS */
+  .chart-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow);}
+  .chart-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;}
+  .chart-subtitle{font-size:11px;color:var(--text-light);margin-bottom:16px;}
+  .chart-container{position:relative;width:100%;}
+
+  /* TABLES */
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  thead th{background:var(--header);color:white;padding:10px 13px;text-align:left;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;}
+  thead th:first-child{border-radius:8px 0 0 0;}
+  thead th:last-child{border-radius:0 8px 0 0;text-align:right;}
+  tbody td{padding:9px 13px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle;}
+  tbody td:last-child{text-align:right;font-weight:600;}
+  tbody tr:nth-child(even){background:var(--card-alt);}
+  tbody tr:hover{background:var(--teal-pale);}
+  tbody tr:last-child td{border-bottom:none;}
+  .tbl-total td{background:rgba(36,59,85,0.06)!important;font-weight:700!important;}
+  .trigger-table th{background:var(--header-mid);}
+  .trigger-table .star-row{background:rgba(201,169,75,0.1)!important;}
+  .trigger-table .star-row td{font-weight:700;color:#7a5500;}
+
+  /* PRODUCTIVITY */
+  .prod-card{background:linear-gradient(135deg,var(--header) 0%,var(--header-mid) 100%);border-radius:var(--radius);padding:26px 30px;color:white;box-shadow:var(--shadow-lg);}
+  .prod-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--gold-light);margin-bottom:18px;}
+  .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .prod-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.45);margin-bottom:4px;}
+  .prod-val{font-size:28px;font-weight:800;color:white;letter-spacing:-0.5px;}
+  .prod-unit{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);margin-left:2px;}
+  .prod-sub{font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px;line-height:1.4;}
+  .prod-note{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.12);font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6;}
+
+  /* INSIGHTS */
+  .insight-card{background:var(--card);border:1.5px solid var(--border);border-left:5px solid var(--teal);border-radius:var(--radius);padding:16px 20px;margin-bottom:12px;box-shadow:var(--shadow);}
+  .insight-card.warn{border-left-color:var(--amber);}
+  .insight-card.positive{border-left-color:var(--green);}
+  .insight-card.alert{border-left-color:var(--red);}
+  .insight-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--teal);margin-bottom:4px;}
+  .insight-card.warn .insight-tag{color:var(--amber);}
+  .insight-card.positive .insight-tag{color:var(--green);}
+  .insight-card.alert .insight-tag{color:var(--red);}
+  .insight-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px;}
+  .insight-body{font-size:13px;color:var(--text-mid);line-height:1.65;}
+
+  /* ACTIONS */
+  .action-item{display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);}
+  .action-item:last-child{border-bottom:none;}
+  .action-num{width:26px;height:26px;border-radius:50%;background:var(--header);color:white;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .action-text{font-size:13px;color:var(--text-mid);line-height:1.65;}
+  .action-text strong{color:var(--text);}
+
+  /* DATA QUALITY */
+  .dq-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+  .dq-item:last-child{border-bottom:none;}
+  .dq-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+  .dq-text{color:var(--text-mid);line-height:1.55;}
+  .dq-text strong{color:var(--text);}
+
+  /* STAT PILLS */
+  .stat-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .stat-pill{background:var(--card-alt);border:1px solid var(--border);border-radius:6px;padding:4px 11px;font-size:11px;color:var(--text-mid);font-weight:600;}
+  .stat-pill strong{color:var(--text);}
+
+  /* TRIGGER BOXES */
+  .trigger-box{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:18px 22px;box-shadow:var(--shadow);}
+  .trigger-box.star{border-color:var(--gold);}
+  .trigger-box.teal{border-color:var(--teal);}
+  .trigger-box-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:7px;}
+  .trigger-box.star .trigger-box-label{color:var(--gold);}
+  .trigger-box.teal .trigger-box-label{color:var(--teal);}
+  .trigger-val{font-size:20px;font-weight:800;color:var(--text);margin-bottom:8px;}
+  .trigger-desc{font-size:12px;color:var(--text-mid);line-height:1.6;margin-top:8px;}
+
+  /* MONTH NAV */
+  .month-nav{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow);}
+  .month-nav a{color:var(--teal);font-weight:700;font-size:13px;text-decoration:none;}
+  .month-nav a:hover{color:var(--header);}
+  .month-nav .current{font-weight:800;color:var(--text);font-size:14px;}
+
+  /* FOOTER */
+  .report-footer{background:var(--header);color:rgba(255,255,255,0.35);text-align:center;padding:18px 32px;font-size:11px;font-weight:600;letter-spacing:0.5px;position:relative;}
+
+
+  /* ── DIRECTOR SECTION ── */
+  #director-zone{display:none;}
+  #director-zone.unlocked{display:block;}
+  .director-banner{background:linear-gradient(90deg,#7c5cbf,#5a3fa0);border-radius:var(--radius);padding:14px 22px;margin-bottom:28px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-lg);}
+  .director-banner-text{color:white;font-size:13px;font-weight:700;}
+  .director-banner-sub{color:rgba(255,255,255,0.6);font-size:11px;margin-top:2px;}
+  /* ── FOOTER & LOCK ── */
+  .lock-btn{position:absolute;right:24px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;color:rgba(255,255,255,0.3);transition:all 0.2s;user-select:none;}
+  .lock-btn:hover{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);}
+  .lock-btn.unlocked-state{color:var(--gold-light);border-color:rgba(201,169,75,0.4);}
+  /* PIN MODAL */
+  .pin-overlay{display:none;position:fixed;inset:0;background:rgba(15,25,40,0.65);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+  .pin-overlay.active{display:flex;}
+  .pin-modal{background:white;border-radius:20px;padding:32px 36px;width:320px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;}
+  .pin-modal-icon{font-size:36px;margin-bottom:12px;}
+  .pin-modal-title{font-size:17px;font-weight:800;color:var(--header);margin-bottom:4px;}
+  .pin-modal-sub{font-size:12px;color:var(--text-light);margin-bottom:20px;}
+  .pin-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:12px 16px;font-size:18px;font-family:'Nunito',sans-serif;font-weight:700;text-align:center;letter-spacing:4px;outline:none;color:var(--header);transition:border-color 0.2s;}
+  .pin-input:focus{border-color:var(--teal);}
+  .pin-input.error{border-color:var(--red);animation:shake 0.3s;}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .pin-btn{width:100%;margin-top:14px;background:var(--header);color:white;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;transition:background 0.15s;}
+  .pin-btn:hover{background:var(--header-mid);}
+  .pin-cancel{margin-top:10px;font-size:12px;color:var(--text-light);cursor:pointer;font-weight:600;}
+  .pin-cancel:hover{color:var(--text);}
+  .pin-error-msg{font-size:11px;color:var(--red);font-weight:700;margin-top:8px;min-height:16px;}
+  @media print{.lock-btn,.pin-overlay{display:none!important;}}
+  @media print{
+    body{background:white;}
+    .report-header,.prod-card{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .chart-card,.metric-card,.card,.insight-card{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="report-header">
+  <div class="header-top">
+    <div>
+      <div class="header-pill">🏥 Banner Gateway Medical Center · Emergency Department</div>
+      <div class="header-title">Monthly Operating Report</div>
+      <div class="header-subtitle">March 2026 &nbsp;·&nbsp; March 1–31, 2026 &nbsp;·&nbsp; 31 Calendar Days</div>
+    </div>
+    <div class="header-meta">
+      <div class="meta-label">Reporting Period</div>
+      <div class="meta-val">March 2026</div>
+      <div class="meta-label" style="margin-top:10px">Prepared By</div>
+      <div class="meta-val" style="font-size:15px;font-weight:800;color:white;">Eric Cummins, MD</div>
+      <div class="meta-val" style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:1px;font-weight:600;letter-spacing:0.5px;">ED Medical Director</div>
+    </div>
+  </div>
+  <div class="header-kpis">
+    <div class="hkpi">
+      <div class="hkpi-emoji">🚑</div>
+      <div class="hkpi-val">4,620</div>
+      <div class="hkpi-label">Total ED Visits</div>
+      <div class="hkpi-sub">Highest volume month</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-emoji">📅</div>
+      <div class="hkpi-val">149.0</div>
+      <div class="hkpi-label">Avg Daily Volume</div>
+      <div class="hkpi-sub">WD 155.8 · WE 132.4</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-emoji">🏨</div>
+      <div class="hkpi-val">18.7<span class="hkpi-unit">%</span></div>
+      <div class="hkpi-label">Admission Rate</div>
+      <div class="hkpi-sub">Inpt 12.7% · Obs 6.0%</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-emoji">🎯</div>
+      <div class="hkpi-val">83.0<span class="hkpi-unit">%</span></div>
+      <div class="hkpi-label">ESI 2 Seen &lt;25 min</div>
+      <div class="hkpi-sub"><span class="hkpi-badge badge-red-hdr">↓ from 88.3% Apr</span></div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-emoji">⏱️</div>
+      <div class="hkpi-val">216<span class="hkpi-unit">min</span></div>
+      <div class="hkpi-label">Median DC LOS</div>
+      <div class="hkpi-sub">ESI 2 D2D median: 12 min</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-emoji">🩺</div>
+      <div class="hkpi-val">21<span class="hkpi-unit">min</span></div>
+      <div class="hkpi-label">Median Door-to-Doc</div>
+      <div class="hkpi-sub">All ESI levels</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-emoji">🚶</div>
+      <div class="hkpi-val">1.6<span class="hkpi-unit">%</span></div>
+      <div class="hkpi-label">LWOT Rate</div>
+      <div class="hkpi-sub"><span class="hkpi-badge badge-gold">73 patients</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="report-body">
+
+  <!-- NAV -->
+  <div class="month-nav">
+    <span style="font-size:12px;color:var(--text-light);font-weight:700;">◀ <a href="/ed-metrics/2026/february">February 2026</a></span>
+    <span class="current">🌱 March 2026</span>
+    <span style="font-size:12px;color:var(--text-light);font-weight:700;"><a href="/ed-metrics/2026/april">April 2026</a> ▶</span>
+  </div>
+
+  <!-- SECTION 1: CORE METRICS -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">📊</div><div class="section-title">Core Volume &amp; Throughput Metrics</div><div class="section-line"></div></div>
+    <div class="grid-4" style="margin-bottom:14px">
+      <div class="metric-card">
+        <span class="mc-emoji">🚑</span>
+        <div class="mc-label">Total Visits</div>
+        <div class="mc-val">4,620</div>
+        <div class="mc-sub">31 days · Highest volume month</div>
+        <div><span class="mc-badge badge-alert">↑ 309 vs April</span></div>
+      </div>
+      <div class="metric-card">
+        <span class="mc-emoji">📅</span>
+        <div class="mc-label">Avg Daily Volume</div>
+        <div class="mc-val">149.0</div>
+        <div class="mc-sub">Weekday: 155.8 · Weekend: 132.4</div>
+      </div>
+      <div class="metric-card warn-border">
+        <span class="mc-emoji">🚶</span>
+        <div class="mc-label">LWOT Rate</div>
+        <div class="mc-val">1.6<span class="mc-unit">%</span></div>
+        <div class="mc-sub">73 total patients</div>
+        <div><span class="mc-badge badge-warn">↑ from 1.4% April</span></div>
+      </div>
+      <div class="metric-card">
+        <span class="mc-emoji">📋</span>
+        <div class="mc-label">ESI Distribution</div>
+        <div class="mc-val" style="font-size:16px;line-height:1.5">ESI %</div>
+        <div class="mc-sub">
+          ESI 1: 0.2% &nbsp;·&nbsp; ESI 2: 10.1%<br>
+          ESI 3: 72.4% &nbsp;·&nbsp; ESI 4: 15.6%<br>
+          ESI 5: 0.7% &nbsp;·&nbsp; Unknown: 1.0%
+        </div>
+      </div>
+    </div>
+    <div class="grid-4">
+      <div class="metric-card gold-border">
+        <span class="mc-emoji">⏱️</span>
+        <div class="mc-label">Median Discharge LOS</div>
+        <div class="mc-val">216<span class="mc-unit">min</span></div>
+        <div class="mc-sub">3 hr 36 min · all discharges</div>
+        <div><span class="mc-badge badge-success">↓ 4 min vs April</span></div>
+      </div>
+      <div class="metric-card red-border">
+        <span class="mc-emoji">🛏️</span>
+        <div class="mc-label">Median Admit LOS</div>
+        <div class="mc-val">386<span class="mc-unit">min</span></div>
+        <div class="mc-sub">6 hr 26 min · Inpt + Obs</div>
+        <div><span class="mc-badge badge-alert">↑ 15 min vs April</span></div>
+      </div>
+      <div class="metric-card warn-border">
+        <span class="mc-emoji">🎯</span>
+        <div class="mc-label">ESI 2 D2D &lt;25 min</div>
+        <div class="mc-val">83.0<span class="mc-unit">%</span></div>
+        <div class="mc-sub">387 / 466 ESI 2 patients</div>
+        <div><span class="mc-badge badge-warn">⚠️ Down from 88.3%</span></div>
+      </div>
+      <div class="metric-card teal-border">
+        <span class="mc-emoji">🩺</span>
+        <div class="mc-label">Median D2D — ESI 2</div>
+        <div class="mc-val">12<span class="mc-unit">min</span></div>
+        <div class="mc-sub">Overall (all ESI): 21 min</div>
+        <div><span class="mc-badge badge-teal">All Comers</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: PRODUCTIVITY -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">⚡</div><div class="section-title">Provider Productivity</div><div class="section-line"></div></div>
+    <div class="prod-card">
+      <div class="prod-title">⚡ March 2026 Productivity Metrics</div>
+      <div class="prod-grid">
+        <div>
+          <div class="prod-label">Eligible Volume</div>
+          <div class="prod-val">4,547</div>
+          <div class="prod-sub">4,620 total − 73 LWOT</div>
+        </div>
+        <div>
+          <div class="prod-label">Total Provider Hours</div>
+          <div class="prod-val">2,283.75</div>
+          <div class="prod-sub">MD 1,286.00 + APC 997.75</div>
+        </div>
+        <div>
+          <div class="prod-label">Pt / Hr</div>
+          <div class="prod-val" style="color:#6ee7a0;">1.99<span class="prod-unit">pts/hr</span></div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
+            <span style="font-size:10px;font-weight:700;background:rgba(110,231,160,0.18);color:#6ee7a0;padding:3px 9px;border-radius:999px;">✅ ABOVE GOAL</span>
+          </div>
+          <div class="prod-sub" style="margin-top:6px;">Goal: 1.85 &nbsp;·&nbsp; <span style="color:#6ee7a0;">+0.14</span></div>
+        </div>
+        <div>
+          <div class="prod-label">Adjusted PPH (aPPH)</div>
+          <div class="prod-val" style="color:#6ee7a0;">2.55<span class="prod-unit">pts/hr</span></div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
+            <span style="font-size:10px;font-weight:700;background:rgba(110,231,160,0.18);color:#6ee7a0;padding:3px 9px;border-radius:999px;">✅ ABOVE GOAL</span>
+          </div>
+          <div class="prod-sub" style="margin-top:6px;">Goal: 2.45 &nbsp;·&nbsp; <span style="color:#6ee7a0;">+0.10</span></div>
+        </div>
+      </div>
+      <div class="prod-note">
+        📐 <strong>Pt/Hr</strong> = Eligible ÷ (MD + APC Hours) &nbsp;|&nbsp;
+        <strong>aPPH</strong> = Eligible ÷ (MD + 0.5 × APC Hours) = 4,547 ÷ 1,784.875 &nbsp;|&nbsp;
+        <span style="color:rgba(255,255,255,0.55)">Goals: Pt/Hr ≥ 1.85 · aPPH ≥ 2.45</span>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: ADMISSIONS -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">🏨</div><div class="section-title">Admissions &amp; Disposition Breakdown</div><div class="section-line"></div></div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Disposition Category</th><th>Count</th><th>% of Total</th></tr></thead>
+        <tbody>
+          <tr><td>🏥 Admit to Inpatient</td><td>588</td><td>12.7%</td></tr>
+          <tr><td>🔭 Place in Observation</td><td>278</td><td>6.0%</td></tr>
+          <tr class="tbl-total"><td>📌 Combined Admission Rate (Inpt + Obs)</td><td>866</td><td>18.7%</td></tr>
+          <tr><td>🏠 Discharged (all categories)</td><td>3,540</td><td>76.6%</td></tr>
+          <tr><td>🚶 LWOT / Eloped</td><td>73</td><td>1.6%</td></tr>
+          <tr><td>📝 AMA / Behavioral / Other</td><td>141</td><td>3.1%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 4: HOURLY ARRIVALS -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">🕐</div><div class="section-title">Patient Arrival Volume by Hour</div><div class="section-line"></div></div>
+    <div class="chart-card">
+      <div class="chart-title">Average Arrivals per Hour of Day</div>
+      <div class="chart-subtitle">Normalized by 31 distinct calendar days · March 2026</div>
+      <div class="chart-container" style="height:280px"><canvas id="hourlyArrivalsChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: DOW -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">📆</div><div class="section-title">Patient Arrival Volume by Day of Week</div><div class="section-line"></div></div>
+    <div class="grid-chart-side">
+      <div class="chart-card">
+        <div class="chart-title">Average Daily Arrivals by Weekday &nbsp;·&nbsp; ★ = Busiest Day</div>
+        <div class="chart-subtitle">Sunday–Saturday · Bars = avg · Lines = daily high / low range</div>
+        <div class="chart-container" style="height:260px"><canvas id="dowChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📊 Volume Summary</div>
+        <div style="margin-top:4px">
+          <div style="margin-bottom:14px">
+            <div class="mc-label">Avg Weekday Volume</div>
+            <div class="mc-val" style="font-size:22px">155.8</div>
+            <div class="mc-sub">Mon–Fri · 22 days</div>
+          </div>
+          <div style="margin-bottom:14px">
+            <div class="mc-label">Avg Weekend Volume</div>
+            <div class="mc-val" style="font-size:22px">132.4</div>
+            <div class="mc-sub">Sat–Sun · 9 days</div>
+          </div>
+          <div style="margin-bottom:14px">
+            <div class="mc-label">Weekday Premium</div>
+            <div class="mc-val" style="font-size:22px;color:var(--teal)">+23.4</div>
+            <div class="mc-sub">vs. weekend average</div>
+          </div>
+          <div>
+            <div class="mc-label">★ Busiest Day</div>
+            <div class="mc-val" style="font-size:18px">Monday</div>
+            <div class="mc-sub">170.6 avg · range 162–181</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: LWOT -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">🚶</div><div class="section-title">LWOT Analysis by Hour</div><div class="section-line"></div></div>
+    <div class="chart-card">
+      <div class="chart-title">Total LWOT Events by Hour of Day</div>
+      <div class="chart-subtitle">Left Without Treatment + Eloped · 73 total events · 🔴 18:00 spike hour (9 events)</div>
+      <div class="chart-container" style="height:230px"><canvas id="lwotChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- PROVIDER PPH CHART -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">⚡</div><div class="section-title">Provider Productivity — Patients per Hour by Clinician</div><div class="section-line"></div></div>
+    <div class="chart-card">
+      <div class="chart-title">Patients per Hour by Provider — March 2026 &nbsp;·&nbsp; Goal: ≥1.85 pt/hr</div>
+      <div class="chart-subtitle">🟠 Below goal (&lt;1.85) &nbsp; 🔵 Below dept avg &nbsp; 🟢 Above dept avg (2.07 pt/hr) · Sorted lowest → highest · Dashed = dept cohort avg · Dotted = 1.85 goal</div>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+        <span style="background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">🎯 Goal: ≥1.85 pt/hr</span>
+        <span style="background:var(--teal-pale);color:var(--teal);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">📊 Dept Cohort Avg: 2.07 pt/hr</span>
+      </div>
+      <div class="chart-container" style="height:656px"><canvas id="providerPPHChart"></canvas></div>
+    </div>
+    </div>
+  <!-- SECTION 8: PROVIDER LOS -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">👨‍⚕️</div><div class="section-title">Provider Discharge LOS — ESI 3, 4 &amp; 5 Patients</div><div class="section-line"></div></div>
+    <div class="chart-card">
+      <div class="chart-title">Mean Discharge LOS by Provider (ESI 3/4/5, Discharged Only) &nbsp;·&nbsp; 🎯 Goal: &lt;300 min</div>
+      <div class="chart-subtitle">Sorted lowest → highest · Min 15 ESI 3/4/5 discharges · Minutes · 🟢 Low tertile &nbsp; 🟣 Middle &nbsp; 🔴 High tertile · Red dashed = 300-min goal</div>
+      <div class="chart-container" style="height:600px"><canvas id="providerLOSChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- SECTION 9: ESI 2 D2D -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">🎯</div><div class="section-title">ESI 2 Door-to-Doc Time by Arrival Hour</div><div class="section-line"></div></div>
+    <div class="grid-chart-side">
+      <div class="chart-card">
+        <div class="chart-title">Mean Door-to-Doc (ESI 2) by Hour of Arrival</div>
+        <div class="chart-subtitle">Red dashed = 25-min target · All bars within target this month · Hours 0–23 · Minutes</div>
+        <div class="chart-container" style="height:255px"><canvas id="esi2D2DChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🎯 ESI 2 D2D Summary</div>
+        <div style="margin-top:4px">
+          <div style="margin-bottom:14px">
+            <div class="mc-label">Median ESI 2 D2D</div>
+            <div class="mc-val">12<span class="mc-unit">min</span></div>
+          </div>
+          <div style="margin-bottom:14px">
+            <div class="mc-label">&lt;25 Min Rate</div>
+            <div class="mc-val">83.0<span class="mc-unit">%</span></div>
+            <div class="mc-sub">387 of 466 ESI 2 patients</div>
+            <div><span class="mc-badge badge-warn">⚠️ Down from 88.3%</span></div>
+          </div>
+          <div style="margin-bottom:14px">
+            <div class="mc-label">No hours above target ✅</div>
+            <div class="mc-val" style="font-size:18px">Peak: 19:00</div>
+            <div class="mc-sub">20.3 min mean · within target</div>
+            <div><span class="mc-badge badge-success">All hours &lt;25 min</span></div>
+          </div>
+          <div>
+            <div class="mc-label">⚠️ D2D &gt;120 min</div>
+            <div class="mc-val" style="font-size:20px">216</div>
+            <div class="mc-sub">Up from April's 87 — review needed</div>
+            <div><span class="mc-badge badge-alert">2.5× April rate</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 10: PREDICTIVE STAFFING -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">🔮</div><div class="section-title">Predictive Staffing Trigger Analysis</div><div class="section-line"></div></div>
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-title">🔮 Methodology</div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.7">
+        <strong>Thresholds:</strong> Weekday &gt;142 arrivals · Weekend &gt;122 arrivals &nbsp;|&nbsp;
+        <strong>March:</strong> 23 of 31 days high-volume (16/22 weekdays · 7/9 weekends) &nbsp;|&nbsp;
+        March had far more high-volume days than April (23 vs 20), consistent with elevated overall volume.
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:14px">
+      <div class="trigger-box star">
+        <div class="trigger-box-label">⭐ Recommended — High Precision</div>
+        <div class="trigger-val">≥54 patients by 12:00 PM</div>
+        <div class="stat-row">
+          <div class="stat-pill"><strong>Sens:</strong> 81%</div>
+          <div class="stat-pill"><strong>Spec:</strong> 83%</div>
+          <div class="stat-pill"><strong>PPV:</strong> 93%</div>
+          <div class="stat-pill"><strong>NPV:</strong> 62%</div>
+        </div>
+        <div class="trigger-desc">93% probability the day exceeds 142 arrivals when noon count ≥54. Consistent with April's ≥55 trigger — recommend using <strong>≥54–55 patients by noon</strong> as the standing weekday protocol.</div>
+      </div>
+      <div class="trigger-box teal">
+        <div class="trigger-box-label">⚡ Sensitive — Early Alert</div>
+        <div class="trigger-val">≥51 patients by 12:00 PM</div>
+        <div class="stat-row">
+          <div class="stat-pill"><strong>Sens:</strong> 88%</div>
+          <div class="stat-pill"><strong>Spec:</strong> 67%</div>
+          <div class="stat-pill"><strong>PPV:</strong> 88%</div>
+          <div class="stat-pill"><strong>NPV:</strong> 67%</div>
+        </div>
+        <div class="trigger-desc">Catches 88% of high-volume days. Use for early charge nurse awareness when you prefer not to miss a surge day.</div>
+      </div>
+    </div>
+    <div style="padding:12px 16px;background:var(--green-pale);border-radius:10px;border:1px solid rgba(58,138,90,0.25);font-size:12px;color:#2a6b42;line-height:1.7;">
+      ✅ <strong>2-Month Validation:</strong> The noon trigger threshold of ~54–55 patients is now validated across 2 consecutive months (March: ≥54 → PPV 93%, April: ≥55 → PPV 91%). This threshold is stable and ready to operationalize as a standing daily check.
+    </div>
+  </div>
+
+
+</div><!-- end report-body -->
+
+<!-- ══════════════════════════════════════
+     DIRECTOR-ONLY ZONE (PIN PROTECTED)
+═══════════════════════════════════════ -->
+<div id="director-zone">
+  <div style="max-width:1300px;margin:0 auto;padding:0 34px 56px;">
+    <div class="director-banner">
+      <div style="font-size:28px;">🔐</div>
+      <div>
+        <div class="director-banner-text">Director View — March 2026</div>
+        <div class="director-banner-sub">Operational Insights · Recommended Actions · Data Quality Notes · Not visible to clinical staff</div>
+      </div>
+    </div>
+  <!-- SECTION 11: INSIGHTS -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">💡</div><div class="section-title">Operational Insights</div><div class="section-line"></div></div>
+
+    <div class="insight-card alert">
+      <div class="insight-tag">🚑 Insight 1 · Volume Surge</div>
+      <div class="insight-title">March Was the Highest-Volume Month on Record — Weekday Average Surpassed 155 Patients/Day</div>
+      <div class="insight-body">With 4,620 total visits and a weekday average of <strong>155.8 patients/day</strong>, March exceeded April's volume by 309 visits (+7.2%). Monday was the peak day at 170.6 average — with individual Mondays reaching 181 patients. This level of weekday volume substantially exceeds the 142-patient high-volume threshold used for staffing triggers, with <strong>16 of 22 weekdays</strong> qualifying as high-volume days. March likely required supplemental staffing on most weekdays, reinforcing the value of the noon trigger protocol.</div>
+    </div>
+
+    <div class="insight-card warn">
+      <div class="insight-tag">⚠️ Insight 2 · Timeliness Decline</div>
+      <div class="insight-title">ESI 2 &lt;25-Minute Rate Dropped to 83% — Volume-Driven Degradation Needs Monitoring</div>
+      <div class="insight-body">ESI 2 timeliness fell from <strong>88.3% in April to 83.0% in March</strong>, approaching the 80% alert threshold. Importantly, no individual hour exceeded the 25-minute target (peak was 20.3 min at 19:00) — meaning the decline is driven by overall throughput pressure rather than a specific time-of-day failure. With a weekday volume of 155.8 patients/day in March, this performance is still commendable, but the trend requires active monitoring as volume continues to grow.</div>
+    </div>
+
+    <div class="insight-card alert">
+      <div class="insight-tag">🛏️ Insight 3 · Boarding Worsening</div>
+      <div class="insight-title">Admit LOS Climbed to 386 Minutes — Boarding Burden Increased Month-Over-Month</div>
+      <div class="insight-body">Median admit LOS worsened from <strong>371 min (April) to 386 min (March)</strong>, now reaching 6 hours 26 minutes. With 866 admissions in March (18.7% of visits), admitted patients are occupying ED beds for an average of 2 hr 50 min longer than discharged patients. This is an accelerating trend. The 15-minute month-over-month increase, if sustained, projects to boarding times exceeding 7 hours by summer. Inpatient throughput escalation and bed assignment SLA enforcement should be treated as urgent priorities.</div>
+    </div>
+
+    <div class="insight-card warn">
+      <div class="insight-tag">⚠️ Insight 4 · D2D Outliers</div>
+      <div class="insight-title">Door-to-Doc Outliers &gt;120 Minutes Spiked to 216 — 2.5× April's Rate</div>
+      <div class="insight-body">While the median D2D was only 3 minutes higher than April (21 vs 18 min), extreme outliers &gt;120 minutes jumped dramatically to <strong>216 encounters</strong> versus April's 87. This 2.5× increase is disproportionate to the volume increase and suggests documentation or registration workflow issues that inflate apparent D2D at high-volume times. A spot audit of these 216 records — particularly checking whether arrival time, registration time, and provider assessment time are being captured correctly — is warranted before accepting these as true clinical delays.</div>
+    </div>
+
+    <div class="insight-card alert">
+      <div class="insight-tag">🔴 Insight 5 · LOS Goal Breach</div>
+      <div class="insight-title">First Provider to Exceed 300-Minute LOS Goal: BATIZY L at 304.1 Minutes</div>
+      <div class="insight-body">BATIZY L is the first provider to exceed the 300-minute discharge LOS goal (304.1 min, n=22), compared to the department best of 160.0 min (BUNKER C). This is a new finding not present in April data and warrants a direct, supportive coaching conversation. The 144-minute spread between the best and highest-LOS providers is wider than April's 113-minute range, suggesting throughput variance is growing as overall volume increases.</div>
+    </div>
+
+    <div class="insight-card positive">
+      <div class="insight-tag">✅ Insight 6 · Productivity Win</div>
+      <div class="insight-title">Highest-Volume Month Also Produced Best Productivity — Both Pt/Hr and aPPH Above Goal</div>
+      <div class="insight-body">March's elevated volume translated into strong productivity: <strong>Pt/Hr = 2.02</strong> (vs goal 1.85, and vs April's 1.89) and <strong>aPPH = 2.58</strong> (vs goal 2.45, and vs April's 2.41 which was below goal). Both metrics are now green for the first time. This confirms the team is handling volume efficiently — the key challenge is managing the downstream effects of that volume on timeliness and boarding, not productivity itself. Confirm March hours to finalize these figures.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 12: ACTIONS -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">🎯</div><div class="section-title">Recommended Actions</div><div class="section-line"></div></div>
+    <div class="card">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-text"><strong>Operationalize the Noon Trigger — Now Validated Across 2 Months:</strong> The ≥54–55 patients by noon threshold has held up in both March (PPV 93%) and April (PPV 91%). Present to TeamHealth scheduling as a standing escalation protocol. Charge RN checks cumulative arrivals at noon daily; if threshold met, attending is notified to initiate supplemental coverage review.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-text"><strong>Escalate Boarding to Hospital Leadership — Trend is Accelerating:</strong> Admit LOS rose 15 minutes month-over-month (371→386 min) during the highest-volume month on record. Present 2-month boarding trend with an urgent request for a bed assignment SLA (&lt;60 min from admit order) and a formal boarding escalation protocol for patients boarding &gt;4 hours.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-text"><strong>Audit the 216 D2D &gt;120-Min Outliers:</strong> Pull a sample of these records and verify the registration, triage, and provider assessment timestamps are being captured accurately. If documentation gaps are found, a registration/triage workflow correction will improve reported metrics without requiring clinical changes.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">4</div>
+        <div class="action-text"><strong>Initiate Coaching for BATIZY L:</strong> First provider to breach the 300-min goal. Schedule a brief, constructive conversation framing their LOS data in the context of peer benchmarks and the department goal. Focus on early disposition planning for ESI 3/4/5 patients and fast-track pathway adherence.</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">5</div>
+        <div class="action-text"><strong>Monitor ESI 2 Timeliness Closely — Do Not Let It Drop Below 80%:</strong> At 83%, the department is 3 points above the alert threshold during a record-volume month. This is resilient but not comfortable. Validate that provider-in-triage or fast-track coverage is maintained on all high-volume weekdays, particularly Mondays.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 13: DATA QUALITY -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">🔍</div><div class="section-title">Data Quality Notes</div><div class="section-line"></div></div>
+    <div class="card">
+      <div class="dq-item"><div class="dq-icon">✅</div><div class="dq-text"><strong>LOS &gt;24 hours: 19 records excluded.</strong> Same pattern as April — admitted patients with checkout dates reflecting inpatient discharge rather than ED departure. All were "Admit to Inpatient" or "Acute Care Facility" dispositions.</div></div>
+      <div class="dq-item"><div class="dq-icon">✅</div><div class="dq-text"><strong>95 encounters missing primary physician.</strong> 73 LWOT/eloped patients account for most of this. True unexplained gap ~22 records (&lt;0.5% of non-LWOT encounters). No action required.</div></div>
+      <div class="dq-item"><div class="dq-icon">⚠️</div><div class="dq-text"><strong>48 encounters missing acuity — 1.0% of total.</strong> Higher than April's 0.6%. Recommend reinforcing triage documentation expectations.</div></div>
+      <div class="dq-item"><div class="dq-icon">⚠️</div><div class="dq-text"><strong>216 door-to-doc values exceed 120 minutes (vs April's 87).</strong> This spike is disproportionate to volume increase and warrants a documentation audit as noted in Insight 4.</div></div>
+      <div class="dq-item"><div class="dq-icon">⚠️</div><div class="dq-text"><strong>Productivity hours not confirmed for March.</strong> Pt/Hr and aPPH calculated using April hours (MD 1,268.25 · APC 985.25) as a provisional estimate. Please confirm March hours to finalize.</div></div>
+      <div class="dq-item"><div class="dq-icon">✅</div><div class="dq-text"><strong>No negative LOS values. All disposition categories mapped cleanly.</strong> Two new providers noted (CLARK J, SUTHERLAND K) — added to provider LOS chart with sufficient encounter volume.</div></div>
+    </div>
+  </div>
+
+</div>
+
+  </div>
+</div>
+
+<div class="report-footer">
+  🏥 Banner Gateway Medical Center · Emergency Department · Monthly Operating Report · March 2026 &nbsp;|&nbsp; Internal Use Only · Prepared by Eric Cummins, MD
+  <span class="lock-btn" id="lockBtn" onclick="openPinModal()" title="Director Access">🔒</span>
+</div>
+
+<!-- ══════ PIN MODAL ══════ -->
+<div class="pin-overlay" id="pinOverlay">
+  <div class="pin-modal">
+    <div class="pin-modal-icon">🔐</div>
+    <div class="pin-modal-title">Director Access</div>
+    <div class="pin-modal-sub">Enter your PIN to view operational insights, recommended actions, and data quality notes</div>
+    <input class="pin-input" id="pinInput" type="password" maxlength="10" placeholder="••••••"
+      onkeydown="if(event.key==='Enter')checkPin()" autocomplete="off">
+    <div class="pin-error-msg" id="pinError"></div>
+    <button class="pin-btn" onclick="checkPin()">Unlock Director View</button>
+    <div class="pin-cancel" onclick="closePinModal()">Cancel</div>
+  </div>
+</div>
+<script>
+Chart.defaults.font.family="'Nunito',sans-serif";
+Chart.defaults.color='#5a6a7a';
+const hourLabels=Array.from({length:24},(_,i)=>`${String(i).padStart(2,'0')}:00`);
+
+// HOURLY ARRIVALS
+const hourlyData=[2.97,2.16,2.16,2.39,2.26,2.06,2.94,4.06,6.55,9.06,8.87,9.58,9.39,9.35,8.58,7.90,9.35,8.77,8.77,7.52,8.13,6.68,5.23,4.29];
+new Chart(document.getElementById('hourlyArrivalsChart'),{
+  type:'bar',data:{labels:hourLabels,datasets:[{label:'Avg Arrivals/Hour',data:hourlyData,backgroundColor:'rgba(90,143,160,0.6)',borderColor:'rgba(42,100,120,0.9)',borderWidth:1.5,borderRadius:5}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y.toFixed(2)} avg arrivals`}}},
+  scales:{x:{grid:{display:false},ticks:{maxRotation:45,font:{size:10}}},y:{beginAtZero:true,title:{display:true,text:'Avg Arrivals',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}}}}
+});
+
+// DOW — Monday busiest (index 1)
+const dowLabels=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const dowAvg=[139.8,170.6,154.4,154.2,149.0,147.5,123.2];
+const dowHigh=[146,181,180,166,163,166,132];
+const dowLow=[127,162,140,137,137,135,118];
+const isWeekend=[true,false,false,false,false,false,true];
+const BUSIEST_IDX=1;
+const dowPlugin={id:'dowAnnotation',afterDatasetsDraw(chart){
+  const ctx=chart.ctx,meta=chart.getDatasetMeta(0),yScale=chart.scales.y;
+  meta.data.forEach((bar,i)=>{
+    const x=bar.x,yHi=yScale.getPixelForValue(dowHigh[i]),yLo=yScale.getPixelForValue(dowLow[i]),cap=8;
+    ctx.save();ctx.strokeStyle=isWeekend[i]?'rgba(56,142,60,0.55)':'rgba(56,142,60,0.9)';ctx.lineWidth=2.5;
+    ctx.beginPath();ctx.moveTo(x,yHi);ctx.lineTo(x,yLo);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(x-cap,yHi);ctx.lineTo(x+cap,yHi);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(x-cap,yLo);ctx.lineTo(x+cap,yLo);ctx.stroke();
+    ctx.restore();
+  });
+  const b=meta.data[BUSIEST_IDX];
+  ctx.save();ctx.font='bold 22px serif';ctx.fillStyle='#c9a94b';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('★',b.x,b.y-22);ctx.restore();
+}};
+new Chart(document.getElementById('dowChart'),{
+  type:'bar',data:{labels:dowLabels,datasets:[{label:'Avg Daily Arrivals',data:dowAvg,
+    backgroundColor:dowLabels.map((_,i)=>isWeekend[i]?'rgba(102,187,106,0.45)':'rgba(102,187,106,0.82)'),
+    borderColor:'rgba(56,142,60,0.9)',borderWidth:1.5,borderRadius:5}]},
+  plugins:[dowPlugin],
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{const i=ctx.dataIndex;return[` Avg: ${ctx.parsed.y.toFixed(1)}`,` High: ${dowHigh[i]}`,` Low: ${dowLow[i]}`];}}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{min:100,title:{display:true,text:'Avg Daily Arrivals',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}}},
+    layout:{padding:{top:30}}}
+});
+
+// LWOT
+const lwotTotal=[3,3,1,1,0,2,0,0,2,3,2,4,4,3,2,2,5,7,9,4,6,4,4,2];
+new Chart(document.getElementById('lwotChart'),{
+  type:'bar',data:{labels:hourLabels,datasets:[{label:'LWOT Events',data:lwotTotal,
+    backgroundColor:lwotTotal.map(v=>v>=8?'rgba(192,57,43,0.8)':v>=4?'rgba(159,122,234,0.8)':'rgba(159,122,234,0.5)'),
+    borderColor:lwotTotal.map(v=>v>=8?'rgba(155,44,44,1)':'rgba(107,70,193,1)'),borderWidth:1.5,borderRadius:5}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} LWOT events`}}},
+  scales:{x:{grid:{display:false},ticks:{maxRotation:45,font:{size:10}}},y:{beginAtZero:true,ticks:{stepSize:1},title:{display:true,text:'Total LWOT Events',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}}}
+  }
+});
+
+// PPH CHART — March
+const pphNames=["WEIDENBACH K","BOOTY N","SUTHERLAND K","FIGUEROA A","MCKELVY A","BERMAN D","FAKLER R","LOMBARDI K","LOGGINS B","BOESCH D","JIMENEZ A","JONES S","ANDES J","HAPEMAN B","BATIZY L","CUMMINS E","CLARK J","RIGBY D","WALLBRECHT J","HAMBLIN L","MCDOWELL M","HUNTER J","BUNKER C","EGBERT J","WINTER A","ANDONYAN A","PAVLUE B","WRIGHT E"];
+const pphVals=[1.13,1.38,1.42,1.61,1.71,1.72,1.80,1.83,1.88,1.89,1.97,2.06,2.08,2.10,2.13,2.13,2.15,2.20,2.22,2.25,2.27,2.28,2.38,2.39,2.49,2.64,2.66,3.08];
+const DEPT_AVG=2.07,PPH_GOAL=1.85;
+const pphBg=pphVals.map(v=>v<PPH_GOAL?'rgba(217,119,6,0.72)':v<DEPT_AVG?'rgba(90,143,160,0.72)':'rgba(58,138,90,0.72)');
+const pphBdr=pphVals.map(v=>v<PPH_GOAL?'rgba(161,87,4,0.9)':v<DEPT_AVG?'rgba(42,100,120,0.9)':'rgba(39,103,73,0.9)');
+const pphGoalPlugin={id:'pphGoalLines',afterDraw(chart){
+  const ctx=chart.ctx,xScale=chart.scales.x,top=chart.chartArea.top,bottom=chart.chartArea.bottom;
+  const xGoal=xScale.getPixelForValue(PPH_GOAL);
+  ctx.save();ctx.strokeStyle='rgba(217,119,6,0.85)';ctx.lineWidth=2;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(xGoal,top);ctx.lineTo(xGoal,bottom);ctx.stroke();
+  ctx.fillStyle='rgba(217,119,6,0.85)';ctx.font='bold 10px Nunito,sans-serif';ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillText('Goal 1.85',xGoal+3,top+3);
+  const xAvg=xScale.getPixelForValue(DEPT_AVG);
+  ctx.strokeStyle='rgba(42,100,120,0.7)';ctx.lineWidth=2;ctx.setLineDash([7,5]);
+  ctx.beginPath();ctx.moveTo(xAvg,top);ctx.lineTo(xAvg,bottom);ctx.stroke();
+  ctx.fillStyle='rgba(42,100,120,0.85)';ctx.textAlign='left';
+  ctx.fillText('Avg '+DEPT_AVG,xAvg+3,top+16);
+  ctx.setLineDash([]);ctx.restore();
+}};
+new Chart(document.getElementById('providerPPHChart'),{
+  type:'bar',data:{labels:pphNames,datasets:[{label:'Pt/Hr',data:pphVals,backgroundColor:pphBg,borderColor:pphBdr,borderWidth:1.5,borderRadius:4}]},
+  plugins:[pphGoalPlugin],
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.x.toFixed(2)} pt/hr`}}},
+    scales:{x:{min:0,max:3.3,title:{display:true,text:'Patients per Hour',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'},ticks:{callback:v=>v.toFixed(1)}},
+    y:{grid:{display:false},ticks:{font:{size:11.5},autoSkip:false,maxTicksLimit:999}}}}
+});
+
+// PROVIDER LOS
+const provNames=['BUNKER C','WINTER A','RIGBY D','CLARK J','SUTHERLAND K','WRIGHT E','EGBERT J','FAKLER R','BERMAN D','JIMENEZ A','BOESCH D','WALLBRECHT J','CUMMINS E','PAVLUE B','ANDES J','LOMBARDI K','MCKELVY A','MCDOWELL M','HAPEMAN B','FIGUEROA A','JONES S','BATIZY L','HAMBLIN L','HUNTER J','ANDONYAN A'];
+const provLOS=[160.0,166.9,174.8,175.2,189.1,192.1,207.9,222.9,230.7,231.5,234.1,236.7,238.3,238.8,239.5,243.0,246.2,248.7,249.2,249.4,250.4,256.3,287.5,296.9,304.1];
+const provN=[16,163,20,127,22,51,241,195,137,183,129,64,184,223,170,198,206,102,185,163,104,22,175,171,23];
+const nn=provNames.length,t1=Math.floor(nn/3),t2=Math.ceil(2*nn/3);
+const provBg=provNames.map((_,i)=>i<t1?'rgba(58,138,90,0.72)':i>=t2?'rgba(192,57,43,0.68)':'rgba(124,92,191,0.68)');
+const provBorder=provNames.map((_,i)=>i<t1?'rgba(39,103,73,1)':i>=t2?'rgba(155,44,44,1)':'rgba(85,60,154,1)');
+const goalPlugin={id:'goalLine',afterDraw(chart){
+  const ctx=chart.ctx,xScale=chart.scales.x,xPos=xScale.getPixelForValue(300);
+  const top=chart.chartArea.top,bottom=chart.chartArea.bottom;
+  ctx.save();ctx.strokeStyle='rgba(192,57,43,0.85)';ctx.lineWidth=2.5;ctx.setLineDash([7,5]);
+  ctx.beginPath();ctx.moveTo(xPos,top);ctx.lineTo(xPos,bottom);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='rgba(192,57,43,0.9)';ctx.font='bold 11px Nunito,sans-serif';
+  ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText('🎯 Goal: <300 min',xPos+5,top+4);ctx.restore();
+}};
+new Chart(document.getElementById('providerLOSChart'),{
+  type:'bar',data:{labels:provNames,datasets:[{label:'Mean DC LOS (min)',data:provLOS,backgroundColor:provBg,borderColor:provBorder,borderWidth:1.5,borderRadius:4}]},
+  plugins:[goalPlugin],
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.x.toFixed(1)} min  (n=${provN[ctx.dataIndex]})`}}},
+    scales:{x:{min:120,max:330,title:{display:true,text:'Mean Discharge LOS (minutes)',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}},
+    y:{grid:{display:false},ticks:{font:{size:11.5},autoSkip:false,maxTicksLimit:999}}}}
+});
+
+// ESI 2 D2D
+const esi2D2D=[13.3,7.7,9.0,14.2,8.3,18.7,7.7,7.3,9.5,14.9,16.0,19.8,19.5,19.2,16.8,16.1,12.8,11.9,14.7,20.3,14.3,17.0,15.4,17.1];
+new Chart(document.getElementById('esi2D2DChart'),{
+  type:'bar',
+  data:{labels:hourLabels,datasets:[
+    {label:'Mean D2D (min)',data:esi2D2D,backgroundColor:esi2D2D.map(v=>v>25?'rgba(192,57,43,0.75)':'rgba(90,143,160,0.7)'),borderColor:esi2D2D.map(v=>v>25?'rgba(155,44,44,1)':'rgba(42,100,120,0.9)'),borderWidth:1.5,borderRadius:4,order:2},
+    {label:'25-min Target',data:Array(24).fill(25),type:'line',borderColor:'rgba(192,57,43,0.85)',borderWidth:2,borderDash:[6,4],pointRadius:0,fill:false,order:1}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:true,position:'top',labels:{boxWidth:14,font:{size:11}}},tooltip:{callbacks:{label:ctx=>ctx.dataset.label==='25-min Target'?null:` ${ctx.parsed.y.toFixed(1)} min`}}},
+    scales:{x:{grid:{display:false},ticks:{maxRotation:45,font:{size:10}}},y:{beginAtZero:true,title:{display:true,text:'Mean D2D (minutes)',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}}}}
+});
+
+// PIN
+const DIRECTOR_PIN="3227";let isUnlocked=false;
+function openPinModal(){if(isUnlocked){lockDirector();return;}document.getElementById("pinOverlay").classList.add("active");document.getElementById("pinInput").value="";document.getElementById("pinError").textContent="";setTimeout(()=>document.getElementById("pinInput").focus(),100);}
+function closePinModal(){document.getElementById("pinOverlay").classList.remove("active");}
+function checkPin(){const e=document.getElementById("pinInput").value;if(e===DIRECTOR_PIN){closePinModal();unlockDirector();}else{const i=document.getElementById("pinInput");document.getElementById("pinError").textContent="Incorrect PIN — try again";i.classList.add("error");i.value="";setTimeout(()=>i.classList.remove("error"),400);}}
+function unlockDirector(){isUnlocked=true;document.getElementById("director-zone").classList.add("unlocked");document.getElementById("director-zone").scrollIntoView({behavior:"smooth",block:"start"});const b=document.getElementById("lockBtn");b.textContent="🔓";b.classList.add("unlocked-state");b.title="Click to lock director view";}
+function lockDirector(){isUnlocked=false;document.getElementById("director-zone").classList.remove("unlocked");const b=document.getElementById("lockBtn");b.textContent="🔒";b.classList.remove("unlocked-state");b.title="Director Access";}
+document.getElementById("pinOverlay").addEventListener("click",function(e){if(e.target===this)closePinModal();});
+</script>
+</body>
+</html>
