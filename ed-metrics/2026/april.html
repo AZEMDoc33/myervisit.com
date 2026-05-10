@@ -178,6 +178,101 @@
   /* FOOTER */
   .report-footer { background:var(--header); color:rgba(255,255,255,0.35); text-align:center; padding:18px 32px; font-size:11px; font-weight:600; letter-spacing:0.5px; }
 
+
+  /* ══════════════════════════════════════════════
+     MOBILE RESPONSIVE + LEADERBOARD VIEW
+  ══════════════════════════════════════════════ */
+
+  /* Chart scroll wrapper — prevents cramping on any screen */
+  .chart-scroll-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+  .chart-scroll-outer .chart-container { min-width: 580px; }
+
+  /* Mobile leaderboard (CSS bars — no canvas) */
+  .mobile-leader { display: none; }
+  .ml-legend { display:flex; gap:14px; font-size:10px; font-weight:700; color:var(--text-mid); margin:0 0 12px; flex-wrap:wrap; align-items:center; }
+  .ml-dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:3px; vertical-align:middle; }
+  .ml-row { display:grid; grid-template-columns:20px 108px 1fr 44px 18px; align-items:center; gap:6px; padding:6px 0; border-bottom:1px solid var(--border); }
+  .ml-row:last-child { border-bottom:none; }
+  .ml-rank { font-size:10px; font-weight:700; color:var(--text-light); text-align:right; }
+  .ml-name { font-size:11.5px; font-weight:700; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ml-bar-bg { background:var(--border); border-radius:4px; height:11px; overflow:hidden; }
+  .ml-bar-fill { height:100%; border-radius:4px; }
+  .ml-val { font-size:12px; font-weight:800; text-align:right; letter-spacing:-0.3px; }
+  .ml-icon { font-size:11px; text-align:center; }
+
+  /* Active mobile-view: swap chart → leaderboard */
+  body.mob-view .mobile-leader { display:block; }
+  body.mob-view .chart-scroll-outer { display:none; }
+  body.mob-view .chart-single-hide { display:none; }
+
+  /* Toggle button */
+  #viewToggleBtn {
+    position: fixed; bottom: 22px; right: 16px; z-index: 998;
+    background: var(--gold); color: var(--header);
+    border: none; border-radius: 999px;
+    padding: 11px 20px; font-size: 12px; font-weight: 800;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.22); cursor: pointer;
+    font-family: 'Nunito', sans-serif; letter-spacing: 0.3px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  #viewToggleBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.28); }
+
+  @media (max-width: 768px) {
+    /* Header */
+    .report-header { padding: 18px 16px 16px; }
+    .header-top { flex-direction: column; gap: 8px; }
+    .header-meta { text-align: left; }
+    .header-title { font-size: 22px !important; }
+    .header-subtitle { font-size: 11px; }
+    .header-kpis {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 16px; padding-top: 14px;
+    }
+    .hkpi {
+      flex: none !important; min-width: unset !important;
+      padding: 10px 12px !important; margin-right: 0 !important;
+      border-right: none !important;
+      background: rgba(255,255,255,0.07);
+      border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+    }
+    .hkpi-val { font-size: 20px !important; }
+    .hkpi-label { font-size: 9px !important; }
+
+    /* Body */
+    .report-body { padding: 14px 12px 90px; }
+    .section { margin-bottom: 24px; }
+
+    /* Grids */
+    .grid-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+    .grid-chart-side { grid-template-columns: 1fr !important; gap: 12px !important; }
+    .prod-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+
+    /* Cards */
+    .chart-card { padding: 14px 12px; }
+    .metric-card { padding: 14px 14px; }
+    .prod-card { padding: 18px 14px; }
+    .mc-val { font-size: 26px !important; }
+    .card-title { font-size: 13px; }
+
+    /* Tables: horizontal scroll */
+    .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { min-width: 480px; }
+
+    /* Month nav */
+    .month-nav { gap: 6px; flex-wrap: wrap; }
+    .month-nav a { font-size: 11px; padding: 5px 10px; }
+
+    /* Section labels */
+    .section-title { font-size: 9px; }
+    .chart-title { font-size: 13px; }
+    .chart-subtitle { font-size: 10px; }
+
+    /* Prod note smaller */
+    .prod-note { font-size: 10px; }
+  }
+
   @media print {
     body { background:white; }
     .report-header, .prod-card { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
@@ -186,6 +281,7 @@
 </style>
 </head>
 <body>
+<button id="viewToggleBtn" onclick="toggleEdView()">📊 Chart View</button>
 
 <!-- HEADER -->
 <div class="report-header">
@@ -335,7 +431,16 @@
         <span style="background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">🎯 Goal: ≥1.85 pt/hr</span>
         <span style="background:var(--teal-pale);color:var(--teal);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">📊 Dept Cohort Avg: 1.95 pt/hr</span>
       </div>
-      <div class="chart-container" style="height:650px"><canvas id="providerPPHChart"></canvas></div>
+      <div class="chart-scroll-outer"><div class="chart-container" style="height:650px"><canvas id="providerPPHChart"></canvas></div></div>
+    <div class="mobile-leader" id="mobilePPH">
+      <div class="chart-title">Patients per Hour — April 2026 &nbsp;·&nbsp; Ranked Best → Lowest</div>
+      <div class="ml-legend">
+        <span><span class="ml-dot" style="background:#f97316"></span>⚠️ Below goal (&lt;1.85)</span>
+        <span><span class="ml-dot" style="background:#5a8fa0"></span>🔵 Below dept avg</span>
+        <span><span class="ml-dot" style="background:#3a8a5a"></span>✅ Above dept avg</span>
+      </div>
+      <div id="mobilePPHRows"></div>
+    </div>
     </div>
   </div>
 
@@ -349,9 +454,16 @@
     <div class="chart-card">
       <div class="chart-title">Mean Discharge LOS by Provider (ESI 3/4/5, Discharged Only) &nbsp;·&nbsp; 🎯 Goal: &lt;300 min</div>
       <div class="chart-subtitle">Sorted lowest → highest · Min 15 ESI 3/4/5 discharges · Minutes · 🟢 Low tertile &nbsp; 🟣 Middle &nbsp; 🔴 High tertile · Red dashed = 300-min goal</div>
-      <div class="chart-container" style="height:580px">
-        <canvas id="providerLOSChart"></canvas>
+      <div class="chart-scroll-outer"><div class="chart-container" style="height:580px"><canvas id="providerLOSChart"></canvas></div></div>
+    <div class="mobile-leader" id="mobileLOS">
+      <div class="chart-title">Discharge LOS — ESI 3/4/5 &nbsp;·&nbsp; Best → Highest (Goal &lt;300 min)</div>
+      <div class="ml-legend">
+        <span><span class="ml-dot" style="background:#3a8a5a"></span>🟢 Low tertile</span>
+        <span><span class="ml-dot" style="background:#7c5cbf"></span>🟣 Middle</span>
+        <span><span class="ml-dot" style="background:#c0392b"></span>🔴 High tertile</span>
       </div>
+      <div id="mobileLOSRows"></div>
+    </div>
     </div>
   </div>
 
@@ -421,7 +533,7 @@
           <tr><td>🚶 LWOT / Eloped</td><td>60</td><td>1.4%</td></tr>
           <tr><td>📝 AMA / Behavioral / Other</td><td>118</td><td>2.7%</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </div>
 
@@ -511,9 +623,9 @@
       <div class="chart-card">
         <div class="chart-title">Mean Door-to-Doc (ESI 2) by Hour of Arrival</div>
         <div class="chart-subtitle">Red dashed = 25-min target · 🔴 Bars above target · Hours 0–23 · Minutes</div>
-        <div class="chart-container" style="height:255px">
+        <div class="chart-scroll-outer"><div class="chart-container" style="height:255px">
           <canvas id="esi2D2DChart"></canvas>
-        </div>
+        </div></div>
       </div>
       <div class="card">
         <div class="card-title">🎯 ESI 2 D2D Summary</div>
@@ -863,6 +975,81 @@ function checkPin(){const e=document.getElementById("pinInput").value;if(e===DIR
 function unlockDirector(){isUnlocked=true;document.getElementById("director-zone").classList.add("unlocked");document.getElementById("director-zone").scrollIntoView({behavior:"smooth",block:"start"});const b=document.getElementById("lockBtn");b.textContent="🔓";b.classList.add("unlocked-state");b.title="Click to lock director view";}
 function lockDirector(){isUnlocked=false;document.getElementById("director-zone").classList.remove("unlocked");const b=document.getElementById("lockBtn");b.textContent="🔒";b.classList.remove("unlocked-state");b.title="Director Access";}
 document.getElementById("pinOverlay").addEventListener("click",function(e){if(e.target===this)closePinModal();});
+
+
+// ════════════════════════════════════════
+// MOBILE VIEW SYSTEM
+// ════════════════════════════════════════
+function buildPPHMobile() {
+  const MAX = 3.1;
+  const combined = pphNames.map((n, i) => ({name: n, val: pphVals[i]}))
+    .sort((a, b) => b.val - a.val);
+  let html = '';
+  combined.forEach((p, rank) => {
+    const pct = Math.min((p.val / MAX) * 100, 100).toFixed(1);
+    const col = p.val < PPH_GOAL ? '#f97316' : p.val < DEPT_AVG ? '#5a8fa0' : '#3a8a5a';
+    const icon = p.val >= PPH_GOAL ? '✅' : '⚠️';
+    html += `<div class="ml-row">
+      <div class="ml-rank">${rank+1}</div>
+      <div class="ml-name">${p.name}</div>
+      <div class="ml-bar-bg"><div class="ml-bar-fill" style="width:${pct}%;background:${col}"></div></div>
+      <div class="ml-val" style="color:${col}">${p.val.toFixed(2)}</div>
+      <div class="ml-icon">${icon}</div>
+    </div>`;
+  });
+  document.getElementById('mobilePPHRows').innerHTML = html;
+}
+
+function buildLOSMobile() {
+  const MAX_LOS = 390;
+  const combined = provNames.map((n, i) => ({name: n, val: provLOS[i], n: provN[i]}))
+    .sort((a, b) => a.val - b.val);
+  const nn = combined.length, t1 = Math.floor(nn/3), t2 = Math.ceil(2*nn/3);
+  let html = '';
+  combined.forEach((p, i) => {
+    const pct = Math.min((p.val / MAX_LOS) * 100, 100).toFixed(1);
+    const col = i < t1 ? '#3a8a5a' : i >= t2 ? '#c0392b' : '#7c5cbf';
+    const icon = p.val < 300 ? '✅' : '⚠️';
+    html += `<div class="ml-row">
+      <div class="ml-rank">${i+1}</div>
+      <div class="ml-name">${p.name}</div>
+      <div class="ml-bar-bg"><div class="ml-bar-fill" style="width:${pct}%;background:${col}"></div></div>
+      <div class="ml-val" style="color:${col}">${Math.round(p.val)}<span style="font-size:9px;font-weight:600;opacity:0.7">m</span></div>
+      <div class="ml-icon">${icon}</div>
+    </div>`;
+  });
+  document.getElementById('mobileLOSRows').innerHTML = html;
+}
+
+function applyEdView(mode) {
+  sessionStorage.setItem('edView', mode);
+  const btn = document.getElementById('viewToggleBtn');
+  if (mode === 'mobile') {
+    document.body.classList.add('mob-view');
+    btn.textContent = '📊 Chart View';
+    btn.title = 'Switch to full chart view';
+  } else {
+    document.body.classList.remove('mob-view');
+    btn.textContent = '📱 Mobile View';
+    btn.title = 'Switch to mobile-friendly view';
+  }
+}
+
+function toggleEdView() {
+  const cur = document.body.classList.contains('mob-view') ? 'mobile' : 'desktop';
+  applyEdView(cur === 'mobile' ? 'desktop' : 'mobile');
+}
+
+// Init: auto-detect mobile, respect stored preference
+(function initEdView() {
+  const stored = sessionStorage.getItem('edView');
+  const autoMob = window.innerWidth <= 768;
+  const mode = stored || (autoMob ? 'mobile' : 'desktop');
+  buildPPHMobile();
+  buildLOSMobile();
+  applyEdView(mode);
+})();
+
 </script>
 </body>
 </html>
