@@ -74,8 +74,8 @@ All PDFs and the main professional photo are hosted on Zyrosite CDN:
 - **Medical History Form PDF:** `https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/medical-history-planner-sheet-mp848RxRjeIjBKLe.pdf`
 
 ### Design Patterns to Preserve
-- **Section labels:** Small caps/muted text label above h2 headings (e.g., "What You'll Find Here" above "Made for Patients.")
-- **Italic emphasis in headings:** Key words italicized for punch (e.g., *Lost*, *connection*)
+- **Section labels:** Small caps/muted text label above h2 headings
+- **Italic emphasis in headings:** Key words italicized for punch
 - **Emoji icons:** Used for feature cards and About page focus areas (📝 📄 🩺 🏥 ⚡ 💬 🤝)
 - **✦ symbol:** Used in credentials/bullet lists on About page
 - **CTA buttons:** Primary + secondary button pairing in hero sections
@@ -88,9 +88,7 @@ All PDFs and the main professional photo are hosted on Zyrosite CDN:
 - **Tone:** Warm, conversational, honest, approachable — not clinical or academic
 - **POV:** First person ("I've been an emergency medicine physician for over 15 years...")
 - **Jargon:** Minimal; plain language preferred
-- **Reading level:** General public friendly
 - **Core tagline:** "Anyone. Anything. Anytime."
-- **Core message:** Reducing patient anxiety and bridging the gap between patients and the ED
 
 ### About Page Key Facts
 - **Name:** Dr. Eric Cummins, MD
@@ -116,28 +114,15 @@ department immediately.
 ## 2. directory.myervisit.com — BGMC Staff Directory
 
 ### Tech Stack
-- **Single HTML file** — `index.html` only
-- No external CSS file, no separate JS file
-- All styling and functionality is self-contained in `index.html`
-- 100% HTML
-
-### File Structure
-```
-/
-├── index.html   ← Entire site in one file
-└── README.md
-```
+- **Single HTML file** — `index.html` only. All styling and functionality self-contained.
 
 ### Content Structure
 - **Title:** "BGMC Phone Book"
 - **Table columns:** Last Name | First Name | Phone | Specialty | Type
-- **Entry count:** ~150+ entries
 - **Audience:** BGMC ED staff (internal use only)
-- **Specialties included:** Emergency, Hematology/Oncology, Medical Oncology, Stem Cell Team, General Surgery, Hand Surgery, Hospitalist, Observation (OOU), Pediatric (multiple subspecialties), Gastroenterology, Urology, Podiatry, Pulmonology, Psychiatry, Dental, Family Medicine, ENT, Dermatology, Plastic Surgery, Addiction, and ED department numbers
 
 ### Key Phone Numbers (Do Not Remove)
 - BGMC Emergency Main Line: (480) 543-2485
-- Main ED Phone: (480) 543-2485
 - Charge RN: (480) 543-3333
 - MRI Tech: (480) 543-5360
 - Red Zone (RN): (480) 543-2349
@@ -145,51 +130,45 @@ department immediately.
 - Physician IT Hotline 24/7: (602) 747-7828
 
 ### Update Instructions
-When adding/editing directory entries:
 1. Maintain alphabetical order within each specialty group
 2. Table format: `<tr><td>Last</td><td>First</td><td>Phone</td><td>Specialty</td><td>Type</td></tr>`
 3. Cell = "Cell" for mobile numbers, "Office" for office lines
 4. Specialty strings must match existing entries exactly (e.g., "Hematology/Oncology" not "Hem/Onc")
-5. For entries with no phone type, leave the Type cell empty
 
 ---
 
 ## 3. myervisit.com/portal — Patient Portal
 
-### What it is
-- A sub-path of `myervisit.com` (not a separate repo or Vercel project)
-- Routing handled via `vercel.json` in the main myervisit.com repo
+- Sub-path of `myervisit.com` (same repo and Vercel project)
+- Routing handled via `vercel.json`
 - Related file: `inpatient-criteria-pdf.html`
-- **Note:** Full portal structure should be confirmed by reviewing `vercel.json` before making changes
 
 ---
 
 ## 🎨 DESIGN SYSTEM (myervisit.com)
 
-> All values below come directly from `styles.css`. Do not deviate from these unless Eric explicitly requests a change.
-
 ### Fonts
 ```css
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
 ```
-| Role | Font | Usage |
-|------|------|-------|
-| Headings (h1–h4) | **Playfair Display**, Georgia, serif | All section headers, brand name, footer headings, pullquotes |
-| Body / UI | **DM Sans**, sans-serif | Paragraphs, nav links, buttons, labels, form fields |
+| Role | Font |
+|------|------|
+| Headings (h1–h4) | **Playfair Display**, Georgia, serif |
+| Body / UI | **DM Sans**, sans-serif |
 
 ### Color Palette (CSS Variables)
 ```css
---navy:        #1E3A5F   /* Primary brand color — hero bg, navbar, footer, CTA sections */
---navy-light:  #2A4E7A   /* Hover states on navy elements */
---gold:        #C9973A   /* Accent — buttons, links, icons, highlights, brand name */
---gold-light:  #E0B35A   /* Hover states on gold elements */
---teal:        #3D7A8A   /* Section tags, category badges, filter buttons, teal accents */
---teal-light:  #4E8E9E   /* Hover/focus states on teal elements */
---cream:       #F7F3EE   /* Page background */
---cream-dark:  #EDE8E0   /* Slightly darker cream for card backgrounds */
---charcoal:    #2D2D2D   /* Default body text color */
---warm-white:  #FEFCF9   /* Card backgrounds, form backgrounds, CTA sections */
---muted:       #6B7280   /* Secondary text, descriptions, meta info */
+--navy:        #1E3A5F
+--navy-light:  #2A4E7A
+--gold:        #C9973A
+--gold-light:  #E0B35A
+--teal:        #3D7A8A
+--teal-light:  #4E8E9E
+--cream:       #F7F3EE
+--cream-dark:  #EDE8E0
+--charcoal:    #2D2D2D
+--warm-white:  #FEFCF9
+--muted:       #6B7280
 ```
 
 ### Shadows
@@ -202,126 +181,35 @@ When adding/editing directory entries:
 
 ### Spacing & Shape
 ```css
---radius:    12px   /* Standard card/container border radius */
---radius-sm:  8px   /* Smaller elements: buttons, inputs, badges */
---max-w:   1200px   /* Max container width */
+--radius:    12px
+--radius-sm:  8px
+--max-w:   1200px
 --transition: 0.3s ease
 ```
-
-### Typography Scale
-| Element | Size | Weight | Font |
-|---------|------|--------|------|
-| h1 | clamp(2.2rem, 5vw, 3.6rem) | 700 | Playfair Display |
-| h2 | clamp(1.8rem, 3.5vw, 2.6rem) | 700 | Playfair Display |
-| h3 | clamp(1.2rem, 2.5vw, 1.6rem) | 600 | Playfair Display |
-| h4 | 1.1rem | 600 | Playfair Display |
-| Body | 1rem | 400 | DM Sans, line-height 1.75 |
-| Section tag | 0.72rem | 600 | DM Sans, uppercase, letter-spacing 0.12em |
-| Category tag | 0.68rem | 600 | DM Sans, uppercase, letter-spacing 0.08em |
-| Muted/meta | 0.78–0.9rem | 400 | DM Sans |
-
-### Button Variants
-| Class | Background | Text | Border |
-|-------|-----------|------|--------|
-| `.btn-primary` | `--navy` | `--warm-white` | `--navy` |
-| `.btn-gold` | `--gold` | `--warm-white` | `--gold` |
-| `.btn-outline` | transparent | `--gold` | `--gold` → fills on hover |
-| `.btn-outline-white` | transparent | white | rgba(255,255,255,0.7) |
-| All buttons | padding: 13px 28px | font-size: 0.95rem | border-radius: `--radius-sm` |
-
-### Key Component Patterns
-
-**Section Tag** — small pill label above headings:
-```html
-<span class="section-tag">What You'll Find Here</span>
-```
-- Color: `--teal` on teal-tinted background (`rgba(61,122,138,0.1)`)
-- On dark/navy backgrounds: use `--gold` on gold-tinted background
-
-**Accent Line** — gold decorative underline below section tags:
-```html
-<div class="accent-line"></div>         <!-- left-aligned -->
-<div class="accent-line center"></div>  <!-- centered -->
-```
-- 56px wide × 3px tall, `--gold`, border-radius 2px
-
-**Feature/Care Cards** — hover lifts card up 5px with `--shadow-md`; border-left: 4px solid `--gold` on care cards
-
-**Blog Card Image Gradients:**
-```css
-.bg-1 { background: linear-gradient(135deg, #1E3A5F, #3D7A8A); }
-.bg-2 { background: linear-gradient(135deg, #2A4E7A, #C9973A); }
-.bg-3 { background: linear-gradient(135deg, #3D7A8A, #1E3A5F); }
-```
-
-**Page Hero (inner pages)** — navy background with dot pattern + cream wave cutout at bottom:
-```css
-clip-path: ellipse(55% 100% at 50% 100%)
-```
-
-**Hero Image Frame** — gold dashed border offset `top: -18px; right: -18px` creates depth effect; on mobile collapses to circular crop
-
-**Pullquote** — Playfair Display italic, large decorative `"` in gold (opacity 0.18), max-width 680px
-
-**Floating Animation** — `.feature-icon`, `.pdf-icon`, `.res-icon`, `.care-icon` all use:
-```css
-@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-9px); } }
-```
-Staggered with animation-delay (0s, 0.6s, 1.2s, etc.)
-
-**Google Review Button** — white pill button with shimmer animation + pulse glow + sparkle elements. On hover: lifts, scales 1.04, gold border.
-
-**Navbar behavior:**
-- Transparent on load → `rgba(30,58,95,0.97)` with blur on scroll (`navbar.scrolled`)
-- Brand name in `--gold` Playfair Display
-- Nav links underline in gold on hover/active
-- CTA link styled as gold pill button
 
 ### Responsive Breakpoints
 | Breakpoint | Behavior |
 |-----------|---------|
-| ≤ 960px | 3-col grids → 2-col; hero stacks vertically; image becomes circular 200px; about/contact grids → 1-col |
-| ≤ 600px | All grids → 1-col; hamburger menu shown; desktop nav hidden; hero padding reduces |
+| ≤ 960px | 3-col grids → 2-col; hero stacks vertically |
+| ≤ 600px | All grids → 1-col; hamburger menu shown |
 
 ---
 
 ## ⚙️ DEPLOYMENT WORKFLOW
 
 ```
-Edit file → Commit & push to main branch → Vercel auto-deploys (usually < 2 min)
+Edit file → Commit & push to main branch → Vercel auto-deploys (~2 min)
 ```
-
-- **No build step required** for myervisit.com or bgmc-directory
-- **DNS:** Both domains are configured in Vercel dashboard; no DNS changes needed for content updates
-- **Preview deployments:** Vercel creates preview URLs for non-main branches automatically
 
 ---
 
 ## ✅ QUICK CHANGE CHECKLIST
 
-Before making any change, confirm:
 - [ ] Which site/file is being modified?
-- [ ] Does the change affect styles.css (global) or just one .html file?
-- [ ] For new blog posts: create new .html file at root, add to `blog.html` index, use slugified filename
+- [ ] For new blog posts: create new .html at root, add to `blog.html` index
 - [ ] For directory changes: edit `index.html` in bgmc-directory repo only
 - [ ] Preserve all external CDN links (zyrosite.com assets)
 - [ ] Keep footer disclaimer on all myervisit.com pages
-- [ ] Test mobile navigation (hamburger menu) after any structural HTML changes
-
----
-
-## 🎯 COMMON UPDATE SCENARIOS
-
-| Task | File(s) to Edit | Repo |
-|------|----------------|------|
-| Add new blog post | New [slug].html + blog.html | myervisit.com |
-| Update About page credentials | about.html | myervisit.com |
-| Add/update a resource PDF link | resources.html | myervisit.com |
-| Update navigation links | All .html files (nav is repeated) | myervisit.com |
-| Change global colors/fonts | styles.css | myervisit.com |
-| Add a provider to the directory | index.html | bgmc-directory |
-| Update a phone number | index.html | bgmc-directory |
-| Add a new directory specialty group | index.html (add rows + section header if used) | bgmc-directory |
 
 ---
 
@@ -329,9 +217,8 @@ Before making any change, confirm:
 
 # 📊 ED MONTHLY OPERATING REPORT (MOR) — FULL PIPELINE
 
-> **One-sentence start prompt for future months:**
+> **One-sentence start prompt for a new month:**
 > *"Here's [Month].xlsx — run the full MOR pipeline and push to the site."*
-> Claude will handle everything: data analysis → HTML build → GitHub push → Vercel deploy.
 
 ---
 
@@ -340,10 +227,9 @@ Before making any change, confirm:
 | Item | Value |
 |---|---|
 | GitHub Repo | `AZEMDoc33/myervisit.com` |
-| GitHub Token | `[YOUR_GITHUB_TOKEN — store in Claude Project instructions, not here]` |
+| GitHub Token | `[GITHUB_TOKEN — store in Claude Project instructions, not in this file]` |
 | Vercel Team ID | `team_KFSPAFbGtf3qi3lA1WzW96lS` |
 | Vercel Project ID | `prj_cHSm7Skhr9h6BoDC1xvNBKqydlbq` |
-| Director PIN | `3227` |
 | Live URL | `myervisit.com/ed-metrics` |
 | MOR file path pattern | `ed-metrics/2026/[month].html` |
 | Index hub file | `ed-metrics/index.html` |
@@ -354,7 +240,7 @@ Before making any change, confirm:
 
 ```
 ed-metrics/
-  index.html              ← Month selector hub (flip cards from "Coming Soon" to "Published")
+  index.html              ← Month selector hub + Sophias Served ticker
   2026/
     january.html          ← ✅ Published
     february.html         ← ✅ Published
@@ -377,15 +263,15 @@ aPPH   = Eligible Volume ÷ (MD Hours + 0.5 × APC Hours)
 
 **Goals:** Pt/Hr ≥ 1.85 · aPPH ≥ 2.45
 
-**Color coding in the productivity card:**
+**Color coding in the group productivity card:**
 - At or above goal → green (`#6ee7a0`) with ✅ ABOVE GOAL badge
 - Below goal → amber (`#fdba74`) with ⚠️ BELOW GOAL badge
 
-**Always ask for MD hours and APC hours** if not provided with the Excel file. If not provided, use the prior month's hours as a provisional estimate and clearly mark with † in the card.
+**Always ask for MD hours and APC hours** if not provided. Use prior month as provisional and mark with †.
 
 ---
 
-## 🏥 Q1 2026 HOURS REFERENCE
+## 🏥 HOURS REFERENCE (updated each month)
 
 | Month | MD Hours | APC Hours | Pt/Hr | aPPH |
 |---|---|---|---|---|
@@ -412,8 +298,7 @@ aPPH   = Eligible Volume ÷ (MD Hours + 0.5 × APC Hours)
 
 ## 📊 DISPOSITION DEFINITIONS
 
-**Discharge** (include in discharge LOS & provider LOS):
-`Home (routine)`, `Acute Care Facility (Banner)`, `Acute Care Facility (non-Banne)`, `Assisted Living/Group Home`, `Home with Hospice Care`, `Home with Home Health`, `Skilled nursing facility (non-)`, `Federal /VA Hospital`, `Rehabilitation Facility`, `Long Term Care Facility`, `Pediatric facility`, `Skilled nursing facility (Bann)`, `Routine Discharge`
+**Discharge:** `Home (routine)`, `Acute Care Facility (Banner)`, `Acute Care Facility (non-Banne)`, `Assisted Living/Group Home`, `Home with Hospice Care`, `Home with Home Health`, `Skilled nursing facility (non-)`, `Federal /VA Hospital`, `Rehabilitation Facility`, `Long Term Care Facility`, `Pediatric facility`, `Skilled nursing facility (Bann)`, `Routine Discharge`
 
 **Admission:** `Admit to Inpatient`
 **Observation:** `Place in Observation`
@@ -424,34 +309,44 @@ aPPH   = Eligible Volume ÷ (MD Hours + 0.5 × APC Hours)
 ## 🧮 CALCULATION RULES
 
 - **LOS:** `(CHECKOUT_DATE − CHECKIN_DATE).total_seconds() / 60`
-- **Cap LOS at 1,440 min (24h)** — anything over is a registration error (admit checkout dates)
+- **Cap LOS at 1,440 min (24h)** — anything over is a registration error
 - **D2D:** Parse `HH:MM` string → `hours×60 + minutes`
 - **Median** (not mean) for LOS and D2D metrics
 - **Arrivals normalized** by distinct calendar dates, not total rows
 - **DOW order:** Sunday → Saturday (dayofweek: 6,0,1,2,3,4,5)
-- **Provider format:** LASTNAME FI — uppercase last name, first initial only, no credentials
-- **Minimum provider sample:** 15 encounters for LOS chart; no minimum for PPH (use all providers shown in TeamHealth data)
+- **Provider format:** LASTNAME FI — uppercase last name, first initial only
+- **Minimum provider sample:** 15 encounters for LOS chart; no minimum for PPH
 
 ---
 
-## 📈 STANDARD MOR SECTIONS (in order)
+## 📈 STANDARD MOR SECTIONS (exact order — do not deviate)
 
-1. Header with KPIs (7 metrics in header strip)
-2. Month navigation (← prev · current · next →)
-3. Core Volume & Throughput Metrics (2 rows of 4 metric cards)
-4. Q1/YTD Trend Summary table (include when 2+ months exist)
-5. Provider Productivity card (dark navy gradient)
-6. Admissions & Disposition Breakdown table
-7. Patient Arrival Volume by Hour (light blue bars)
-8. Patient Arrival Volume by Day of Week (green bars + error bars + gold ★ on busiest day)
-9. LWOT Analysis by Hour (purple bars, total count not average)
-10. Provider Productivity — Pt/Hr by Clinician (real chart when PPH data available, blurred placeholder otherwise)
-11. Provider Discharge LOS — ESI 3/4/5 (horizontal bar, sorted low→high, 300-min goal line)
-12. ESI 2 Door-to-Doc by Hour (bars + red dashed 25-min target line)
-13. Predictive Staffing Trigger Analysis (trigger boxes + validation table)
-14. **[PIN LOCKED — Director Only]** Operational Insights
-15. **[PIN LOCKED — Director Only]** Recommended Actions
-16. **[PIN LOCKED — Director Only]** Data Quality Notes
+1. **Header** — KPI strip: Total Visits + AVG Daily sub-label, Avg Daily Volume, Admission Rate, ESI 2 <25 min, Median DC LOS (h+m format), Median D2D, LWOT Rate
+2. **Month navigation** — ← prev · current · next →
+3. **Provider Productivity — Pt/Hr by Clinician** — individual PPH chart (highest → lowest)
+4. **Provider Discharge LOS — ESI 3/4/5** — individual LOS chart (lowest → highest)
+5. **Provider Productivity** — group Pt/Hr and aPPH card (dark navy gradient)
+6. **Admissions & Disposition Breakdown** — table
+7. **Patient Arrival Volume by Hour** — light teal bars
+8. **Patient Arrival Volume by Day of Week** — green bars + gold ★ busiest day
+9. **LWOT Analysis by Hour** — purple bars, total count not average
+10. **ESI 2 Door-to-Doc Time by Arrival Hour** — bars + red dashed 25-min target line + ESI 2 D2D Summary card
+
+**Pages end after ESI 2 D2D Summary. Nothing follows it.**
+
+### ❌ PERMANENTLY REMOVED — NEVER ADD BACK
+- ~~Director zone / PIN lock system~~ — caused chart rendering failures; banned permanently
+- ~~Operational Insights section~~ — director eyes only, not published
+- ~~Recommended Actions section~~ — director eyes only, not published
+- ~~Data Quality Notes section~~ — director eyes only, not published
+- ~~Predictive Staffing Trigger Analysis~~ — director eyes only, not published
+- ~~Q1/YTD Trend Summary table~~ — removed for simplicity
+- ~~Core Volume & Throughput Metrics section~~ — redundant with header KPIs
+- ~~Volume Summary sidebar card~~ — redundant with DOW chart
+- ~~ESI Distribution card~~ — removed for simplicity
+- ~~D2D >120 min metric~~ — removed
+- ~~Mobile leaderboard cards~~ ("Patients per Hour — Ranked Best → Lowest") — removed; ⭐ goes in chart labels instead
+- ~~View toggle button~~ — removed with leaderboard
 
 ---
 
@@ -462,62 +357,128 @@ aPPH   = Eligible Volume ÷ (MD Hours + 0.5 × APC Hours)
 | Hourly arrivals | `rgba(90,143,160,0.6)` light teal | `rgba(42,100,120,0.9)` |
 | Day of week | `rgba(102,187,106,0.82)` green | `rgba(56,142,60,0.9)` |
 | LWOT by hour | `rgba(159,122,234,0.75)` purple | `rgba(107,70,193,1)` |
-| Provider LOS (low tertile) | `rgba(58,138,90,0.72)` green | `rgba(39,103,73,1)` |
-| Provider LOS (mid tertile) | `rgba(124,92,191,0.68)` purple | `rgba(85,60,154,1)` |
-| Provider LOS (high tertile) | `rgba(192,57,43,0.68)` red | `rgba(155,44,44,1)` |
-| PPH below goal (<1.85) | `rgba(217,119,6,0.72)` amber | `rgba(161,87,4,0.9)` |
-| PPH below dept avg | `rgba(90,143,160,0.72)` teal | `rgba(42,100,120,0.9)` |
-| PPH above dept avg | `rgba(58,138,90,0.72)` green | `rgba(39,103,73,0.9)` |
-| ESI 2 D2D (within target) | `rgba(90,143,160,0.7)` | `rgba(42,100,120,0.9)` |
+| Provider LOS (≤240 min ⭐) | `rgba(45,106,79,0.82)` dark green | `rgba(27,76,56,1)` |
+| Provider LOS (>240 min) | `rgba(45,106,79,0.35)` light green | `rgba(45,106,79,0.6)` |
+| PPH (≥1.88 pt/hr ⭐) | `rgba(36,59,85,0.88)` dark navy | `rgba(36,59,85,1)` |
+| PPH (<1.88 pt/hr) | `rgba(100,130,170,0.38)` light navy | `rgba(100,130,170,0.6)` |
+| ESI 2 D2D (within 25 min) | `rgba(90,143,160,0.7)` | `rgba(42,100,120,0.9)` |
 | ESI 2 D2D (above 25 min) | `rgba(192,57,43,0.75)` red | `rgba(155,44,44,1)` |
 
-**Design palette (CSS vars):**
+**MOR design palette (CSS vars):**
 `--cream: #f2e8da` · `--header: #243b55` · `--gold: #c9a94b` · `--teal: #5a8fa0`
 Fonts: Nunito (body) + Playfair Display (title)
 
 ---
 
-## 🔐 DIRECTOR PIN SYSTEM
+## 👨‍⚕️ PROVIDER PPH CHART STANDARDS
 
-All MOR files have a `🔒` icon in the footer. Tapping it opens a PIN modal.
+- **Data source:** TeamHealth screenshot — always ask for this separately from the Excel file
+- **Sort order:** **Highest → lowest** (best provider at TOP of chart)
+- **Star threshold `PPH_STAR = 1.88`:** Providers at or above 1.88 get ⭐ appended directly to their name in the y-axis label (e.g., `"WRIGHT E ⭐"`)
+- **Below 1.88:** Name only, no emoji, no negative indicators
+- **Colors:** Dark navy (`rgba(36,59,85,0.88)`) for ≥1.88 · Light navy (`rgba(100,130,170,0.38)`) for <1.88
+- **Reference line:** Dept cohort avg ONLY — **no goal line** (avoids making clinicians feel bad)
+- **Subtitle text:** `⬛ ≥1.88 pt/hr (⭐) · 🔷 <1.88 pt/hr · Sorted highest → lowest · Dashed = dept cohort avg (X.XX pt/hr)`
+- **Pill below subtitle:** Single navy pill: `📊 Dept Cohort Avg: X.XX pt/hr · ⭐ = ≥1.88 pt/hr`
+- **No separate leaderboard section** — the ⭐ in the chart label IS the indicator
 
-- **PIN:** `3227`
-- Hidden sections: Operational Insights, Recommended Actions, Data Quality Notes
-- These sections are wrapped in `<div id="director-zone">` which has `display:none` by default
-- Correct PIN calls `unlockDirector()` which adds class `unlocked` to show the zone
-- The PIN JS constant is: `const DIRECTOR_PIN = '3227';`
-- To change the PIN: find `DIRECTOR_PIN` in the HTML file, update value, push to GitHub
+```javascript
+const PPH_STAR = 1.88;
+// Sort highest→lowest, add ⭐ to names at/above threshold
+const pairs = [...].sort((a,b) => b.val - a.val);
+pphNames = pairs.map(([v,n]) => v >= PPH_STAR ? `${n} ⭐` : n);
+pphVals  = pairs.map(([v]) => v);
+const pphBg  = pphVals.map(v => v >= PPH_STAR ? 'rgba(36,59,85,0.88)'  : 'rgba(100,130,170,0.38)');
+const pphBdr = pphVals.map(v => v >= PPH_STAR ? 'rgba(36,59,85,1)'     : 'rgba(100,130,170,0.6)');
+```
+
+**pphGoalPlugin — dept avg line only:**
+```javascript
+const pphGoalPlugin = {id:'pphGoalLines', afterDraw(chart) {
+  const ctx=chart.ctx, xScale=chart.scales.x, top=chart.chartArea.top, bottom=chart.chartArea.bottom;
+  const xAvg = xScale.getPixelForValue(DEPT_AVG);
+  ctx.save(); ctx.strokeStyle='rgba(42,100,120,0.7)'; ctx.lineWidth=2; ctx.setLineDash([7,5]);
+  ctx.beginPath(); ctx.moveTo(xAvg,top); ctx.lineTo(xAvg,bottom); ctx.stroke();
+  ctx.fillStyle='rgba(42,100,120,0.85)'; ctx.font='bold 10px Nunito,sans-serif';
+  ctx.textAlign='left'; ctx.textBaseline='top';
+  ctx.fillText('Avg '+DEPT_AVG, xAvg+3, top+8);
+  ctx.setLineDash([]); ctx.restore();
+}};
+```
 
 ---
 
-## 🔮 PREDICTIVE STAFFING TRIGGER
+## 👨‍⚕️ PROVIDER LOS CHART STANDARDS
 
-**Thresholds:** Weekday >142 arrivals · Weekend >122 arrivals
+- **Data source:** Computed from Excel (ESI 3/4/5 discharges only, min 15 encounters)
+- **Sort order:** Lowest → highest (best LOS at top)
+- **Star threshold `LOS_STAR = 240`:** Providers at or below 240 min get ⭐ and dark green color
+- **Above 240 min:** Light green, no emoji
+- **Reference line:** 300-min goal line (red dashed)
+- **Chart subtitle:** `🟢 ≤240 min · 🔵 >240 min · 300-min reference line`
+- **LOS display format:** `Xh Ym` in main value (e.g., `3h 40m`), raw minutes in sub-label
 
-**4-month validated noon trigger (use ≥50 as standing protocol):**
+```javascript
+const LOS_STAR = 240;
+const provBg  = provLOS.map(v => v <= LOS_STAR ? 'rgba(45,106,79,0.82)'  : 'rgba(45,106,79,0.35)');
+const provBdr = provLOS.map(v => v <= LOS_STAR ? 'rgba(27,76,56,1)'      : 'rgba(45,106,79,0.6)');
+```
 
-| Month | Threshold | Sensitivity | PPV |
-|---|---|---|---|
-| January | ≥51 by noon | 77% | 83% |
-| February | ≥45 by noon | 94% | 100% |
-| March | ≥54 by noon | 81% | 93% |
-| April | ≥55 by noon | 71% | 91% |
+---
 
-**Recommendation:** If ≥50 patients arrive by noon on a weekday → alert charge RN → initiate supplemental coverage discussion.
+## 🌐 ED METRICS INDEX PAGE (myervisit.com/ed-metrics)
+
+### Sophias Served Ticker
+- "Sophias Served" = Banner Health terminology for patients served
+- Animated counter 0 → YTD total on scroll-in
+- **Current total:** 17,594 (Jan 4,345 + Feb 4,318 + Mar 4,620 + Apr 4,311)
+- Update the `TARGET` constant and month breakdown pills when publishing a new month
+- Desktop: sticky sidebar (190px); Mobile (≤600px): compact horizontal strip
+
+### Month Card Flip (Coming Soon → Published)
+```html
+<!-- Before -->
+<a href="/ed-metrics/2026/[month]" class="month-card coming-soon">
+  <div class="month-emoji">[emoji]</div>
+  <div class="month-name">[Month]</div>
+  <div class="month-tag tag-soon">Coming Soon</div>
+</a>
+
+<!-- After -->
+<a href="/ed-metrics/2026/[month]" class="month-card live">
+  <div class="new-badge">NEW</div>
+  <div class="month-emoji">[emoji]</div>
+  <div class="month-name">[Month]</div>
+  <div class="month-tag tag-live">Published</div>
+</a>
+```
+Also **remove** the `NEW` badge from the previous month's card.
+
+**Month emojis:** Jan ❄️ · Feb 💝 · Mar 🌱 · Apr 🌸 · May ☀️ · Jun 🏖️ · Jul 🎆 · Aug 🌻 · Sep 🍂 · Oct 🎃 · Nov 🍁 · Dec 🎄
+
+---
+
+## 🏷️ HEADER ATTRIBUTION
+
+Every MOR page header includes:
+```html
+<div class="meta-val" style="font-size:15px;font-weight:800;color:white;">Eric Cummins, MD</div>
+<div class="meta-val" style="font-size:11px;color:rgba(255,255,255,0.5);font-weight:600;">ED Medical Director</div>
+```
 
 ---
 
 ## 🚀 DEPLOYMENT PIPELINE
 
 ```bash
-# Step 1: Clone repo (first session only — will already be cloned in project)
+# Step 1: Clone repo (first session only)
 git clone "https://[TOKEN]@github.com/AZEMDoc33/myervisit.com.git" site
 
 # Step 2: Build MOR HTML file
 # Output: site/ed-metrics/2026/[month].html
 
 # Step 3: Update index hub
-# site/ed-metrics/index.html — flip month card from coming-soon to live, move NEW badge
+# Flip month card + move NEW badge + update Sophias Served ticker total
 
 # Step 4: Commit and push
 cd site
@@ -526,83 +487,79 @@ git config user.name "Eric Cummins MD"
 git add ed-metrics/2026/[month].html ed-metrics/index.html
 git commit -m "Add [Month] 2026 MOR + activate [month] card"
 git push "https://[TOKEN]@github.com/AZEMDoc33/myervisit.com.git" main
-
-# Vercel auto-deploys in ~20-30 seconds after push
 ```
 
-**To verify deployment:** Use `Vercel:list_deployments` with projectId `prj_cHSm7Skhr9h6BoDC1xvNBKqydlbq` and teamId `team_KFSPAFbGtf3qi3lA1WzW96lS` — look for `state: READY` on the latest entry.
+**To verify:** Use `Vercel:list_deployments` — look for `state: READY` on the latest entry.
 
 ---
 
-## 📅 INDEX HUB — MONTH CARD FLIP INSTRUCTIONS
+## ✅ NEW MONTH CHECKLIST
 
-When publishing a new month, update `ed-metrics/index.html`:
+### Inputs needed before starting:
+- [ ] Raw Excel file (.xlsx) for the month
+- [ ] MD hours and APC hours for the month
+- [ ] PPH screenshot from TeamHealth (horizontal bar chart with "Mean PPH")
 
-**Coming Soon card (before):**
-```html
-<a href="/ed-metrics/2026/[month]" class="month-card coming-soon">
-  <div class="month-emoji">[emoji]</div>
-  <div class="month-name">[Month]</div>
-  <div class="month-tag tag-soon">Coming Soon</div>
-</a>
-```
-
-**Published card (after):**
-```html
-<a href="/ed-metrics/2026/[month]" class="month-card live">
-  <div class="new-badge">NEW</div>
-  <div class="month-emoji">[emoji]</div>
-  <div class="month-name">[Month]</div>
-  <div class="month-tag tag-live">Published</div>
-</a>
-```
-
-Also **remove** the `NEW` badge from the previous month's card.
-
-**Month emojis:** Jan ❄️ · Feb 💝 · Mar 🌱 · Apr 🌸 · May ☀️ · Jun 🏖️ · Jul 🎆 · Aug 🌻 · Sep 🍂 · Oct 🎃 · Nov 🍁 · Dec 🎄
-
----
-
-## 📊 PROVIDER PPH CHART
-
-PPH data comes from a TeamHealth screenshot (not from the Excel file).
-- When screenshot is provided: build real bar chart with `canvas id="providerPPHChart"`
-- When not provided: show blurred placeholder card with ghost bars underneath
-- Chart is sorted **lowest → highest** (least productive at top, most at bottom)
-- Two reference lines: dotted goal at 1.85 · dashed dept cohort average
-- Color code: amber = below goal · teal = below avg · green = above avg
-
----
-
-## 🏷️ HEADER / ATTRIBUTION
-
-Every MOR page header should include:
-```html
-<div class="meta-val" style="font-size:15px;font-weight:800;color:white;">Eric Cummins, MD</div>
-<div class="meta-val" style="font-size:11px;color:rgba(255,255,255,0.5);font-weight:600;">ED Medical Director</div>
-```
-
----
-
-## ⚠️ LESSONS LEARNED
-
-- **Never patch existing MOR files with automated Python restructuring.** This approach has previously stripped all chart JavaScript from the file, leaving blank charts. If structural changes are needed to an existing month, make them manually with str_replace on specific targeted sections only.
-- **After any edit to an existing MOR file, verify:** `grep -c 'new Chart(' filename.html` should return 6 or more. If it returns 0, the chart JS was lost and needs to be re-injected.
-- **Always build new months as complete standalone files** — never build incrementally by patching a template. Each month's HTML should be fully self-contained from creation.
-
----
-
-
-
-- [ ] Upload raw Excel file
-- [ ] Confirm MD hours and APC hours for the month
-- [ ] Confirm PPH screenshot from TeamHealth (or note as placeholder)
-- [ ] Run full data analysis (all 14 metrics)
-- [ ] Build HTML file from template, update all data/JS
-- [ ] Update productivity card with real hours (color-coded green/amber)
-- [ ] Update Q1/YTD trend table
-- [ ] Set director PIN to `3227`
+### Build steps:
+- [ ] Run full data analysis from Excel
+- [ ] Build `ed-metrics/2026/[month].html` using a prior published month as template
+- [ ] **PPH chart:** Sort highest→lowest · ⭐ appended to names ≥1.88 · dark/light navy · dept avg line only · no goal line
+- [ ] **LOS chart:** Sort lowest→highest · ⭐ color for ≤240 min · 300-min red dashed goal line
+- [ ] **LOS values:** Show as `Xh Ym` in mc-val, minutes in mc-sub
+- [ ] **Total Visits sub:** Show `AVG Daily: X.X pts`
+- [ ] **Group productivity card:** Color green ✅ or amber ⚠️ per goal
+- [ ] **ESI 2 D2D Summary card:** Include Banner System-Wide Initiative note
+- [ ] **Page ends after ESI 2 D2D Summary** — nothing after it
+- [ ] **No director zone, no PIN system, no leaderboard sections, no toggle button, no insights, no actions, no predictive staffing, no Q1 trend table, no ESI distribution**
 - [ ] Push `ed-metrics/2026/[month].html` to GitHub
-- [ ] Update `ed-metrics/index.html` — flip card, move NEW badge
+- [ ] Update `ed-metrics/index.html`: flip card, move NEW badge, update Sophias Served total and month pill
 - [ ] Verify Vercel deployment `state: READY`
 - [ ] Confirm live at `myervisit.com/ed-metrics/2026/[month]`
+
+---
+
+## ⚠️ CRITICAL LESSONS LEARNED — READ BEFORE EDITING ANY MOR FILE
+
+### 1. Never remove JS blocks with greedy `.*` + `re.DOTALL`
+```python
+# DANGEROUS — eats everything to end of file including </script></body></html>
+re.sub(r'\n// MOBILE VIEW SYSTEM.*', '', h, flags=re.DOTALL)
+
+# SAFE — anchor to a known end boundary
+re.sub(r'\n// MOBILE VIEW SYSTEM.*?(?=\n</script>)', '', h, flags=re.DOTALL)
+```
+**After any JS removal, always verify:**
+```bash
+grep -c 'new Chart(' filename.html    # must be ≥ 5
+grep -c '</body>' filename.html       # must be 1
+grep -c '</html>' filename.html       # must be 1
+```
+
+### 2. Never use greedy HTML removal regex across chart sections
+A regex like `<div class="section">.*?Operational Insights.*?</div></div>` with `re.DOTALL`
+can match from the **first** section div in the document all the way to the target string,
+wiping every chart section in between. Always remove unwanted sections by cutting between
+known anchor strings (e.g., `</div><!-- end report-body -->` and `<div class="report-footer">`).
+
+### 3. After any Python edit to an MOR file, run this integrity check before pushing:
+```python
+checks = {
+    'canvases': h.count('<canvas '),          # expect 6
+    'chart calls': h.count('new Chart('),     # expect 6+
+    'body close': '</body>' in h,             # expect True
+    'html close': '</html>' in h,             # expect True
+    'no director': 'director-zone' not in h,  # expect True
+    'no pin': 'pinOverlay' not in h,          # expect True
+}
+```
+
+### 4. Director zone / PIN system is permanently abolished
+It caused chart rendering failures multiple times. Never add it back in any form.
+Any `#director-zone`, `.lock-btn`, `.pin-overlay`, `DIRECTOR_PIN`, `openPinModal`,
+`unlockDirector`, or `lockDirector` found in any file should be deleted immediately.
+
+### 5. Always build new months as complete standalone files
+Never build incrementally by patching a template with Python restructuring scripts.
+Each month's HTML should be fully written from scratch using a prior month as visual reference.
+If edits to existing months are needed, use targeted `str_replace` on specific lines only.
+
