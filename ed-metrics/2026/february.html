@@ -232,6 +232,28 @@
     <span class="current">💝 February 2026</span>
     <span style="font-size:12px;color:var(--text-light);font-weight:700;"><a href="/ed-metrics/2026/march">March 2026</a> ▶</span>
   </div>
+  <!-- PROVIDER PPH CHART -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">⚡</div><div class="section-title">Provider Productivity — Patients per Hour by Clinician</div><div class="section-line"></div></div>
+    <div class="chart-card">
+      <div class="chart-title">Patients per Hour by Provider — February 2026 &nbsp;·&nbsp; Goal: ≥1.85 pt/hr</div>
+      <div class="chart-subtitle">🔵 Below 1.88 &nbsp; ⭐ ≥1.88 pt/hr · Sorted lowest → highest · Dashed = dept cohort avg (2.08 pt/hr)</div>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+        <span style="background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">⭐ ≥1.88 pt/hr</span>
+        <span style="background:var(--teal-pale);color:var(--teal);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">📊 Dept Cohort Avg: 2.08 pt/hr</span>
+      </div>
+      <div class="chart-scroll-outer"><div class="chart-container" style="height:650px"><canvas id="providerPPHChart"></canvas></div></div>
+    <div class="mobile-leader" id="mobilePPH">
+      <div class="chart-title">Patients per Hour — Ranked Best → Lowest</div>
+      <div class="ml-legend">
+        <span><span class="ml-dot" style="background:rgba(36,59,85,0.88)"></span>⭐ ≥1.88 pt/hr</span>
+        <span><span class="ml-dot" style="background:rgba(100,130,170,0.5)"></span>Below 1.88</span>
+      </div>
+      <div id="mobilePPHRows"></div>
+    </div>
+    </div>
+  </div>
+
   <!-- SECTION 8: PROVIDER LOS -->
   <div class="section">
     <div class="section-header"><div class="section-emoji">👨‍⚕️</div><div class="section-title">Provider Discharge LOS — ESI 3, 4 &amp; 5 Patients</div><div class="section-line"></div></div>
@@ -370,9 +392,6 @@
 </div><!-- end report-body -->
 
     </div>
-  <!-- SECTION 11: INSIGHTS -->
-  <div class="section">
-    <div class="section-header"><div class="section-emoji">💡</div><div class="section-title">Operational Insights</div><div class="section-line"></div></div>
 
     <div class="insight-card alert">
       <div class="insight-tag">🚨 Insight 1 · Volume</div>
@@ -418,10 +437,6 @@
       </div>
     </div>
   </div>
-
-  <!-- SECTION 12: ACTIONS -->
-  <div class="section">
-    <div class="section-header"><div class="section-emoji">🎯</div><div class="section-title">Recommended Actions</div><div class="section-line"></div></div>
     <div class="card">
       <div class="action-item">
         <div class="action-num">1</div>
@@ -445,10 +460,6 @@
       </div>
     </div>
   </div>
-
-  <!-- SECTION 13: DATA QUALITY -->
-  <div class="section">
-    <div class="section-header"><div class="section-emoji">🔍</div><div class="section-title">Data Quality Notes</div><div class="section-line"></div></div>
     <div class="card">
       <div class="dq-item"><div class="dq-icon">✅</div><div class="dq-text"><strong>LOS &gt;24 hours: 13 records excluded.</strong> Lowest exclusion count of any month — all were admitted patients with checkout dates reflecting hospital discharge, not ED departure.</div></div>
       <div class="dq-item"><div class="dq-icon">✅</div><div class="dq-text"><strong>96 encounters missing primary physician — mostly LWOT.</strong> 60 LWOT/eloped patients account for most. True unexplained gap ~36 records (0.8%). Slightly elevated vs prior months — monitor trend.</div></div>
@@ -592,13 +603,7 @@ new Chart(document.getElementById('esi2D2DChart'),{
     scales:{x:{grid:{display:false},ticks:{maxRotation:45,font:{size:10}}},y:{beginAtZero:true,title:{display:true,text:'Mean D2D (minutes)',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}}}}
 });
 
-// PIN system
 
-
-document.getElementById("pinOverlay").classList.add("active");document.getElementById("pinInput").value="";document.getElementById("pinError").textContent="";setTimeout(()=>document.getElementById("pinInput").focus(),100);}
-
-else{const i=document.getElementById("pinInput");document.getElementById("pinError").textContent="Incorrect PIN — try again";i.classList.add("error");i.value="";setTimeout(()=>i.classList.remove("error"),400);}}
-);const b=document.getElementById("lockBtn");b.textContent="🔓";b.classList.add("unlocked-state");b.title="Click to lock director view";}
 
 
 

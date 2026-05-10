@@ -275,6 +275,28 @@
     <span class="current">🌱 March 2026</span>
     <span style="font-size:12px;color:var(--text-light);font-weight:700;"><a href="/ed-metrics/2026/april">April 2026</a> ▶</span>
   </div>
+  <!-- PROVIDER PPH CHART -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">⚡</div><div class="section-title">Provider Productivity — Patients per Hour by Clinician</div><div class="section-line"></div></div>
+    <div class="chart-card">
+      <div class="chart-title">Patients per Hour by Provider — March 2026 &nbsp;·&nbsp; Goal: ≥1.85 pt/hr</div>
+      <div class="chart-subtitle">🔵 Below 1.88 &nbsp; ⭐ ≥1.88 pt/hr · Sorted lowest → highest · Dashed = dept cohort avg (2.07 pt/hr)</div>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+        <span style="background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">⭐ ≥1.88 pt/hr</span>
+        <span style="background:var(--teal-pale);color:var(--teal);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">📊 Dept Cohort Avg: 2.07 pt/hr</span>
+      </div>
+      <div class="chart-scroll-outer"><div class="chart-container" style="height:700px"><canvas id="providerPPHChart"></canvas></div></div>
+    <div class="mobile-leader" id="mobilePPH">
+      <div class="chart-title">Patients per Hour — Ranked Best → Lowest</div>
+      <div class="ml-legend">
+        <span><span class="ml-dot" style="background:rgba(36,59,85,0.88)"></span>⭐ ≥1.88 pt/hr</span>
+        <span><span class="ml-dot" style="background:rgba(100,130,170,0.5)"></span>Below 1.88</span>
+      </div>
+      <div id="mobilePPHRows"></div>
+    </div>
+    </div>
+  </div>
+
   <!-- SECTION 8: PROVIDER LOS -->
   <div class="section">
     <div class="section-header"><div class="section-emoji">👨‍⚕️</div><div class="section-title">Provider Discharge LOS — ESI 3, 4 &amp; 5 Patients</div><div class="section-line"></div></div>
@@ -413,9 +435,6 @@
 </div><!-- end report-body -->
 
     </div>
-  <!-- SECTION 11: INSIGHTS -->
-  <div class="section">
-    <div class="section-header"><div class="section-emoji">💡</div><div class="section-title">Operational Insights</div><div class="section-line"></div></div>
 
     <div class="insight-card alert">
       <div class="insight-tag">🚑 Insight 1 · Volume Surge</div>
@@ -453,10 +472,6 @@
       <div class="insight-body">March's elevated volume translated into strong productivity: <strong>Pt/Hr = 2.02</strong> (vs goal 1.85, and vs April's 1.89) and <strong>aPPH = 2.58</strong> (vs goal 2.45, and vs April's 2.41 which was below goal). Both metrics are now green for the first time. This confirms the team is handling volume efficiently — the key challenge is managing the downstream effects of that volume on timeliness and boarding, not productivity itself. Confirm March hours to finalize these figures.</div>
     </div>
   </div>
-
-  <!-- SECTION 12: ACTIONS -->
-  <div class="section">
-    <div class="section-header"><div class="section-emoji">🎯</div><div class="section-title">Recommended Actions</div><div class="section-line"></div></div>
     <div class="card">
       <div class="action-item">
         <div class="action-num">1</div>
@@ -480,10 +495,6 @@
       </div>
     </div>
   </div>
-
-  <!-- SECTION 13: DATA QUALITY -->
-  <div class="section">
-    <div class="section-header"><div class="section-emoji">🔍</div><div class="section-title">Data Quality Notes</div><div class="section-line"></div></div>
     <div class="card">
       <div class="dq-item"><div class="dq-icon">✅</div><div class="dq-text"><strong>LOS &gt;24 hours: 19 records excluded.</strong> Same pattern as April — admitted patients with checkout dates reflecting inpatient discharge rather than ED departure. All were "Admit to Inpatient" or "Acute Care Facility" dispositions.</div></div>
       <div class="dq-item"><div class="dq-icon">✅</div><div class="dq-text"><strong>95 encounters missing primary physician.</strong> 73 LWOT/eloped patients account for most of this. True unexplained gap ~22 records (&lt;0.5% of non-LWOT encounters). No action required.</div></div>
@@ -624,14 +635,6 @@ new Chart(document.getElementById('esi2D2DChart'),{
     plugins:{legend:{display:true,position:'top',labels:{boxWidth:14,font:{size:11}}},tooltip:{callbacks:{label:ctx=>ctx.dataset.label==='25-min Target'?null:` ${ctx.parsed.y.toFixed(1)} min`}}},
     scales:{x:{grid:{display:false},ticks:{maxRotation:45,font:{size:10}}},y:{beginAtZero:true,title:{display:true,text:'Mean D2D (minutes)',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}}}}
 });
-
-// PIN
-
-document.getElementById("pinOverlay").classList.add("active");document.getElementById("pinInput").value="";document.getElementById("pinError").textContent="";setTimeout(()=>document.getElementById("pinInput").focus(),100);}
-
-else{const i=document.getElementById("pinInput");document.getElementById("pinError").textContent="Incorrect PIN — try again";i.classList.add("error");i.value="";setTimeout(()=>i.classList.remove("error"),400);}}
-);const b=document.getElementById("lockBtn");b.textContent="🔓";b.classList.add("unlocked-state");b.title="Click to lock director view";}
-
 
 
 // ════════════════════════════════════════

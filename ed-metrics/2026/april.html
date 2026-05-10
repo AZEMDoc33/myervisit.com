@@ -558,13 +558,6 @@
 </div><!-- end report-body -->
 
     </div>
-  <!-- SECTION 10: INSIGHTS -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-emoji">💡</div>
-      <div class="section-title">Operational Insights</div>
-      <div class="section-line"></div>
-    </div>
     <div class="insight-card warn">
       <div class="insight-tag">⚠️ Insight 1 · Throughput</div>
       <div class="insight-title">Afternoon Staffing Gap Driving 14:00 ESI 2 Door-to-Doc Spike</div>
@@ -586,14 +579,6 @@
       <div class="insight-body"><strong>88.3% of ESI 2 patients</strong> seen within 25 minutes (median 11 min), and LWOT rate of <strong>1.4%</strong> is commendable for a 144-patient/day department. These should be highlighted in leadership reporting and shared with the team as evidence that front-end workflows are performing well.</div>
     </div>
   </div>
-
-  <!-- SECTION 11: ACTIONS -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-emoji">🎯</div>
-      <div class="section-title">Recommended Actions</div>
-      <div class="section-line"></div>
-    </div>
     <div class="card">
       <div class="action-item">
         <div class="action-num">1</div>
@@ -617,14 +602,6 @@
       </div>
     </div>
   </div>
-
-  <!-- SECTION 12: DATA QUALITY -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-emoji">🔍</div>
-      <div class="section-title">Data Quality Notes</div>
-      <div class="section-line"></div>
-    </div>
     <div class="card">
       <div class="dq-item">
         <div class="dq-icon">✅</div>
@@ -779,10 +756,10 @@ new Chart(document.getElementById('providerPPHChart'),{
 
 // PIN
 
-document.getElementById("pinOverlay").classList.add("active");document.getElementById("pinInput").value="";document.getElementById("pinError").textContent="";setTimeout(()=>document.getElementById("pinInput").focus(),100);}
 
-else{const i=document.getElementById("pinInput");document.getElementById("pinError").textContent="Incorrect PIN — try again";i.classList.add("error");i.value="";setTimeout(()=>i.classList.remove("error"),400);}}
-);const b=document.getElementById("lockBtn");b.textContent="🔓";b.classList.add("unlocked-state");b.title="Click to lock director view";}
+
+
+
 
 
 
