@@ -184,39 +184,13 @@
     <span style="font-size:12px;color:var(--text-light);font-weight:700;">◀ <span style="opacity:0.4;">December 2025</span></span>
     <span class="current">❄️ January 2026</span>
     <span style="font-size:12px;color:var(--text-light);font-weight:700;"><a href="/ed-metrics/2026/february">February 2026</a> ▶</span>
-  </div>
-  <!-- SECTION 2: Q1 TREND SUMMARY -->
-  <div class="section">
-    <div class="section-header"><div class="section-emoji">📈</div><div class="section-title">Q1 2026 Trend Summary</div><div class="section-line"></div></div>
-    <div class="card">
-      <table>
-        <thead><tr><th>Metric</th><th>January</th><th>February</th><th>March</th><th>April</th><th>Trend</th></tr></thead>
-        <tbody>
-          <tr><td>📅 Avg Daily Volume</td><td><strong>140.2</strong></td><td>154.2</td><td>149.0</td><td>143.7</td><td>↑ Peak Feb · Improving Apr</td></tr>
-          <tr><td>📅 Weekday Avg</td><td><strong>145.4</strong></td><td>160.8</td><td>155.8</td><td>147.7</td><td>Feb highest, improving</td></tr>
-          <tr><td>⏱️ Median DC LOS (min)</td><td><strong>198 ✅</strong></td><td>207</td><td>216</td><td>220</td><td>↑ Rising each month ⚠️</td></tr>
-          <tr><td>🛏️ Median Admit LOS (min)</td><td><strong>336 ✅</strong></td><td>368</td><td>386</td><td>371</td><td>↑ Boarding worsening</td></tr>
-          <tr><td>🎯 ESI 2 &lt;25 min</td><td>85.4%</td><td>85.0%</td><td>83.0%</td><td><strong>88.3% ✅</strong></td><td>Dip in Q1, recovered Apr</td></tr>
-          <tr><td>🩺 Median D2D (min)</td><td><strong>15 ✅</strong></td><td>19</td><td>21</td><td>18</td><td>↑ Rising, Jan best</td></tr>
-          <tr><td>🚶 LWOT Rate</td><td><strong>0.8% ✅</strong></td><td>1.4%</td><td>1.6%</td><td>1.4%</td><td>Jan outlier low — stable</td></tr>
-          <tr><td>🏨 Admission Rate</td><td>18.2%</td><td>17.7%</td><td>18.7%</td><td>19.1%</td><td>↑ Slowly rising</td></tr>
-          <tr><td>⚡ Pt/Hr (dept)</td><td>1.91</td><td>1.89</td><td>2.02</td><td>1.89</td><td>Stable · Above goal 1.85</td></tr>
-          <tr><td>⚡ aPPH</td><td>2.45</td><td>2.42</td><td>2.58</td><td>2.41</td><td>Near goal · Mar best</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- PROVIDER PPH CHART -->
+  </div><!-- PROVIDER PPH CHART -->
   <div class="section">
     <div class="section-header"><div class="section-emoji">⚡</div><div class="section-title">Provider Productivity — Patients per Hour by Clinician</div><div class="section-line"></div></div>
     <div class="chart-card">
-      <div class="chart-title">Patients per Hour by Provider — January 2026 &nbsp;·&nbsp; Goal: ≥1.85 pt/hr</div>
-      <div class="chart-subtitle">🟠 Below goal (&lt;1.85) &nbsp; 🔵 Below dept avg &nbsp; 🟢 Above dept avg (1.91 pt/hr) · Sorted lowest → highest · Dashed = dept avg · Dotted = 1.85 goal</div>
-      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-        <span style="background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">🎯 Goal: ≥1.85 pt/hr</span>
-        <span style="background:var(--teal-pale);color:var(--teal);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">📊 Dept Cohort Avg: 1.91 pt/hr</span>
-      </div>
+      <div class="chart-title">Patients per Hour by Provider — January 2026</div>
+      <div class="chart-subtitle">⬛ ≥1.88 pt/hr (⭐) &nbsp;·&nbsp; 🔷 &lt;1.88 pt/hr &nbsp;·&nbsp; Sorted highest → lowest &nbsp;·&nbsp; Dashed = dept cohort avg (1.91 pt/hr)</div>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;"><span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 14px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 1.91 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span></div>
       <div class="chart-scroll-outer"><div class="chart-container" style="height:722px"><canvas id="providerPPHChart"></canvas></div></div>
     </div>
   </div>
@@ -501,24 +475,19 @@ new Chart(document.getElementById('providerPPHPlaceholder'), {
 });
 
 // ── PROVIDER PPH CHART ─────────────────────────────────────────────────────
-const pphNames=["JABALI A", "SUTHERLAND K", "MILLER E", "PAVLUE B", "ERICKSON M", "JONES M", "FIGUEROA A", "FAKLER R", "JIMENEZ A", "BERMAN D", "LOMBARDI K", "BOESCH D", "WOLSEY C", "MCKELVY A", "EGBERT J", "WALLBRECHT J", "CUMMINS E", "RIGBY D", "CLARK J", "HUNTER J", "ANDES J", "JONES S", "HAMBLIN L", "HAPEMAN B", "MCDOWELL M", "STOWERS R", "LOGGINS B", "BATIZY L", "WINTER A", "BUNKER C", "WRIGHT E"];
-const pphVals=[1.14, 1.23, 1.31, 1.5, 1.5, 1.5, 1.65, 1.7, 1.73, 1.75, 1.76, 1.78, 1.88, 1.89, 1.94, 1.95, 1.96, 1.99, 2.03, 2.06, 2.08, 2.09, 2.13, 2.15, 2.15, 2.19, 2.22, 2.33, 2.34, 2.38, 3.04];
+const pphNames=["WRIGHT E ⭐","BUNKER C ⭐","WINTER A ⭐","BATIZY L ⭐","LOGGINS B ⭐","STOWERS R ⭐","MCDOWELL M ⭐","HAPEMAN B ⭐","HAMBLIN L ⭐","JONES S ⭐","ANDES J ⭐","HUNTER J ⭐","CLARK J ⭐","RIGBY D ⭐","CUMMINS E ⭐","WALLBRECHT J ⭐","EGBERT J ⭐","MCKELVY A ⭐","WOLSEY C ⭐","BOESCH D","LOMBARDI K","BERMAN D","JIMENEZ A","FAKLER R","FIGUEROA A","PAVLUE B","JONES M","ERICKSON M","MILLER E","SUTHERLAND K","JABALI A"];
+const pphVals=[3.04,2.38,2.34,2.33,2.22,2.19,2.15,2.15,2.13,2.09,2.08,2.06,2.03,1.99,1.96,1.95,1.94,1.89,1.88,1.78,1.76,1.75,1.73,1.7,1.65,1.5,1.5,1.5,1.31,1.23,1.14];
 const pphBg=['rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)'];
 const pphBdr=['rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)'];
 const DEPT_AVG=1.91;
 const PPH_GOAL=1.85;
 const pphGoalPlugin={id:'pphGoalLines',afterDraw(chart){
   const ctx=chart.ctx,xScale=chart.scales.x,top=chart.chartArea.top,bottom=chart.chartArea.bottom;
-  const xGoal=xScale.getPixelForValue(PPH_GOAL);
-  ctx.save();ctx.strokeStyle='rgba(217,119,6,0.85)';ctx.lineWidth=2;ctx.setLineDash([4,4]);
-  ctx.beginPath();ctx.moveTo(xGoal,top);ctx.lineTo(xGoal,bottom);ctx.stroke();
-  ctx.fillStyle='rgba(217,119,6,0.85)';ctx.font='bold 10px Nunito,sans-serif';ctx.textAlign='left';ctx.textBaseline='top';
-  ctx.fillText('Goal 1.85',xGoal+3,top+3);
   const xAvg=xScale.getPixelForValue(DEPT_AVG);
-  ctx.strokeStyle='rgba(42,100,120,0.7)';ctx.lineWidth=2;ctx.setLineDash([7,5]);
+  ctx.save();ctx.strokeStyle='rgba(42,100,120,0.7)';ctx.lineWidth=2;ctx.setLineDash([7,5]);
   ctx.beginPath();ctx.moveTo(xAvg,top);ctx.lineTo(xAvg,bottom);ctx.stroke();
-  ctx.fillStyle='rgba(42,100,120,0.85)';ctx.textAlign='left';
-  ctx.fillText('Avg '+DEPT_AVG,xAvg+3,top+16);
+  ctx.fillStyle='rgba(42,100,120,0.85)';ctx.font='bold 10px Nunito,sans-serif';ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillText('Avg '+DEPT_AVG,xAvg+3,top+8);
   ctx.setLineDash([]);ctx.restore();
 }};
 new Chart(document.getElementById('providerPPHChart'),{
@@ -529,117 +498,3 @@ new Chart(document.getElementById('providerPPHChart'),{
     scales:{x:{min:0,max:3.3,title:{display:true,text:'Patients per Hour',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'},ticks:{callback:v=>v.toFixed(1)}},
     y:{grid:{display:false},ticks:{font:{size:11.5},autoSkip:false,maxTicksLimit:999}}}}
 });
-
-// ════════════════════════════════════════
-// MOBILE VIEW SYSTEM
-// ════════════════════════════════════════
-function buildPPHMobile() {
-  if (!document.getElementById('mobilePPHRows')) return;
-  const MAX = 3.1;
-  const combined = pphNames.map((n, i) => ({name: n, val: pphVals[i]}))
-    .sort((a, b) => b.val - a.val);
-  let html = '';
-  combined.forEach((p, rank) => {
-    const pct = Math.min((p.val / MAX) * 100, 100).toFixed(1);
-    const good = p.val >= 1.88;
-    const col = good ? 'rgba(36,59,85,0.88)' : 'rgba(100,130,170,0.5)';
-    const icon = good ? '⭐' : '';
-    html += `<div class="ml-row">
-      <div class="ml-rank">${rank+1}</div>
-      <div class="ml-name">${p.name}</div>
-      <div class="ml-bar-bg"><div class="ml-bar-fill" style="width:${pct}%;background:${col}"></div></div>
-      <div class="ml-val" style="color:${good?'#243b55':'#6882aa'}">${p.val.toFixed(2)}</div>
-      <div class="ml-icon">${icon}</div>
-    </div>`;
-  });
-  document.getElementById('mobilePPHRows').innerHTML = html;
-}
-
-function buildLOSMobile() {
-  if (!document.getElementById('mobileLOSRows')) return;
-  const MAX_LOS = 390;
-  const combined = provNames.map((n, i) => ({name: n, val: provLOS[i], n: provN[i]}))
-    .sort((a, b) => a.val - b.val);
-  let html = '';
-  combined.forEach((p, i) => {
-    const pct = Math.min((p.val / MAX_LOS) * 100, 100).toFixed(1);
-    const good = p.val <= 240;
-    const col = good ? 'rgba(45,106,79,0.85)' : 'rgba(45,106,79,0.38)';
-    const icon = good ? '⭐' : '';
-    html += `<div class="ml-row">
-      <div class="ml-rank">${i+1}</div>
-      <div class="ml-name">${p.name}</div>
-      <div class="ml-bar-bg"><div class="ml-bar-fill" style="width:${pct}%;background:${col}"></div></div>
-      <div class="ml-val" style="color:${good?'#1b4c38':'#2d6a4f'}">${Math.round(p.val)}<span style="font-size:9px;font-weight:600;opacity:0.7">m</span></div>
-      <div class="ml-icon">${icon}</div>
-    </div>`;
-  });
-  document.getElementById('mobileLOSRows').innerHTML = html;
-}
-
-function applyEdView(mode) {
-  sessionStorage.setItem('edView', mode);
-  const btn = document.getElementById('viewToggleBtn');
-  if (mode === 'mobile') {
-    document.body.classList.add('mob-view');
-    btn.textContent = '📊 Chart View';
-  } else {
-    document.body.classList.remove('mob-view');
-    btn.textContent = '📱 Mobile View';
-  }
-}
-
-function toggleEdView() {
-  applyEdView(document.body.classList.contains('mob-view') ? 'desktop' : 'mobile');
-}
-
-(function initEdView() {
-  const stored = sessionStorage.getItem('edView');
-  const autoMob = window.innerWidth <= 768;
-  buildPPHMobile();
-  buildLOSMobile();
-  applyEdView(stored || (autoMob ? 'mobile' : 'desktop'));
-})();
-
-
-// MOBILE VIEW SYSTEM
-function buildPPHMobile() {
-  if (!document.getElementById('mobilePPHRows')) return;
-  const combined = pphNames.map((n, i) => ({name: n, val: pphVals[i]})).sort((a, b) => b.val - a.val);
-  let html = '';
-  combined.forEach((p, rank) => {
-    const pct = Math.min((p.val / 3.1) * 100, 100).toFixed(1);
-    const good = p.val >= 1.88;
-    const col = good ? 'rgba(36,59,85,0.88)' : 'rgba(100,130,170,0.5)';
-    html += `<div class="ml-row"><div class="ml-rank">${rank+1}</div><div class="ml-name">${p.name}</div><div class="ml-bar-bg"><div class="ml-bar-fill" style="width:${pct}%;background:${col}"></div></div><div class="ml-val" style="color:${good?'#243b55':'#6882aa'}">${p.val.toFixed(2)}</div><div class="ml-icon">${good?'⭐':''}</div></div>`;
-  });
-  document.getElementById('mobilePPHRows').innerHTML = html;
-}
-function buildLOSMobile() {
-  if (!document.getElementById('mobileLOSRows')) return;
-  const combined = provNames.map((n, i) => ({name: n, val: provLOS[i], n: provN[i]})).sort((a, b) => a.val - b.val);
-  let html = '';
-  combined.forEach((p, i) => {
-    const pct = Math.min((p.val / 390) * 100, 100).toFixed(1);
-    const good = p.val <= 240;
-    const col = good ? 'rgba(45,106,79,0.85)' : 'rgba(45,106,79,0.38)';
-    html += `<div class="ml-row"><div class="ml-rank">${i+1}</div><div class="ml-name">${p.name}</div><div class="ml-bar-bg"><div class="ml-bar-fill" style="width:${pct}%;background:${col}"></div></div><div class="ml-val" style="color:${good?'#1b4c38':'#2d6a4f'}">${Math.round(p.val)}<span style="font-size:9px;opacity:0.7">m</span></div><div class="ml-icon">${good?'⭐':''}</div></div>`;
-  });
-  document.getElementById('mobileLOSRows').innerHTML = html;
-}
-function applyEdView(mode) {
-  sessionStorage.setItem('edView', mode);
-  const btn = document.getElementById('viewToggleBtn');
-  if (mode === 'mobile') { document.body.classList.add('mob-view'); btn.textContent = '📊 Chart View'; }
-  else { document.body.classList.remove('mob-view'); btn.textContent = '📱 Mobile View'; }
-}
-function toggleEdView() { applyEdView(document.body.classList.contains('mob-view') ? 'desktop' : 'mobile'); }
-(function() {
-  const stored = sessionStorage.getItem('edView');
-  buildPPHMobile(); buildLOSMobile();
-  applyEdView(stored || (window.innerWidth <= 768 ? 'mobile' : 'desktop'));
-})();
-
-</script>
-</body>
-</html>

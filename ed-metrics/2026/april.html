@@ -188,34 +188,13 @@
   .chart-scroll-outer .chart-container { min-width: 580px; }
 
   /* Mobile leaderboard (CSS bars — no canvas) */
-  .mobile-leader { display: none; }
-  .ml-legend { display:flex; gap:14px; font-size:10px; font-weight:700; color:var(--text-mid); margin:0 0 12px; flex-wrap:wrap; align-items:center; }
-  .ml-dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:3px; vertical-align:middle; }
-  .ml-row { display:grid; grid-template-columns:20px 108px 1fr 44px 18px; align-items:center; gap:6px; padding:6px 0; border-bottom:1px solid var(--border); }
   .ml-row:last-child { border-bottom:none; }
-  .ml-rank { font-size:10px; font-weight:700; color:var(--text-light); text-align:right; }
-  .ml-name { font-size:11.5px; font-weight:700; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .ml-bar-bg { background:var(--border); border-radius:4px; height:11px; overflow:hidden; }
   .ml-bar-fill { height:100%; border-radius:4px; }
-  .ml-val { font-size:12px; font-weight:800; text-align:right; letter-spacing:-0.3px; }
-  .ml-icon { font-size:11px; text-align:center; }
 
   /* Active mobile-view: swap chart → leaderboard */
-  body.mob-view .mobile-leader { display:block; }
-  body.mob-view .chart-scroll-outer { display:none; }
-  body.mob-view .chart-single-hide { display:none; }
 
   /* Toggle button */
-  #viewToggleBtn {
-    position: fixed; bottom: 22px; right: 16px; z-index: 998;
-    background: var(--gold); color: var(--header);
-    border: none; border-radius: 999px;
-    padding: 11px 20px; font-size: 12px; font-weight: 800;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.22); cursor: pointer;
-    font-family: 'Nunito', sans-serif; letter-spacing: 0.3px;
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  #viewToggleBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.28); }
 
   @media (max-width: 768px) {
     /* Header */
@@ -282,8 +261,6 @@
 </style>
 </head>
 <body>
-<button id="viewToggleBtn" onclick="toggleEdView()">📊 Chart View</button>
-
 <!-- HEADER -->
 <div class="report-header">
   <div class="header-top">
@@ -357,20 +334,11 @@
     </div>
     <div class="chart-card">
       <div class="chart-title">Patients per Hour by Provider — April 2026 &nbsp;·&nbsp; Goal: ≥1.85 pt/hr</div>
-      <div class="chart-subtitle">🟠 Below goal (&lt;1.85) &nbsp; 🔵 Below dept avg &nbsp; 🟢 Above dept avg (1.95 pt/hr) · Sorted lowest → highest · Dashed = dept cohort avg · Dotted = 1.85 goal</div>
+      <div class="chart-subtitle">⬛ ≥1.88 pt/hr (⭐) &nbsp;·&nbsp; 🔷 &lt;1.88 pt/hr &nbsp;·&nbsp; Sorted highest → lowest &nbsp;·&nbsp; Dashed = dept cohort avg (1.95 pt/hr)</div>
       <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-        <span style="background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">🎯 Goal: ≥1.85 pt/hr</span>
-        <span style="background:var(--teal-pale);color:var(--teal);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">📊 Dept Cohort Avg: 1.95 pt/hr</span>
+        <span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 1.95 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span>
       </div>
       <div class="chart-scroll-outer"><div class="chart-container" style="height:650px"><canvas id="providerPPHChart"></canvas></div></div>
-    <div class="mobile-leader" id="mobilePPH">
-      <div class="chart-title">Patients per Hour — April 2026 &nbsp;·&nbsp; Ranked Best → Lowest</div>
-      <div class="ml-legend">
-        <span><span class="ml-dot" style="background:rgba(36,59,85,0.88)"></span>⭐ ≥1.88 pt/hr</span>
-        <span><span class="ml-dot" style="background:rgba(100,130,170,0.5)"></span>Below 1.88</span>
-      </div>
-      <div id="mobilePPHRows"></div>
-    </div>
     </div>
   </div>
 
@@ -385,14 +353,6 @@
       <div class="chart-title">Mean Discharge LOS by Provider (ESI 3/4/5, Discharged Only) &nbsp;·&nbsp; 🎯 Goal: &lt;300 min</div>
       <div class="chart-subtitle">Sorted lowest → highest · Min 15 ESI 3/4/5 discharges · Minutes · 🟢 ≤240 min · 🔵 >240 min · 300-min reference line</div>
       <div class="chart-scroll-outer"><div class="chart-container" style="height:580px"><canvas id="providerLOSChart"></canvas></div></div>
-    <div class="mobile-leader" id="mobileLOS">
-      <div class="chart-title">Discharge LOS — ESI 3/4/5 &nbsp;·&nbsp; Best → Highest (Goal &lt;300 min)</div>
-      <div class="ml-legend">
-        <span><span class="ml-dot" style="background:rgba(45,106,79,0.85)"></span>⭐ ≤240 min</span>
-        <span><span class="ml-dot" style="background:rgba(45,106,79,0.38)"></span>Above 240 min</span>
-      </div>
-      <div id="mobileLOSRows"></div>
-    </div>
     </div>
   </div>
 
@@ -557,77 +517,6 @@
   </div>
 </div><!-- end report-body -->
 
-    </div>
-    <div class="insight-card warn">
-      <div class="insight-tag">⚠️ Insight 1 · Throughput</div>
-      <div class="insight-title">Afternoon Staffing Gap Driving 14:00 ESI 2 Door-to-Doc Spike</div>
-      <div class="insight-body">ESI 2 door-to-doc peaks at <strong>35.8 minutes at 14:00</strong> — more than 3× the median of 11 minutes and above the 25-minute standard. Arrivals remain elevated through 17:00–18:00. This pattern suggests a staffing transition gap in the early afternoon. Shift overlap and triage resource coverage from 13:00–16:00 should be reviewed.</div>
-    </div>
-    <div class="insight-card alert">
-      <div class="insight-tag">🛏️ Insight 2 · Boarding</div>
-      <div class="insight-title">6h 11m Admit LOS Indicates Significant Boarding Burden</div>
-      <div class="insight-body">Median admit LOS of <strong>371 minutes</strong> vs discharge LOS of 220 minutes means admitted patients occupy ED beds ~2.5 additional hours. With 822 admissions per month (19.1%), this creates substantial throughput pressure. A timed bed assignment SLA with escalation beyond 4 hours of boarding is warranted.</div>
-    </div>
-    <div class="insight-card">
-      <div class="insight-tag">👨‍⚕️ Insight 3 · Provider Performance</div>
-      <div class="insight-title">113-Minute Range in ESI 3/4/5 LOS Across Provider Panel — All Under 300-Min Goal</div>
-      <div class="insight-body">Discharge LOS ranges from <strong>155.7 min (RIGBY D) to 268.7 min (HAMBLIN L)</strong> — a 113-minute spread. All 25 providers are under the 300-minute goal, which is a genuine department win. However, narrowing the gap between the upper and lower tertiles remains a throughput opportunity worth addressing through peer benchmarking and early disposition protocols.</div>
-    </div>
-    <div class="insight-card positive">
-      <div class="insight-tag">✅ Insight 4 · Strengths</div>
-      <div class="insight-title">ESI 2 Timeliness and LWOT Rate Are Genuine Department Wins</div>
-      <div class="insight-body"><strong>88.3% of ESI 2 patients</strong> seen within 25 minutes (median 11 min), and LWOT rate of <strong>1.4%</strong> is commendable for a 144-patient/day department. These should be highlighted in leadership reporting and shared with the team as evidence that front-end workflows are performing well.</div>
-    </div>
-  </div>
-    <div class="card">
-      <div class="action-item">
-        <div class="action-num">1</div>
-        <div class="action-text"><strong>Deploy Noon Staffing Trigger Protocol:</strong> When noon cumulative arrivals hit ≥55, charge RN notifies attending to initiate supplemental coverage discussion. 91% PPV makes this operationally defensible.</div>
-      </div>
-      <div class="action-item">
-        <div class="action-num">2</div>
-        <div class="action-text"><strong>Address 13:00–16:00 Staffing Overlap Gap:</strong> ESI 2 D2D spikes to 35.8 min at 14:00. Ensure provider-in-triage or fast-track coverage extends through 16:00. Review afternoon shift start times.</div>
-      </div>
-      <div class="action-item">
-        <div class="action-num">3</div>
-        <div class="action-text"><strong>Boarding Reduction Project with Hospital Operations:</strong> Present 371-min median admit LOS with a proposal for a 60-minute bed assignment SLA post-admit order, plus an escalation pathway for patients boarding &gt;4 hours.</div>
-      </div>
-      <div class="action-item">
-        <div class="action-num">4</div>
-        <div class="action-text"><strong>Peer Benchmarking for Upper-Tertile LOS Providers:</strong> Share deidentified LOS comparison data. Frame as throughput coaching. Target: narrow top-to-bottom gap from 113 min toward 60 min over 2 reporting cycles.</div>
-      </div>
-      <div class="action-item">
-        <div class="action-num">5</div>
-        <div class="action-text"><strong>Sustain LWOT and ESI 2 Performance:</strong> Set alert thresholds: LWOT &gt;2.5% or ESI 2 &lt;25-min rate below 80% triggers a rapid process review. Celebrate current performance with the team.</div>
-      </div>
-    </div>
-  </div>
-    <div class="card">
-      <div class="dq-item">
-        <div class="dq-icon">✅</div>
-        <div class="dq-text"><strong>LOS &gt;24 hours: 20 records excluded from all LOS metrics.</strong> These had checkout timestamps representing inpatient hospital discharge rather than ED departure. The most extreme outlier showed a checkout year of 2100 (clear registration error). All 20 were "Admit to Inpatient" or "Acute Care Facility (Banner)" dispositions — appropriate to exclude for ED throughput metrics.</div>
-      </div>
-      <div class="dq-item">
-        <div class="dq-icon">✅</div>
-        <div class="dq-text"><strong>78 encounters missing primary physician — largely explained by LWOT.</strong> LWOT and eloped patients (n=60) leave before provider assignment, accounting for the majority of this gap. True unexplained missing: ~18 records (&lt;0.4% of non-LWOT encounters). No action required.</div>
-      </div>
-      <div class="dq-item">
-        <div class="dq-icon">⚠️</div>
-        <div class="dq-text"><strong>24 encounters missing acuity (ESI level) — 0.6% of total.</strong> Excluded from acuity-stratified metrics. Recommend triage documentation reminder.</div>
-      </div>
-      <div class="dq-item">
-        <div class="dq-icon">⚠️</div>
-        <div class="dq-text"><strong>87 door-to-doc values exceed 120 minutes.</strong> Likely registration/documentation delays. Included in analysis but flagged. Maximum: 241 minutes. Spot-check recommended.</div>
-      </div>
-      <div class="dq-item">
-        <div class="dq-icon">✅</div>
-        <div class="dq-text"><strong>No negative LOS values. Disposition categories clean and consistent.</strong></div>
-      </div>
-    </div>
-  </div>
-
-</div><!-- end report-body -->
-
 <div class="report-footer">
   🏥 Banner Gateway Medical Center · Emergency Department · Monthly Operating Report · April 2026 &nbsp;|&nbsp; Internal Use Only · Prepared by Eric Cummins, MD
 </div>
@@ -726,23 +615,18 @@ new Chart(document.getElementById('esi2D2DChart'),{
 });
 
 // PPH CHART — April
-const pphNames=["ANDONYAN A","WEIDENBACH K","JABALI A","BERMAN D","LOMBARDI K","MCKELVY A","FAKLER R","JIMENEZ A","FIGUEROA A","LOGGINS B","BATIZY L","BOESCH D","JONES S","WALLBRECHT J","ANDES J","CUMMINS E","EGBERT J","MCDOWELL M","HAPEMAN B","HUNTER J","HAMBLIN L","WINTER A","RIGBY D","BUNKER C","PAVLUE B","WRIGHT E"];
-const pphVals=[1.50,1.50,1.52,1.60,1.68,1.71,1.76,1.77,1.83,1.85,1.89,1.90,1.91,1.94,1.96,1.97,2.05,2.07,2.09,2.11,2.15,2.20,2.30,2.31,2.65,2.83];
+const pphNames=["WRIGHT E ⭐","PAVLUE B ⭐","BUNKER C ⭐","RIGBY D ⭐","WINTER A ⭐","HAMBLIN L ⭐","HUNTER J ⭐","HAPEMAN B ⭐","MCDOWELL M ⭐","EGBERT J ⭐","CUMMINS E ⭐","ANDES J ⭐","WALLBRECHT J ⭐","JONES S ⭐","BOESCH D ⭐","BATIZY L ⭐","LOGGINS B","FIGUEROA A","JIMENEZ A","FAKLER R","MCKELVY A","LOMBARDI K","BERMAN D","JABALI A","WEIDENBACH K","ANDONYAN A"];
+const pphVals=[2.83,2.65,2.31,2.3,2.2,2.15,2.11,2.09,2.07,2.05,1.97,1.96,1.94,1.91,1.9,1.89,1.85,1.83,1.77,1.76,1.71,1.68,1.6,1.52,1.5,1.5];
 const DEPT_AVG=1.95,PPH_GOAL=1.85;
 const PPH_STAR=1.88;const pphBg=pphVals.map(v=>v>=PPH_STAR?'rgba(36,59,85,0.88)':'rgba(100,130,170,0.38)');
 const pphBdr=pphVals.map(v=>v>=PPH_STAR?'rgba(36,59,85,1)':'rgba(100,130,170,0.6)');
 const pphGoalPlugin={id:'pphGoalLines',afterDraw(chart){
   const ctx=chart.ctx,xScale=chart.scales.x,top=chart.chartArea.top,bottom=chart.chartArea.bottom;
-  const xGoal=xScale.getPixelForValue(PPH_GOAL);
-  ctx.save();ctx.strokeStyle='rgba(217,119,6,0.85)';ctx.lineWidth=2;ctx.setLineDash([4,4]);
-  ctx.beginPath();ctx.moveTo(xGoal,top);ctx.lineTo(xGoal,bottom);ctx.stroke();
-  ctx.fillStyle='rgba(217,119,6,0.85)';ctx.font='bold 10px Nunito,sans-serif';ctx.textAlign='left';ctx.textBaseline='top';
-  ctx.fillText('Goal 1.85',xGoal+3,top+3);
   const xAvg=xScale.getPixelForValue(DEPT_AVG);
-  ctx.strokeStyle='rgba(42,100,120,0.7)';ctx.lineWidth=2;ctx.setLineDash([7,5]);
+  ctx.save();ctx.strokeStyle='rgba(42,100,120,0.7)';ctx.lineWidth=2;ctx.setLineDash([7,5]);
   ctx.beginPath();ctx.moveTo(xAvg,top);ctx.lineTo(xAvg,bottom);ctx.stroke();
-  ctx.fillStyle='rgba(42,100,120,0.85)';ctx.textAlign='left';
-  ctx.fillText('Avg '+DEPT_AVG,xAvg+3,top+16);
+  ctx.fillStyle='rgba(42,100,120,0.85)';ctx.font='bold 10px Nunito,sans-serif';ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillText('Avg '+DEPT_AVG,xAvg+3,top+8);
   ctx.setLineDash([]);ctx.restore();
 }};
 new Chart(document.getElementById('providerPPHChart'),{
@@ -765,78 +649,3 @@ new Chart(document.getElementById('providerPPHChart'),{
 
 
 // ════════════════════════════════════════
-// MOBILE VIEW SYSTEM
-// ════════════════════════════════════════
-function buildPPHMobile() {
-  const MAX = 3.1;
-  const combined = pphNames.map((n, i) => ({name: n, val: pphVals[i]}))
-    .sort((a, b) => b.val - a.val);
-  let html = '';
-  combined.forEach((p, rank) => {
-    const pct = Math.min((p.val / MAX) * 100, 100).toFixed(1);
-    const col = p.val < PPH_GOAL ? '#f97316' : p.val < DEPT_AVG ? '#5a8fa0' : '#3a8a5a';
-    const icon = p.val >= PPH_GOAL ? '✅' : '⚠️';
-    html += `<div class="ml-row">
-      <div class="ml-rank">${rank+1}</div>
-      <div class="ml-name">${p.name}</div>
-      <div class="ml-bar-bg"><div class="ml-bar-fill" style="width:${pct}%;background:${col}"></div></div>
-      <div class="ml-val" style="color:${col}">${p.val.toFixed(2)}</div>
-      <div class="ml-icon">${icon}</div>
-    </div>`;
-  });
-  document.getElementById('mobilePPHRows').innerHTML = html;
-}
-
-function buildLOSMobile() {
-  const MAX_LOS = 390;
-  const combined = provNames.map((n, i) => ({name: n, val: provLOS[i], n: provN[i]}))
-    .sort((a, b) => a.val - b.val);
-  const nn = combined.length, t1 = Math.floor(nn/3), t2 = Math.ceil(2*nn/3);
-  let html = '';
-  combined.forEach((p, i) => {
-    const pct = Math.min((p.val / MAX_LOS) * 100, 100).toFixed(1);
-    const col = i < t1 ? '#3a8a5a' : i >= t2 ? '#c0392b' : '#7c5cbf';
-    const icon = p.val < 300 ? '✅' : '⚠️';
-    html += `<div class="ml-row">
-      <div class="ml-rank">${i+1}</div>
-      <div class="ml-name">${p.name}</div>
-      <div class="ml-bar-bg"><div class="ml-bar-fill" style="width:${pct}%;background:${col}"></div></div>
-      <div class="ml-val" style="color:${col}">${Math.round(p.val)}<span style="font-size:9px;font-weight:600;opacity:0.7">m</span></div>
-      <div class="ml-icon">${icon}</div>
-    </div>`;
-  });
-  document.getElementById('mobileLOSRows').innerHTML = html;
-}
-
-function applyEdView(mode) {
-  sessionStorage.setItem('edView', mode);
-  const btn = document.getElementById('viewToggleBtn');
-  if (mode === 'mobile') {
-    document.body.classList.add('mob-view');
-    btn.textContent = '📊 Chart View';
-    btn.title = 'Switch to full chart view';
-  } else {
-    document.body.classList.remove('mob-view');
-    btn.textContent = '📱 Mobile View';
-    btn.title = 'Switch to mobile-friendly view';
-  }
-}
-
-function toggleEdView() {
-  const cur = document.body.classList.contains('mob-view') ? 'mobile' : 'desktop';
-  applyEdView(cur === 'mobile' ? 'desktop' : 'mobile');
-}
-
-// Init: auto-detect mobile, respect stored preference
-(function initEdView() {
-  const stored = sessionStorage.getItem('edView');
-  const autoMob = window.innerWidth <= 768;
-  const mode = stored || (autoMob ? 'mobile' : 'desktop');
-  buildPPHMobile();
-  buildLOSMobile();
-  applyEdView(mode);
-})();
-
-</script>
-</body>
-</html>

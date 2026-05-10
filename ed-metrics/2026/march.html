@@ -175,8 +175,6 @@
 </style>
 </head>
 <body>
-<button id="viewToggleBtn" onclick="toggleEdView()">📊 Chart View</button>
-
 <!-- HEADER -->
 <div class="report-header">
   <div class="header-top">
@@ -252,21 +250,10 @@
   <div class="section">
     <div class="section-header"><div class="section-emoji">⚡</div><div class="section-title">Provider Productivity — Patients per Hour by Clinician</div><div class="section-line"></div></div>
     <div class="chart-card">
-      <div class="chart-title">Patients per Hour by Provider — March 2026 &nbsp;·&nbsp; Goal: ≥1.85 pt/hr</div>
-      <div class="chart-subtitle">🔵 Below 1.88 &nbsp; ⭐ ≥1.88 pt/hr · Sorted lowest → highest · Dashed = dept cohort avg (2.07 pt/hr)</div>
-      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-        <span style="background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">⭐ ≥1.88 pt/hr</span>
-        <span style="background:var(--teal-pale);color:var(--teal);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">📊 Dept Cohort Avg: 2.07 pt/hr</span>
-      </div>
-      <div class="chart-scroll-outer"><div class="chart-container" style="height:700px"><canvas id="providerPPHChart"></canvas></div></div>
-    <div class="mobile-leader" id="mobilePPH">
-      <div class="chart-title">Patients per Hour — Ranked Best → Lowest</div>
-      <div class="ml-legend">
-        <span><span class="ml-dot" style="background:rgba(36,59,85,0.88)"></span>⭐ ≥1.88 pt/hr</span>
-        <span><span class="ml-dot" style="background:rgba(100,130,170,0.5)"></span>Below 1.88</span>
-      </div>
-      <div id="mobilePPHRows"></div>
-    </div>
+      <div class="chart-title">Patients per Hour by Provider — March 2026</div>
+      <div class="chart-subtitle">⬛ ≥1.88 pt/hr (⭐) &nbsp;·&nbsp; 🔷 &lt;1.88 pt/hr &nbsp;·&nbsp; Sorted highest → lowest &nbsp;·&nbsp; Dashed = dept cohort avg (2.07 pt/hr)</div>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;"><span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 14px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 2.07 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span></div>
+      <div class="chart-scroll-outer"><div class="chart-container" style="height:700px"><canvas id="providerPPHChart"></canvas></div></div></div>
     </div>
   </div>
 
@@ -407,82 +394,6 @@
   </div>
 </div><!-- end report-body -->
 
-    </div>
-
-    <div class="insight-card alert">
-      <div class="insight-tag">🚑 Insight 1 · Volume Surge</div>
-      <div class="insight-title">March Was the Highest-Volume Month on Record — Weekday Average Surpassed 155 Patients/Day</div>
-      <div class="insight-body">With 4,620 total visits and a weekday average of <strong>155.8 patients/day</strong>, March exceeded April's volume by 309 visits (+7.2%). Monday was the peak day at 170.6 average — with individual Mondays reaching 181 patients. This level of weekday volume substantially exceeds the 142-patient high-volume threshold used for staffing triggers, with <strong>16 of 22 weekdays</strong> qualifying as high-volume days. March likely required supplemental staffing on most weekdays, reinforcing the value of the noon trigger protocol.</div>
-    </div>
-
-    <div class="insight-card warn">
-      <div class="insight-tag">⚠️ Insight 2 · Timeliness Decline</div>
-      <div class="insight-title">ESI 2 &lt;25-Minute Rate Dropped to 83% — Volume-Driven Degradation Needs Monitoring</div>
-      <div class="insight-body">ESI 2 timeliness fell from <strong>88.3% in April to 83.0% in March</strong>, approaching the 80% alert threshold. Importantly, no individual hour exceeded the 25-minute target (peak was 20.3 min at 19:00) — meaning the decline is driven by overall throughput pressure rather than a specific time-of-day failure. With a weekday volume of 155.8 patients/day in March, this performance is still commendable, but the trend requires active monitoring as volume continues to grow.</div>
-    </div>
-
-    <div class="insight-card alert">
-      <div class="insight-tag">🛏️ Insight 3 · Boarding Worsening</div>
-      <div class="insight-title">Admit LOS Climbed to 386 Minutes — Boarding Burden Increased Month-Over-Month</div>
-      <div class="insight-body">Median admit LOS worsened from <strong>371 min (April) to 386 min (March)</strong>, now reaching 6 hours 26 minutes. With 866 admissions in March (18.7% of visits), admitted patients are occupying ED beds for an average of 2 hr 50 min longer than discharged patients. This is an accelerating trend. The 15-minute month-over-month increase, if sustained, projects to boarding times exceeding 7 hours by summer. Inpatient throughput escalation and bed assignment SLA enforcement should be treated as urgent priorities.</div>
-    </div>
-
-    <div class="insight-card warn">
-      <div class="insight-tag">⚠️ Insight 4 · D2D Outliers</div>
-      <div class="insight-title">Door-to-Doc Outliers &gt;120 Minutes Spiked to 216 — 2.5× April's Rate</div>
-      <div class="insight-body">While the median D2D was only 3 minutes higher than April (21 vs 18 min), extreme outliers &gt;120 minutes jumped dramatically to <strong>216 encounters</strong> versus April's 87. This 2.5× increase is disproportionate to the volume increase and suggests documentation or registration workflow issues that inflate apparent D2D at high-volume times. A spot audit of these 216 records — particularly checking whether arrival time, registration time, and provider assessment time are being captured correctly — is warranted before accepting these as true clinical delays.</div>
-    </div>
-
-    <div class="insight-card alert">
-      <div class="insight-tag">🔴 Insight 5 · LOS Goal Breach</div>
-      <div class="insight-title">First Provider to Exceed 300-Minute LOS Goal: BATIZY L at 304.1 Minutes</div>
-      <div class="insight-body">BATIZY L is the first provider to exceed the 300-minute discharge LOS goal (304.1 min, n=22), compared to the department best of 160.0 min (BUNKER C). This is a new finding not present in April data and warrants a direct, supportive coaching conversation. The 144-minute spread between the best and highest-LOS providers is wider than April's 113-minute range, suggesting throughput variance is growing as overall volume increases.</div>
-    </div>
-
-    <div class="insight-card positive">
-      <div class="insight-tag">✅ Insight 6 · Productivity Win</div>
-      <div class="insight-title">Highest-Volume Month Also Produced Best Productivity — Both Pt/Hr and aPPH Above Goal</div>
-      <div class="insight-body">March's elevated volume translated into strong productivity: <strong>Pt/Hr = 2.02</strong> (vs goal 1.85, and vs April's 1.89) and <strong>aPPH = 2.58</strong> (vs goal 2.45, and vs April's 2.41 which was below goal). Both metrics are now green for the first time. This confirms the team is handling volume efficiently — the key challenge is managing the downstream effects of that volume on timeliness and boarding, not productivity itself. Confirm March hours to finalize these figures.</div>
-    </div>
-  </div>
-    <div class="card">
-      <div class="action-item">
-        <div class="action-num">1</div>
-        <div class="action-text"><strong>Operationalize the Noon Trigger — Now Validated Across 2 Months:</strong> The ≥54–55 patients by noon threshold has held up in both March (PPV 93%) and April (PPV 91%). Present to TeamHealth scheduling as a standing escalation protocol. Charge RN checks cumulative arrivals at noon daily; if threshold met, attending is notified to initiate supplemental coverage review.</div>
-      </div>
-      <div class="action-item">
-        <div class="action-num">2</div>
-        <div class="action-text"><strong>Escalate Boarding to Hospital Leadership — Trend is Accelerating:</strong> Admit LOS rose 15 minutes month-over-month (371→386 min) during the highest-volume month on record. Present 2-month boarding trend with an urgent request for a bed assignment SLA (&lt;60 min from admit order) and a formal boarding escalation protocol for patients boarding &gt;4 hours.</div>
-      </div>
-      <div class="action-item">
-        <div class="action-num">3</div>
-        <div class="action-text"><strong>Audit the 216 D2D &gt;120-Min Outliers:</strong> Pull a sample of these records and verify the registration, triage, and provider assessment timestamps are being captured accurately. If documentation gaps are found, a registration/triage workflow correction will improve reported metrics without requiring clinical changes.</div>
-      </div>
-      <div class="action-item">
-        <div class="action-num">4</div>
-        <div class="action-text"><strong>Initiate Coaching for BATIZY L:</strong> First provider to breach the 300-min goal. Schedule a brief, constructive conversation framing their LOS data in the context of peer benchmarks and the department goal. Focus on early disposition planning for ESI 3/4/5 patients and fast-track pathway adherence.</div>
-      </div>
-      <div class="action-item">
-        <div class="action-num">5</div>
-        <div class="action-text"><strong>Monitor ESI 2 Timeliness Closely — Do Not Let It Drop Below 80%:</strong> At 83%, the department is 3 points above the alert threshold during a record-volume month. This is resilient but not comfortable. Validate that provider-in-triage or fast-track coverage is maintained on all high-volume weekdays, particularly Mondays.</div>
-      </div>
-    </div>
-  </div>
-    <div class="card">
-      <div class="dq-item"><div class="dq-icon">✅</div><div class="dq-text"><strong>LOS &gt;24 hours: 19 records excluded.</strong> Same pattern as April — admitted patients with checkout dates reflecting inpatient discharge rather than ED departure. All were "Admit to Inpatient" or "Acute Care Facility" dispositions.</div></div>
-      <div class="dq-item"><div class="dq-icon">✅</div><div class="dq-text"><strong>95 encounters missing primary physician.</strong> 73 LWOT/eloped patients account for most of this. True unexplained gap ~22 records (&lt;0.5% of non-LWOT encounters). No action required.</div></div>
-      <div class="dq-item"><div class="dq-icon">⚠️</div><div class="dq-text"><strong>48 encounters missing acuity — 1.0% of total.</strong> Higher than April's 0.6%. Recommend reinforcing triage documentation expectations.</div></div>
-      <div class="dq-item"><div class="dq-icon">⚠️</div><div class="dq-text"><strong>216 door-to-doc values exceed 120 minutes (vs April's 87).</strong> This spike is disproportionate to volume increase and warrants a documentation audit as noted in Insight 4.</div></div>
-      <div class="dq-item"><div class="dq-icon">⚠️</div><div class="dq-text"><strong>Productivity hours not confirmed for March.</strong> Pt/Hr and aPPH calculated using April hours (MD 1,268.25 · APC 985.25) as a provisional estimate. Please confirm March hours to finalize.</div></div>
-      <div class="dq-item"><div class="dq-icon">✅</div><div class="dq-text"><strong>No negative LOS values. All disposition categories mapped cleanly.</strong> Two new providers noted (CLARK J, SUTHERLAND K) — added to provider LOS chart with sufficient encounter volume.</div></div>
-    </div>
-  </div>
-
-</div>
-
-  </div>
-</div>
-
 <div class="report-footer">
   🏥 Banner Gateway Medical Center · Emergency Department · Monthly Operating Report · March 2026 &nbsp;|&nbsp; Internal Use Only · Prepared by Eric Cummins, MD
 </div>
@@ -544,23 +455,18 @@ new Chart(document.getElementById('lwotChart'),{
 });
 
 // PPH CHART — March
-const pphNames=["WEIDENBACH K","BOOTY N","SUTHERLAND K","FIGUEROA A","MCKELVY A","BERMAN D","FAKLER R","LOMBARDI K","LOGGINS B","BOESCH D","JIMENEZ A","JONES S","ANDES J","HAPEMAN B","BATIZY L","CUMMINS E","CLARK J","RIGBY D","WALLBRECHT J","HAMBLIN L","MCDOWELL M","HUNTER J","BUNKER C","EGBERT J","WINTER A","ANDONYAN A","PAVLUE B","WRIGHT E"];
-const pphVals=[1.13,1.38,1.42,1.61,1.71,1.72,1.80,1.83,1.88,1.89,1.97,2.06,2.08,2.10,2.13,2.13,2.15,2.20,2.22,2.25,2.27,2.28,2.38,2.39,2.49,2.64,2.66,3.08];
-const DEPT_AVG=2.07,PPH_GOAL=1.85;
+const pphNames=["WRIGHT E ⭐","PAVLUE B ⭐","ANDONYAN A ⭐","WINTER A ⭐","EGBERT J ⭐","BUNKER C ⭐","HUNTER J ⭐","MCDOWELL M ⭐","HAMBLIN L ⭐","WALLBRECHT J ⭐","RIGBY D ⭐","CLARK J ⭐","CUMMINS E ⭐","BATIZY L ⭐","HAPEMAN B ⭐","ANDES J ⭐","JONES S ⭐","JIMENEZ A ⭐","BOESCH D ⭐","LOGGINS B ⭐","LOMBARDI K","FAKLER R","BERMAN D","MCKELVY A","FIGUEROA A","SUTHERLAND K","BOOTY N","WEIDENBACH K"];
+const pphVals=[3.08,2.66,2.64,2.49,2.39,2.38,2.28,2.27,2.25,2.22,2.2,2.15,2.13,2.13,2.1,2.08,2.06,1.97,1.89,1.88,1.83,1.8,1.72,1.71,1.61,1.42,1.38,1.13];
+const DEPT_AVG=2.07;
 const PPH_STAR=1.88;const pphBg=pphVals.map(v=>v>=PPH_STAR?'rgba(36,59,85,0.88)':'rgba(100,130,170,0.38)');
 const pphBdr=pphVals.map(v=>v>=PPH_STAR?'rgba(36,59,85,1)':'rgba(100,130,170,0.6)');
 const pphGoalPlugin={id:'pphGoalLines',afterDraw(chart){
   const ctx=chart.ctx,xScale=chart.scales.x,top=chart.chartArea.top,bottom=chart.chartArea.bottom;
-  const xGoal=xScale.getPixelForValue(PPH_GOAL);
-  ctx.save();ctx.strokeStyle='rgba(217,119,6,0.85)';ctx.lineWidth=2;ctx.setLineDash([4,4]);
-  ctx.beginPath();ctx.moveTo(xGoal,top);ctx.lineTo(xGoal,bottom);ctx.stroke();
-  ctx.fillStyle='rgba(217,119,6,0.85)';ctx.font='bold 10px Nunito,sans-serif';ctx.textAlign='left';ctx.textBaseline='top';
-  ctx.fillText('Goal 1.85',xGoal+3,top+3);
   const xAvg=xScale.getPixelForValue(DEPT_AVG);
-  ctx.strokeStyle='rgba(42,100,120,0.7)';ctx.lineWidth=2;ctx.setLineDash([7,5]);
+  ctx.save();ctx.strokeStyle='rgba(42,100,120,0.7)';ctx.lineWidth=2;ctx.setLineDash([7,5]);
   ctx.beginPath();ctx.moveTo(xAvg,top);ctx.lineTo(xAvg,bottom);ctx.stroke();
-  ctx.fillStyle='rgba(42,100,120,0.85)';ctx.textAlign='left';
-  ctx.fillText('Avg '+DEPT_AVG,xAvg+3,top+16);
+  ctx.fillStyle='rgba(42,100,120,0.85)';ctx.font='bold 10px Nunito,sans-serif';ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillText('Avg '+DEPT_AVG,xAvg+3,top+8);
   ctx.setLineDash([]);ctx.restore();
 }};
 new Chart(document.getElementById('providerPPHChart'),{
@@ -609,78 +515,3 @@ new Chart(document.getElementById('esi2D2DChart'),{
     scales:{x:{grid:{display:false},ticks:{maxRotation:45,font:{size:10}}},y:{beginAtZero:true,title:{display:true,text:'Mean D2D (minutes)',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}}}}
 });
 
-
-// ════════════════════════════════════════
-// MOBILE VIEW SYSTEM
-// ════════════════════════════════════════
-function buildPPHMobile() {
-  if (!document.getElementById('mobilePPHRows')) return;
-  const MAX = 3.1;
-  const combined = pphNames.map((n, i) => ({name: n, val: pphVals[i]}))
-    .sort((a, b) => b.val - a.val);
-  let html = '';
-  combined.forEach((p, rank) => {
-    const pct = Math.min((p.val / MAX) * 100, 100).toFixed(1);
-    const good = p.val >= 1.88;
-    const col = good ? 'rgba(36,59,85,0.88)' : 'rgba(100,130,170,0.5)';
-    const icon = good ? '⭐' : '';
-    html += `<div class="ml-row">
-      <div class="ml-rank">${rank+1}</div>
-      <div class="ml-name">${p.name}</div>
-      <div class="ml-bar-bg"><div class="ml-bar-fill" style="width:${pct}%;background:${col}"></div></div>
-      <div class="ml-val" style="color:${good?'#243b55':'#6882aa'}">${p.val.toFixed(2)}</div>
-      <div class="ml-icon">${icon}</div>
-    </div>`;
-  });
-  document.getElementById('mobilePPHRows').innerHTML = html;
-}
-
-function buildLOSMobile() {
-  if (!document.getElementById('mobileLOSRows')) return;
-  const MAX_LOS = 390;
-  const combined = provNames.map((n, i) => ({name: n, val: provLOS[i], n: provN[i]}))
-    .sort((a, b) => a.val - b.val);
-  let html = '';
-  combined.forEach((p, i) => {
-    const pct = Math.min((p.val / MAX_LOS) * 100, 100).toFixed(1);
-    const good = p.val <= 240;
-    const col = good ? 'rgba(45,106,79,0.85)' : 'rgba(45,106,79,0.38)';
-    const icon = good ? '⭐' : '';
-    html += `<div class="ml-row">
-      <div class="ml-rank">${i+1}</div>
-      <div class="ml-name">${p.name}</div>
-      <div class="ml-bar-bg"><div class="ml-bar-fill" style="width:${pct}%;background:${col}"></div></div>
-      <div class="ml-val" style="color:${good?'#1b4c38':'#2d6a4f'}">${Math.round(p.val)}<span style="font-size:9px;font-weight:600;opacity:0.7">m</span></div>
-      <div class="ml-icon">${icon}</div>
-    </div>`;
-  });
-  document.getElementById('mobileLOSRows').innerHTML = html;
-}
-
-function applyEdView(mode) {
-  sessionStorage.setItem('edView', mode);
-  const btn = document.getElementById('viewToggleBtn');
-  if (mode === 'mobile') {
-    document.body.classList.add('mob-view');
-    btn.textContent = '📊 Chart View';
-  } else {
-    document.body.classList.remove('mob-view');
-    btn.textContent = '📱 Mobile View';
-  }
-}
-
-function toggleEdView() {
-  applyEdView(document.body.classList.contains('mob-view') ? 'desktop' : 'mobile');
-}
-
-(function initEdView() {
-  const stored = sessionStorage.getItem('edView');
-  const autoMob = window.innerWidth <= 768;
-  buildPPHMobile();
-  buildLOSMobile();
-  applyEdView(stored || (autoMob ? 'mobile' : 'desktop'));
-})();
-
-</script>
-</body>
-</html>
