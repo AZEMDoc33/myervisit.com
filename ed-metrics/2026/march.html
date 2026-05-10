@@ -165,35 +165,8 @@
 
   /* FOOTER */
   .report-footer{background:var(--header);color:rgba(255,255,255,0.35);text-align:center;padding:18px 32px;font-size:11px;font-weight:600;letter-spacing:0.5px;position:relative;}
-
-
-  /* ── DIRECTOR SECTION ── */
-  #director-zone{display:none;}
-  #director-zone.unlocked{display:block;}
-  .director-banner{background:linear-gradient(90deg,#7c5cbf,#5a3fa0);border-radius:var(--radius);padding:14px 22px;margin-bottom:28px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-lg);}
-  .director-banner-text{color:white;font-size:13px;font-weight:700;}
-  .director-banner-sub{color:rgba(255,255,255,0.6);font-size:11px;margin-top:2px;}
-  /* ── FOOTER & LOCK ── */
-  .lock-btn{position:absolute;right:24px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;color:rgba(255,255,255,0.3);transition:all 0.2s;user-select:none;}
-  .lock-btn:hover{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);}
-  .lock-btn.unlocked-state{color:var(--gold-light);border-color:rgba(201,169,75,0.4);}
-  /* PIN MODAL */
-  .pin-overlay{display:none;position:fixed;inset:0;background:rgba(15,25,40,0.65);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
-  .pin-overlay.active{display:flex;}
-  .pin-modal{background:white;border-radius:20px;padding:32px 36px;width:320px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;}
-  .pin-modal-icon{font-size:36px;margin-bottom:12px;}
-  .pin-modal-title{font-size:17px;font-weight:800;color:var(--header);margin-bottom:4px;}
-  .pin-modal-sub{font-size:12px;color:var(--text-light);margin-bottom:20px;}
-  .pin-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:12px 16px;font-size:18px;font-family:'Nunito',sans-serif;font-weight:700;text-align:center;letter-spacing:4px;outline:none;color:var(--header);transition:border-color 0.2s;}
-  .pin-input:focus{border-color:var(--teal);}
-  .pin-input.error{border-color:var(--red);animation:shake 0.3s;}
   @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-  .pin-btn{width:100%;margin-top:14px;background:var(--header);color:white;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;transition:background 0.15s;}
-  .pin-btn:hover{background:var(--header-mid);}
-  .pin-cancel{margin-top:10px;font-size:12px;color:var(--text-light);cursor:pointer;font-weight:600;}
-  .pin-cancel:hover{color:var(--text);}
-  .pin-error-msg{font-size:11px;color:var(--red);font-weight:700;margin-top:8px;min-height:16px;}
-  @media print{.lock-btn,.pin-overlay{display:none!important;}}
+  @media print{}
   @media print{
     body{background:white;}
     .report-header,.prod-card{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
