@@ -323,6 +323,35 @@
     </div>
   </div>
 
+  <!-- PROVIDER PPH CHART -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">⚡</div><div class="section-title">Provider Productivity — Patients per Hour by Clinician</div><div class="section-line"></div></div>
+    <div class="chart-card">
+      <div class="chart-title">Patients per Hour by Provider — January 2026 &nbsp;·&nbsp; Goal: ≥1.85 pt/hr</div>
+      <div class="chart-subtitle">🟠 Below goal (&lt;1.85) &nbsp; 🔵 Below dept avg &nbsp; 🟢 Above dept avg (1.91 pt/hr) · Sorted lowest → highest · Dashed = dept avg · Dotted = 1.85 goal</div>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+        <span style="background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">🎯 Goal: ≥1.85 pt/hr</span>
+        <span style="background:var(--teal-pale);color:var(--teal);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">📊 Dept Cohort Avg: 1.91 pt/hr</span>
+      </div>
+      <div class="chart-container" style="height:722px"><canvas id="providerPPHChart"></canvas></div>
+    </div>
+  </div>
+      </div>
+      <div class="chart-title" style="opacity:0.3;">Patients per Hour by Provider — January 2026</div>
+      <div class="chart-subtitle" style="opacity:0.3;">Sorted highest → lowest · Goal line at 1.85 pt/hr</div>
+      <div style="height:460px;opacity:0.15;padding-top:8px;"><canvas id="providerPPHPlaceholder"></canvas></div>
+    </div>
+  </div>
+<!-- SECTION 9: PROVIDER LOS -->
+  <div class="section">
+    <div class="section-header"><div class="section-emoji">👨‍⚕️</div><div class="section-title">Provider Discharge LOS — ESI 3, 4 &amp; 5 Patients</div><div class="section-line"></div></div>
+    <div class="chart-card">
+      <div class="chart-title">Mean Discharge LOS by Provider (ESI 3/4/5, Discharged Only) &nbsp;·&nbsp; 🎯 Goal: &lt;300 min</div>
+      <div class="chart-subtitle">Sorted lowest → highest · Min 15 ESI 3/4/5 discharges · 🟢 Low tertile &nbsp; 🟣 Middle &nbsp; 🔴 High tertile · Red dashed = 300-min goal</div>
+      <div class="chart-container" style="height:620px"><canvas id="providerLOSChart"></canvas></div>
+    </div>
+  </div>
+
   <!-- SECTION 3: PRODUCTIVITY -->
   <div class="section">
     <div class="section-header"><div class="section-emoji">⚡</div><div class="section-title">Provider Productivity</div><div class="section-line"></div></div>
@@ -437,36 +466,6 @@
       <div class="chart-title">Total LWOT Events by Hour of Day</div>
       <div class="chart-subtitle">Left Without Treatment + Eloped · 35 total events · Lowest LWOT count of Q1 · Evening clustering 17:00–21:00</div>
       <div class="chart-container" style="height:230px"><canvas id="lwotChart"></canvas></div>
-    </div>
-  </div>
-
-  <!-- PROVIDER PPH CHART -->
-  <div class="section">
-    <div class="section-header"><div class="section-emoji">⚡</div><div class="section-title">Provider Productivity — Patients per Hour by Clinician</div><div class="section-line"></div></div>
-    <div class="chart-card">
-      <div class="chart-title">Patients per Hour by Provider — January 2026 &nbsp;·&nbsp; Goal: ≥1.85 pt/hr</div>
-      <div class="chart-subtitle">🟠 Below goal (&lt;1.85) &nbsp; 🔵 Below dept avg &nbsp; 🟢 Above dept avg (1.91 pt/hr) · Sorted lowest → highest · Dashed = dept avg · Dotted = 1.85 goal</div>
-      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-        <span style="background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">🎯 Goal: ≥1.85 pt/hr</span>
-        <span style="background:var(--teal-pale);color:var(--teal);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">📊 Dept Cohort Avg: 1.91 pt/hr</span>
-      </div>
-      <div class="chart-container" style="height:722px"><canvas id="providerPPHChart"></canvas></div>
-    </div>
-  </div>
-      </div>
-      <div class="chart-title" style="opacity:0.3;">Patients per Hour by Provider — January 2026</div>
-      <div class="chart-subtitle" style="opacity:0.3;">Sorted highest → lowest · Goal line at 1.85 pt/hr</div>
-      <div style="height:460px;opacity:0.15;padding-top:8px;"><canvas id="providerPPHPlaceholder"></canvas></div>
-    </div>
-  </div>
-
-  <!-- SECTION 9: PROVIDER LOS -->
-  <div class="section">
-    <div class="section-header"><div class="section-emoji">👨‍⚕️</div><div class="section-title">Provider Discharge LOS — ESI 3, 4 &amp; 5 Patients</div><div class="section-line"></div></div>
-    <div class="chart-card">
-      <div class="chart-title">Mean Discharge LOS by Provider (ESI 3/4/5, Discharged Only) &nbsp;·&nbsp; 🎯 Goal: &lt;300 min</div>
-      <div class="chart-subtitle">Sorted lowest → highest · Min 15 ESI 3/4/5 discharges · 🟢 Low tertile &nbsp; 🟣 Middle &nbsp; 🔴 High tertile · Red dashed = 300-min goal</div>
-      <div class="chart-container" style="height:620px"><canvas id="providerLOSChart"></canvas></div>
     </div>
   </div>
 
