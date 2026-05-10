@@ -473,35 +473,14 @@
       <div class="section-title">Provider Productivity — Patients per Hour by Clinician</div>
       <div class="section-line"></div>
     </div>
-    <div class="chart-card" style="position:relative; overflow:hidden;">
-      <!-- Frosted placeholder overlay -->
-      <div style="
-        position:absolute; inset:0; z-index:10;
-        background:rgba(242,232,218,0.82);
-        backdrop-filter:blur(3px);
-        display:flex; flex-direction:column;
-        align-items:center; justify-content:center;
-        border-radius:var(--radius);
-        gap:10px;
-        text-align:center;
-        padding:24px;
-      ">
-        <div style="font-size:36px;">⚡</div>
-        <div style="font-size:16px; font-weight:800; color:var(--header);">Provider Pt/Hr Coming Soon</div>
-        <div style="font-size:13px; color:var(--text-mid); max-width:420px; line-height:1.65;">
-          Individual clinician productivity data (patients per hour) will be published here each month once provider-level hours are submitted. This section will rank providers by Pt/Hr alongside their discharge LOS for a complete efficiency picture.
-        </div>
-        <div style="display:flex; gap:10px; margin-top:6px; flex-wrap:wrap; justify-content:center;">
-          <span style="background:var(--green-pale); color:var(--green); font-size:11px; font-weight:700; padding:4px 12px; border-radius:999px; letter-spacing:0.5px;">Goal: ≥ 1.85 pt/hr</span>
-          <span style="background:var(--teal-pale); color:var(--teal); font-size:11px; font-weight:700; padding:4px 12px; border-radius:999px; letter-spacing:0.5px;">Dept Avg: 1.89 pt/hr</span>
-        </div>
+    <div class="chart-card">
+      <div class="chart-title">Patients per Hour by Provider — April 2026 &nbsp;·&nbsp; Goal: ≥1.85 pt/hr</div>
+      <div class="chart-subtitle">🟠 Below goal (&lt;1.85) &nbsp; 🔵 Below dept avg &nbsp; 🟢 Above dept avg (1.95 pt/hr) · Sorted lowest → highest · Dashed = dept cohort avg · Dotted = 1.85 goal</div>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+        <span style="background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">🎯 Goal: ≥1.85 pt/hr</span>
+        <span style="background:var(--teal-pale);color:var(--teal);font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;">📊 Dept Cohort Avg: 1.95 pt/hr</span>
       </div>
-      <!-- Ghost chart underneath (shows through the blur) -->
-      <div class="chart-title" style="opacity:0.3;">Patients per Hour by Provider — April 2026</div>
-      <div class="chart-subtitle" style="opacity:0.3;">Sorted highest → lowest · Providers with ≥10 encounters · Goal line at 1.85 pt/hr</div>
-      <div style="height:460px; opacity:0.15; padding-top:8px;">
-        <canvas id="providerPPHPlaceholder"></canvas>
-      </div>
+      <div class="chart-container" style="height:650px"><canvas id="providerPPHChart"></canvas></div>
     </div>
   </div>
 
@@ -847,12 +826,33 @@ new Chart(document.getElementById('esi2D2DChart'),{
     scales:{x:{grid:{display:false},ticks:{maxRotation:45,font:{size:10}}},y:{beginAtZero:true,title:{display:true,text:'Mean D2D (minutes)',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}}}}
 });
 
-// April PPH placeholder ghost chart
-const ghostNames=provNames.slice();
-const ghostPPH=ghostNames.map(()=>+(1.2+Math.random()*1.4).toFixed(2));
-new Chart(document.getElementById('providerPPHPlaceholder'),{
-  type:'bar',data:{labels:ghostNames,datasets:[{data:ghostPPH,backgroundColor:'rgba(90,143,160,0.5)',borderColor:'rgba(42,100,120,0.6)',borderWidth:1,borderRadius:4}]},
-  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{grid:{display:false},ticks:{font:{size:11}}}},animation:false}
+// PPH CHART — April
+const pphNames=["ANDONYAN A","WEIDENBACH K","JABALI A","BERMAN D","LOMBARDI K","MCKELVY A","FAKLER R","JIMENEZ A","FIGUEROA A","LOGGINS B","BATIZY L","BOESCH D","JONES S","WALLBRECHT J","ANDES J","CUMMINS E","EGBERT J","MCDOWELL M","HAPEMAN B","HUNTER J","HAMBLIN L","WINTER A","RIGBY D","BUNKER C","PAVLUE B","WRIGHT E"];
+const pphVals=[1.50,1.50,1.52,1.60,1.68,1.71,1.76,1.77,1.83,1.85,1.89,1.90,1.91,1.94,1.96,1.97,2.05,2.07,2.09,2.11,2.15,2.20,2.30,2.31,2.65,2.83];
+const DEPT_AVG=1.95,PPH_GOAL=1.85;
+const pphBg=pphVals.map(v=>v<PPH_GOAL?'rgba(217,119,6,0.72)':v<DEPT_AVG?'rgba(90,143,160,0.72)':'rgba(58,138,90,0.72)');
+const pphBdr=pphVals.map(v=>v<PPH_GOAL?'rgba(161,87,4,0.9)':v<DEPT_AVG?'rgba(42,100,120,0.9)':'rgba(39,103,73,0.9)');
+const pphGoalPlugin={id:'pphGoalLines',afterDraw(chart){
+  const ctx=chart.ctx,xScale=chart.scales.x,top=chart.chartArea.top,bottom=chart.chartArea.bottom;
+  const xGoal=xScale.getPixelForValue(PPH_GOAL);
+  ctx.save();ctx.strokeStyle='rgba(217,119,6,0.85)';ctx.lineWidth=2;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(xGoal,top);ctx.lineTo(xGoal,bottom);ctx.stroke();
+  ctx.fillStyle='rgba(217,119,6,0.85)';ctx.font='bold 10px Nunito,sans-serif';ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillText('Goal 1.85',xGoal+3,top+3);
+  const xAvg=xScale.getPixelForValue(DEPT_AVG);
+  ctx.strokeStyle='rgba(42,100,120,0.7)';ctx.lineWidth=2;ctx.setLineDash([7,5]);
+  ctx.beginPath();ctx.moveTo(xAvg,top);ctx.lineTo(xAvg,bottom);ctx.stroke();
+  ctx.fillStyle='rgba(42,100,120,0.85)';ctx.textAlign='left';
+  ctx.fillText('Avg '+DEPT_AVG,xAvg+3,top+16);
+  ctx.setLineDash([]);ctx.restore();
+}};
+new Chart(document.getElementById('providerPPHChart'),{
+  type:'bar',data:{labels:pphNames,datasets:[{label:'Pt/Hr',data:pphVals,backgroundColor:pphBg,borderColor:pphBdr,borderWidth:1.5,borderRadius:4}]},
+  plugins:[pphGoalPlugin],
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.x.toFixed(2)} pt/hr`}}},
+    scales:{x:{min:0,max:3.3,title:{display:true,text:'Patients per Hour',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'},ticks:{callback:v=>v.toFixed(1)}},
+    y:{grid:{display:false},ticks:{font:{size:11.5},autoSkip:false,maxTicksLimit:999}}}}
 });
 
 // PIN
