@@ -266,6 +266,84 @@ body {
   color: rgba(107,114,128,0.6);
   padding: 0 20px 16px;
 }
+/* MAY 2026 VOLUME CALENDAR */
+.vol-calendar-wrap { margin-bottom: 28px; }
+.vol-stats-strip {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr;
+  align-items: center;
+  background: var(--warm-white);
+  border-radius: 14px;
+  padding: 14px 10px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+}
+.vol-stat { text-align: center; padding: 0 4px; }
+.vol-stat-divider { width: 1px; height: 30px; background: rgba(30,58,95,0.1); justify-self: center; }
+.vol-stat-num {
+  font-size: 1.1rem; font-weight: 700; color: var(--navy);
+  font-family: 'Playfair Display', serif;
+}
+.vol-stat-label {
+  font-size: 0.58rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--muted); margin-top: 2px;
+}
+.vol-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+.vol-cal-dow {
+  text-align: center; font-size: 0.56rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); padding: 2px 0 6px;
+}
+.vol-day {
+  border-radius: 7px; text-align: center;
+  padding: 5px 1px 6px; min-height: 48px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.vol-day.empty { background: transparent; min-height: 0; }
+.vol-day.future { background: rgba(30,58,95,0.04); }
+.vol-day.low  { background: var(--teal); }
+.vol-day.med  { background: var(--navy); }
+.vol-day.high { background: #0E2236; border: 1.5px solid rgba(201,151,58,0.45); }
+.vol-day.today {
+  background: var(--warm-white);
+  border: 2px solid var(--gold);
+  animation: todayPulse 2.5s ease-in-out infinite;
+}
+@keyframes todayPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,151,58,0.5); }
+  50%       { box-shadow: 0 0 0 5px rgba(201,151,58,0); }
+}
+.vol-day-num { font-size: 0.58rem; font-weight: 600; line-height: 1; }
+.vol-day.future .vol-day-num { color: rgba(30,58,95,0.28); }
+.vol-day.low  .vol-day-num,
+.vol-day.med  .vol-day-num,
+.vol-day.high .vol-day-num { color: rgba(255,255,255,0.6); }
+.vol-day.today .vol-day-num { color: var(--gold); font-weight: 700; }
+.vol-day-count { font-size: 0.8rem; font-weight: 700; margin-top: 4px; line-height: 1; }
+.vol-day.low  .vol-day-count,
+.vol-day.med  .vol-day-count,
+.vol-day.high .vol-day-count { color: #fff; }
+.vol-today-label {
+  font-size: 0.46rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--gold); margin-top: 3px;
+}
+.vol-legend {
+  display: flex; justify-content: center; gap: 14px; margin-top: 10px;
+}
+.vol-leg-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.62rem; color: var(--muted); font-weight: 500;
+}
+.vol-leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.vol-leg-dot.l { background: var(--teal); }
+.vol-leg-dot.m { background: var(--navy); }
+.vol-leg-dot.h { background: #0E2236; border: 1px solid rgba(201,151,58,0.5); }
 </style>
 </head>
 <body>
@@ -318,6 +396,68 @@ body {
       </div>
     </a>
 
+  </div>
+
+  <!-- MAY 2026 DAILY VOLUME CALENDAR -->
+  <div class="vol-calendar-wrap">
+    <div class="section-label" style="margin-bottom:10px;">📅 May 2026 — Daily Volume</div>
+
+    <!-- Stats strip -->
+    <div class="vol-stats-strip">
+      <div class="vol-stat">
+        <div class="vol-stat-num">1,980</div>
+        <div class="vol-stat-label">MTD Visits</div>
+      </div>
+      <div class="vol-stat-divider"></div>
+      <div class="vol-stat">
+        <div class="vol-stat-num">141</div>
+        <div class="vol-stat-label">Avg / Day</div>
+      </div>
+      <div class="vol-stat-divider"></div>
+      <div class="vol-stat">
+        <div class="vol-stat-num">~4,384</div>
+        <div class="vol-stat-label">Projected</div>
+      </div>
+    </div>
+
+    <!-- Calendar grid — May 1 = Friday -->
+    <div class="vol-cal-grid">
+      <!-- DOW headers -->
+      <div class="vol-cal-dow">Su</div><div class="vol-cal-dow">Mo</div><div class="vol-cal-dow">Tu</div><div class="vol-cal-dow">We</div><div class="vol-cal-dow">Th</div><div class="vol-cal-dow">Fr</div><div class="vol-cal-dow">Sa</div>
+      <!-- Week 1 -->
+      <div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div>
+      <div class="vol-day med"><div class="vol-day-num">1</div><div class="vol-day-count">146</div></div>
+      <div class="vol-day med"><div class="vol-day-num">2</div><div class="vol-day-count">137</div></div>
+      <!-- Week 2 -->
+      <div class="vol-day low"><div class="vol-day-num">3</div><div class="vol-day-count">126</div></div>
+      <div class="vol-day high"><div class="vol-day-num">4</div><div class="vol-day-count">164</div></div>
+      <div class="vol-day med"><div class="vol-day-num">5</div><div class="vol-day-count">146</div></div>
+      <div class="vol-day med"><div class="vol-day-num">6</div><div class="vol-day-count">137</div></div>
+      <div class="vol-day low"><div class="vol-day-num">7</div><div class="vol-day-count">128</div></div>
+      <div class="vol-day med"><div class="vol-day-num">8</div><div class="vol-day-count">131</div></div>
+      <div class="vol-day low"><div class="vol-day-num">9</div><div class="vol-day-count">129</div></div>
+      <!-- Week 3 -->
+      <div class="vol-day low"><div class="vol-day-num">10</div><div class="vol-day-count">103</div></div>
+      <div class="vol-day high"><div class="vol-day-num">11</div><div class="vol-day-count">175</div></div>
+      <div class="vol-day high"><div class="vol-day-num">12</div><div class="vol-day-count">168</div></div>
+      <div class="vol-day low"><div class="vol-day-num">13</div><div class="vol-day-count">130</div></div>
+      <div class="vol-day high"><div class="vol-day-num">14</div><div class="vol-day-count">160</div></div>
+      <div class="vol-day today"><div class="vol-day-num">15</div><div class="vol-today-label">Today</div></div>
+      <div class="vol-day future"><div class="vol-day-num">16</div></div>
+      <!-- Week 4 -->
+      <div class="vol-day future"><div class="vol-day-num">17</div></div><div class="vol-day future"><div class="vol-day-num">18</div></div><div class="vol-day future"><div class="vol-day-num">19</div></div><div class="vol-day future"><div class="vol-day-num">20</div></div><div class="vol-day future"><div class="vol-day-num">21</div></div><div class="vol-day future"><div class="vol-day-num">22</div></div><div class="vol-day future"><div class="vol-day-num">23</div></div>
+      <!-- Week 5 -->
+      <div class="vol-day future"><div class="vol-day-num">24</div></div><div class="vol-day future"><div class="vol-day-num">25</div></div><div class="vol-day future"><div class="vol-day-num">26</div></div><div class="vol-day future"><div class="vol-day-num">27</div></div><div class="vol-day future"><div class="vol-day-num">28</div></div><div class="vol-day future"><div class="vol-day-num">29</div></div><div class="vol-day future"><div class="vol-day-num">30</div></div>
+      <!-- Week 6 -->
+      <div class="vol-day future"><div class="vol-day-num">31</div></div><div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div>
+    </div>
+
+    <!-- Legend -->
+    <div class="vol-legend">
+      <span class="vol-leg-item"><span class="vol-leg-dot l"></span>≤130</span>
+      <span class="vol-leg-item"><span class="vol-leg-dot m"></span>131–155</span>
+      <span class="vol-leg-item"><span class="vol-leg-dot h"></span>≥156</span>
+    </div>
   </div>
 
   <!-- ADD TO HOME SCREEN -->
