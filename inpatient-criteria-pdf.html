@@ -269,19 +269,16 @@ body {
 /* MAY 2026 VOLUME CALENDAR */
 .vol-calendar-wrap { margin-bottom: 28px; }
 .vol-stats-strip {
-  display: grid;
-  grid-template-columns: 1fr 1px 1fr 1px 1fr;
-  align-items: center;
+  display: flex; justify-content: center; align-items: center;
   background: var(--warm-white);
   border-radius: 14px;
-  padding: 14px 10px;
+  padding: 12px 10px;
   box-shadow: var(--shadow);
   margin-bottom: 14px;
 }
-.vol-stat { text-align: center; padding: 0 4px; }
-.vol-stat-divider { width: 1px; height: 30px; background: rgba(30,58,95,0.1); justify-self: center; }
+.vol-stat { text-align: center; }
 .vol-stat-num {
-  font-size: 1.1rem; font-weight: 700; color: var(--navy);
+  font-size: 1.3rem; font-weight: 700; color: var(--navy);
   font-family: 'Playfair Display', serif;
 }
 .vol-stat-label {
@@ -307,9 +304,9 @@ body {
 }
 .vol-day.empty { background: transparent; min-height: 0; }
 .vol-day.future { background: rgba(30,58,95,0.04); }
-.vol-day.low  { background: var(--teal); }
-.vol-day.med  { background: var(--navy); }
-.vol-day.high { background: #0E2236; border: 1.5px solid rgba(201,151,58,0.45); }
+.vol-day.low  { background: #fee2e2; }
+.vol-day.med  { background: #dcfce7; }
+.vol-day.high { background: #16a34a; }
 .vol-day.today {
   background: var(--warm-white);
   border: 2px solid var(--gold);
@@ -321,13 +318,13 @@ body {
 }
 .vol-day-num { font-size: 0.58rem; font-weight: 600; line-height: 1; }
 .vol-day.future .vol-day-num { color: rgba(30,58,95,0.28); }
-.vol-day.low  .vol-day-num,
-.vol-day.med  .vol-day-num,
-.vol-day.high .vol-day-num { color: rgba(255,255,255,0.6); }
+.vol-day.low  .vol-day-num { color: rgba(220,38,38,0.65); }
+.vol-day.med  .vol-day-num { color: rgba(22,101,52,0.65); }
+.vol-day.high .vol-day-num { color: rgba(255,255,255,0.7); }
 .vol-day.today .vol-day-num { color: var(--gold); font-weight: 700; }
 .vol-day-count { font-size: 0.8rem; font-weight: 700; margin-top: 4px; line-height: 1; }
-.vol-day.low  .vol-day-count,
-.vol-day.med  .vol-day-count,
+.vol-day.low  .vol-day-count { color: #dc2626; }
+.vol-day.med  .vol-day-count { color: #15803d; }
 .vol-day.high .vol-day-count { color: #fff; }
 .vol-today-label {
   font-size: 0.46rem; font-weight: 700; text-transform: uppercase;
@@ -341,9 +338,14 @@ body {
   font-size: 0.62rem; color: var(--muted); font-weight: 500;
 }
 .vol-leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
-.vol-leg-dot.l { background: var(--teal); }
-.vol-leg-dot.m { background: var(--navy); }
-.vol-leg-dot.h { background: #0E2236; border: 1px solid rgba(201,151,58,0.5); }
+.vol-leg-dot.l { background: #fee2e2; border: 1px solid #fca5a5; }
+.vol-leg-dot.m { background: #dcfce7; border: 1px solid #86efac; }
+.vol-leg-dot.h { background: #16a34a; }
+.vol-cal-divider {
+  margin-top: 14px;
+  border: none;
+  border-top: 1px solid rgba(30,58,95,0.1);
+}
 </style>
 </head>
 <body>
@@ -405,18 +407,8 @@ body {
     <!-- Stats strip -->
     <div class="vol-stats-strip">
       <div class="vol-stat">
-        <div class="vol-stat-num">1,980</div>
-        <div class="vol-stat-label">MTD Visits</div>
-      </div>
-      <div class="vol-stat-divider"></div>
-      <div class="vol-stat">
         <div class="vol-stat-num">141</div>
         <div class="vol-stat-label">Avg / Day</div>
-      </div>
-      <div class="vol-stat-divider"></div>
-      <div class="vol-stat">
-        <div class="vol-stat-num">~4,384</div>
-        <div class="vol-stat-label">Projected</div>
       </div>
     </div>
 
@@ -458,6 +450,7 @@ body {
       <span class="vol-leg-item"><span class="vol-leg-dot m"></span>131–155</span>
       <span class="vol-leg-item"><span class="vol-leg-dot h"></span>≥156</span>
     </div>
+    <hr class="vol-cal-divider" />
   </div>
 
   <!-- ADD TO HOME SCREEN -->
