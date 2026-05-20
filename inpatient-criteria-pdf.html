@@ -78,22 +78,27 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+  grid-auto-rows: 1fr;
   margin-bottom: 32px;
 }
 .portal-card {
   background: var(--warm-white);
   border-radius: var(--radius);
-  padding: 24px 16px 20px;
+  aspect-ratio: 1 / 1;
+  min-height: 168px;
+  padding: 18px 14px;
   text-align: center;
   text-decoration: none;
   color: inherit;
   box-shadow: var(--shadow);
   border: 1.5px solid rgba(30,58,95,0.07);
   transition: all 0.25s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  display: grid;
+  grid-template-rows: 20px 64px 54px;
+  justify-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 8px;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
 }
@@ -115,6 +120,7 @@ body {
   display: flex; align-items: center; justify-content: center;
   font-size: 2rem;
   flex-shrink: 0;
+  grid-row: 2;
   animation: iconFloat 3.2s ease-in-out infinite;
 }
 .portal-card:nth-child(2) .card-icon-wrap { animation-delay: 0.5s; }
@@ -146,19 +152,27 @@ body {
     box-shadow: 0 0 0 8px rgba(201,151,58,0), 0 0 24px rgba(201,151,58,0.5);
   }
 }
-  10% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { left: 130%; opacity: 0; }
-}
 /* Priority label badge */
 .priority-badge {
+  grid-row: 1;
+  width: max-content;
+  max-width: calc(100% - 18px);
   font-size: 0.6rem; font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--gold);
   background: rgba(201,151,58,0.12);
   border: 1px solid rgba(201,151,58,0.3);
   padding: 2px 8px; border-radius: 10px;
-  margin-bottom: -4px;
+  white-space: nowrap;
+}
+.card-copy {
+  grid-row: 3;
+  min-height: 54px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
 }
 .card-title {
   font-family: 'Playfair Display', serif;
@@ -170,6 +184,35 @@ body {
   font-size: 0.72rem;
   color: var(--muted);
   line-height: 1.4;
+}
+@media (max-width: 380px) {
+  .main {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .portal-grid {
+    gap: 10px;
+  }
+  .portal-card {
+    grid-template-rows: 18px 58px 54px;
+    min-height: 156px;
+    padding: 16px 10px;
+  }
+  .card-icon-wrap {
+    width: 58px;
+    height: 58px;
+    font-size: 1.75rem;
+  }
+  .card-title {
+    font-size: 0.86rem;
+  }
+  .card-subtitle {
+    font-size: 0.68rem;
+  }
+  .priority-badge {
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+  }
 }
 /* COMING SOON CARD */
 .portal-card.coming-soon {
@@ -365,7 +408,7 @@ body {
     <a class="portal-card priority" href="/criteria">
       <div class="priority-badge">👇🏻 OOU START HERE</div>
       <div class="card-icon-wrap icon-blue">🏥</div>
-      <div>
+      <div class="card-copy">
         <div class="card-title">Inpatient vs Observation</div>
         <div class="card-subtitle">Criteria reference PDF</div>
       </div>
@@ -374,7 +417,7 @@ body {
     <!-- Gateway Phone Directory — ?ref=portal added so directory shows back button -->
     <a class="portal-card" href="https://directory.myervisit.com?ref=portal" rel="noopener">
       <div class="card-icon-wrap icon-teal">📞</div>
-      <div>
+      <div class="card-copy">
         <div class="card-title">Gateway Phone Book</div>
         <div class="card-subtitle">Staff directory & extensions</div>
       </div>
@@ -383,7 +426,7 @@ body {
     <!-- Educational Podcasts -->
     <a class="portal-card" href="team.html">
       <div class="card-icon-wrap icon-gold">🎙️</div>
-      <div>
+      <div class="card-copy">
         <div class="card-title">ED Podcasts</div>
         <div class="card-subtitle">Educational audio series</div>
       </div>
@@ -392,7 +435,7 @@ body {
     <!-- ED Metrics — live -->
     <a class="portal-card" href="/ed-metrics">
       <div class="card-icon-wrap icon-green">📊</div>
-      <div>
+      <div class="card-copy">
         <div class="card-title">ED Metrics</div>
         <div class="card-subtitle">Monthly operating reports</div>
       </div>
