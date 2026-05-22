@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Cartoon AI chatbot pretending to be a doctor</title>
+  <desc id="desc">A friendly cartoon robot in a doctor's coat gives advice from a tablet while a calm physician stands nearby with a stethoscope.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FEFCF9"/>
+      <stop offset="0.55" stop-color="#F7F3EE"/>
+      <stop offset="1" stop-color="#EDE8E0"/>
+    </linearGradient>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1E3A5F"/>
+      <stop offset="1" stop-color="#2A4E7A"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#1E3A5F" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <circle cx="1010" cy="128" r="96" fill="#3D7A8A" opacity="0.12"/>
+  <circle cx="180" cy="560" r="135" fill="#C9973A" opacity="0.12"/>
+  <path d="M0 574 C190 520 330 620 524 568 C760 504 919 580 1200 512 L1200 675 L0 675Z" fill="#1E3A5F" opacity="0.08"/>
+  <rect x="90" y="76" width="1020" height="520" rx="34" fill="#FEFCF9" filter="url(#shadow)"/>
+  <rect x="126" y="112" width="948" height="80" rx="20" fill="url(#navy)"/>
+  <circle cx="166" cy="152" r="12" fill="#E0B35A"/>
+  <circle cx="204" cy="152" r="12" fill="#F7F3EE" opacity="0.75"/>
+  <circle cx="242" cy="152" r="12" fill="#3D7A8A"/>
+  <text x="306" y="163" fill="#FEFCF9" font-family="Arial, sans-serif" font-size="28" font-weight="700">Dr. Chatbot Online Clinic</text>
+  <g transform="translate(154 242)">
+    <rect x="0" y="0" width="420" height="230" rx="28" fill="#F7F3EE" stroke="#EDE8E0" stroke-width="4"/>
+    <rect x="52" y="44" width="200" height="116" rx="28" fill="#3D7A8A"/>
+    <circle cx="102" cy="102" r="18" fill="#FEFCF9"/>
+    <circle cx="202" cy="102" r="18" fill="#FEFCF9"/>
+    <path d="M128 136 Q152 154 178 136" fill="none" stroke="#FEFCF9" stroke-width="10" stroke-linecap="round"/>
+    <path d="M78 44 L78 16 M226 44 L226 16" stroke="#1E3A5F" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="78" cy="12" r="12" fill="#C9973A"/>
+    <circle cx="226" cy="12" r="12" fill="#C9973A"/>
+    <path d="M276 52 h72 a28 28 0 0 1 28 28 v120 h-128 v-120 a28 28 0 0 1 28-28z" fill="#FEFCF9" stroke="#EDE8E0" stroke-width="4"/>
+    <path d="M312 54 v144" stroke="#EDE8E0" stroke-width="4"/>
+    <circle cx="330" cy="116" r="16" fill="#DC2626"/>
+    <path d="M330 100 v32 M314 116 h32" stroke="#FEFCF9" stroke-width="6" stroke-linecap="round"/>
+    <text x="48" y="202" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="22" font-weight="700">Looks confident.</text>
+    <text x="218" y="202" fill="#6B7280" font-family="Arial, sans-serif" font-size="22">Still not your doctor.</text>
+  </g>
+  <g transform="translate(664 250)">
+    <circle cx="120" cy="76" r="58" fill="#F0C7A8"/>
+    <path d="M68 72 C78 22 116 8 156 28 C178 40 190 62 186 94 C156 74 110 78 68 72Z" fill="#5B3A29"/>
+    <rect x="72" y="126" width="96" height="150" rx="28" fill="#FEFCF9" stroke="#EDE8E0" stroke-width="5"/>
+    <path d="M88 160 L120 214 L152 160" fill="none" stroke="#1E3A5F" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="120" cy="214" r="9" fill="#C9973A"/>
+    <path d="M76 156 C38 174 22 210 18 272" stroke="#FEFCF9" stroke-width="32" stroke-linecap="round"/>
+    <path d="M164 156 C210 170 236 204 250 266" stroke="#FEFCF9" stroke-width="32" stroke-linecap="round"/>
+    <path d="M80 82 Q96 96 112 84 M132 84 Q150 96 166 82" stroke="#1E3A5F" stroke-width="6" stroke-linecap="round"/>
+    <path d="M106 108 Q122 120 140 108" fill="none" stroke="#1E3A5F" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="250" cy="264" r="24" fill="#C9973A"/>
+    <text x="-10" y="330" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="24" font-weight="700">Real doctor: still required.</text>
+  </g>
+  <g transform="translate(742 92)">
+    <path d="M0 0 h238 a28 28 0 0 1 28 28 v86 a28 28 0 0 1-28 28 h-96 l-42 38 10-38 h-110 a28 28 0 0 1-28-28 v-86 a28 28 0 0 1 28-28z" fill="#FFF3CD" stroke="#C9973A" stroke-width="4"/>
+    <text x="28" y="48" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="22" font-weight="700">AI can explain.</text>
+    <text x="28" y="84" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="22" font-weight="700">It cannot examine you.</text>
+  </g>
+</svg>
