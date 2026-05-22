@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>No MRI? No Problem. | Eric Cummins, MD</title>
+  <meta name="description" content="An emergency physician explains why most back pain does not need an emergency MRI, what red flags matter, and when to return to the emergency department." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <style>
+    .post-hero { background: var(--navy); padding: 150px 0 80px; position: relative; overflow: hidden; }
+    .post-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 48px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
+    .post-hero-dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; }
+    .post-hero-inner { position: relative; z-index: 1; max-width: 800px; }
+    .post-hero h1 { color: white; font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.12; }
+    .post-subtitle { color: rgba(255,255,255,0.68); font-size: 1.1rem; margin-top: 14px; }
+    .post-meta { display: flex; align-items: center; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+    .post-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
+    .post-body { max-width: 760px; margin: 0 auto; padding: 60px 28px 80px; }
+    .post-body p { color: var(--charcoal); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; }
+    .post-body h2 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
+    .post-body strong { color: var(--navy); }
+    .back-to-blog { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-bottom: 36px; }
+    .back-to-blog:hover { gap: 12px; }
+    .red-flag-grid { display: grid; gap: 14px; margin: 24px 0 30px; }
+    .red-flag-card { background: var(--warm-white); border-radius: var(--radius); padding: 18px 20px; border-left: 4px solid var(--gold); box-shadow: var(--shadow-sm); }
+    .red-flag-card p { margin: 0; font-size: 0.96rem; color: var(--muted); }
+    .red-flag-card strong { display: block; margin-bottom: 4px; color: var(--navy); }
+    .source-box { background: rgba(61,122,138,0.08); border: 1px solid rgba(61,122,138,0.18); border-radius: var(--radius); padding: 24px 28px; margin: 28px 0; }
+    .source-box p { margin: 0; color: var(--navy); font-size: 0.98rem; }
+    .source-box a { color: var(--teal); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+    .warning-callout { background: #FFF3CD; border: 1px solid #FFCA28; border-left: 4px solid #F59E0B; border-radius: var(--radius); padding: 24px 28px; margin: 30px 0; }
+    .warning-callout p { color: #78350F; margin: 0; font-size: 0.98rem; }
+    .closing-box { background: linear-gradient(135deg, var(--navy), var(--navy-light)); border-radius: var(--radius); padding: 36px; margin: 40px 0; text-align: center; color: white; }
+    .closing-box p { color: rgba(255,255,255,0.82); margin-bottom: 0; font-size: 1.05rem; line-height: 1.75; }
+    .closing-box .closing-sig { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 16px !important; }
+    .post-footer-note { font-size: 0.82rem; color: var(--muted); font-style: italic; border-top: 1px solid var(--cream-dark); padding-top: 20px; margin-top: 40px; }
+    .post-cta-band { background: linear-gradient(135deg, var(--gold), #A87A20); padding: 60px 0; text-align: center; }
+    .post-cta-band h2 { color: white; }
+    .post-cta-band p { color: rgba(255,255,255,0.85); max-width: 480px; margin: 12px auto 28px; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar scrolled" id="navbar" style="position:relative;background:rgba(30,58,95,0.97);">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-brand">
+          <span class="brand-name">Eric Cummins, MD</span>
+          <span class="brand-tagline">Anyone. Anything. Anytime.</span>
+        </a>
+        <ul class="navbar-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html" class="active">Blog</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="index.html">Home</a><a href="about.html">About</a>
+    <a href="blog.html">Blog</a><a href="resources.html">Resources</a>
+    <a href="index.html#reviews">Share Your Experience</a>
+  </div>
+
+  <section class="post-hero">
+    <div class="post-hero-dots"></div>
+    <div class="container post-hero-inner">
+      <span class="section-tag" style="color:var(--gold);background:rgba(201,151,58,0.15);">Common Conditions</span>
+      <h1>No MRI? No Problem.</h1>
+      <p class="post-subtitle">Why most back pain does not need an emergency MRI, even when it really hurts.</p>
+      <div class="post-meta">
+        <span class="post-meta-item">📅 September 8, 2025</span>
+        <span class="post-meta-item">⏱ 5 min read</span>
+        <span class="post-meta-item">✍️ Dr. Eric Cummins, MD</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="post-body">
+    <a href="blog.html" class="back-to-blog">← Back to Blog</a>
+
+    <figure class="post-image" style="margin:0 0 36px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-md);">
+      <img
+        src="images/no-mri-no-problem.svg"
+        alt="Cartoon patient with back pain while an emergency physician checks red flags instead of ordering an MRI"
+        style="width:100%;height:auto;display:block;"
+      />
+      <figcaption style="background:var(--navy);color:rgba(255,255,255,0.7);font-size:0.82rem;padding:12px 20px;font-style:italic;text-align:center;">
+        The goal is not to ignore back pain. The goal is to find the few dangerous causes that cannot wait.
+      </figcaption>
+    </figure>
+
+    <p>So there you are, hunched over like a human question mark. Your back is screaming, pain may be shooting down your leg, and you are convinced an MRI will finally explain everything.</p>
+
+    <p>Then the emergency physician walks in, checks your strength, reflexes, sensation, and ability to move, and says something that feels like a plot twist: "We do not need an MRI today."</p>
+
+    <p>Wait. What?</p>
+
+    <p>You are in pain. Something is clearly wrong. Why would we not look inside?</p>
+
+    <p>Take a breath. You are not being dismissed. In many cases, you are being treated correctly.</p>
+
+    <h2>The Emergency Department Has a Specific Job</h2>
+
+    <p>Back pain is one of the most common reasons people come to the emergency department. Some visits are mild. Some are miserable. Some make it hard to stand, sit, sleep, or think about anything else.</p>
+
+    <p>But the emergency department's job is not always to find the exact name of every strained muscle, irritated nerve, or worn-down disc. Our first job is to make sure you do not have one of the rare, dangerous problems that needs urgent treatment.</p>
+
+    <p>In other words, we are not ignoring your pain. We are checking for the conditions that cannot safely wait.</p>
+
+    <div class="source-box" data-aos="fade-up">
+      <p>Imaging guidance from the <a href="https://www.radiologyinfo.org/en/info/acs-low-back-pain" target="_blank" rel="noopener">American College of Radiology / RadiologyInfo</a> says most people with low back pain without complicating features do not need imaging tests. MRI becomes much more important when there are red flags, such as concern for cauda equina syndrome, infection, cancer, fracture, or progressive neurologic problems.</p>
+    </div>
+
+    <h2>What We Are Really Looking For</h2>
+
+    <p>We absolutely believe you are in pain. We see it, we hear it, and we know that sciatica can feel like your body is being controlled by a tiny, angry electrician with a grudge.</p>
+
+    <p>But in the emergency department, we are looking for specific clues that suggest something serious is happening. These are the red flags that get our attention:</p>
+
+    <div class="red-flag-grid" data-aos="fade-up">
+      <div class="red-flag-card"><p><strong>New leg weakness</strong>Not just pain, but actual trouble moving your foot, toes, or leg normally.</p></div>
+      <div class="red-flag-card"><p><strong>Loss of bowel or bladder control</strong>This can be a true emergency and needs immediate evaluation.</p></div>
+      <div class="red-flag-card"><p><strong>Numbness in the saddle area</strong>Numbness where your body would touch a bike seat is a major warning sign.</p></div>
+      <div class="red-flag-card"><p><strong>Fever with back pain</strong>This raises concern for infection, especially with other risk factors.</p></div>
+      <div class="red-flag-card"><p><strong>Severe trauma</strong>A car crash, significant fall, or injury in someone at higher fracture risk changes the picture.</p></div>
+      <div class="red-flag-card"><p><strong>History of cancer or progressive symptoms</strong>New or worsening neurologic symptoms deserve a different level of concern.</p></div>
+    </div>
+
+    <p>What usually does not need an emergency MRI by itself? Pain after bending, lifting, twisting, sleeping wrong, gradual onset pain, pain that comes and goes, or even severe pain when your strength, sensation, bladder function, and overall exam are reassuring.</p>
+
+    <h2>The MRI Reality Check</h2>
+
+    <p>I get it. You want answers. You want someone to point to a picture and say, "There. That is the problem, and here is exactly how we fix it."</p>
+
+    <p>But spine MRIs are tricky. They often show normal wear-and-tear findings that may have nothing to do with today's pain. Disc bulges, disc degeneration, and arthritis-type changes become more common as we age, and many people with those findings have little or no pain.</p>
+
+    <p>Finding a disc bulge on an MRI can be a little like finding a gray hair. It may be real, but it may not be the reason you are miserable today.</p>
+
+    <p>The bigger issue is this: most of the time, an emergency MRI does not change what we do right now. Whether the cause is a strain, spasm, irritated disc, or sciatica, the initial plan is often pain control, safe movement, time, and follow-up.</p>
+
+    <h2>What Actually Helps Most Back Pain</h2>
+
+    <p>Here is the good news: most back pain improves. Not always as fast as you want, and not always in a perfectly straight line, but most episodes get better with conservative care.</p>
+
+    <div class="source-box" data-aos="fade-up">
+      <p>The <a href="https://www.aans.org/patients/conditions-treatments/low-back-strain-and-sprain/" target="_blank" rel="noopener">American Association of Neurological Surgeons</a> notes that more than 90% of people with a lumbar strain or sprain recover completely within one month.</p>
+    </div>
+
+    <p>The basics are not glamorous, but they work:</p>
+
+    <div class="red-flag-grid" data-aos="fade-up">
+      <div class="red-flag-card"><p><strong>Anti-inflammatory medicine, if safe for you</strong>Ibuprofen or naproxen can help some people, but they are not safe for everyone. Ask your clinician if you have kidney disease, stomach ulcers, take blood thinners, are pregnant, or have been told to avoid them.</p></div>
+      <div class="red-flag-card"><p><strong>Heat and gentle movement</strong>Total bed rest is old-school thinking. Gentle walking and careful movement can help prevent stiffness.</p></div>
+      <div class="red-flag-card"><p><strong>Time</strong>This is the annoying part, but it is often the most important medicine. Backs usually heal more slowly than we want them to.</p></div>
+      <div class="red-flag-card"><p><strong>Follow-up</strong>Your primary care clinician, physical therapist, or spine specialist can help if pain is not improving or keeps coming back.</p></div>
+    </div>
+
+    <h2>When to Come Back Immediately</h2>
+
+    <div class="warning-callout" data-aos="fade-up">
+      <p>Call 911 or return to the emergency department right away if you develop loss of bowel or bladder control, new weakness in one or both legs, numbness in the saddle area, severe pain with fever, or symptoms that are rapidly worsening.</p>
+    </div>
+
+    <p>You should also be rechecked if you develop new trouble moving your foot or toes, worsening leg weakness, pain that is becoming significantly worse despite treatment, or any symptom that feels unsafe or different from what you were told to expect.</p>
+
+    <p>If your pain is not improving after a few weeks, follow up with your regular clinician. That is often where outpatient imaging, physical therapy, medication adjustments, or referral decisions happen.</p>
+
+    <h2>The Bottom Line</h2>
+
+    <p>When we say you do not need an emergency MRI, we are not saying your pain is fake. We are saying your exam does not show the dangerous features that would make an emergency MRI the right next step today.</p>
+
+    <p>Think of the emergency physician like the lifeguard at the beach. We are scanning for signs of drowning, rip currents, and immediate danger. Your primary care clinician is more like the swim coach, helping you rebuild strength, prevent the next episode, and decide what to do if recovery stalls.</p>
+
+    <div class="closing-box" data-aos="fade-up">
+      <p>Your pain is real. Your questions are fair. And most of the time, the safest plan is not a midnight MRI. It is ruling out the dangerous stuff, treating your pain, staying gently mobile, and giving your back time to do what backs usually do: heal.</p>
+      <p class="closing-sig">— Dr. Eric Cummins, MD</p>
+    </div>
+
+    <p class="post-footer-note">This article is for general education only and is not a substitute for medical advice. Always follow your discharge instructions and return to the emergency department or call 911 if you develop serious or worsening symptoms.</p>
+
+    <a href="blog.html" class="back-to-blog">← Back to Blog</a>
+  </div>
+
+  <section class="post-cta-band">
+    <div class="container">
+      <span class="section-tag" style="color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);">Free Download</span>
+      <h2>Track the Details That Matter</h2>
+      <p>Download free ED prep tools to keep your symptoms, medications, and questions organized.</p>
+      <a href="resources.html" class="btn btn-outline-white">Get Free Resources</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand"><div class="brand-name">Eric Cummins, MD</div><p>Helping patients and families navigate the emergency department with clarity, confidence, and a little less stress.</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Me</a></li><li><a href="blog.html">Blog</a></li><li><a href="resources.html">Free Resources</a></li></ul></div>
+        <div class="footer-col"><h4>Free Resources</h4><ul><li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/ed.visit.planner-A0xvxDB9kJUaa9oB.pdf" target="_blank">ED Visit Companion</a></li><li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/simple-medication-log-sheet-planner-Yg242RrpxohG8BBl.pdf" target="_blank">Medication List</a></li></ul></div>
+      </div>
+      <hr class="footer-divider"/>
+      <div class="footer-bottom">
+        <p class="footer-disclaimer">This website is for informational purposes only and does not constitute medical advice. If you are experiencing a medical emergency, call 911 immediately.</p>
+        <span class="footer-copy">© 2025 Eric Cummins, MD</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
