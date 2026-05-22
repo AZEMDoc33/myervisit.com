@@ -9,6 +9,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
 body { font-family: 'DM Sans', sans-serif; color: #2D2D2D; background: #F7F3EE; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+html, body { overflow-x: hidden; }
 img { max-width: 100%; height: auto; display: block; }
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
@@ -247,6 +248,30 @@ p:last-child { margin-bottom: 0; }
   font-size: 0.9rem;
 }
 .hero-image-placeholder span { font-size: 3rem; }
+.hero-review-pill {
+  position: absolute;
+  right: -18px;
+  bottom: 24px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: var(--warm-white);
+  color: var(--navy);
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 8px 28px rgba(201,151,58,0.34), 0 0 0 0 rgba(201,151,58,0.55);
+  animation: reviewPulse 2.8s ease-in-out infinite;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.hero-review-pill:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 34px rgba(201,151,58,0.42), 0 0 0 6px rgba(201,151,58,0.16);
+}
 .hero-badge {
   position: absolute; bottom: -20px; left: -20px; z-index: 2;
   background: var(--warm-white); border-radius: var(--radius);
@@ -333,6 +358,18 @@ p:last-child { margin-bottom: 0; }
   display: flex; flex-direction: column;
 }
 .blog-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.blog-card-clickable {
+  color: inherit;
+  cursor: pointer;
+}
+.blog-card-clickable:focus-visible {
+  outline: 3px solid rgba(201,151,58,0.7);
+  outline-offset: 4px;
+}
+.blog-card-clickable:hover .blog-card-link,
+.blog-card-clickable:focus-visible .blog-card-link {
+  gap: 10px;
+}
 .blog-card-image {
   height: 170px;
   display: flex; align-items: center; justify-content: center;
@@ -643,6 +680,20 @@ p:last-child { margin-bottom: 0; }
     top: -10px; right: -10px;
   }
   .hero-badge { display: none; }
+  .hero-review-pill {
+    left: 50%;
+    right: auto;
+    bottom: -22px;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: calc(100vw - 48px);
+    justify-content: center;
+    font-size: 0.86rem;
+    padding: 11px 16px;
+  }
+  .hero-review-pill:hover {
+    transform: translateX(-50%) translateY(-2px);
+  }
   .about-grid { grid-template-columns: 1fr; }
   .about-image-wrap { max-width: 400px; margin: 0 auto; }
   .contact-grid { grid-template-columns: 1fr; }
@@ -653,9 +704,32 @@ p:last-child { margin-bottom: 0; }
   .section { padding: 64px 0; }
   .features-grid, .pdf-grid, .resource-cards, .why-grid, .care-grid { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
+  .container { padding: 0 20px; }
   .navbar-links { display: none; }
   .hamburger { display: flex; }
-  .hero-inner { padding: 48px 20px 64px; }
+  .hero { min-height: auto; }
+  .hero-inner { padding: 48px 20px 64px; overflow: hidden; }
+  .hero-content h1 {
+    font-size: 1.72rem;
+    max-width: 330px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-content p { font-size: 1rem; }
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  .hero-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .filter-bar { justify-content: center; }
+  .blog-card-body { padding: 22px 18px; }
+  .blog-card h3 { font-size: 1rem; }
+  .blog-card p { font-size: 0.88rem; }
   .contact-form-wrap { padding: 28px 20px; }
   .form-row { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr; gap: 32px; }
