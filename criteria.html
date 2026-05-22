@@ -934,6 +934,13 @@ html, body {
   border: 1px solid var(--border);
   white-space: nowrap;
 }
+.calc-link {
+  color: var(--bgmc);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
 
 /* ── Expandable cards (obs + notes) ─────────────────── */
 .expand-card {
@@ -1619,7 +1626,7 @@ const DX = [
         'Hepatic Encephalopathy (severe — West Haven Grade III–IV): somnolence, semi-stupor, confusion, disorientation to place, coma',
         'Tachypnea secondary to ascites persisting despite obs care',
         'Infected Ascites (SBP): PMN ≥250/mm³ in ascitic fluid + fever, abdominal pain, or AMS',
-        'Alcoholic Hepatitis: alcohol most likely etiology + MELD score >20',
+        'Alcoholic Hepatitis: alcohol most likely etiology + MELD score >20 — <a class="calc-link" href="https://www.mdcalc.com/calc/78/meld-score-model-end-stage-liver-disease-12-older" target="_blank" rel="noopener">MDCalc MELD →</a>',
         'Acute Portal or Splenic Vein Thrombosis: symptoms <60 days + no pre-existing cirrhosis/portal HTN + intestinal ischemia or infarction'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'lower-gi-bleed', name:'Lower GI Bleed', cat:'gi',
@@ -1836,7 +1843,8 @@ const DX = [
         'Parenteral antimicrobials requiring inpatient administration or monitoring',
         'Isolation precautions not safely implementable in OOU — <a href="#" onclick="event.preventDefault();showIDPrecautions()" style="color:var(--bgmc);font-weight:700;text-decoration:underline;text-underline-offset:2px">View ID Precautions →</a>'],
     obs:null,
-    notes:'SIRS / Sepsis criteria alone ≠ inpatient admission.',
+    notes:'SIRS / Sepsis criteria alone ≠ inpatient admission. <a class="calc-link" href="https://www.mdcalc.com/calc/1096/sirs-sepsis-septic-shock-criteria" target="_blank" rel="noopener">MDCalc SIRS/Sepsis →</a>',
+    notesRaw:'SIRS / Sepsis criteria alone ≠ inpatient admission. MDCalc SIRS/Sepsis',
     alwaysIP:false,
     flags:[] },
   { id:'septic-arthritis', name:'Septic Arthritis', cat:'id',
@@ -1931,15 +1939,15 @@ const DX = [
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'pneumonia', name:'Pneumonia', cat:'pulm',
     ip:['Hypoxia (<90%)','AMS','Bacteremia','Hypotension or signs of septic shock',
-        'PSI Class IV or V — <a href="https://www.mdcalc.com/calc/33/psi-port-score-pneumonia-severity-index-cap" target="_blank" rel="noopener" style="color:var(--bgmc);font-weight:600;text-decoration:underline;text-underline-offset:2px">Calculate PSI/PORT →</a>',
-        'CURB-65 ≥3',
+        'PSI Class IV or V — <a class="calc-link" href="https://www.mdcalc.com/calc/33/psi-port-score-pneumonia-severity-index-cap" target="_blank" rel="noopener">MDCalc PSI/PORT →</a>',
+        'CURB-65 ≥3 — <a class="calc-link" href="https://www.mdcalc.com/curb-65-score-pneumonia-severity" target="_blank" rel="noopener">MDCalc CURB-65 →</a>',
         'Complicated pleural effusion (empyema, loculated)',
         'Tachypnea persisting despite observation care',
         'Risk factors for poor outcome: cavitary infiltrate, neuromuscular weakness, cystic fibrosis',
         'Outpatient failure: insufficient improvement on appropriate regimen of sufficient duration, or inability to tolerate outpatient regimen'],
     obs:null,
     notesLabel:'CURB-65 Score',
-    notes:'CURB-65 (1 point each): Confusion (new) · BUN >18 mg/dL · RR >29 · SBP <90 or DBP <60 · Age >65. <strong>CURB-65 Score ≥3 = Inpatient.</strong>',
+    notes:'CURB-65 (1 point each): Confusion (new) · BUN >18 mg/dL · RR >29 · SBP <90 or DBP <60 · Age >65. <strong>CURB-65 Score ≥3 = Inpatient.</strong> <a class="calc-link" href="https://www.mdcalc.com/curb-65-score-pneumonia-severity" target="_blank" rel="noopener">MDCalc CURB-65 →</a>',
     notesRaw:'CURB-65 (1 point each): Confusion (new) · BUN >18 mg/dL · RR >29 · SBP <90 or DBP <60 · Age >65. CURB-65 Score ≥3 = Inpatient.',
     alwaysIP:false, flags:[] },
   { id:'pneumothorax', name:'Pneumothorax', cat:'pulm',
@@ -1997,7 +2005,7 @@ const DX = [
         'Tachypnea persisting despite obs'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'head-injury', name:'Head Injury / Concussion', cat:'trauma',
-    ip:['AMS','GCS <13 after presentation or post-resuscitation',
+    ip:['AMS','GCS <13 after presentation or post-resuscitation — <a class="calc-link" href="https://www.mdcalc.com/calc/64/glasgow-coma-scale-score-gcs" target="_blank" rel="noopener">MDCalc GCS →</a>',
         'Worsening neurologic function after arrival',
         'New or worsening severe symptoms (dizziness, vomiting, headache) persisting despite obs',
         'New focal neurologic findings','Signs of elevated ICP (papilledema, bradycardia)',
