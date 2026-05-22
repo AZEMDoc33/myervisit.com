@@ -241,6 +241,22 @@ p:last-child { margin-bottom: 0; }
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
 }
+.hero-photo-link {
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+.hero-photo-link:focus-visible {
+  outline: 3px solid rgba(201,151,58,0.75);
+  outline-offset: 6px;
+  border-radius: var(--radius);
+}
+.hero-photo-link:hover img {
+  transform: translateY(-2px);
+}
+.hero-photo-link img {
+  transition: var(--transition);
+}
 .hero-image-placeholder {
   background: linear-gradient(160deg, var(--navy-light), var(--teal));
   display: flex; align-items: center; justify-content: center;
@@ -675,6 +691,9 @@ p:last-child { margin-bottom: 0; }
     border-radius: 50%;
     object-position: top center;
   }
+  .hero-photo-link:focus-visible {
+    border-radius: 50%;
+  }
   .hero-image-frame::before {
     border-radius: 50%;
     top: -10px; right: -10px;
@@ -683,7 +702,7 @@ p:last-child { margin-bottom: 0; }
   .hero-review-pill {
     left: 50%;
     right: auto;
-    bottom: -22px;
+    bottom: -44px;
     transform: translateX(-50%);
     width: max-content;
     max-width: calc(100vw - 48px);
