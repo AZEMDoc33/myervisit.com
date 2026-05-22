@@ -2,13 +2,13 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#F5F2EE">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="description" content="Instant Obs vs Inpatient criteria — Banner Gateway Emergency Department.">
 <title>Gateway · Obs or Inpatient?</title>
-<link rel="manifest" href="/criteria-manifest.json">
+<link rel="manifest" href="/manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='38' fill='%231B3A6B'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='120' fill='white'%3EG%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -153,7 +153,7 @@ html, body {
   background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text-2);
-  width: 36px; height: 36px;
+  width: 42px; height: 42px;
   border-radius: var(--r-xs);
   cursor: pointer;
   font-family: inherit;
@@ -167,7 +167,7 @@ html, body {
 }
 .hdr-btn:hover { background: var(--surface-3); color: var(--text); }
 .hdr-btn:active { transform: scale(0.94); }
-.hdr-btn svg { width: 17px; height: 17px; }
+.hdr-btn svg { width: 19px; height: 19px; }
 .hdr-btn[hidden] { display: none; }
 /* The home/menu button label */
 .hdr-nav-group {
@@ -623,6 +623,55 @@ html, body {
   transform: translateY(-1px);
   box-shadow: var(--shadow-md), var(--highlight);
 }
+.reference-aid {
+  margin: 10px auto 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-full);
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-sm), var(--highlight);
+}
+.reference-info-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--bgmc-border);
+  background: var(--bgmc-bg);
+  color: var(--bgmc);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.reference-info-btn:focus-visible {
+  outline: 3px solid var(--search-focus);
+  outline-offset: 2px;
+}
+.reference-popover {
+  margin: 8px auto 0;
+  max-width: 520px;
+  padding: 11px 13px;
+  border: 1px solid var(--bgmc-border);
+  border-radius: var(--r-sm);
+  background: var(--bgmc-bg);
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.55;
+  text-align: left;
+}
+.reference-popover[hidden] { display: none; }
 
 /* ═══════════════════════════════════════════════════════
    SEARCH RESULTS
@@ -999,13 +1048,54 @@ html, body {
   box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
   z-index: 40;
 }
+.sticky-banner.is-collapsed {
+  left: auto;
+  right: 12px;
+  bottom: 12px;
+  width: auto;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-full);
+  box-shadow: var(--shadow-md);
+}
 .sticky-banner-inner {
+  position: relative;
   max-width: 640px; margin: 0 auto;
+  padding-right: 34px;
   font-size: 11.5px; line-height: 1.55;
   color: var(--text-2); text-align: center; font-weight: 500;
 }
 .sticky-banner-inner strong { color: var(--obs-dim); font-weight: 700; }
 .sticky-banner-inner .emph  { color: var(--text); font-weight: 700; }
+.sticky-banner-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.sticky-banner-chip {
+  display: none;
+  padding: 10px 13px;
+  border: none;
+  background: transparent;
+  color: var(--obs-dim);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.sticky-banner.is-collapsed .sticky-banner-inner { display: none; }
+.sticky-banner.is-collapsed .sticky-banner-chip { display: inline-flex; align-items: center; gap: 6px; }
 
 /* ═══════════════════════════════════════════════════════
    TOAST
@@ -1358,7 +1448,7 @@ html[data-theme="dark"] .prec-divider-not-ok {
       <button class="oou-access" onclick="showOOU()">
         <div class="oou-access-ico">⚠️</div>
         <div class="oou-access-txt">
-          <div class="oou-access-title">Not appropriate for OOU</div>
+          <div class="oou-access-title">Not appropriate for OOU <span class="bgmc-label">BGMC</span></div>
           <div class="oou-access-sub">BGMC-specific patient exclusions</div>
         </div>
         <div class="oou-access-arrow">
@@ -1417,7 +1507,22 @@ html[data-theme="dark"] .prec-divider-not-ok {
 
       <div class="credit">
         Eric Cummins, MD · Facility Medical Director, BGMC ED<br>
-        Version 2.0 · Built on MCG Guidelines · <a href="https://myervisit.com">myervisit.com</a><br>
+        Version 2.0 · Updated 5.22.2026 · <a href="https://myervisit.com">myervisit.com</a><br>
+        <div class="reference-aid">
+          <span>Reference aid only</span>
+          <button
+            class="reference-info-btn"
+            type="button"
+            onclick="toggleReferenceAid()"
+            aria-label="Show reference aid disclaimer"
+            aria-expanded="false"
+            aria-controls="referenceAidNote"
+            id="referenceAidBtn"
+          >i</button>
+        </div>
+        <div class="reference-popover" id="referenceAidNote" hidden>
+          This tool is a local BGMC clinical reference aid informed by institutional admission workflows and licensed utilization review criteria. It is not a substitute for the full MCG guidelines, payer policy, physician judgment, or case management review.
+        </div>
         <a class="credit-email" href="mailto:eric.cummins33@gmail.com?subject=Feedback%20for%20Observation%20or%20Inpatient%20Website">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-1px;margin-right:4px"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>Contact me for recommendations
         </a>
@@ -1453,7 +1558,9 @@ html[data-theme="dark"] .prec-divider-not-ok {
   <div class="sticky-banner-inner">
     <strong>Observation</strong> often requires inability to tolerate PO, ongoing IV needs, or labs/vitals requiring monitoring not safely done outpatient —
     expected to resolve in <span class="emph">&lt;2 midnights</span>. When in doubt: <span class="emph">OBS.</span>
+    <button class="sticky-banner-toggle" type="button" onclick="toggleStickyBanner(true)" aria-label="Collapse observation reminder">×</button>
   </div>
+  <button class="sticky-banner-chip" type="button" onclick="toggleStickyBanner(false)" aria-label="Show observation reminder">OBS tip</button>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -1906,6 +2013,52 @@ const DX = [
     alwaysIP:false, flags:[] },
 ];
 
+const SEARCH_ALIASES = {
+  'appendicitis': ['appy', 'rlq pain', 'right lower quadrant', 'abdominal pain', 'fever'],
+  'bowel-obstruction': ['sbo', 'small bowel obstruction', 'ileus', 'ng tube', 'nasogastric tube', 'vomiting', 'abdominal pain'],
+  'cholecystitis': ['gallbladder', 'biliary colic', 'cholangitis', 'ruq pain', 'right upper quadrant', 'cbd stone', 'fever', 'lfts'],
+  'liver-cirrhosis': ['cirrhosis', 'ascites', 'hepatic encephalopathy', 'sbp', 'alcoholic hepatitis', 'inr', 'meld'],
+  'lower-gi-bleed': ['gi bleed', 'gib', 'rectal bleeding', 'hematochezia', 'melena', 'brbpr', 'anemia'],
+  'upper-gi-bleed': ['gi bleed', 'gib', 'melena', 'hematemesis', 'variceal bleed', 'octreotide', 'anemia'],
+  'pancreatitis': ['lipase', 'epigastric pain', 'abdominal pain', 'vomiting', 'nausea'],
+  'afib': ['atrial fib', 'af', 'rvr', 'rapid ventricular response', 'tachycardia', 'palpitations'],
+  'chest-pain': ['cp', 'acs', 'rule out acs', 'mi', 'myocardial infarction', 'nstemi', 'stemi', 'troponin', 'ekg', 'ecg'],
+  'chf': ['heart failure', 'congestive heart failure', 'fluid overload', 'pulmonary edema', 'dyspnea', 'shortness of breath', 'sob', 'hypoxia', 'oxygen'],
+  'dvt': ['deep vein thrombosis', 'leg swelling', 'anticoagulation', 'blood clot'],
+  'hypertension': ['htn', 'hypertensive emergency', 'high blood pressure', 'bp'],
+  'syncope': ['passed out', 'passing out', 'fainting', 'near syncope', 'collapse'],
+  'pta': ['peritonsillar abscess', 'tonsillitis', 'sore throat', 'airway', 'fever'],
+  'mastoiditis': ['otitis', 'ear infection', 'mastoid', 'fever'],
+  'anemia': ['low hemoglobin', 'hgb', 'transfusion', 'dyspnea', 'syncope', 'bleeding'],
+  'neutropenia': ['neutropenic fever', 'anc', 'fever', 'immunocompromised'],
+  'sickle-cell': ['sickle cell crisis', 'pain crisis', 'acute chest', 'vaso occlusive'],
+  'dka': ['diabetic ketoacidosis', 'anion gap', 'ketones', 'hyperglycemia', 'vomiting'],
+  'hhs': ['hyperosmolar', 'hyperglycemia', 'high glucose', 'ams'],
+  'hyperglycemia': ['high glucose', 'diabetes', 'new diabetes', 'dehydration'],
+  'cellulitis': ['skin infection', 'abscess', 'wound', 'fever', 'iv antibiotics'],
+  'osteomyelitis': ['bone infection', 'diabetic foot', 'wound', 'mri', 'podiatry'],
+  'picc-cvc': ['central line infection', 'line infection', 'port infection', 'catheter infection', 'bacteremia'],
+  'sepsis': ['sirs', 'septic shock', 'infection', 'fever', 'lactate', 'tachycardia', 'tachypnea', 'hypotension', 'bacteremia'],
+  'septic-arthritis': ['joint infection', 'hot joint', 'septic joint', 'fever'],
+  'uti': ['pyelo', 'pyelonephritis', 'urinary tract infection', 'urosepsis', 'flank pain', 'fever', 'vomiting'],
+  'seizure': ['new seizure', 'status epilepticus', 'antiepileptic', 'ams'],
+  'tia': ['stroke', 'cva', 'weakness', 'aphasia', 'facial droop', 'neuro deficit', 'dizziness', 'vertigo'],
+  'hyperemesis': ['pregnancy', 'vomiting', 'dehydration', 'nausea'],
+  'pid': ['pelvic inflammatory disease', 'tubo ovarian abscess', 'toa', 'pelvic pain', 'fever'],
+  'asthma': ['wheezing', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'oxygen', 'bipap', 'high flow'],
+  'copd': ['wheezing', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'oxygen', 'bipap', 'hypercarbia'],
+  'pleural-effusion': ['effusion', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'thoracentesis', 'empyema'],
+  'pneumonia': ['pna', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'oxygen', 'fever', 'cough', 'tachypnea', 'curb', 'psi', 'port'],
+  'pneumothorax': ['ptx', 'collapsed lung', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'chest tube'],
+  'pe': ['pulmonary embolism', 'blood clot', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'troponin', 'right heart strain', 'rv strain'],
+  'aki': ['acute renal failure', 'kidney failure', 'creatinine', 'anuria', 'gfr'],
+  'kidney-stone': ['renal colic', 'ureteral stone', 'ureterolithiasis', 'hydronephrosis', 'flank pain', 'urosepsis'],
+  'hemodialysis': ['dialysis', 'esrd', 'hyperkalemia', 'fluid overload', 'pulmonary edema', 'hypoxia', 'uremia'],
+  'rib-fractures': ['rib fracture', 'chest wall injury', 'trauma', 'hypoxia', 'tachypnea', 'pain'],
+  'head-injury': ['concussion', 'head trauma', 'tbi', 'fall', 'vomiting', 'headache', 'dizziness', 'seizure'],
+  'non-op-fracture': ['fracture', 'hip pain', 'pelvic fracture', 'extremity fracture', 'snf', 'skilled nursing', 'placement', 'pt', 'ot', 'ambulate']
+};
+
 const OOU_EXCL = [
   'Patients anticipated to require SNF placement who do NOT meet Medicare requirements for a qualifying inpatient admission',
   'Pediatric patients — OOU is adults ONLY (≥18 years)',
@@ -1949,6 +2102,51 @@ const svg = (k, sw=2) =>
 const state = { stack:[], curCat:null, focusIdx:-1, results:[] };
 const catById = id => CATS.find(c => c.id === id);
 const dxById  = id => DX.find(d => d.id === id);
+
+const SPECIAL_SEARCH = [
+  {
+    id: 'id-precautions',
+    name: 'Contact Precautions / Isolation',
+    cat: 'id',
+    badge: 'BGMC',
+    aliases: ['isolation', 'contact', 'precautions', 'private room', 'c diff', 'c-diff', 'clostridioides', 'covid', 'rsv', 'influenza', 'mdro', 'vre', 'cre', 'c auris', 'mrsa'],
+    action: showIDPrecautions
+  },
+  {
+    id: 'oou-exclusions',
+    name: 'Not Appropriate for OOU',
+    cat: 'id',
+    badge: 'BGMC',
+    aliases: ['oou exclusions', 'snf', 'skilled nursing', 'placement', 'psych', 'behavioral health', 'pregnant', 'pediatric', 'neutropenia', 'intoxicated'],
+    action: showOOU
+  }
+];
+
+function cleanSearchText(value) {
+  return String(value || '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/[≥]/g, '>=')
+    .replace(/[≤]/g, '<=')
+    .replace(/[×]/g, 'x')
+    .toLowerCase();
+}
+function searchTextForDx(d) {
+  const c = catById(d.cat)?.label || '';
+  return cleanSearchText([
+    d.name,
+    d.id.replace(/-/g, ' '),
+    c,
+    ...(SEARCH_ALIASES[d.id] || []),
+    ...(d.ip || []),
+    d.obs,
+    d.notesRaw || d.notes,
+    ...(d.flags || [])
+  ].filter(Boolean).join(' '));
+}
+function searchTextForSpecial(item) {
+  const c = catById(item.cat)?.label || '';
+  return cleanSearchText([item.name, item.id.replace(/-/g, ' '), c, ...(item.aliases || [])].join(' '));
+}
 
 /* ═══════════════════════════════════════════════════════
    THEME
@@ -2245,6 +2443,26 @@ function showOOU() {
 ════════════════════════════════════════════════════════ */
 function tog(id) { document.getElementById(id).classList.toggle('open'); }
 
+function toggleReferenceAid() {
+  const note = document.getElementById('referenceAidNote');
+  const btn = document.getElementById('referenceAidBtn');
+  const show = note.hidden;
+  note.hidden = !show;
+  btn.setAttribute('aria-expanded', String(show));
+}
+
+function toggleStickyBanner(collapse) {
+  const banner = document.querySelector('.sticky-banner');
+  if (!banner) return;
+  banner.classList.toggle('is-collapsed', collapse);
+  try { localStorage.setItem('gw-obs-tip-collapsed', collapse ? '1' : '0'); } catch(e) {}
+}
+(function initStickyBanner() {
+  try {
+    if (localStorage.getItem('gw-obs-tip-collapsed') === '1') toggleStickyBanner(true);
+  } catch(e) {}
+})();
+
 /* ═══════════════════════════════════════════════════════
    SEARCH
 ════════════════════════════════════════════════════════ */
@@ -2262,14 +2480,15 @@ function onSearch(val) {
   browse.hidden = true; panel.hidden = false;
 
   const q = val.toLowerCase().trim();
-  const hits = DX.filter(d => {
-    const n = d.name.toLowerCase();
-    const id = d.id.replace(/-/g,' ');
-    const cat = catById(d.cat)?.label.toLowerCase()||'';
-    return n.includes(q)||id.includes(q)||cat.includes(q);
-  }).sort((a,b) => {
+  const hits = [
+    ...DX.filter(d => searchTextForDx(d).includes(q)),
+    ...SPECIAL_SEARCH.filter(item => searchTextForSpecial(item).includes(q)).map(item => ({...item, special:true}))
+  ].sort((a,b) => {
     const as=a.name.toLowerCase().startsWith(q), bs=b.name.toLowerCase().startsWith(q);
     if (as&&!bs) return -1; if (!as&&bs) return 1;
+    const aa = (SEARCH_ALIASES[a.id] || a.aliases || []).some(term => cleanSearchText(term).startsWith(q));
+    const ba = (SEARCH_ALIASES[b.id] || b.aliases || []).some(term => cleanSearchText(term).startsWith(q));
+    if (aa&&!ba) return -1; if (!aa&&ba) return 1;
     return a.name.localeCompare(b.name);
   });
 
@@ -2288,10 +2507,10 @@ function onSearch(val) {
     const c = catById(d.cat);
     const badges = [];
     if (d.alwaysIP) badges.push('<span class="sr-badge ip">Always IP</span>');
-    if (d.flags&&d.flags.length) badges.push('<span class="sr-badge bgmc">BGMC</span>');
+    if ((d.flags&&d.flags.length) || d.badge === 'BGMC') badges.push('<span class="sr-badge bgmc">BGMC</span>');
     const meta = `<span>${escHTML(c.label)}</span>${badges.length?' · '+badges.join(' '):''}`;
     html += `<div class="sr-item ${i===0?'focused':''}" style="--cat-color:${c.color}"
-      data-idx="${i}" onclick="fromSearch('${d.id}')">
+      data-idx="${i}" onclick="fromSearch('${d.id}', ${d.special ? 'true' : 'false'})">
       <div class="sr-emoji">${c.emoji}</div>
       <div class="sr-body">
         <div class="sr-name">${escHTML(d.name)}</div>
@@ -2306,7 +2525,7 @@ function onSearch(val) {
 function onSearchKey(e) {
   if (e.key==='ArrowDown'){e.preventDefault();moveFocus(1);}
   else if (e.key==='ArrowUp'){e.preventDefault();moveFocus(-1);}
-  else if (e.key==='Enter'){e.preventDefault();if(state.results[state.focusIdx])fromSearch(state.results[state.focusIdx].id);}
+  else if (e.key==='Enter'){e.preventDefault();if(state.results[state.focusIdx])fromSearch(state.results[state.focusIdx].id, !!state.results[state.focusIdx].special);}
   else if (e.key==='Escape'){e.preventDefault();clearSearch();e.target.blur();}
 }
 function moveFocus(dir) {
@@ -2318,7 +2537,15 @@ function moveFocus(dir) {
   const f=document.querySelector('.sr-item.focused');
   if(f) f.scrollIntoView({block:'nearest',behavior:'smooth'});
 }
-function fromSearch(dxId) {
+function fromSearch(dxId, special=false) {
+  if (special) {
+    const item = SPECIAL_SEARCH.find(x => x.id === dxId);
+    if (!item) return;
+    state.stack=[{type:'search'}];
+    document.getElementById('searchInput').blur();
+    item.action();
+    return;
+  }
   const d=dxById(dxId); if(d) state.curCat=d.cat;
   state.stack=[{type:'search'}];
   document.getElementById('searchInput').blur();
@@ -2475,7 +2702,7 @@ function escHTML(s) {
 // ── Service Worker registration for offline/PWA support ──────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/criteria-sw.js', { scope: '/criteria' })
+    navigator.serviceWorker.register('/sw.js', { scope: '/criteria' })
       .then(reg => {
         console.log('[Gateway] Service Worker registered, scope:', reg.scope);
         // Check for updates on each load
