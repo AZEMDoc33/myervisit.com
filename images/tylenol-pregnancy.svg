@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Cartoon acetaminophen safety during pregnancy</title>
+  <desc id="desc">A warm cartoon illustration of a pregnant patient holding a checklist beside an acetaminophen bottle and a friendly medical clipboard.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FEFCF9"/>
+      <stop offset="0.55" stop-color="#F7F3EE"/>
+      <stop offset="1" stop-color="#EDE8E0"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E0B35A"/>
+      <stop offset="1" stop-color="#C9973A"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#1E3A5F" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <circle cx="180" cy="130" r="90" fill="#3D7A8A" opacity="0.12"/>
+  <circle cx="1020" cy="540" r="138" fill="#C9973A" opacity="0.12"/>
+  <path d="M0 560 C210 510 360 610 550 558 C760 500 930 570 1200 520 L1200 675 L0 675Z" fill="#1E3A5F" opacity="0.09"/>
+
+  <g filter="url(#shadow)">
+    <rect x="110" y="82" width="980" height="510" rx="36" fill="#FEFCF9"/>
+    <rect x="150" y="122" width="900" height="84" rx="24" fill="#1E3A5F"/>
+    <text x="600" y="176" text-anchor="middle" fill="#FEFCF9" font-family="Arial, sans-serif" font-size="32" font-weight="800">Pregnancy Medication Reality Check</text>
+  </g>
+
+  <g transform="translate(170 258)">
+    <circle cx="150" cy="76" r="58" fill="#F0C7A8"/>
+    <path d="M94 78 C100 34 132 10 172 24 C198 34 212 62 202 98 C164 76 128 92 94 78Z" fill="#5B3A29"/>
+    <path d="M102 82 Q116 96 132 84 M158 84 Q174 96 190 82" stroke="#1E3A5F" stroke-width="6" stroke-linecap="round"/>
+    <path d="M134 110 Q150 122 168 110" fill="none" stroke="#1E3A5F" stroke-width="6" stroke-linecap="round"/>
+    <path d="M86 146 C110 124 190 124 216 146 C252 178 260 250 232 300 C190 330 112 330 68 300 C42 246 50 178 86 146Z" fill="#AD1457"/>
+    <circle cx="156" cy="238" r="74" fill="#EAA4C8"/>
+    <path d="M94 218 C128 194 186 194 218 218" fill="none" stroke="#FEFCF9" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+    <text x="150" y="364" text-anchor="middle" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="24" font-weight="800">Headache? Fever?</text>
+  </g>
+
+  <g transform="translate(510 270)" filter="url(#shadow)">
+    <rect x="0" y="0" width="190" height="260" rx="32" fill="#FEFCF9" stroke="#EDE8E0" stroke-width="5"/>
+    <rect x="36" y="42" width="118" height="152" rx="18" fill="url(#gold)"/>
+    <rect x="52" y="70" width="86" height="42" rx="10" fill="#FEFCF9"/>
+    <text x="95" y="98" text-anchor="middle" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="18" font-weight="800">APAP</text>
+    <text x="95" y="148" text-anchor="middle" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="22" font-weight="800">Lowest</text>
+    <text x="95" y="176" text-anchor="middle" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="22" font-weight="800">needed</text>
+    <circle cx="95" cy="224" r="18" fill="#3D7A8A"/>
+    <path d="M86 224 l7 8 l14 -18" fill="none" stroke="#FEFCF9" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g transform="translate(760 248)" filter="url(#shadow)">
+    <rect x="0" y="0" width="270" height="300" rx="28" fill="#F7F3EE" stroke="#EDE8E0" stroke-width="5"/>
+    <rect x="74" y="-20" width="122" height="48" rx="16" fill="#1E3A5F"/>
+    <circle cx="135" cy="4" r="16" fill="#C9973A"/>
+    <text x="135" y="74" text-anchor="middle" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="24" font-weight="800">Bottom Line</text>
+    <g fill="none" stroke="#3D7A8A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M48 124 l14 14 l30 -36"/>
+      <path d="M48 180 l14 14 l30 -36"/>
+      <path d="M48 236 l14 14 l30 -36"/>
+    </g>
+    <text x="110" y="130" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="19" font-weight="700">Use when needed</text>
+    <text x="110" y="186" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="19" font-weight="700">Treat fever</text>
+    <text x="110" y="242" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="19" font-weight="700">Ask your OB</text>
+  </g>
+
+  <text x="600" y="632" text-anchor="middle" fill="#1E3A5F" font-family="Arial, sans-serif" font-size="26" font-weight="800">Not scary. Just smart, measured use.</text>
+</svg>

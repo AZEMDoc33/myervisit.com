@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ED or Urgent Care? | Eric Cummins, MD</title>
+  <meta name="description" content="An emergency physician explains when to go to the emergency department, when urgent care is a good fit, and how to make the right call when you are sick or hurt." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <style>
+    .post-hero { background: var(--navy); padding: 150px 0 80px; position: relative; overflow: hidden; }
+    .post-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 48px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
+    .post-hero-dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; }
+    .post-hero-inner { position: relative; z-index: 1; max-width: 780px; }
+    .post-hero h1 { color: white; font-size: clamp(1.9rem, 4vw, 2.9rem); line-height: 1.18; }
+    .post-subtitle { color: rgba(255,255,255,0.68); font-size: 1.1rem; margin-top: 14px; }
+    .post-meta { display: flex; align-items: center; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+    .post-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
+    .post-body { max-width: 760px; margin: 0 auto; padding: 60px 28px 80px; }
+    .post-body p { color: var(--charcoal); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; }
+    .post-body h2 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
+    .post-body strong { color: var(--navy); }
+    .back-to-blog { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-bottom: 36px; }
+    .back-to-blog:hover { gap: 12px; }
+    .decision-box { background: var(--warm-white); border: 1px solid rgba(30,58,95,0.08); border-radius: var(--radius); padding: 28px; margin: 28px 0; box-shadow: var(--shadow-sm); }
+    .decision-item { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--cream-dark); }
+    .decision-item:last-child { border-bottom: 0; }
+    .decision-icon { font-size: 1.5rem; line-height: 1; width: 34px; flex-shrink: 0; }
+    .decision-item p { margin: 0; font-size: 0.98rem; }
+    .warning-callout { background: #FFF3CD; border: 1px solid #FFCA28; border-left: 4px solid #F59E0B; border-radius: var(--radius); padding: 24px 28px; margin: 30px 0; }
+    .warning-callout p { color: #78350F; margin: 0; font-size: 0.98rem; }
+    .closing-box { background: linear-gradient(135deg, var(--navy), var(--navy-light)); border-radius: var(--radius); padding: 36px; margin: 40px 0; text-align: center; color: white; }
+    .closing-box p { color: rgba(255,255,255,0.82); margin-bottom: 0; font-size: 1.05rem; line-height: 1.75; }
+    .closing-box .closing-sig { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 16px !important; }
+    .post-footer-note { font-size: 0.82rem; color: var(--muted); font-style: italic; border-top: 1px solid var(--cream-dark); padding-top: 20px; margin-top: 40px; }
+    .post-cta-band { background: linear-gradient(135deg, var(--gold), #A87A20); padding: 60px 0; text-align: center; }
+    .post-cta-band h2 { color: white; }
+    .post-cta-band p { color: rgba(255,255,255,0.85); max-width: 480px; margin: 12px auto 28px; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar scrolled" id="navbar" style="position:relative;background:rgba(30,58,95,0.97);">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-brand">
+          <span class="brand-name">Eric Cummins, MD</span>
+          <span class="brand-tagline">Anyone. Anything. Anytime.</span>
+        </a>
+        <ul class="navbar-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html" class="active">Blog</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="index.html">Home</a><a href="about.html">About</a>
+    <a href="blog.html">Blog</a><a href="resources.html">Resources</a>
+    <a href="index.html#reviews">Share Your Experience</a>
+  </div>
+
+  <section class="post-hero">
+    <div class="post-hero-dots"></div>
+    <div class="container post-hero-inner">
+      <span class="section-tag" style="color:var(--gold);background:rgba(201,151,58,0.15);">Before Your Visit</span>
+      <h1>ED or Urgent Care?</h1>
+      <p class="post-subtitle">Your guide to making the right call when you are sick or hurt.</p>
+      <div class="post-meta">
+        <span class="post-meta-item">📅 September 30, 2025</span>
+        <span class="post-meta-item">⏱ 5 min read</span>
+        <span class="post-meta-item">✍️ Dr. Eric Cummins, MD</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="post-body">
+    <a href="blog.html" class="back-to-blog">← Back to Blog</a>
+
+    <figure class="post-image" style="margin:0 0 36px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-md);">
+      <img
+        src="images/er-or-urgent-care.svg"
+        alt="A cartoon signpost pointing toward urgent care and the emergency department"
+        style="width:100%;height:auto;display:block;"
+      />
+      <figcaption style="background:var(--navy);color:rgba(255,255,255,0.7);font-size:0.82rem;padding:12px 20px;font-style:italic;text-align:center;">
+        Healthcare should not feel like "Choose Your Own Medical Adventure."
+      </figcaption>
+    </figure>
+
+    <p>Figuring out where to go when you're sick or hurt can be confusing. Do you need the emergency department? Urgent care? Your doctor's office? Should you just ChatGPT your symptoms and hope for the best? Please don't do that last one. ChatGPT may convince you that your headache is actually a rare mosquito-borne disease.</p>
+
+    <p>As an emergency medicine doctor, I get it. Healthcare can feel like a maze, and when you're not feeling well, the last thing you want to do is play "Choose Your Own Medical Adventure." So let me break it down in a way that actually makes sense.</p>
+
+    <h2>When to Head Straight to the Emergency Department</h2>
+
+    <p>Think of the emergency department as your destination for anything that could be life-threatening or limb-threatening. If you're experiencing any of these symptoms, don't mess around. Call 911 or get to the emergency department right away.</p>
+
+    <div class="decision-box" data-aos="fade-up">
+      <div class="decision-item"><span class="decision-icon">❤️</span><p><strong>Chest pain or pressure.</strong> This is not the time to be brave or hope it goes away. Even if you think it is just heartburn from that extra-spicy burrito, let us check it out. We'd much rather see you for heartburn than miss a heart attack.</p></div>
+      <div class="decision-item"><span class="decision-icon">🫁</span><p><strong>Shortness of breath.</strong> If you're struggling to breathe or feel like you can't catch your breath, that's an ED situation. Your lungs are kind of important.</p></div>
+      <div class="decision-item"><span class="decision-icon">🧠</span><p><strong>Stroke symptoms.</strong> If you notice weakness on one side of your body or face, difficulty speaking, or your face looks droopy on one side, time matters. Remember: Face drooping, Arm weakness, Speech difficulty = Time to call 911.</p></div>
+      <div class="decision-item"><span class="decision-icon">🩹</span><p><strong>Severe injuries.</strong> Major cuts, deep wounds, injuries from car accidents, or anything where you're thinking, "Wow, that's a lot of blood" belongs in the ED.</p></div>
+      <div class="decision-item"><span class="decision-icon">🦴</span><p><strong>Broken bones.</strong> If you think you broke something, especially an ankle, wrist, or other bone, head to the ED. Many urgent cares do not have X-ray machines or CT scanners, so they may send you to us anyway.</p></div>
+      <div class="decision-item"><span class="decision-icon">🤕</span><p><strong>Severe abdominal pain.</strong> Mild stomach upset? Probably not an emergency. But if your belly hurts so badly you can't stand up straight, or if it is tender when you press on it, come see us.</p></div>
+    </div>
+
+    <h2>When Urgent Care Is Your Best Bet</h2>
+
+    <p>Urgent care centers are fantastic for those "I need help today, but I'm not dying" situations. They're usually cheaper than the ED, faster, and well equipped to handle common illnesses and minor injuries.</p>
+
+    <div class="decision-box" data-aos="fade-up">
+      <div class="decision-item"><span class="decision-icon">✂️</span><p><strong>Minor cuts and scrapes.</strong> If your cut is small, not gushing blood, and does not involve a major injury, urgent care can usually clean it up and maybe place a few stitches.</p></div>
+      <div class="decision-item"><span class="decision-icon">🤧</span><p><strong>Mild fevers, coughs, and congestion.</strong> Urgent care can test for strep throat, COVID-19, influenza, and sometimes RSV with quick point-of-care tests.</p></div>
+      <div class="decision-item"><span class="decision-icon">🏀</span><p><strong>Minor sprains and strains.</strong> Twisted your ankle playing weekend warrior basketball? If you can still walk on it, even if it hurts, urgent care is often a reasonable first stop.</p></div>
+      <div class="decision-item"><span class="decision-icon">🦟</span><p><strong>Rashes, minor burns, or bug bites.</strong> Unless you're having an allergic reaction that makes it hard to breathe, urgent care can handle most skin issues.</p></div>
+      <div class="decision-item"><span class="decision-icon">🦵</span><p><strong>Joint pain without injury.</strong> Knee acting up again? Shoulder feeling stiff? If you did not injure it in a specific incident, urgent care can evaluate you and point you in the right direction.</p></div>
+    </div>
+
+    <h2>The Gray Areas</h2>
+
+    <p>Some situations are not black and white, and that's okay. When in doubt, here's my advice: trust your gut. If something feels really wrong, come to the ED. We'd rather evaluate you and send you home with good news than have you wait and get worse.</p>
+
+    <p><strong>Head injuries</strong> are a common source of confusion. Most head injuries do not actually need a CT scan. Concussions are usually diagnosed by symptoms and exam, not fancy imaging. However, you should head to the emergency department if you hit your head and any of these apply to you:</p>
+
+    <div class="warning-callout" data-aos="fade-up">
+      <p>You take blood thinners like warfarin, Eliquis, Plavix, Xarelto, or even daily aspirin; you are over 65; you lost consciousness after the injury; or you are vomiting after hitting your head.</p>
+    </div>
+
+    <p>If none of those apply and you just have a bump with a mild headache, urgent care may be able to evaluate you. Abdominal pain is probably the trickiest one. A little indigestion may be fine for urgent care or your regular doctor. Belly pain that is getting worse, in one specific spot, or making you double over is ED material.</p>
+
+    <h2>A Few Practical Tips</h2>
+
+    <p><strong>Call ahead when you can.</strong> If you're going to urgent care, many places let you check in online or call ahead. It can save you time in the waiting room.</p>
+
+    <p><strong>Bring your medication list.</strong> Whether you're headed to the ED or urgent care, knowing what medications you take and how much helps us take better care of you.</p>
+
+    <p><strong>Don't wait until 2 AM unless it's urgent.</strong> I get it. Life gets busy. But if you've had a cough for three weeks, maybe don't wait until the middle of the night to seek care. Your future self, and the night shift staff, will thank you.</p>
+
+    <p><strong>When in doubt, call.</strong> Most ERs and urgent cares have nurse lines you can call to ask whether you should come in. Use them. That's what they're there for.</p>
+
+    <h2>What You Really Need to Know</h2>
+
+    <p>Here's what I really want you to remember: we're here to help you, wherever you end up. The ED, urgent care, and your regular doctor's office all have their place in keeping you healthy.</p>
+
+    <p>The ED is for serious, potentially life-threatening situations. Urgent care is for things that need attention today but are not emergencies. And your regular doctor is for ongoing care and non-urgent issues.</p>
+
+    <p>At the end of the day, I'd rather see you come to the ED with something minor than stay home with something serious. We're trained to handle both, and we'll never make you feel bad for seeking care. Your health matters, and figuring out where to go is part of taking good care of yourself.</p>
+
+    <div class="closing-box" data-aos="fade-up">
+      <p>When something feels really wrong, trust that feeling. Your body usually knows when it needs help.</p>
+      <p class="closing-sig">— Dr. Eric Cummins, MD</p>
+    </div>
+
+    <p>Now if you'll excuse me, I have to go convince someone that Google is wrong about their headache being caused by a rare mosquito bite.</p>
+
+    <p class="post-footer-note">This article is for general education only and is not medical advice. If you are experiencing a medical emergency, call 911 or go to the nearest emergency department.</p>
+
+    <a href="blog.html" class="back-to-blog">← Back to Blog</a>
+  </div>
+
+  <section class="post-cta-band">
+    <div class="container">
+      <span class="section-tag" style="color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);">Free Download</span>
+      <h2>Bring the Details That Matter</h2>
+      <p>Download free ED prep tools to keep your medication list, questions, and visit details organized.</p>
+      <a href="resources.html" class="btn btn-outline-white">Get Free Resources</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand"><div class="brand-name">Eric Cummins, MD</div><p>Helping patients and families navigate the emergency department with clarity, confidence, and a little less stress.</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Me</a></li><li><a href="blog.html">Blog</a></li><li><a href="resources.html">Free Resources</a></li></ul></div>
+        <div class="footer-col"><h4>Free Resources</h4><ul><li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/ed.visit.planner-A0xvxDB9kJUaa9oB.pdf" target="_blank">ED Visit Companion</a></li><li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/simple-medication-log-sheet-planner-Yg242RrpxohG8BBl.pdf" target="_blank">Medication List</a></li></ul></div>
+      </div>
+      <hr class="footer-divider"/>
+      <div class="footer-bottom">
+        <p class="footer-disclaimer">This website is for informational purposes only and does not constitute medical advice. If you are experiencing a medical emergency, call 911 immediately.</p>
+        <span class="footer-copy">© 2025 Eric Cummins, MD</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
