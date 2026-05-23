@@ -732,7 +732,7 @@ p:last-child { margin-bottom: 0; }
     display: flex;
     justify-content: center;
     order: -1;
-    margin-bottom: 8px;
+    margin-bottom: 38px;
   }
   .hero-image-frame {
     max-width: 200px;
@@ -750,7 +750,26 @@ p:last-child { margin-bottom: 0; }
     border-radius: 50%;
     top: -10px; right: -10px;
   }
-  .hero-badge { display: none; }
+  .hero-badge {
+    display: block;
+    left: auto;
+    right: -12px;
+    bottom: -10px;
+    z-index: 3;
+    padding: 5px 7px 6px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 7px 18px rgba(30,58,95,0.16);
+    width: 68px;
+  }
+  .hero-badge .badge-num {
+    font-size: 0.92rem;
+  }
+  .hero-badge .badge-label {
+    font-size: 0.44rem;
+    line-height: 1.05;
+    margin-top: 1px;
+  }
   .about-grid { grid-template-columns: 1fr; }
   .about-image-wrap { max-width: 400px; margin: 0 auto; }
   .contact-grid { grid-template-columns: 1fr; }
