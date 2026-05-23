@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Long Is This Going to Take? | Eric Cummins, MD</title>
+  <meta name="description" content="An emergency physician explains why emergency department visits can take several hours, including labs, imaging, consultations, reassessments, and safe discharge planning." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <style>
+    .post-hero { background: var(--navy); padding: 150px 0 80px; position: relative; overflow: hidden; }
+    .post-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 48px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
+    .post-hero-dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; }
+    .post-hero-inner { position: relative; z-index: 1; max-width: 820px; }
+    .post-hero h1 { color: white; font-size: clamp(1.95rem, 5vw, 3rem); line-height: 1.15; }
+    .post-subtitle { color: rgba(255,255,255,0.68); font-size: 1.1rem; margin-top: 14px; }
+    .post-meta { display: flex; align-items: center; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+    .post-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
+    .post-body { max-width: 760px; margin: 0 auto; padding: 60px 28px 80px; }
+    .post-body p { color: var(--charcoal); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; }
+    .post-body h2 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
+    .post-body strong { color: var(--navy); }
+    .back-to-blog { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-bottom: 36px; }
+    .back-to-blog:hover { gap: 12px; }
+    .time-card-grid { display: grid; gap: 14px; margin: 24px 0 30px; }
+    .time-card { background: var(--warm-white); border-radius: var(--radius); padding: 20px 22px; border-left: 4px solid var(--gold); box-shadow: var(--shadow-sm); }
+    .time-card p { margin: 0; font-size: 0.96rem; color: var(--muted); }
+    .time-card strong { display: block; margin-bottom: 4px; color: var(--navy); }
+    .reassurance-box { background: rgba(61,122,138,0.08); border: 1px solid rgba(61,122,138,0.18); border-radius: var(--radius); padding: 24px 28px; margin: 28px 0; }
+    .reassurance-box p { margin: 0; color: var(--navy); font-size: 0.98rem; }
+    .closing-box { background: linear-gradient(135deg, var(--navy), var(--navy-light)); border-radius: var(--radius); padding: 36px; margin: 40px 0; text-align: center; color: white; }
+    .closing-box p { color: rgba(255,255,255,0.82); margin-bottom: 0; font-size: 1.05rem; line-height: 1.75; }
+    .closing-box .closing-sig { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 16px !important; }
+    .post-footer-note { font-size: 0.82rem; color: var(--muted); font-style: italic; border-top: 1px solid var(--cream-dark); padding-top: 20px; margin-top: 40px; }
+    .post-cta-band { background: linear-gradient(135deg, var(--gold), #A87A20); padding: 60px 0; text-align: center; }
+    .post-cta-band h2 { color: white; }
+    .post-cta-band p { color: rgba(255,255,255,0.85); max-width: 480px; margin: 12px auto 28px; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar scrolled" id="navbar" style="position:relative;background:rgba(30,58,95,0.97);">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-brand">
+          <span class="brand-name">Eric Cummins, MD</span>
+          <span class="brand-tagline">Anyone. Anything. Anytime.</span>
+        </a>
+        <ul class="navbar-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html" class="active">Blog</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="index.html">Home</a><a href="about.html">About</a>
+    <a href="blog.html">Blog</a><a href="resources.html">Resources</a>
+    <a href="index.html#reviews">Share Your Experience</a>
+  </div>
+
+  <section class="post-hero">
+    <div class="post-hero-dots"></div>
+    <div class="container post-hero-inner">
+      <span class="section-tag" style="color:var(--gold);background:rgba(201,151,58,0.15);">During Your Visit</span>
+      <h1>How Long Is This Going to Take?</h1>
+      <p class="post-subtitle">A behind-the-scenes look at labs, scans, consultations, and the plot twists that keep the clock ticking.</p>
+      <div class="post-meta">
+        <span class="post-meta-item">📅 May 4, 2025</span>
+        <span class="post-meta-item">⏱ 2 min read</span>
+        <span class="post-meta-item">✍️ Dr. Eric Cummins, MD</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="post-body">
+    <a href="blog.html" class="back-to-blog">← Back to Blog</a>
+
+    <figure class="post-image" style="margin:0 0 36px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-md);">
+      <img
+        src="images/how-long-will-this-take.png"
+        alt="Cartoon patient waiting in the emergency department with a clock and ED sign in the background"
+        style="width:100%;height:auto;display:block;"
+      />
+      <figcaption style="background:var(--navy);color:rgba(255,255,255,0.7);font-size:0.82rem;padding:12px 20px;font-style:italic;text-align:center;">
+        Waiting is hard. Most of the time, the clock is ticking because important pieces of your care are still in motion.
+      </figcaption>
+    </figure>
+
+    <p>The question I hear most often in the emergency department is: "So, how long is this going to take?"</p>
+
+    <p>I completely understand. I am an emergency medicine physician, and we are some of the most impatient people you will ever meet. We like answers. We like movement. We like the next step.</p>
+
+    <p>Here is the reality: many patients who go home after an emergency department visit spend several hours with us. That can feel like forever when you are not feeling well, but there is usually a reason for the wait.</p>
+
+    <h2>What's Actually Happening During Those Hours</h2>
+
+    <div class="time-card-grid" data-aos="fade-up">
+      <div class="time-card">
+        <p><strong>Lab work takes time</strong>Blood and urine tests often need 45-90 minutes to process, assuming the samples are good and do not need to be redrawn. The lab is helping us see what is happening inside your body.</p>
+      </div>
+      <div class="time-card">
+        <p><strong>Imaging is more than the scan</strong>X-rays and CT scans are not just the few minutes you spend in the scanner. They include ordering, transport, the scan itself, image processing, and a radiologist's interpretation.</p>
+      </div>
+      <div class="time-card">
+        <p><strong>Consultations add another layer</strong>If we need to call a specialist, hospitalist, surgeon, or primary care clinician, that can add time. They may be seeing other patients, in procedures, in clinic, or covering multiple locations.</p>
+      </div>
+      <div class="time-card">
+        <p><strong>Symptoms can change</strong>Sometimes pain returns, nausea improves then comes back, a fever appears, or a test result pushes us to repeat something. Those are not pointless delays. They are reassessments.</p>
+      </div>
+    </div>
+
+    <h2>Why It Feels Like Nothing Is Happening</h2>
+
+    <p>Some of the most important parts of emergency care are invisible from the room. Your blood may be in the lab. Your images may be waiting for a radiologist. Your clinician may be reviewing results, talking with a consultant, checking prior records, or caring for a patient who just became critically ill.</p>
+
+    <p>That does not make the waiting easy. It just means quiet time in the room is not always wasted time.</p>
+
+    <div class="reassurance-box" data-aos="fade-up">
+      <p>If you are not sure what is happening next, it is okay to ask: "What are we waiting on right now?" or "What is the next step in my care?" Those are fair questions.</p>
+    </div>
+
+    <h2>Emergencies Are Not Predictable</h2>
+
+    <p>The emergency department is one of the few places where the schedule can change completely in seconds. A stroke, heart attack, severe trauma, or critically ill patient may arrive without warning.</p>
+
+    <p>When that happens, the team may need to shift quickly. It does not mean you were forgotten. It means someone else suddenly needed immediate life-saving care.</p>
+
+    <h2>The Bottom Line</h2>
+
+    <p>We are moving as quickly as we can while being as safe as possible.</p>
+
+    <p>Every extra minute usually means we are waiting for important information, double-checking something, treating symptoms, reassessing your response, or building the safest plan for what happens next.</p>
+
+    <div class="closing-box" data-aos="fade-up">
+      <p>If your visit takes longer than expected, it is not because we forgot about you. It is because we are working to get the right answers, provide the right treatment, and make sure the plan is safe before you leave.</p>
+      <p class="closing-sig">— Dr. Eric Cummins, MD</p>
+    </div>
+
+    <p class="post-footer-note">This article is for general education only and is not a substitute for medical advice. If you feel worse while waiting, develop new symptoms, or are worried something has changed, please tell your care team right away.</p>
+
+    <a href="blog.html" class="back-to-blog">← Back to Blog</a>
+  </div>
+
+  <section class="post-cta-band">
+    <div class="container">
+      <span class="section-tag" style="color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);">Free Download</span>
+      <h2>Stay Organized During the Visit</h2>
+      <p>Download free ED prep tools to track questions, medications, test results, and follow-up instructions.</p>
+      <a href="resources.html" class="btn btn-outline-white">Get Free Resources</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand"><div class="brand-name">Eric Cummins, MD</div><p>Helping patients and families navigate the emergency department with clarity, confidence, and a little less stress.</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Me</a></li><li><a href="blog.html">Blog</a></li><li><a href="resources.html">Free Resources</a></li></ul></div>
+        <div class="footer-col"><h4>Free Resources</h4><ul><li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/ed.visit.planner-A0xvxDB9kJUaa9oB.pdf" target="_blank">ED Visit Companion</a></li><li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/simple-medication-log-sheet-planner-Yg242RrpxohG8BBl.pdf" target="_blank">Medication List</a></li></ul></div>
+      </div>
+      <hr class="footer-divider"/>
+      <div class="footer-bottom">
+        <p class="footer-disclaimer">This website is for informational purposes only and does not constitute medical advice. If you are experiencing a medical emergency, call 911 immediately.</p>
+        <span class="footer-copy">© 2025 Eric Cummins, MD</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
