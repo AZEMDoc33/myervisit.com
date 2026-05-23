@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why Do You Keep Asking the Same Questions? | Eric Cummins, MD</title>
+  <meta name="description" content="An emergency physician explains why patients hear the same questions from registration, triage, nurses, techs, and clinicians during an emergency department visit." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <style>
+    .post-hero { background: var(--navy); padding: 150px 0 80px; position: relative; overflow: hidden; }
+    .post-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 48px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
+    .post-hero-dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; }
+    .post-hero-inner { position: relative; z-index: 1; max-width: 820px; }
+    .post-hero h1 { color: white; font-size: clamp(1.85rem, 5vw, 3rem); line-height: 1.15; }
+    .post-subtitle { color: rgba(255,255,255,0.68); font-size: 1.1rem; margin-top: 14px; }
+    .post-meta { display: flex; align-items: center; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+    .post-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
+    .post-body { max-width: 760px; margin: 0 auto; padding: 60px 28px 80px; }
+    .post-body p { color: var(--charcoal); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; }
+    .post-body h2 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
+    .post-body strong { color: var(--navy); }
+    .back-to-blog { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-bottom: 36px; }
+    .back-to-blog:hover { gap: 12px; }
+    .question-card-grid { display: grid; gap: 14px; margin: 24px 0 30px; }
+    .question-card { background: var(--warm-white); border-radius: var(--radius); padding: 20px 22px; border-left: 4px solid var(--gold); box-shadow: var(--shadow-sm); }
+    .question-card p { margin: 0; font-size: 0.96rem; color: var(--muted); }
+    .question-card strong { display: block; margin-bottom: 4px; color: var(--navy); }
+    .reassurance-box { background: rgba(61,122,138,0.08); border: 1px solid rgba(61,122,138,0.18); border-radius: var(--radius); padding: 24px 28px; margin: 28px 0; }
+    .reassurance-box p { margin: 0; color: var(--navy); font-size: 0.98rem; }
+    .closing-box { background: linear-gradient(135deg, var(--navy), var(--navy-light)); border-radius: var(--radius); padding: 36px; margin: 40px 0; text-align: center; color: white; }
+    .closing-box p { color: rgba(255,255,255,0.82); margin-bottom: 0; font-size: 1.05rem; line-height: 1.75; }
+    .closing-box .closing-sig { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 16px !important; }
+    .post-footer-note { font-size: 0.82rem; color: var(--muted); font-style: italic; border-top: 1px solid var(--cream-dark); padding-top: 20px; margin-top: 40px; }
+    .post-cta-band { background: linear-gradient(135deg, var(--gold), #A87A20); padding: 60px 0; text-align: center; }
+    .post-cta-band h2 { color: white; }
+    .post-cta-band p { color: rgba(255,255,255,0.85); max-width: 480px; margin: 12px auto 28px; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar scrolled" id="navbar" style="position:relative;background:rgba(30,58,95,0.97);">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-brand">
+          <span class="brand-name">Eric Cummins, MD</span>
+          <span class="brand-tagline">Anyone. Anything. Anytime.</span>
+        </a>
+        <ul class="navbar-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html" class="active">Blog</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="index.html">Home</a><a href="about.html">About</a>
+    <a href="blog.html">Blog</a><a href="resources.html">Resources</a>
+    <a href="index.html#reviews">Share Your Experience</a>
+  </div>
+
+  <section class="post-hero">
+    <div class="post-hero-dots"></div>
+    <div class="container post-hero-inner">
+      <span class="section-tag" style="color:var(--gold);background:rgba(201,151,58,0.15);">During Your Visit</span>
+      <h1>Why Do You Keep Asking the Same Questions?</h1>
+      <p class="post-subtitle">The method behind our medical madness, and why your story may need to be told more than once.</p>
+      <div class="post-meta">
+        <span class="post-meta-item">📅 September 4, 2025</span>
+        <span class="post-meta-item">⏱ 4 min read</span>
+        <span class="post-meta-item">✍️ Dr. Eric Cummins, MD</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="post-body">
+    <a href="blog.html" class="back-to-blog">← Back to Blog</a>
+
+    <figure class="post-image" style="margin:0 0 36px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-md);">
+      <img
+        src="images/same-questions-ed.svg"
+        alt="Cartoon emergency department team asking a patient what brings them in today"
+        style="width:100%;height:auto;display:block;"
+      />
+      <figcaption style="background:var(--navy);color:rgba(255,255,255,0.7);font-size:0.82rem;padding:12px 20px;font-style:italic;text-align:center;">
+        Yes, we know you already answered it. We are asking again for a reason.
+      </figcaption>
+    </figure>
+
+    <p>Picture this: you arrive at the emergency department with chest pain, belly pain, a cough, or a twisted ankle. You explain what happened at the front desk. Then the triage nurse asks. Then the tech asks. Then I walk in and ask the same thing again.</p>
+
+    <p>I can practically see the thought bubble over your head: "Did nobody write this down?"</p>
+
+    <p>Trust me, I get it. If I had a dollar for every eye roll I have received after asking, "So what brings you in today?" I could probably afford the fancy coffee machine in the physician lounge. Spoiler: it is still broken.</p>
+
+    <p>But there is a method to the madness.</p>
+
+    <h2>The Great Communication Chain</h2>
+
+    <p>Each person you meet has a different job. We are all listening for different things, and we need different levels of detail.</p>
+
+    <div class="question-card-grid" data-aos="fade-up">
+      <div class="question-card">
+        <p><strong>Registration</strong>Registration needs the short version: chest pain, cough, ankle injury, medication problem. They are getting you into the system quickly and making sure you are in the right place.</p>
+      </div>
+      <div class="question-card">
+        <p><strong>Triage nurse</strong>The triage nurse needs a focused version. They are checking vital signs, looking for danger signs, and deciding how urgently you need to be seen.</p>
+      </div>
+      <div class="question-card">
+        <p><strong>Nurses and techs</strong>They may ask again because symptoms change, details get clarified, and they are preparing the room, tests, medications, and monitoring you may need.</p>
+      </div>
+      <div class="question-card">
+        <p><strong>Physician, PA, or NP</strong>This is where the full story matters: when it started, what changed, what makes it better or worse, what you tried, your medical history, and what worries you most.</p>
+      </div>
+    </div>
+
+    <h2>Why Can't We All Just Talk to Each Other?</h2>
+
+    <p>We do talk to each other. We also read notes, review vital signs, look at prior records, and check what has already been documented.</p>
+
+    <p>But emergency medicine moves fast. Details can get lost in translation. Symptoms can change. A patient may remember something important the third time they tell the story. And sometimes the way you tell it directly to the clinician gives us clues that do not fit neatly into a checkbox.</p>
+
+    <div class="reassurance-box" data-aos="fade-up">
+      <p>Repetition is not meant to frustrate you. It is one of the safety nets we use to make sure important details do not fall through the cracks.</p>
+    </div>
+
+    <h2>Your Story Gets Sharper</h2>
+
+    <p>There is one unexpected benefit: by the time you get to the clinician, your story is often clearer.</p>
+
+    <p>You may start with, "It hurts somewhere over here," and by the third version realize, "Actually, it started after dinner, it is worse when I breathe, and it moved to my shoulder." That is useful.</p>
+
+    <p>Or maybe you initially said the pain was mild, but now it is much worse. That tells us something too.</p>
+
+    <p>Sometimes repetition catches a detail that matters. If you forgot to mention a medication allergy, a recent surgery, a fever, pregnancy, blood thinner use, or a prior heart problem, the extra question may be the moment it gets caught.</p>
+
+    <h2>What Helps Us Help You</h2>
+
+    <p>If you want to make the process smoother, these small things help:</p>
+
+    <div class="question-card-grid" data-aos="fade-up">
+      <div class="question-card"><p><strong>Start with the headline</strong>"Chest pain since 8 AM," "right-sided belly pain for two days," or "fell and hurt my wrist" helps us orient quickly.</p></div>
+      <div class="question-card"><p><strong>Tell us what changed</strong>Worse, better, new symptom, new medicine, new injury, recent surgery, or something that feels different from usual.</p></div>
+      <div class="question-card"><p><strong>Bring a medication list</strong>Your medications, doses, allergies, and major medical history save time and reduce errors.</p></div>
+      <div class="question-card"><p><strong>Say what worries you most</strong>If you are scared it is a heart attack, stroke, appendicitis, sepsis, or something else, tell us. That concern matters.</p></div>
+    </div>
+
+    <h2>The Bottom Line</h2>
+
+    <p>The next time you find yourself telling your story for what feels like the hundredth time, know this: each person asking has a purpose.</p>
+
+    <p>We are not trying to drive you crazy. That is just a bonus feature.</p>
+
+    <p>We are trying to make sure you get the right care at the right time, with the right information in front of the right person.</p>
+
+    <div class="closing-box" data-aos="fade-up">
+      <p>We promise we are taking notes. We may just need to hear it one more time, directly from you, to make sure we got it right.</p>
+      <p class="closing-sig">— Dr. Eric Cummins, MD</p>
+    </div>
+
+    <p class="post-footer-note">This article is for general education only and is not a substitute for medical advice. If you are experiencing a medical emergency, call 911 or go to the nearest emergency department.</p>
+
+    <a href="blog.html" class="back-to-blog">← Back to Blog</a>
+  </div>
+
+  <section class="post-cta-band">
+    <div class="container">
+      <span class="section-tag" style="color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);">Free Download</span>
+      <h2>Make Your Story Easier to Tell</h2>
+      <p>Download free ED prep tools to keep your medications, questions, and visit details organized.</p>
+      <a href="resources.html" class="btn btn-outline-white">Get Free Resources</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand"><div class="brand-name">Eric Cummins, MD</div><p>Helping patients and families navigate the emergency department with clarity, confidence, and a little less stress.</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Me</a></li><li><a href="blog.html">Blog</a></li><li><a href="resources.html">Free Resources</a></li></ul></div>
+        <div class="footer-col"><h4>Free Resources</h4><ul><li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/ed.visit.planner-A0xvxDB9kJUaa9oB.pdf" target="_blank">ED Visit Companion</a></li><li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/simple-medication-log-sheet-planner-Yg242RrpxohG8BBl.pdf" target="_blank">Medication List</a></li></ul></div>
+      </div>
+      <hr class="footer-divider"/>
+      <div class="footer-bottom">
+        <p class="footer-disclaimer">This website is for informational purposes only and does not constitute medical advice. If you are experiencing a medical emergency, call 911 immediately.</p>
+        <span class="footer-copy">© 2025 Eric Cummins, MD</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
