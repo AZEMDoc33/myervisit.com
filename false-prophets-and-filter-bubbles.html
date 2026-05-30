@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>False Prophets and Filter Bubbles | Eric Cummins, MD</title>
+  <meta name="description" content="Your algorithm has opinions about your health. So does your doctor. Only one of us went to medical school. Dr. Eric Cummins on health influencers, misinformation, and why humility is the most honest thing medicine has to offer." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <style>
+    .post-hero { background: var(--navy); padding: 150px 0 80px; position: relative; overflow: hidden; }
+    .post-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 48px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
+    .post-hero-dots { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; }
+    .post-hero-inner { position: relative; z-index: 1; max-width: 780px; }
+    .post-hero h1 { color: white; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.2; }
+    .post-hero p { color: rgba(255,255,255,0.7); margin-top: 14px; font-size: 1.05rem; }
+    .post-meta { display: flex; align-items: center; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+    .post-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
+
+    .post-body { max-width: 760px; margin: 0 auto; padding: 60px 28px 80px; }
+    .post-body p { color: var(--charcoal); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; }
+    .post-body h2 { color: var(--navy); font-size: 1.5rem; margin: 2.4rem 0 0.8rem; }
+
+    .back-to-blog { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-bottom: 32px; }
+    .back-to-blog:hover { gap: 12px; }
+
+    /* ── POINT CARDS (gold left border) ── */
+    .point-card {
+      background: var(--warm-white);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin: 20px 0;
+      border-left: 4px solid var(--gold);
+    }
+    .point-card-label {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 6px;
+    }
+    .point-card h3 { color: var(--navy); font-size: 1.1rem; margin: 0 0 10px; }
+    .point-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; margin: 0; }
+    .point-card .insight-note {
+      font-size: 0.85rem; color: var(--teal);
+      font-style: italic; margin-top: 10px;
+      border-top: 1px solid rgba(61,122,138,0.15);
+      padding-top: 10px;
+    }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote {
+      background: var(--cream-dark);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      margin: 32px 0;
+      text-align: center;
+      position: relative;
+    }
+    .pull-quote::before {
+      content: '\201C';
+      font-family: 'Playfair Display', serif;
+      font-size: 7rem; color: var(--gold); opacity: 0.2;
+      position: absolute; top: -16px; left: 20px; line-height: 1;
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-style: italic; color: var(--navy);
+      position: relative; z-index: 1;
+      margin: 0 !important;
+      line-height: 1.5;
+    }
+
+    /* ── VIDEO EMBED ── */
+    .video-block { margin: 36px 0; }
+    .video-label {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 12px;
+    }
+    .video-thumb-link {
+      display: block; position: relative;
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .video-thumb-link:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .video-thumb-link img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; }
+    .video-play-overlay {
+      position: absolute; inset: 0;
+      background: rgba(30,58,95,0.38);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s ease;
+    }
+    .video-thumb-link:hover .video-play-overlay { background: rgba(30,58,95,0.18); }
+    .video-play-btn {
+      width: 68px; height: 68px;
+      background: rgba(220,0,0,0.9);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .video-play-btn svg { width: 28px; height: 28px; fill: white; margin-left: 4px; }
+    .video-caption {
+      text-align: center; margin-top: 10px;
+      font-size: 0.82rem; color: var(--muted); font-style: italic;
+    }
+
+    /* ── CLOSING NAVY BOX ── */
+    .post-closing {
+      background: var(--navy); border-radius: var(--radius);
+      padding: 36px; color: white; margin: 40px 0; text-align: center;
+    }
+    .post-closing p { color: rgba(255,255,255,0.82); margin-bottom: 0; font-size: 1.05rem; line-height: 1.75; }
+
+    /* ── FOOTER NOTE ── */
+    .post-footer-note {
+      font-size: 0.82rem; color: var(--muted); font-style: italic;
+      border-top: 1px solid var(--cream-dark);
+      padding-top: 20px; margin-top: 40px;
+    }
+
+    /* ── CTA BAND ── */
+    .post-cta-band { background: linear-gradient(135deg, var(--gold), #A87A20); padding: 60px 0; text-align: center; }
+    .post-cta-band h2 { color: white; }
+    .post-cta-band p { color: rgba(255,255,255,0.85); max-width: 480px; margin: 12px auto 28px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar scrolled" id="navbar" style="position:relative;background:rgba(30,58,95,0.97);">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-brand">
+          <span class="brand-name">Eric Cummins, MD</span>
+          <span class="brand-tagline">Anyone. Anything. Anytime.</span>
+        </a>
+        <ul class="navbar-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html" class="active">ED Insights</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="blog.html">ED Insights</a>
+    <a href="resources.html">Resources</a>
+    <a href="index.html#reviews">Share Your Experience</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="post-hero">
+    <div class="post-hero-dots"></div>
+    <div class="container post-hero-inner">
+      <span class="section-tag" style="color:var(--gold);background:rgba(201,151,58,0.15);">Health &amp; Misinformation</span>
+      <h1>False Prophets and Filter Bubbles</h1>
+      <p>Your algorithm has opinions about your health. So does your doctor. Only one of us went to medical school.</p>
+      <div class="post-meta">
+        <span class="post-meta-item">📅 May 2026</span>
+        <span class="post-meta-item">⏱ 3 min read</span>
+        <span class="post-meta-item">✍️ Dr. Eric Cummins, MD</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <div class="post-body">
+    <a href="blog.html" class="back-to-blog">← Back to ED Insights</a>
+
+    <!-- HERO IMAGE -->
+    <figure style="margin:0 0 36px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-md);">
+      <img
+        src="images/false-prophets-filter-bubbles.png"
+        alt="Cartoon emergency physician reacting to online wellness misinformation on social media"
+        style="width:100%;height:auto;display:block;"
+      />
+      <figcaption style="background:var(--navy);color:rgba(255,255,255,0.7);font-size:0.82rem;padding:12px 20px;font-style:italic;text-align:center;">
+        Your doctor wants to hear you. And then push back on your wellness influencer.
+      </figcaption>
+    </figure>
+
+    <p>Let's talk about chemicals.</p>
+    <p>They're everywhere. In your food. In your water. In the air you're breathing right now as you read this. And if your social media feed is anything like my patients', someone is very upset about this.</p>
+    <p>Here's the thing. Water is a chemical. Oxygen is a chemical. Your own body is, technically speaking, a walking bag of chemicals having an ongoing argument with gravity. So when someone online tells you to "avoid all chemicals," they are saying nothing. They are using a word that sounds scary to make you feel scared.</p>
+    <p>Welcome to the modern health influencer economy. Population: too many.</p>
+
+    <!-- SECTION 1 -->
+    <h2>🌿 Hippocrates Was Right. And Also, He Couldn't Treat Your Type 2 Diabetes.</h2>
+
+    <p>One of the original physicians said it best: <em>"Let food be thy medicine."</em> I couldn't agree more. Lifestyle changes, sleep, real movement, stress management, cutting out ultra-processed garbage. These are more powerful than most pills I could prescribe. I genuinely believe that. Not as a platitude. As a physician who has watched patients turn their lives around without a single prescription.</p>
+    <p>But some of you have diabetes that does not care how much kale you eat. Some of you have hypertension that is genetic, not lifestyle-driven. Some of you have conditions that lifestyle alone cannot fix. Not because you failed. Because that is the honest reality of biology.</p>
+    <p>When I prescribe a medication, it is not because I want to drug you. It is because the evidence says this is the most reasonable path to keep you alive and functional. That's the whole story.</p>
+
+    <div class="point-card" data-aos="fade-up">
+      <div class="point-card-label">The Foundation</div>
+      <h3>🥦 Lifestyle First — Always</h3>
+      <p>Food, movement, sleep, and stress management are medicine. They work. We start here whenever we can.</p>
+      <p class="insight-note">When biology needs backup, pharmaceuticals save lives. Not every condition yields to a smoothie and a good night's sleep.</p>
+    </div>
+
+    <div class="point-card" data-aos="fade-up">
+      <div class="point-card-label">The Reality Check</div>
+      <h3>💊 Medication Is a Tool, Not a Punishment</h3>
+      <p>Snake oil used to come in bottles at county fairs. Now it comes with a ring light and a discount code. Neither one is your doctor.</p>
+      <p class="insight-note">Prescriptions happen because the evidence supports them, not because pharma paid for your lunch. We don't actually get free lunches anymore. That ended a while ago.</p>
+    </div>
+
+    <!-- SECTION 2 -->
+    <h2>🤳 The Rise of the "I Know All" Expert</h2>
+
+    <p>Not all online health content is bad. Some of it is excellent. Peer-reviewed science gets translated every day by people who genuinely care about health literacy. That matters.</p>
+    <p>But there is a particular kind of online expert who concerns me. The kind who speaks with absolute certainty about the human body. A system so complex that we still don't fully understand it after hundreds of years of study.</p>
+    <p>They'll tell you your chronic pain is from your gut microbiome. Your fatigue is from misaligned energy. Your doctor missed it because they're too busy, or too deep in the pockets of Big Pharma to see it.</p>
+    <p>Speaking that confidently about YOUR body, without a physical exam, without labs, without your history, without humility, is not wellness. It is performance.</p>
+
+    <div class="pull-quote" data-aos="fade-up">
+      <p>"Wisdom is knowing that you do not know everything. The most dangerous person in the room is the one who has no idea how much they don't know."</p>
+    </div>
+
+    <!-- SECTION 3 -->
+    <h2>🩺 What Emergency Medicine Actually Teaches You</h2>
+
+    <p>Emergency medicine is built on uncertainty. We hold multiple diagnoses simultaneously. We think about the biological, the social, the psychological, all at once, in real time, while someone is in pain in front of us.</p>
+    <p>Your chest pain might be your heart. Or your lungs. Or the job you've been miserable at for six years. Your symptoms don't always fit neatly into a diagnosis code. The influencer telling you otherwise has never sat across from a patient at 3am trying to figure out why they're getting worse.</p>
+
+    <div class="point-card" data-aos="fade-up">
+      <div class="point-card-label">Our Promise</div>
+      <h3>🤝 We Will Always Tell You What We Don't Know</h3>
+      <p>I will always tell you what I know. I will always tell you what I don't. And I will never pretend those are the same thing.</p>
+      <p class="insight-note">The physician who says "I'm not sure yet, let's work through this together" is not failing you. They are respecting you.</p>
+    </div>
+
+    <!-- SECTION 4: DR MIKE -->
+    <h2>🎤 A Fellow Doctor Said It Better Than I Can</h2>
+
+    <p>Dr. Mike Varshavski (yes, that Doctor Mike) gave a TEDx talk that I keep coming back to. He calls it the epidemic of the "I Know All" expert. Too many people claiming certainty. Not enough willing to say <em>"I don't know, but let's figure it out together."</em></p>
+    <p>He argues that asking the right questions matters more than claiming the right answers. That medical research has real limitations and those limitations matter. That celebrating the doctor who says <em>"I'm not sure yet"</em> is a sign of a healthy culture, not a weakness. Because humility doesn't go viral. Nuance doesn't get shared. But it's the most honest thing medicine has to offer.</p>
+    <p>Watch his full talk. It's worth every minute.</p>
+
+    <!-- VIDEO -->
+    <div class="video-block" data-aos="fade-up">
+      <div class="video-label">▶ Watch on YouTube &middot; TEDxMonteCarlo</div>
+      <a
+        class="video-thumb-link"
+        href="https://www.youtube.com/watch?v=gLDQr9i7LkM"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Watch: The epidemic of the I Know All expert — Doctor Mike — TEDxMonteCarlo"
+      >
+        <img
+          src="https://img.youtube.com/vi/gLDQr9i7LkM/maxresdefault.jpg"
+          alt="Dr. Mike Varshavski TEDxMonteCarlo Talk thumbnail"
+          loading="lazy"
+          onerror="this.src='https://img.youtube.com/vi/gLDQr9i7LkM/hqdefault.jpg'"
+        />
+        <div class="video-play-overlay">
+          <div class="video-play-btn">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+      </a>
+      <p class="video-caption"><strong>The epidemic of the "I Know All" expert</strong> &middot; Dr. Mikhail (Doctor Mike) Varshavski &middot; TEDxMonteCarlo &middot; 2017</p>
+    </div>
+
+    <!-- SECTION 5: BOTTOM LINE -->
+    <h2>💊 What We're Actually Saying Here</h2>
+
+    <div class="point-card" data-aos="fade-up">
+      <div class="point-card-label">Truth 01</div>
+      <h3>Your Concerns Are Valid</h3>
+      <p>Your symptoms are real. Complexity does not mean dismissal. We hear you.</p>
+    </div>
+
+    <div class="point-card" data-aos="fade-up">
+      <div class="point-card-label">Truth 02</div>
+      <h3>Influencers Are Entertainers</h3>
+      <p>The ones who speak with certainty about YOUR health without knowing you are not your doctor. They are your content.</p>
+    </div>
+
+    <div class="point-card" data-aos="fade-up">
+      <div class="point-card-label">Truth 03</div>
+      <h3>"I Don't Know" Is a Gift</h3>
+      <p>The physician who says "I'm not sure yet, let's work through this" is not failing you. That's the most honest thing medicine has to offer.</p>
+    </div>
+
+    <div class="post-closing" data-aos="fade-up">
+      <p>False prophets have always existed. They used to set up tents at county fairs and sell miracle tonics. Now they have ring lights and verified checkmarks.</p>
+      <br/>
+      <p>The good news? You already know how to spot them. They're the ones who never say <em>I don't know.</em></p>
+      <br/>
+      <p style="color:rgba(255,255,255,0.55);font-size:0.9rem;">— Dr. Eric Cummins, MD | Emergency Medicine Physician &amp; Facility Medical Director</p>
+    </div>
+
+    <p class="post-footer-note">This article is for general education only and is not a substitute for medical advice. If you are experiencing a medical emergency, call 911 or go to the nearest emergency department.</p>
+
+    <a href="blog.html" class="back-to-blog">← Back to ED Insights</a>
+  </div>
+
+  <!-- CTA BAND -->
+  <section class="post-cta-band">
+    <div class="container">
+      <span class="section-tag" style="color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);">Free Download</span>
+      <h2>Prepare Before Your Visit</h2>
+      <p>Download our free ED prep tools to make your next visit smoother and less stressful.</p>
+      <a href="resources.html" class="btn btn-outline-white">Get Free Resources</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="brand-name">Eric Cummins, MD</div>
+          <p>Helping patients and families navigate the emergency department with clarity, confidence, and a little less stress.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Me</a></li>
+            <li><a href="blog.html">ED Insights</a></li>
+            <li><a href="resources.html">Free Resources</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Free Resources</h4>
+          <ul>
+            <li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/ed.visit.planner-A0xvxDB9kJUaa9oB.pdf" target="_blank">ED Visit Companion</a></li>
+            <li><a href="https://assets.zyrosite.com/A3Q70Q8wK2taaqjP/simple-medication-log-sheet-planner-Yg242RrpxohG8BBl.pdf" target="_blank">Medication List</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider"/>
+      <div class="footer-bottom">
+        <p class="footer-disclaimer">This website is for informational purposes only and does not constitute medical advice. If you are experiencing a medical emergency, call 911 immediately.</p>
+        <span class="footer-copy">© 2026 Eric Cummins, MD</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
