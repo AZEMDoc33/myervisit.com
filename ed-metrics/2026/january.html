@@ -189,8 +189,8 @@
     <div class="section-header"><div class="section-emoji">⚡</div><div class="section-title">Provider Productivity — Patients per Hour by Clinician</div><div class="section-line"></div></div>
     <div class="chart-card">
       <div class="chart-title">Patients per Hour by Provider — January 2026</div>
-      <div class="chart-subtitle">⬛ ≥1.88 pt/hr (⭐) &nbsp;·&nbsp; 🔷 &lt;1.88 pt/hr &nbsp;·&nbsp; Sorted highest → lowest &nbsp;·&nbsp; Dashed = dept cohort avg (1.91 pt/hr)</div>
-      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;"><span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 14px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 1.91 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span></div>
+      <div class="chart-subtitle">⬛ ≥1.88 pt/hr (⭐) &nbsp;·&nbsp; 🔷 &lt;1.88 pt/hr &nbsp;·&nbsp; Sorted highest → lowest &nbsp;·&nbsp; Dashed = dept cohort avg (2.08 pt/hr)</div>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;"><span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 14px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 2.08 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span></div>
       <div class="chart-scroll-outer"><div class="chart-container" style="height:722px"><canvas id="providerPPHChart"></canvas></div></div>
     </div>
   </div>
@@ -466,11 +466,11 @@ new Chart(document.getElementById('providerPPHPlaceholder'), {
 });
 
 // ── PROVIDER PPH CHART ─────────────────────────────────────────────────────
-const pphNames=["WRIGHT E ⭐","BUNKER C ⭐","WINTER A ⭐","BATIZY L ⭐","LOGGINS B ⭐","STOWERS R ⭐","MCDOWELL M ⭐","HAPEMAN B ⭐","HAMBLIN L ⭐","JONES S ⭐","ANDES J ⭐","HUNTER J ⭐","CLARK J ⭐","RIGBY D ⭐","CUMMINS E ⭐","WALLBRECHT J ⭐","EGBERT J ⭐","MCKELVY A ⭐","WOLSEY C ⭐","BOESCH D","LOMBARDI K","BERMAN D","JIMENEZ A","FAKLER R","FIGUEROA A","PAVLUE B","JONES M","ERICKSON M","MILLER E","SUTHERLAND K","JABALI A"];
-const pphVals=[3.04,2.38,2.34,2.33,2.22,2.19,2.15,2.15,2.13,2.09,2.08,2.06,2.03,1.99,1.96,1.95,1.94,1.89,1.88,1.78,1.76,1.75,1.73,1.7,1.65,1.5,1.5,1.5,1.31,1.23,1.14];
+const pphNames=["COATES C","SUTHERLAND K","FIGUEROA A","FAKLER R","JIMENEZ A","LOMBARDI K","BUNKER C","PAVLUE B","MCKELVY A","BERMAN D ⭐","CUMMINS E ⭐","JONES S ⭐","ANDES J ⭐","BOESCH D ⭐","HAPEMAN B ⭐","CLARK J ⭐","HUNTER J ⭐","MCDOWELL M ⭐","BATIZY L ⭐","ANDONYAN A ⭐","RIGBY D ⭐","HAMBLIN L ⭐","WALLBRECHT J ⭐","EGBERT J ⭐","WINTER A ⭐","WRIGHT E ⭐"];
+const pphVals=[1.28,1.29,1.68,1.72,1.75,1.80,1.81,1.83,1.86,1.93,1.95,2.04,2.05,2.06,2.09,2.24,2.25,2.27,2.31,2.38,2.38,2.46,2.47,2.48,2.69,3.13];
 const pphBg=['rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)'];
 const pphBdr=['rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)'];
-const DEPT_AVG=1.91;
+const DEPT_AVG=2.08;
 const PPH_GOAL=1.85;
 const pphGoalPlugin={id:'pphGoalLines',afterDraw(chart){
   const ctx=chart.ctx,xScale=chart.scales.x,top=chart.chartArea.top,bottom=chart.chartArea.bottom;
