@@ -251,8 +251,8 @@
     <div class="section-header"><div class="section-emoji">⚡</div><div class="section-title">Provider Productivity — Patients per Hour by Clinician</div><div class="section-line"></div></div>
     <div class="chart-card">
       <div class="chart-title">Patients per Hour by Provider — March 2026</div>
-      <div class="chart-subtitle">⬛ ≥1.88 pt/hr (⭐) &nbsp;·&nbsp; 🔷 &lt;1.88 pt/hr &nbsp;·&nbsp; Sorted highest → lowest &nbsp;·&nbsp; Dashed = dept cohort avg (2.07 pt/hr)</div>
-      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;"><span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 14px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 2.07 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span></div>
+      <div class="chart-subtitle">⬛ ≥1.88 pt/hr (⭐) &nbsp;·&nbsp; 🔷 &lt;1.88 pt/hr &nbsp;·&nbsp; Sorted highest → lowest &nbsp;·&nbsp; Dashed = dept cohort avg (1.98 pt/hr)</div>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;"><span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 14px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 1.98 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span></div>
       <div class="chart-scroll-outer"><div class="chart-container" style="height:700px"><canvas id="providerPPHChart"></canvas></div></div></div>
     </div>
   </div>
@@ -455,9 +455,9 @@ new Chart(document.getElementById('lwotChart'),{
 });
 
 // PPH CHART — March
-const pphNames=["WRIGHT E ⭐","PAVLUE B ⭐","ANDONYAN A ⭐","WINTER A ⭐","EGBERT J ⭐","BUNKER C ⭐","HUNTER J ⭐","MCDOWELL M ⭐","HAMBLIN L ⭐","WALLBRECHT J ⭐","RIGBY D ⭐","CLARK J ⭐","CUMMINS E ⭐","BATIZY L ⭐","HAPEMAN B ⭐","ANDES J ⭐","JONES S ⭐","JIMENEZ A ⭐","BOESCH D ⭐","LOGGINS B ⭐","LOMBARDI K","FAKLER R","BERMAN D","MCKELVY A","FIGUEROA A","SUTHERLAND K","BOOTY N","WEIDENBACH K"];
-const pphVals=[3.08,2.66,2.64,2.49,2.39,2.38,2.28,2.27,2.25,2.22,2.2,2.15,2.13,2.13,2.1,2.08,2.06,1.97,1.89,1.88,1.83,1.8,1.72,1.71,1.61,1.42,1.38,1.13];
-const DEPT_AVG=2.07;
+const pphNames=["WEIDENBACH K","SUTHERLAND K","BOOTY N","LOGGINS B","FIGUEROA A","PAVLUE B","MCKELVY A","LOMBARDI K","FAKLER R","JIMENEZ A","BERMAN D ⭐","BOESCH D ⭐","CLARK J ⭐","JONES S ⭐","ANDES J ⭐","HAPEMAN B ⭐","ANDONYAN A ⭐","BATIZY L ⭐","CUMMINS E ⭐","WALLBRECHT J ⭐","HUNTER J ⭐","MCDOWELL M ⭐","RIGBY D ⭐","BUNKER C ⭐","HAMBLIN L ⭐","EGBERT J ⭐","WINTER A ⭐","WRIGHT E ⭐"];
+const pphVals=[1.25,1.33,1.50,1.54,1.57,1.66,1.67,1.75,1.79,1.85,1.92,1.93,1.95,2.03,2.07,2.09,2.11,2.12,2.12,2.14,2.16,2.20,2.20,2.25,2.27,2.34,2.48,3.17];
+const DEPT_AVG=1.98;
 const PPH_STAR=1.88;const pphBg=pphVals.map(v=>v>=PPH_STAR?'rgba(36,59,85,0.88)':'rgba(100,130,170,0.38)');
 const pphBdr=pphVals.map(v=>v>=PPH_STAR?'rgba(36,59,85,1)':'rgba(100,130,170,0.6)');
 const pphGoalPlugin={id:'pphGoalLines',afterDraw(chart){
