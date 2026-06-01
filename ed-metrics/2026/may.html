@@ -335,16 +335,16 @@
       <div class="section-line"></div>
     </div>
     <div class="chart-card chart-card-los">
-      <div class="chart-title">Median Discharge LOS by Provider (ESI 3/4/5, Discharged Only) &nbsp;·&nbsp; 🎯 Goal: &lt;300 min</div>
-      <div class="chart-subtitle">Sorted lowest → highest · Min 15 ESI 3/4/5 discharges · Minutes · 🟢 ≤240 min · 🔵 >240 min · 300-min reference line</div>
+      <div class="chart-title">Median Discharge LOS by Provider (ESI 3/4/5, Discharged Only) &nbsp;·&nbsp; 🎯 Goal: &lt;200 min</div>
+      <div class="chart-subtitle">Sorted lowest → highest · Min 15 ESI 3/4/5 discharges · Minutes · 🟢 ≤200 min · 🔵 >200 min · 200-min reference line</div>
       <div class="chart-scroll-outer"><div class="chart-container" style="height:580px"><canvas id="providerLOSChart"></canvas></div></div>
     </div>
     <!-- Mobile leaderboard -->
     <div class="mobile-leader" id="mobileLOS">
-      <div class="chart-title">Discharge LOS — Best → Highest (≤240 min goal)</div>
+      <div class="chart-title">Discharge LOS — Best → Highest (≤200 min goal)</div>
       <div class="ml-legend">
-        <span><span class="ml-dot" style="background:rgba(45,106,79,0.82);"></span> 🟢 ≤240 min</span>
-        <span><span class="ml-dot" style="background:rgba(45,106,79,0.35);"></span> 🔵 >240 min</span>
+        <span><span class="ml-dot" style="background:rgba(45,106,79,0.82);"></span> 🟢 ≤200 min</span>
+        <span><span class="ml-dot" style="background:rgba(45,106,79,0.35);"></span> 🔵 >200 min</span>
       </div>
       <div id="mobileLOSRows"></div>
     </div>
@@ -640,16 +640,16 @@ new Chart(document.getElementById('lwotChart'),{
 const provNames=['LOGGINS B','BUNKER C','WINTER A','BERMAN D','PAVLUE B','LOMBARDI K','WRIGHT E','BOESCH D','EGBERT J','ANDES J','CUMMINS E','FIGUEROA A','JIMENEZ A','ANDONYAN A','JONES S','MCKELVY A','FAKLER R','WALLBRECHT J','HAMBLIN L','HAPEMAN B','HUNTER J','MCDOWELL M','BATIZY L'];
 const provLOS=[143,149.5,158,187,189.5,194,199.5,199.5,206,207,210,213,215,222,231.5,233,238,238.5,259,261.5,270,277,285];
 const provN=[15,22,170,146,224,198,34,180,232,171,123,194,211,21,144,237,203,40,185,154,132,95,29];
-const LOS_STAR=240;
+const LOS_STAR=200;
 const provBg=provLOS.map(v=>v<=LOS_STAR?'rgba(45,106,79,0.82)':'rgba(45,106,79,0.35)');
 const provBdr=provLOS.map(v=>v<=LOS_STAR?'rgba(27,76,56,1)':'rgba(45,106,79,0.6)');
 const goalPlugin={id:'goalLine',afterDraw(chart){
-  const ctx=chart.ctx,xScale=chart.scales.x,xPos=xScale.getPixelForValue(300);
+  const ctx=chart.ctx,xScale=chart.scales.x,xPos=xScale.getPixelForValue(200);
   const top=chart.chartArea.top,bottom=chart.chartArea.bottom;
   ctx.save();ctx.strokeStyle='rgba(192,57,43,0.85)';ctx.lineWidth=2.5;ctx.setLineDash([7,5]);
   ctx.beginPath();ctx.moveTo(xPos,top);ctx.lineTo(xPos,bottom);ctx.stroke();ctx.setLineDash([]);
   ctx.fillStyle='rgba(192,57,43,0.9)';ctx.font='bold 11px Nunito,sans-serif';
-  ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText('🎯 Goal: <300 min',xPos+5,top+4);ctx.restore();
+  ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText('🎯 Goal: <200 min',xPos+5,top+4);ctx.restore();
 }};
 new Chart(document.getElementById('providerLOSChart'),{
   type:'bar',
