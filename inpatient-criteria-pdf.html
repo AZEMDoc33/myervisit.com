@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Clinical Portal — Banner Gateway ED</title>
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,6 +35,7 @@ body {
 .header {
   background: var(--navy);
   padding: 20px 24px 18px;
+  padding-top: calc(20px + env(safe-area-inset-top, 0px));
   text-align: center;
   position: relative;
 }
@@ -113,7 +114,7 @@ body {
     border-color: var(--gold);
   }
 }
-/* ICON FLOAT ANIMATION — all cards */
+/* ICON — gentle lift on hover only (was infinite float) */
 .card-icon-wrap {
   width: 64px; height: 64px;
   border-radius: 14px;
@@ -121,14 +122,15 @@ body {
   font-size: 2rem;
   flex-shrink: 0;
   grid-row: 2;
-  animation: iconFloat 3.2s ease-in-out infinite;
+  transition: transform 0.25s ease;
 }
-.portal-card:nth-child(2) .card-icon-wrap { animation-delay: 0.5s; }
-.portal-card:nth-child(3) .card-icon-wrap { animation-delay: 1s; }
-.portal-card:nth-child(4) .card-icon-wrap { animation-delay: 1.5s; }
-@keyframes iconFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-7px); }
+@media (hover: hover) {
+  .portal-card:hover .card-icon-wrap { transform: translateY(-5px); }
+}
+/* FOCUS VISIBILITY */
+.portal-card:focus-visible, .btn-home-screen:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
 }
 .icon-blue { background: rgba(30,58,95,0.08); }
 .icon-teal { background: rgba(61,122,138,0.1); }
@@ -140,7 +142,7 @@ body {
   border: 2.5px solid var(--gold);
   background: var(--warm-white);
   overflow: hidden;
-  animation: goldPulse 2s ease-in-out infinite;
+  animation: goldPulse 2s ease-in-out 3;
 }
 @keyframes goldPulse {
   0%, 100% {
@@ -278,7 +280,6 @@ body {
   cursor: pointer;
   text-decoration: none;
   box-shadow: 0 4px 20px rgba(30,58,95,0.35);
-  animation: btnPulse 3s ease-in-out infinite;
   white-space: nowrap;
   transition: all 0.2s ease;
   position: relative;
@@ -297,17 +298,22 @@ body {
   0% { left: -80%; }
   60%, 100% { left: 160%; }
 }
-@keyframes btnPulse {
-  0%, 100% { box-shadow: 0 4px 20px rgba(30,58,95,0.35), 0 0 0 0 rgba(201,151,58,0.4); }
-  50% { box-shadow: 0 6px 28px rgba(30,58,95,0.4), 0 0 0 8px rgba(201,151,58,0); }
-}
 .btn-home-screen:active { transform: scale(0.97); }
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 /* FOOTER */
 .footer-note {
   text-align: center;
   font-size: 0.72rem;
   color: rgba(107,114,128,0.6);
   padding: 0 20px 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
 }
 /* MAY 2026 VOLUME CALENDAR */
 .vol-calendar-wrap { margin-bottom: 28px; }
@@ -528,7 +534,25 @@ body {
 
 <p class="footer-note">For clinical staff use only · Not for patient distribution · © 2025 Eric Cummins, MD</p>
 
+<script>
+// Auto-highlight today's cell on the volume calendar (June 2026 only)
+(function() {
+  var now = new Date();
+  if (now.getFullYear() !== 2026 || now.getMonth() !== 5) return;
+  var nums = document.querySelectorAll('.vol-day-num');
+  for (var i = 0; i < nums.length; i++) {
+    if (parseInt(nums[i].textContent, 10) === now.getDate()) {
+      var cell = nums[i].parentElement;
+      cell.classList.add('today');
+      var lbl = document.createElement('div');
+      lbl.className = 'vol-today-label';
+      lbl.textContent = 'Today';
+      cell.appendChild(lbl);
+      break;
+    }
+  }
+})();
+</script>
+
 </body>
 </html>
-
-
