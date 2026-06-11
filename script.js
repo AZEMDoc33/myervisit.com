@@ -82,28 +82,27 @@ document.addEventListener('DOMContentLoaded', () => {
     updateProgress();
   }
 
-  // ---- Typewriter: name under hero photo ----
-  const typedEl = document.getElementById('heroTyped');
-  if (typedEl) {
-    const fullText = 'Eric Cummins, MD, MBA';
-    const cursor = document.querySelector('.typed-cursor');
+  // ---- Typewriter: navbar brand "Eric Cummins, MD" ----
+  const navTypedEl = document.getElementById('navTyped');
+  if (navTypedEl) {
+    const fullText = 'Eric Cummins, MD';
+    const cursor = document.querySelector('.nav-cursor');
     if (reduceMotion) {
-      typedEl.textContent = fullText;
+      navTypedEl.textContent = fullText;
       if (cursor) cursor.classList.add('typed-done');
     } else {
       let i = 0;
       const type = () => {
         if (i <= fullText.length) {
-          typedEl.textContent = fullText.slice(0, i);
+          navTypedEl.textContent = fullText.slice(0, i);
           i++;
-          // slight pause after "Cummins," for a human rhythm
-          const delay = fullText[i - 1] === ',' ? 320 : 65;
+          const delay = fullText[i - 1] === ',' ? 300 : 62;
           setTimeout(type, delay);
         } else if (cursor) {
           cursor.classList.add('typed-done');
         }
       };
-      setTimeout(type, 950); // start after hero settles
+      setTimeout(type, 400); // starts quickly as page loads
     }
   }
 
