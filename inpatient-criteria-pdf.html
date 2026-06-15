@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Clinical Portal — Banner Gateway ED</title>
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,6 +35,7 @@ body {
 .header {
   background: var(--navy);
   padding: 20px 24px 18px;
+  padding-top: calc(20px + env(safe-area-inset-top, 0px));
   text-align: center;
   position: relative;
 }
@@ -113,7 +114,7 @@ body {
     border-color: var(--gold);
   }
 }
-/* ICON FLOAT ANIMATION — all cards */
+/* ICON — gentle lift on hover only (was infinite float) */
 .card-icon-wrap {
   width: 64px; height: 64px;
   border-radius: 14px;
@@ -121,14 +122,15 @@ body {
   font-size: 2rem;
   flex-shrink: 0;
   grid-row: 2;
-  animation: iconFloat 3.2s ease-in-out infinite;
+  transition: transform 0.25s ease;
 }
-.portal-card:nth-child(2) .card-icon-wrap { animation-delay: 0.5s; }
-.portal-card:nth-child(3) .card-icon-wrap { animation-delay: 1s; }
-.portal-card:nth-child(4) .card-icon-wrap { animation-delay: 1.5s; }
-@keyframes iconFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-7px); }
+@media (hover: hover) {
+  .portal-card:hover .card-icon-wrap { transform: translateY(-5px); }
+}
+/* FOCUS VISIBILITY */
+.portal-card:focus-visible, .btn-home-screen:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
 }
 .icon-blue { background: rgba(30,58,95,0.08); }
 .icon-teal { background: rgba(61,122,138,0.1); }
@@ -140,7 +142,7 @@ body {
   border: 2.5px solid var(--gold);
   background: var(--warm-white);
   overflow: hidden;
-  animation: goldPulse 2s ease-in-out infinite;
+  animation: goldPulse 2s ease-in-out 3;
 }
 @keyframes goldPulse {
   0%, 100% {
@@ -278,7 +280,6 @@ body {
   cursor: pointer;
   text-decoration: none;
   box-shadow: 0 4px 20px rgba(30,58,95,0.35);
-  animation: btnPulse 3s ease-in-out infinite;
   white-space: nowrap;
   transition: all 0.2s ease;
   position: relative;
@@ -297,17 +298,22 @@ body {
   0% { left: -80%; }
   60%, 100% { left: 160%; }
 }
-@keyframes btnPulse {
-  0%, 100% { box-shadow: 0 4px 20px rgba(30,58,95,0.35), 0 0 0 0 rgba(201,151,58,0.4); }
-  50% { box-shadow: 0 6px 28px rgba(30,58,95,0.4), 0 0 0 8px rgba(201,151,58,0); }
-}
 .btn-home-screen:active { transform: scale(0.97); }
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 /* FOOTER */
 .footer-note {
   text-align: center;
   font-size: 0.72rem;
   color: rgba(107,114,128,0.6);
   padding: 0 20px 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
 }
 /* MAY 2026 VOLUME CALENDAR */
 .vol-calendar-wrap { margin-bottom: 28px; }
@@ -389,6 +395,62 @@ body {
   border: none;
   border-top: 1px solid rgba(30,58,95,0.1);
 }
+/* PATIENT TESTIMONIAL CAROUSEL */
+.testimonial-wrap { margin-bottom: 28px; }
+.testimonial-card {
+  padding: 22px 8px;
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+.testimonial-quote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: #2D2D2D;
+  position: relative;
+  padding: 0 8px;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+.testimonial-quote.fade {
+  opacity: 0;
+}
+.testimonial-quote::before,
+.testimonial-quote::after {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 0;
+  vertical-align: -0.15em;
+}
+.testimonial-quote::before { content: '\201C'; margin-right: 2px; }
+.testimonial-quote::after { content: '\201D'; margin-left: 2px; }
+.testimonial-nav {
+  display: flex; align-items: center; justify-content: center;
+  gap: 24px; margin-top: 10px;
+}
+.testimonial-arrow {
+  background: var(--warm-white);
+  border: 1px solid rgba(30,58,95,0.1);
+  box-shadow: var(--shadow);
+  border-radius: 50%;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: var(--navy);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease;
+}
+.testimonial-arrow:active { transform: scale(0.9); }
 </style>
 </head>
 <body>
@@ -443,48 +505,71 @@ body {
 
   </div>
 
-  <!-- MAY 2026 DAILY VOLUME CALENDAR -->
+  <!-- WHAT OUR PATIENTS ARE SAYING -->
+  <div class="testimonial-wrap">
+    <div class="section-label" style="margin-bottom:10px;">💬 What Our Patients Are Saying</div>
+    <div class="testimonial-card" id="testimonialCard">
+      <p class="testimonial-quote" id="testimonialQuote">I truly believe this ER doctor and staff are the best in the business when it comes to customer care.</p>
+    </div>
+    <div class="testimonial-nav">
+      <div class="testimonial-arrow" id="testimonialPrev">‹</div>
+      <div class="testimonial-arrow" id="testimonialNext">›</div>
+    </div>
+  </div>
+
+  <!-- JUNE 2026 DAILY VOLUME CALENDAR -->
   <div class="vol-calendar-wrap">
-    <div class="section-label" style="margin-bottom:10px;">📅 May 2026 — Daily Volume</div>
+    <div class="section-label" style="margin-bottom:10px;">📅 June 2026 — Daily Volume</div>
 
     <!-- Stats strip -->
     <div class="vol-stats-strip">
       <div class="vol-stat">
-        <div class="vol-stat-num">132</div>
+        <div class="vol-stat-num">136.4</div>
         <div class="vol-stat-label">Avg / Day</div>
       </div>
     </div>
 
-    <!-- Calendar grid — May 1 = Friday -->
+    <!-- Calendar grid — June 1 = Monday -->
     <div class="vol-cal-grid">
       <!-- DOW headers -->
       <div class="vol-cal-dow">Su</div><div class="vol-cal-dow">Mo</div><div class="vol-cal-dow">Tu</div><div class="vol-cal-dow">We</div><div class="vol-cal-dow">Th</div><div class="vol-cal-dow">Fr</div><div class="vol-cal-dow">Sa</div>
       <!-- Week 1 -->
-      <div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div>
-      <div class="vol-day med"><div class="vol-day-num">1</div><div class="vol-day-count">149</div></div>
-      <div class="vol-day low"><div class="vol-day-num">2</div><div class="vol-day-count">129</div></div>
+      <div class="vol-day empty"></div>
+      <div class="vol-day med"><div class="vol-day-num">1</div><div class="vol-day-count">142</div></div>
+      <div class="vol-day high"><div class="vol-day-num">2</div><div class="vol-day-count">166</div></div>
+      <div class="vol-day low"><div class="vol-day-num">3</div><div class="vol-day-count">119</div></div>
+      <div class="vol-day med"><div class="vol-day-num">4</div><div class="vol-day-count">143</div></div>
+      <div class="vol-day low"><div class="vol-day-num">5</div><div class="vol-day-count">126</div></div>
+      <div class="vol-day low"><div class="vol-day-num">6</div><div class="vol-day-count">112</div></div>
       <!-- Week 2 -->
-      <div class="vol-day low"><div class="vol-day-num">3</div><div class="vol-day-count">126</div></div>
-      <div class="vol-day high"><div class="vol-day-num">4</div><div class="vol-day-count">164</div></div>
-      <div class="vol-day med"><div class="vol-day-num">5</div><div class="vol-day-count">146</div></div>
-      <div class="vol-day med"><div class="vol-day-num">6</div><div class="vol-day-count">137</div></div>
-      <div class="vol-day low"><div class="vol-day-num">7</div><div class="vol-day-count">128</div></div>
-      <div class="vol-day med"><div class="vol-day-num">8</div><div class="vol-day-count">131</div></div>
-      <div class="vol-day low"><div class="vol-day-num">9</div><div class="vol-day-count">129</div></div>
+      <div class="vol-day low"><div class="vol-day-num">7</div><div class="vol-day-count">119</div></div>
+      <div class="vol-day med"><div class="vol-day-num">8</div><div class="vol-day-count">140</div></div>
+      <div class="vol-day med"><div class="vol-day-num">9</div><div class="vol-day-count">143</div></div>
+      <div class="vol-day high"><div class="vol-day-num">10</div><div class="vol-day-count">156</div></div>
+      <div class="vol-day med"><div class="vol-day-num">11</div><div class="vol-day-count">134</div></div>
+      <div class="vol-day med"><div class="vol-day-num">12</div><div class="vol-day-count">146</div></div>
+      <div class="vol-day low"><div class="vol-day-num">13</div><div class="vol-day-count">126</div></div>
       <!-- Week 3 -->
-      <div class="vol-day low"><div class="vol-day-num">10</div><div class="vol-day-count">103</div></div>
-      <div class="vol-day high"><div class="vol-day-num">11</div><div class="vol-day-count">175</div></div>
-      <div class="vol-day high"><div class="vol-day-num">12</div><div class="vol-day-count">168</div></div>
-      <div class="vol-day low"><div class="vol-day-num">13</div><div class="vol-day-count">130</div></div>
-      <div class="vol-day high"><div class="vol-day-num">14</div><div class="vol-day-count">160</div></div>
-      <div class="vol-day med"><div class="vol-day-num">15</div><div class="vol-day-count">149</div></div>
-      <div class="vol-day med"><div class="vol-day-num">16</div><div class="vol-day-count">132</div></div>
+      <div class="vol-day low"><div class="vol-day-num">14</div><div class="vol-day-count">123</div></div>
+      <div class="vol-day future"><div class="vol-day-num">15</div></div>
+      <div class="vol-day future"><div class="vol-day-num">16</div></div>
+      <div class="vol-day future"><div class="vol-day-num">17</div></div>
+      <div class="vol-day future"><div class="vol-day-num">18</div></div>
+      <div class="vol-day future"><div class="vol-day-num">19</div></div>
+      <div class="vol-day future"><div class="vol-day-num">20</div></div>
       <!-- Week 4 -->
-      <div class="vol-day med"><div class="vol-day-num">17</div><div class="vol-day-count">132</div></div><div class="vol-day high"><div class="vol-day-num">18</div><div class="vol-day-count">157</div></div><div class="vol-day med"><div class="vol-day-num">19</div><div class="vol-day-count">149</div></div><div class="vol-day med"><div class="vol-day-num">20</div><div class="vol-day-count">150</div></div><div class="vol-day med"><div class="vol-day-num">21</div><div class="vol-day-count">131</div></div><div class="vol-day med"><div class="vol-day-num">22</div><div class="vol-day-count">142</div></div><div class="vol-day low"><div class="vol-day-num">23</div><div class="vol-day-count">116</div></div>
+      <div class="vol-day future"><div class="vol-day-num">21</div></div>
+      <div class="vol-day future"><div class="vol-day-num">22</div></div>
+      <div class="vol-day future"><div class="vol-day-num">23</div></div>
+      <div class="vol-day future"><div class="vol-day-num">24</div></div>
+      <div class="vol-day future"><div class="vol-day-num">25</div></div>
+      <div class="vol-day future"><div class="vol-day-num">26</div></div>
+      <div class="vol-day future"><div class="vol-day-num">27</div></div>
       <!-- Week 5 -->
-      <div class="vol-day low"><div class="vol-day-num">24</div><div class="vol-day-count">119</div></div><div class="vol-day low"><div class="vol-day-num">25</div><div class="vol-day-count">134</div></div><div class="vol-day high"><div class="vol-day-num">26</div><div class="vol-day-count">161</div></div><div class="vol-day high"><div class="vol-day-num">27</div><div class="vol-day-count">159</div></div><div class="vol-day med"><div class="vol-day-num">28</div><div class="vol-day-count">127</div></div><div class="vol-day med"><div class="vol-day-num">29</div><div class="vol-day-count">142</div></div><div class="vol-day med"><div class="vol-day-num">30</div><div class="vol-day-count">128</div></div>
-      <!-- Week 6 -->
-      <div class="vol-day med"><div class="vol-day-num">31</div><div class="vol-day-count">122</div></div><div class="vol-day med"><div class="vol-day-num">1</div><div class="vol-day-count">142</div></div><div class="vol-day high"><div class="vol-day-num">2</div><div class="vol-day-count">166</div></div><div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div>
+      <div class="vol-day future"><div class="vol-day-num">28</div></div>
+      <div class="vol-day future"><div class="vol-day-num">29</div></div>
+      <div class="vol-day future"><div class="vol-day-num">30</div></div>
+      <div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div><div class="vol-day empty"></div>
     </div>
 
     <!-- Legend -->
@@ -517,7 +602,137 @@ body {
 
 <p class="footer-note">For clinical staff use only · Not for patient distribution · © 2025 Eric Cummins, MD</p>
 
+<script>
+// Patient testimonial carousel — cycles every ~75 seconds with fade transition
+(function() {
+  var quotes = [
+    "Doctor Winter was amazing and explained everything well.",
+    "I was especially impressed with Dr. Besh. His analysis was exactly what I needed. Very professional, knowledgeable and pleasant doctor.",
+    "Dr. Hamblin was awesome.",
+    "Lombardi was super attentive and kind. Very good bedside manner.",
+    "Dr Boesch was so kind, thorough and informative! I really liked him a lot!",
+    "Dr. Justin Andes was excellent. His professionalism, bedside manner and communications were, honestly, the best I have experienced in a very long time.",
+    "Dr. Care was outstanding and so kind.",
+    "He was very compassionate and took care of my pain almost immediately.",
+    "Dr Hunter did a great job controlling the pain.",
+    "I believe Justin was my doctor. He was also great. Very thorough and easy to understand.",
+    "Dr. Winter is amazing. She has cared for my family two times and both times I have been very impressed.",
+    "With Dr. Gunzy and Banner Gateway, my life was saved.",
+    "Dr Andes was absolutely wonderful. He explained all tests, answered my questions clearly, and presented himself as caring.",
+    "Dr. Hamblin was very attentive and caring.",
+    "Dr Wincher was amazing. She got straight to the point and did not wait knowing I was in great pain.",
+    "Dr. David Boesch was very attentive to my medical needs. He even gave me a follow up phone call the next day.",
+    "Dr. Williams departed and returned, informing me that there was no blockage in my leg. I felt an overwhelming sense of relief.",
+    "Dr Hamblin was great in all aspects of his time with me.",
+    "Dr. Hunter was very kind.",
+    "Dr. Boesch was incredibly amazing. Very attentive, actively listened, checked in with me and my mother several times.",
+    "Dr Besh was great. He sat down next to me, asked questions and listened.",
+    "Sara Jones was efficient and very kind to me!",
+    "Dr. McDowell did an excellent job.",
+    "Dr. Winters provided me with exceptional care and understanding. She listened and was detailed in her examination.",
+    "Dr Winter was fantastic. Very caring and informative. Best I have ever seen.",
+    "Dr. Hapeman was great! Everything you would want in an ER doctor.",
+    "Dr. Burnham and my nurse were empathetic and very competent.",
+    "I love Dr Egbert. He's the type of doctor all doctors should strive to be. He set the bar very high.",
+    "Robert Fakler was amazing. He listened to me and prescribed the medications I needed.",
+    "Doctor Brian Pavlue is one of the best doctors as far as knowledge, skills and compassion.",
+    "PA Sara Jones was what you hope for when using an emergency room. Exceptional.",
+    "Justin Clark went above and beyond to make our visit easier.",
+    "My doctor was exceptional. He was down to earth, kind, and caring. I trusted him 100%.",
+    "The PA expressed a genuine desire to keep me comfortable.",
+    "The Physician was amazing. He was informative and explained why he was ordering tests as well as explaining results.",
+    "The provider was knowledgeable and assessed me well.",
+    "The nurse practitioner was excellent. Understood my issue and provided guidance and a prescription.",
+    "The ER doc was great, made sure I was well numbed before stitches and thoroughly went through all of the follow up instructions.",
+    "The physician covered every base which I am thankful for. He was very kind and listened to everything I had to say.",
+    "PA took time to hear the history.",
+    "The doctor was very knowledgeable and checked all the boxes. I felt very safe and in good hands.",
+    "Nurses, techs, and doctor were all kind and took great care of me."
+  ];
+
+  var quoteEl = document.getElementById('testimonialQuote');
+  var cardEl = document.getElementById('testimonialCard');
+  var prevBtn = document.getElementById('testimonialPrev');
+  var nextBtn = document.getElementById('testimonialNext');
+  var current = 0;
+  var INTERVAL_MS = 75000; // 1-2 min cycle
+  var timer = null;
+
+  function render(index) {
+    quoteEl.classList.add('fade');
+    setTimeout(function() {
+      current = index;
+      quoteEl.textContent = quotes[current];
+      quoteEl.classList.remove('fade');
+    }, 600);
+  }
+
+  function goNext() {
+    render((current + 1) % quotes.length);
+  }
+
+  function goPrev() {
+    render((current - 1 + quotes.length) % quotes.length);
+  }
+
+  function startAutoCycle() {
+    if (timer) clearInterval(timer);
+    timer = setInterval(goNext, INTERVAL_MS);
+  }
+
+  function manualNav(action) {
+    action();
+    startAutoCycle(); // reset timer after manual interaction
+  }
+
+  // Arrow buttons
+  prevBtn.addEventListener('click', function() { manualNav(goPrev); });
+  nextBtn.addEventListener('click', function() { manualNav(goNext); });
+
+  // Swipe support
+  var touchStartX = 0;
+  var touchEndX = 0;
+  var SWIPE_THRESHOLD = 40;
+
+  cardEl.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  cardEl.addEventListener('touchend', function(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    var diff = touchEndX - touchStartX;
+    if (Math.abs(diff) > SWIPE_THRESHOLD) {
+      if (diff < 0) {
+        manualNav(goNext); // swipe left -> next
+      } else {
+        manualNav(goPrev); // swipe right -> prev
+      }
+    }
+  }, { passive: true });
+
+  startAutoCycle();
+})();
+</script>
+
+<script>
+// Auto-highlight today's cell on the volume calendar (June 2026 only)
+(function() {
+  var now = new Date();
+  if (now.getFullYear() !== 2026 || now.getMonth() !== 5) return;
+  var nums = document.querySelectorAll('.vol-day-num');
+  for (var i = 0; i < nums.length; i++) {
+    if (parseInt(nums[i].textContent, 10) === now.getDate()) {
+      var cell = nums[i].parentElement;
+      cell.classList.add('today');
+      var lbl = document.createElement('div');
+      lbl.className = 'vol-today-label';
+      lbl.textContent = 'Today';
+      cell.appendChild(lbl);
+      break;
+    }
+  }
+})();
+</script>
+
 </body>
 </html>
-
-
