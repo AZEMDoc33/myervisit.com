@@ -271,6 +271,30 @@ mark{background:var(--mark); color:var(--ink); border-radius:2px; padding:0 1px;
 }
 .empty-state .big{font-family:var(--display); font-size:1.3rem; color:var(--ink); margin-bottom:6px;}
 
+.back-link{
+  font-family:var(--mono); font-size:.78rem; color:var(--accent-dark);
+  background:none; border:none; cursor:pointer; padding:0; margin:8px 0 18px;
+  display:inline-flex; align-items:center; gap:6px;
+}
+.back-link:hover{text-decoration:underline;}
+.qr-detail{
+  background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent);
+  border-radius:var(--radius); box-shadow:var(--shadow-sm);
+  padding:22px 26px; margin-bottom:8px;
+}
+.qr-detail-eyebrow{
+  font-family:var(--mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--accent-dark); margin-bottom:6px;
+}
+.qr-detail h2{
+  font-family:var(--display); font-size:1.5rem; margin:0 0 12px; color:var(--ink);
+}
+.qr-detail p{margin:0; font-size:.95rem; line-height:1.6; color:var(--ink);}
+.qr-detail-desc p{margin:0 0 10px; font-size:.95rem; line-height:1.6; color:var(--ink);}
+.qr-detail-desc p:last-child{margin-bottom:0;}
+.qr-detail-desc ul{margin:4px 0 10px; padding-left:20px;}
+.qr-detail strong{color:var(--ink);}
+
 footer{
   max-width:980px; margin:0 auto; padding:30px 20px 60px; color:var(--muted); font-size:.78rem;
   border-top:1px solid var(--line); margin-top:20px;
@@ -346,7 +370,7 @@ const bucketCounts = {};
 entries.forEach(e => { bucketCounts[e.bucket] = (bucketCounts[e.bucket]||0) + 1; });
 const bucketsPresent = bucketOrder.filter(b => bucketCounts[b]);
 
-const state = { query: '', activeChip: null };
+const state = { query: '', activeChip: null, qrOpen: null };
 
 function escapeHtml(s){
   return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -456,12 +480,30 @@ window.toggleBucket = toggleBucket;
 
 function qrCardHTML(item, q){
   return `
-  <div class="qr-card" onclick="location.hash='qr-${item.title.replace(/[^a-z0-9]/gi,'')}'; document.getElementById('search').value=''; render();">
+  <div class="qr-card" onclick="openQuickRef('${item.title.replace(/'/g,"\\'")}')">
     <h3>${highlight(item.title, q)}</h3>
     <p>${highlight(item.description.replace(/\*\*/g,''), q)}</p>
-    <span class="tag">merges entries ${escapeHtml(item.merges)}</span>
+    <span class="tag">merges entries ${escapeHtml(item.merges)} &mdash; click to view &rarr;</span>
   </div>`;
 }
+
+function openQuickRef(title){
+  const item = quickref.find(x => x.title === title);
+  if(!item) return;
+  state.qrOpen = item;
+  state.query = '';
+  state.activeChip = null;
+  document.getElementById('search').value = '';
+  window.scrollTo({top:0, behavior:'smooth'});
+  render();
+}
+window.openQuickRef = openQuickRef;
+
+function closeQuickRef(){
+  state.qrOpen = null;
+  render();
+}
+window.closeQuickRef = closeQuickRef;
 
 function renderChips(){
   const chipsEl = document.getElementById('chips');
@@ -475,6 +517,7 @@ function renderChips(){
 
 function setChip(b){
   state.activeChip = b;
+  state.qrOpen = null;
   render();
 }
 window.setChip = setChip;
@@ -486,6 +529,25 @@ function render(){
   const clearBtn = document.getElementById('clearBtn');
   clearBtn.style.display = q ? 'inline' : 'none';
   renderChips();
+
+  // Quick Reference detail view — takes priority over everything else
+  if(state.qrOpen && !q){
+    const item = state.qrOpen;
+    const mergedNums = item.merges.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
+    const mergedEntries = entries.filter(e => mergedNums.includes(e.num)).sort((a,b)=>mergedNums.indexOf(a.num)-mergedNums.indexOf(b.num));
+    resultCount.textContent = `${mergedEntries.length} source ${mergedEntries.length===1?'entry':'entries'} behind this topic`;
+    main.innerHTML = `
+      <button class="back-link" onclick="closeQuickRef()">&larr; Back to all topics</button>
+      <div class="qr-detail">
+        <div class="qr-detail-eyebrow">Current-State Quick Reference</div>
+        <h2>${escapeHtml(item.title)}</h2>
+        <div class="qr-detail-desc">${mdInline(item.description)}</div>
+      </div>
+      <div class="section-label">Full history behind this topic</div>
+      <div class="results-list">${mergedEntries.map(e=>entryCardHTML(e,'',true)).join('')}</div>
+    `;
+    return;
+  }
 
   // Contacts-only chip view
   if(state.activeChip === '__contacts__' && !q){
@@ -569,12 +631,14 @@ searchInput.addEventListener('input', (e) => {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => {
     state.query = e.target.value;
+    state.qrOpen = null;
     render();
   }, 90);
 });
 document.getElementById('clearBtn').addEventListener('click', () => {
   searchInput.value = '';
   state.query = '';
+  state.qrOpen = null;
   render();
 });
 
