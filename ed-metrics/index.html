@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ED Metrics | Banner Gateway ED</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -18,7 +19,7 @@
     --border: #e0d4c4;
     --text: #2c3a47;
     --text-mid: #5a6a7a;
-    --text-light: #9aabb8;
+    --text-light: #74869a;
     --green: #3a8a5a;
     --shadow: 0 2px 14px rgba(44,58,71,0.09);
     --shadow-lg: 0 6px 28px rgba(44,58,71,0.14);
@@ -97,6 +98,52 @@
     padding: 36px 24px 64px;
   }
 
+  /* ── LATEST REPORT STRIP ── */
+  .latest-strip {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: var(--card);
+    border: 1.5px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 16px 22px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: var(--text);
+    flex-wrap: wrap;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .latest-strip:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .latest-strip:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .ls-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+  .ls-month {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .ls-kpis { display: flex; gap: 20px; flex-wrap: wrap; flex: 1; }
+  .ls-kpi { display: flex; flex-direction: column; }
+  .ls-kpi-val { font-size: 16px; font-weight: 800; line-height: 1.2; }
+  .ls-kpi-lbl { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-mid); }
+  .ls-arrow { font-weight: 800; color: var(--gold); font-size: 15px; flex-shrink: 0; }
+  @media (max-width: 600px) {
+    .latest-strip { gap: 10px; padding: 14px 16px; }
+    .ls-kpis { gap: 14px; }
+    .ls-month { font-size: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .latest-strip, .latest-strip:hover { transition: none; transform: none; }
+  }
+
   /* ── YEAR SECTION ── */
   .year-section { margin-bottom: 44px; }
   .year-label {
@@ -157,6 +204,15 @@
     opacity: 0.45;
     cursor: default;
     pointer-events: none;
+  }
+  .month-card.live:focus-visible,
+  .back-link:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+    border-radius: var(--radius);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .month-card, .month-card.live:hover { transition: none; transform: none; }
   }
   .month-emoji { font-size: 24px; }
   .month-name {
@@ -226,7 +282,7 @@
     font-weight: 800;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.38);
+    color: rgba(255,255,255,0.55);
     margin-bottom: 6px;
   }
   .ticker-number {
@@ -255,7 +311,7 @@
   }
   .ticker-sub {
     font-size: 9.5px;
-    color: rgba(255,255,255,0.28);
+    color: rgba(255,255,255,0.55);
     margin-top: 5px;
     font-weight: 600;
     letter-spacing: 0.4px;
@@ -319,16 +375,15 @@
     text-align: center;
     padding: 20px 24px;
     font-size: 11px;
-    color: var(--text-light);
     font-weight: 600;
     letter-spacing: 0.3px;
     background: var(--header);
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.55);
   }
 
   @media (max-width: 600px) {
     main { padding: 20px 14px 48px; }
-    .content-layout { flex-direction: column-reverse; gap: 12px; }
+    .content-layout { display: flex; flex-direction: column-reverse; gap: 12px; }
     .ticker-col { width: 100%; position: static; }
     /* Mobile ticker: horizontal compact strip */
     .ticker-section { padding: 14px 18px; display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; max-width: 100%; }
@@ -372,80 +427,94 @@
 
     <!-- MONTHS COLUMN -->
     <div class="months-col">
+
+      <!-- LATEST REPORT STRIP -->
+      <a href="/ed-metrics/2026/june" class="latest-strip">
+        <span class="ls-label">Latest Report</span>
+        <span class="ls-month">June 2026</span>
+        <span class="ls-kpis">
+          <span class="ls-kpi"><span class="ls-kpi-val">4,064</span><span class="ls-kpi-lbl">Visits</span></span>
+          <span class="ls-kpi"><span class="ls-kpi-val">1.87 ✅</span><span class="ls-kpi-lbl">Pt/Hr</span></span>
+          <span class="ls-kpi"><span class="ls-kpi-val">3h 36m</span><span class="ls-kpi-lbl">Median DC LOS</span></span>
+          <span class="ls-kpi"><span class="ls-kpi-val">1.0%</span><span class="ls-kpi-lbl">LWOT</span></span>
+        </span>
+        <span class="ls-arrow" aria-hidden="true">→</span>
+      </a>
+
       <!-- 2026 -->
       <div class="year-section">
     <div class="year-label">📅 2026</div>
     <div class="month-grid">
 
       <a href="/ed-metrics/2026/january" class="month-card live">
-        <div class="month-emoji">❄️</div>
+        <div class="month-emoji" aria-hidden="true">❄️</div>
         <div class="month-name">January</div>
         <div class="month-tag tag-live">Published</div>
       </a>
 
       <a href="/ed-metrics/2026/february" class="month-card live">
-        <div class="month-emoji">💝</div>
+        <div class="month-emoji" aria-hidden="true">💝</div>
         <div class="month-name">February</div>
         <div class="month-tag tag-live">Published</div>
       </a>
 
       <a href="/ed-metrics/2026/march" class="month-card live">
-        <div class="month-emoji">🌱</div>
+        <div class="month-emoji" aria-hidden="true">🌱</div>
         <div class="month-name">March</div>
         <div class="month-tag tag-live">Published</div>
       </a>
 
       <a href="/ed-metrics/2026/april" class="month-card live">
-        <div class="month-emoji">🌸</div>
+        <div class="month-emoji" aria-hidden="true">🌸</div>
         <div class="month-name">April</div>
         <div class="month-tag tag-live">Published</div>
       </a>
 
       <a href="/ed-metrics/2026/may" class="month-card live">
-        <div class="month-emoji">☀️</div>
+        <div class="month-emoji" aria-hidden="true">☀️</div>
         <div class="month-name">May</div>
         <div class="month-tag tag-live">Published</div>
       </a>
 
       <a href="/ed-metrics/2026/june" class="month-card live">
         <div class="new-badge">NEW</div>
-        <div class="month-emoji">🏖️</div>
+        <div class="month-emoji" aria-hidden="true">🏖️</div>
         <div class="month-name">June</div>
         <div class="month-tag tag-live">Published</div>
       </a>
 
-      <a href="/ed-metrics/2026/july" class="month-card coming-soon">
-        <div class="month-emoji">🎆</div>
+      <a href="/ed-metrics/2026/july" class="month-card coming-soon" tabindex="-1" aria-disabled="true">
+        <div class="month-emoji" aria-hidden="true">🎆</div>
         <div class="month-name">July</div>
         <div class="month-tag tag-soon">Coming Soon</div>
       </a>
 
-      <a href="/ed-metrics/2026/august.html" class="month-card coming-soon">
-        <div class="month-emoji">🌻</div>
+      <a href="/ed-metrics/2026/august" class="month-card coming-soon" tabindex="-1" aria-disabled="true">
+        <div class="month-emoji" aria-hidden="true">🌻</div>
         <div class="month-name">August</div>
         <div class="month-tag tag-soon">Coming Soon</div>
       </a>
 
-      <a href="/ed-metrics/2026/september.html" class="month-card coming-soon">
-        <div class="month-emoji">🍂</div>
+      <a href="/ed-metrics/2026/september" class="month-card coming-soon" tabindex="-1" aria-disabled="true">
+        <div class="month-emoji" aria-hidden="true">🍂</div>
         <div class="month-name">September</div>
         <div class="month-tag tag-soon">Coming Soon</div>
       </a>
 
-      <a href="/ed-metrics/2026/october.html" class="month-card coming-soon">
-        <div class="month-emoji">🎃</div>
+      <a href="/ed-metrics/2026/october" class="month-card coming-soon" tabindex="-1" aria-disabled="true">
+        <div class="month-emoji" aria-hidden="true">🎃</div>
         <div class="month-name">October</div>
         <div class="month-tag tag-soon">Coming Soon</div>
       </a>
 
-      <a href="/ed-metrics/2026/november.html" class="month-card coming-soon">
-        <div class="month-emoji">🍁</div>
+      <a href="/ed-metrics/2026/november" class="month-card coming-soon" tabindex="-1" aria-disabled="true">
+        <div class="month-emoji" aria-hidden="true">🍁</div>
         <div class="month-name">November</div>
         <div class="month-tag tag-soon">Coming Soon</div>
       </a>
 
-      <a href="/ed-metrics/2026/december.html" class="month-card coming-soon">
-        <div class="month-emoji">🎄</div>
+      <a href="/ed-metrics/2026/december" class="month-card coming-soon" tabindex="-1" aria-disabled="true">
+        <div class="month-emoji" aria-hidden="true">🎄</div>
         <div class="month-name">December</div>
         <div class="month-tag tag-soon">Coming Soon</div>
       </a>
@@ -457,7 +526,7 @@
     <div class="ticker-col">
       <div class="ticker-section">
         <div class="ticker-label-top">2026 Year-to-Date</div>
-        <div class="ticker-number" id="tickerNum">0</div>
+        <div class="ticker-number" id="tickerNum">25,988</div>
         <div class="ticker-text">
           <div class="ticker-label-bottom">Sophias Served<br>at BGMC ED</div>
           <div class="ticker-sub">Through June 2026</div>
@@ -483,11 +552,13 @@
 </footer>
 
 <script>
-// Animated ticker: count up to 17,594 with easeOut
+// Animated ticker: counts up to TARGET. HTML holds the static value as a
+// no-JS / slow-connection fallback; the script resets to 0 only when it runs.
 (function() {
   const TARGET = 25988;
   const DURATION = 2200; // ms
   const el = document.getElementById('tickerNum');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   let start = null;
   function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
   function step(ts) {
@@ -502,6 +573,7 @@
   // Start when element scrolls into view
   const obs = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
+      el.textContent = '0';
       requestAnimationFrame(step);
       obs.disconnect();
     }
