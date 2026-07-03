@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ED Metrics | Banner Gateway ED</title>
+<meta name="description" content="Banner Gateway Medical Center Emergency Department — Monthly Operating Reports and department performance metrics.">
+<meta property="og:title" content="BGMC ED Metrics">
+<meta property="og:description" content="Monthly Operating Reports · Banner Gateway Emergency Department">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://myervisit.com/ed-metrics">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -134,6 +139,10 @@
   .ls-kpi { display: flex; flex-direction: column; }
   .ls-kpi-val { font-size: 16px; font-weight: 800; line-height: 1.2; }
   .ls-kpi-lbl { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-mid); }
+  .ls-delta { font-size: 10px; vertical-align: middle; }
+  .d-good { color: var(--green); }
+  .d-warn { color: #b45309; }
+  .d-neut { color: var(--text-mid); }
   .ls-arrow { font-weight: 800; color: var(--gold); font-size: 15px; flex-shrink: 0; }
   @media (max-width: 600px) {
     .latest-strip { gap: 10px; padding: 14px 16px; }
@@ -406,7 +415,7 @@
     .month-card { padding: 10px 6px 8px; min-height: 86px; gap: 4px; }
     .month-emoji { font-size: 20px; }
     .month-name { font-size: 11px; }
-    .month-tag { font-size: 8.5px; padding: 2px 6px; }
+    .month-tag { font-size: 10px; padding: 2px 6px; }
     header { padding: 18px 18px 16px; }
     header h1 { font-size: 20px; }
   }
@@ -433,10 +442,10 @@
         <span class="ls-label">Latest Report</span>
         <span class="ls-month">June 2026</span>
         <span class="ls-kpis">
-          <span class="ls-kpi"><span class="ls-kpi-val">4,064</span><span class="ls-kpi-lbl">Visits</span></span>
-          <span class="ls-kpi"><span class="ls-kpi-val">1.87 ✅</span><span class="ls-kpi-lbl">Pt/Hr</span></span>
-          <span class="ls-kpi"><span class="ls-kpi-val">3h 36m</span><span class="ls-kpi-lbl">Median DC LOS</span></span>
-          <span class="ls-kpi"><span class="ls-kpi-val">1.0%</span><span class="ls-kpi-lbl">LWOT</span></span>
+          <span class="ls-kpi"><span class="ls-kpi-val">135.5 <span class="ls-delta d-neut" aria-hidden="true">▼</span></span><span class="ls-kpi-lbl">Avg Daily Pts</span></span>
+          <span class="ls-kpi"><span class="ls-kpi-val">36.6% <span class="ls-delta d-warn" aria-hidden="true">▼</span></span><span class="ls-kpi-lbl">DC &lt;180 min</span></span>
+          <span class="ls-kpi"><span class="ls-kpi-val">1.0% <span class="ls-delta d-good" aria-hidden="true">▼</span></span><span class="ls-kpi-lbl">LWOT</span></span>
+          <span class="ls-kpi"><span class="ls-kpi-val">1.87 ✅ <span class="ls-delta d-warn" aria-hidden="true">▼</span></span><span class="ls-kpi-lbl">Pt/Hr</span></span>
         </span>
         <span class="ls-arrow" aria-hidden="true">→</span>
       </a>
@@ -529,7 +538,7 @@
         <div class="ticker-number" id="tickerNum">25,988</div>
         <div class="ticker-text">
           <div class="ticker-label-bottom">Sophias Served<br>at BGMC ED</div>
-          <div class="ticker-sub">Through June 2026</div>
+          <div class="ticker-sub">Total patient visits · Through June 2026</div>
         </div>
         <div class="ticker-divider"></div>
         <div class="ticker-months">

@@ -22,7 +22,7 @@
     --border: #e0d4c4;
     --text: #2c3a47;
     --text-mid: #5a6a7a;
-    --text-light: #8a9aaa;
+    --text-light: #74869a;
     --green: #3a8a5a;
     --green-pale: #e6f5ed;
     --red: #c0392b;
@@ -139,7 +139,7 @@
   .prod-note { margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.12); font-size:12px; color:rgba(255,255,255,0.4); line-height:1.6; }
 
   /* FOOTER */
-  .report-footer { background:var(--header); color:rgba(255,255,255,0.35); text-align:center; padding:18px 32px; font-size:11px; font-weight:600; letter-spacing:0.5px; }
+  .report-footer { background:var(--header); color:rgba(255,255,255,0.55); text-align:center; padding:18px 32px; font-size:11px; font-weight:600; letter-spacing:0.5px; }
 
   /* MOBILE RESPONSIVE + LEADERBOARD VIEW */
   .chart-scroll-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
@@ -220,6 +220,11 @@
     .chart-card, .metric-card, .card { break-inside:avoid; }
     #viewToggleBtn { display:none; }
   }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+    .metric-card:hover, .month-card:hover { transform: none !important; }
+  }
 </style>
 </head>
 <body>
@@ -242,49 +247,47 @@
   </div>
   <div class="header-kpis">
     <div class="hkpi">
-      <div class="hkpi-emoji">🚑</div>
+      <div class="hkpi-emoji" aria-hidden="true">🚑</div>
       <div class="hkpi-val">4,064</div>
       <div class="hkpi-label">Total ED Visits</div>
       <div class="hkpi-sub">AVG Daily: 135.5 pts</div>
     </div>
     <div class="hkpi">
-      <div class="hkpi-emoji">📅</div>
+      <div class="hkpi-emoji" aria-hidden="true">📅</div>
       <div class="hkpi-val">135.5</div>
       <div class="hkpi-label">Avg Daily Volume</div>
       <div class="hkpi-sub">WD 140.1 · WE 122.6</div>
     </div>
     <div class="hkpi">
-      <div class="hkpi-emoji">🏨</div>
+      <div class="hkpi-emoji" aria-hidden="true">🏨</div>
       <div class="hkpi-val">19.2<span class="hkpi-unit">%</span></div>
       <div class="hkpi-label">Admission Rate</div>
       <div class="hkpi-sub">Inpt 12.2% · Obs 7.0%</div>
     </div>
     <div class="hkpi">
-      <div class="hkpi-emoji">🎯</div>
+      <div class="hkpi-emoji" aria-hidden="true">🎯</div>
       <div class="hkpi-val">89.9<span class="hkpi-unit">%</span></div>
       <div class="hkpi-label">ESI 2 Seen &lt;25 min</div>
-      <div class="hkpi-sub"><span class="hkpi-badge badge-green-hdr">331 / 368</span></div>
     </div>
     <div class="hkpi">
-      <div class="hkpi-emoji">🚀</div>
+      <div class="hkpi-emoji" aria-hidden="true">🚀</div>
       <div class="hkpi-val">36.6<span class="hkpi-unit">%</span></div>
       <div class="hkpi-label">Rapid DC &lt;180 min</div>
-      <div class="hkpi-sub"><span class="hkpi-badge badge-amber-hdr">1,105 / 3,022</span></div>
     </div>
     <div class="hkpi">
-      <div class="hkpi-emoji">⏱️</div>
+      <div class="hkpi-emoji" aria-hidden="true">⏱️</div>
       <div class="hkpi-val">3h 36m</div>
       <div class="hkpi-label">Median DC LOS</div>
       <div class="hkpi-sub">ESI 2 D2D median: 9 min</div>
     </div>
     <div class="hkpi">
-      <div class="hkpi-emoji">🩺</div>
+      <div class="hkpi-emoji" aria-hidden="true">🩺</div>
       <div class="hkpi-val">17<span class="hkpi-unit">min</span></div>
       <div class="hkpi-label">Median Door-to-Doc</div>
       <div class="hkpi-sub">All ESI levels</div>
     </div>
     <div class="hkpi">
-      <div class="hkpi-emoji">🚶</div>
+      <div class="hkpi-emoji" aria-hidden="true">🚶</div>
       <div class="hkpi-val">1.0<span class="hkpi-unit">%</span></div>
       <div class="hkpi-label">LWOT Rate</div>
       <div class="hkpi-sub"><span class="hkpi-badge badge-green-hdr">42 patients</span></div>
@@ -311,7 +314,7 @@
   <!-- SECTION: PROVIDER PPH -->
   <div class="section">
     <div class="section-header">
-      <div class="section-emoji">⚡</div>
+      <div class="section-emoji" aria-hidden="true">⚡</div>
       <div class="section-title">Provider Productivity — Patients per Hour by Clinician</div>
       <div class="section-line"></div>
     </div>
@@ -337,7 +340,7 @@
   <!-- SECTION: PROVIDER LOS -->
   <div class="section">
     <div class="section-header">
-      <div class="section-emoji">👨‍⚕️</div>
+      <div class="section-emoji" aria-hidden="true">👨‍⚕️</div>
       <div class="section-title">Provider Discharge LOS — ESI 3, 4 &amp; 5 Patients</div>
       <div class="section-line"></div>
     </div>
@@ -360,7 +363,7 @@
   <!-- SECTION: GROUP PRODUCTIVITY -->
   <div class="section">
     <div class="section-header">
-      <div class="section-emoji">⚡</div>
+      <div class="section-emoji" aria-hidden="true">⚡</div>
       <div class="section-title">Provider Productivity</div>
       <div class="section-line"></div>
     </div>
@@ -409,7 +412,7 @@
   <!-- SECTION: YTD TREND TABLE -->
   <div class="section">
     <div class="section-header">
-      <div class="section-emoji">📈</div>
+      <div class="section-emoji" aria-hidden="true">📈</div>
       <div class="section-title">Jan–Jun YTD Trend Summary</div>
       <div class="section-line"></div>
     </div>
@@ -474,7 +477,7 @@
   <!-- SECTION: ADMISSIONS -->
   <div class="section">
     <div class="section-header">
-      <div class="section-emoji">🏨</div>
+      <div class="section-emoji" aria-hidden="true">🏨</div>
       <div class="section-title">Admissions &amp; Disposition Breakdown</div>
       <div class="section-line"></div>
     </div>
@@ -498,7 +501,7 @@
   <!-- SECTION: ARRIVALS BY HOUR -->
   <div class="section">
     <div class="section-header">
-      <div class="section-emoji">🕐</div>
+      <div class="section-emoji" aria-hidden="true">🕐</div>
       <div class="section-title">Patient Arrival Volume by Hour</div>
       <div class="section-line"></div>
     </div>
@@ -514,7 +517,7 @@
   <!-- SECTION: DOW -->
   <div class="section">
     <div class="section-header">
-      <div class="section-emoji">📆</div>
+      <div class="section-emoji" aria-hidden="true">📆</div>
       <div class="section-title">Patient Arrival Volume by Day of Week</div>
       <div class="section-line"></div>
     </div>
@@ -530,7 +533,7 @@
   <!-- SECTION: LWOT -->
   <div class="section">
     <div class="section-header">
-      <div class="section-emoji">🚶</div>
+      <div class="section-emoji" aria-hidden="true">🚶</div>
       <div class="section-title">LWOT Analysis by Hour</div>
       <div class="section-line"></div>
     </div>
@@ -546,7 +549,7 @@
   <!-- SECTION: ESI 2 D2D -->
   <div class="section">
     <div class="section-header">
-      <div class="section-emoji">🎯</div>
+      <div class="section-emoji" aria-hidden="true">🎯</div>
       <div class="section-title">ESI 2 Door-to-Doc Time by Arrival Hour</div>
       <div class="section-line"></div>
     </div>
@@ -591,7 +594,7 @@
 
 <button id="viewToggleBtn" onclick="toggleEdView()">📋 List View</button>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="/ed-metrics/assets/chart.umd.min.js"></script>
 <script>
 Chart.defaults.font.family="'Nunito',sans-serif";
 Chart.defaults.color='#5a6a7a';
