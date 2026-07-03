@@ -150,4 +150,80 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
+  // ============================================
+  //  Footer: auto year + "About this site" disclosure
+  // ============================================
+  document.querySelectorAll('.footer-copy').forEach(el => {
+    el.textContent = el.textContent.replace(/\d{4}/, new Date().getFullYear());
+  });
+
+  document.querySelectorAll('.footer-bottom').forEach(el => {
+    if (el.querySelector('.site-disclosure')) return; // don't double-inject
+    const details = document.createElement('details');
+    details.className = 'site-disclosure';
+    details.style.cssText = 'margin-top:10px;font-size:0.78rem;opacity:0.65;max-width:560px;';
+    details.innerHTML = `
+      <summary style="cursor:pointer;">About this site</summary>
+      <p style="margin-top:8px;line-height:1.55;">
+        This is an independent educational resource created by Dr. Eric Cummins.
+        It is not an official publication of Banner Health or Banner Gateway
+        Medical Center and has not been reviewed by Banner Health marketing
+        or compliance.
+      </p>`;
+    el.appendChild(details);
+  });
+
+  // ============================================
+  //  Mobile review banner: dismiss control
+  // ============================================
+  const reviewBanner = document.getElementById('reviewBanner');
+  const reviewBannerClose = document.getElementById('reviewBannerClose');
+  if (reviewBanner && reviewBannerClose) {
+    const KEY = 'reviewBannerDismissed';
+    if (localStorage.getItem(KEY)) {
+      reviewBanner.classList.add('dismissed');
+      reviewBannerClose.classList.add('dismissed');
+    }
+    reviewBannerClose.addEventListener('click', (e) => {
+      e.preventDefault();
+      reviewBanner.classList.add('dismissed');
+      reviewBannerClose.classList.add('dismissed');
+      localStorage.setItem(KEY, '1');
+    });
+  }
+
+  // ============================================
+  //  ED Prep Toolkit floating banner
+  //  Auto-injected on the blog index and every post page.
+  //  Skipped on the homepage (has the review banner) and
+  //  resources.html (the toolkit already lives there).
+  // ============================================
+  const isBlogPage = document.querySelector('.blog-grid') || document.querySelector('.post-hero');
+  const currentFile = window.location.pathname.split('/').pop();
+  if (isBlogPage && currentFile !== 'resources.html') {
+    const KEY = 'toolkitBannerDismissed';
+    if (!localStorage.getItem(KEY)) {
+      const banner = document.createElement('a');
+      banner.href = 'resources.html';
+      banner.className = 'toolkit-banner';
+      banner.setAttribute('aria-label', 'Get the free ED Prep Toolkit');
+      banner.innerHTML = '<strong>📋 Get the ED Prep Toolkit</strong><span>Free printable checklists for your visit</span>';
+
+      const closeBtn = document.createElement('button');
+      closeBtn.type = 'button';
+      closeBtn.className = 'toolkit-banner-close';
+      closeBtn.setAttribute('aria-label', 'Dismiss');
+      closeBtn.textContent = '✕';
+      closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        banner.classList.add('dismissed');
+        closeBtn.classList.add('dismissed');
+        localStorage.setItem(KEY, '1');
+      });
+
+      document.body.appendChild(banner);
+      document.body.appendChild(closeBtn);
+    }
+  }
+
 });
