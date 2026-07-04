@@ -97,6 +97,21 @@
   .privacy .icon{font-size:1.1rem; flex-shrink:0;}
   .privacy strong{color:var(--charcoal);}
 
+  .autosave-note{
+    background:var(--warm-white);
+    border:1px solid var(--cream-dark);
+    border-left:4px solid var(--teal);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    font-size:0.83rem;
+    color:var(--muted);
+    display:flex;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .autosave-note .icon{font-size:1.1rem; flex-shrink:0;}
+  .autosave-note strong{color:var(--charcoal);}
+
   /* ---------- Header info card ---------- */
   .info-card{
     background:var(--warm-white);
@@ -321,7 +336,7 @@
   /* ---------- Print / Download as PDF ---------- */
   @media print{
     body{background:#fff; padding-bottom:0;}
-    .action-bar, .modal-overlay, .toast, .chips, .save-indicator, .topbar a.back{display:none !important;}
+    .action-bar, .modal-overlay, .toast, .chips, .save-indicator, .topbar a.back, .autosave-note{display:none !important;}
     .topbar{background:#fff !important; color:var(--navy) !important; box-shadow:none; border-bottom:2px solid var(--navy);}
     .topbar h1{color:var(--navy) !important;}
     .topbar .sub{color:var(--gold) !important;}
@@ -349,6 +364,11 @@
   </div>
 
   <div class="wrap">
+
+    <div class="autosave-note">
+      <span class="icon">💾</span>
+      <div><strong>This autosaves as you go.</strong> Close the tab, lock your phone, whatever. It'll be here when you come back.</div>
+    </div>
 
     <div class="privacy">
       <span class="icon">🔒</span>
