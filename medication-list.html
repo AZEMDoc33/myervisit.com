@@ -243,7 +243,9 @@
   ];
 
   function attachAutocomplete(input, listEl, sourceArr){
+    let suppressShow = false;
     function showMatches(){
+      if(suppressShow){ suppressShow = false; listEl.style.display = 'none'; return; }
       const q = input.value.trim().toLowerCase();
       if(!q){ listEl.style.display = 'none'; listEl.innerHTML = ''; return; }
       const starts = sourceArr.filter(item => item.toLowerCase().startsWith(q));
@@ -262,6 +264,8 @@
       e.preventDefault();
       input.value = item.textContent;
       listEl.style.display = 'none';
+      listEl.innerHTML = '';
+      suppressShow = true;
       input.dispatchEvent(new Event('input', { bubbles:true }));
     });
   }

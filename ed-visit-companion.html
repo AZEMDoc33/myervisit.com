@@ -105,10 +105,11 @@
     padding:16px;
     margin-bottom:18px;
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);
     gap:12px;
   }
   .info-card .field-full{grid-column:1 / -1;}
+  .field{min-width:0;}
   .field label{
     display:block;
     font-size:0.7rem;
@@ -120,6 +121,7 @@
   }
   .field input{
     width:100%;
+    min-width:0;
     border:1px solid var(--cream-dark);
     border-radius:var(--radius-sm);
     padding:10px 11px;
