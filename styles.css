@@ -1115,6 +1115,25 @@ p:last-child { margin-bottom: 0; }
   .review-cta-wrap { margin: 0 auto; }
 }
 
+/* Desktop: smaller floating card, bottom right corner instead of full-width pill */
+@media (min-width: 769px) {
+  .toolkit-banner:not(.dismissed) {
+    display: block;
+    left: auto;
+    right: 24px;
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    margin: 0;
+    max-width: 300px;
+  }
+  .toolkit-banner-close:not(.dismissed) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: calc(24px + env(safe-area-inset-right));
+    bottom: calc(70px + env(safe-area-inset-bottom));
+  }
+}
+
 /* ============================================
    UTILITIES
    ============================================ */
