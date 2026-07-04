@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
       banner.href = 'resources.html';
       banner.className = 'toolkit-banner';
       banner.setAttribute('aria-label', 'Get the free ED Prep Toolkit');
-      banner.innerHTML = '<strong>📋 Get the ED Prep Toolkit</strong><span>Free printable checklists for your visit</span>';
+      banner.innerHTML = '<strong>📋 Get the ED Prep Toolkit</strong><span>Organize your thoughts with these free customizable checklists</span>';
 
       const closeBtn = document.createElement('button');
       closeBtn.type = 'button';
