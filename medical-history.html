@@ -47,17 +47,13 @@
 
   .timeline-section{margin-bottom:28px;}
   .timeline-title{display:flex; align-items:center; gap:10px; margin-bottom:4px;}
-  .timeline-title .tag{
-    font-size:1.3rem;
-  }
+  .timeline-title .tag{font-size:1.3rem;}
   .timeline-title h2{font-size:1.1rem; color:var(--navy);}
   .timeline-title.surgical h2{color:var(--teal);}
   .timeline-hint{font-size:0.8rem; color:var(--muted); margin:0 0 14px 34px;}
 
   .timeline{position:relative; padding-left:34px;}
-  .timeline::before{
-    content:''; position:absolute; left:11px; top:6px; bottom:6px; width:2px; background:var(--cream-dark);
-  }
+  .timeline::before{content:''; position:absolute; left:11px; top:6px; bottom:6px; width:2px; background:var(--cream-dark);}
   .entry{position:relative; margin-bottom:14px;}
   .entry::before{
     content:''; position:absolute; left:-27px; top:18px; width:12px; height:12px; border-radius:50%;
@@ -65,17 +61,28 @@
   }
   .timeline-section.surgical .entry::before{ background:var(--teal); box-shadow:0 0 0 2px var(--teal); }
 
-  .entry-card{background:var(--warm-white); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:14px; position:relative;}
-  .entry-card .remove-btn{position:absolute; top:8px; right:8px; background:none; border:none; color:var(--muted); font-size:1.05rem; cursor:pointer; padding:4px 8px; line-height:1;}
+  .entry-card{background:var(--warm-white); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:14px; position:relative; overflow:visible;}
+  .entry-card .remove-btn{position:absolute; top:8px; right:8px; background:none; border:none; color:var(--muted); font-size:1.05rem; cursor:pointer; padding:4px 8px; line-height:1; z-index:2;}
   .entry-card .remove-btn:active{color:#B5473A;}
-  .entry-grid{display:grid; grid-template-columns:2fr 1fr; gap:10px;}
+  .entry-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
   .entry-grid .field-full{grid-column:1 / -1;}
   .entry-grid input{width:100%; border:1px solid var(--cream-dark); border-radius:var(--radius-sm); padding:10px 11px; font-size:16px; font-family:inherit; color:var(--charcoal); background:var(--cream);}
   .entry-grid input:focus{outline:none; border-color:var(--navy-light); box-shadow:0 0 0 3px rgba(42,78,122,0.18); background:var(--warm-white);}
   .entry-grid label{display:block; font-size:0.66rem; font-weight:600; letter-spacing:0.03em; text-transform:uppercase; color:var(--muted); margin-bottom:4px;}
 
+  /* ---------- Autocomplete ---------- */
+  .ac-wrap{position:relative;}
+  .ac-list{
+    position:absolute; top:100%; left:0; right:0; margin-top:4px;
+    background:var(--warm-white); border:1px solid var(--cream-dark); border-radius:var(--radius-sm);
+    box-shadow:var(--shadow-md); max-height:190px; overflow-y:auto; z-index:30;
+  }
+  .ac-item{padding:10px 12px; font-size:0.88rem; cursor:pointer; color:var(--charcoal);}
+  .ac-item:active{background:var(--cream);}
+  .ac-item + .ac-item{border-top:1px solid var(--cream-dark);}
+
   .add-btn{
-    width:calc(100% - 0px); margin-left:0; background:var(--warm-white); border:2px dashed var(--cream-dark); color:var(--navy);
+    width:100%; background:var(--warm-white); border:2px dashed var(--cream-dark); color:var(--navy);
     border-radius:var(--radius); padding:14px; font-family:inherit; font-size:0.9rem; font-weight:600;
     cursor:pointer; transition:background var(--transition);
   }
@@ -109,7 +116,7 @@
 
   @media print{
     body{background:#fff; padding-bottom:0;}
-    .action-bar, .modal-overlay, .toast, .save-indicator, .topbar a.back, .add-btn{display:none !important;}
+    .action-bar, .modal-overlay, .toast, .save-indicator, .topbar a.back, .add-btn, .ac-list{display:none !important;}
     .topbar{background:#fff !important; color:var(--navy) !important; box-shadow:none; border-bottom:2px solid var(--navy);}
     .topbar h1{color:var(--navy) !important;}
     .topbar .sub{color:var(--gold) !important;}
@@ -152,10 +159,10 @@
         <span class="tag">🩺</span>
         <h2>Medical Conditions</h2>
       </div>
-      <p class="timeline-hint">Diagnoses, year found out, and who diagnosed you.</p>
+      <p class="timeline-hint">Start typing to find a condition, or type your own.</p>
       <div class="timeline" id="conditionsList"></div>
       <p class="empty-state" id="conditionsEmpty">No conditions added yet.</p>
-      <button class="add-btn" data-list="conditions">+ Add a Condition</button>
+      <button class="add-btn" id="addConditionBtn">+ Add a Condition</button>
     </div>
 
     <div class="timeline-section surgical" id="surgeriesSection">
@@ -163,10 +170,10 @@
         <span class="tag">🏥</span>
         <h2>Surgical History</h2>
       </div>
-      <p class="timeline-hint">Procedures, year performed, and where.</p>
+      <p class="timeline-hint">Start typing to find a surgery, and note the year and doctor.</p>
       <div class="timeline" id="surgeriesList"></div>
       <p class="empty-state" id="surgeriesEmpty">No surgeries added yet.</p>
-      <button class="add-btn" data-list="surgeries">+ Add a Surgery</button>
+      <button class="add-btn" id="addSurgeryBtn">+ Add a Surgery</button>
     </div>
 
   </div>
@@ -199,35 +206,67 @@
 
 <script>
 (function(){
-  const STORAGE_KEY = 'medicalHistory_v1';
+  const STORAGE_KEY = 'medicalHistory_v2';
   let state = { name:'', allergies:'', conditions:[], surgeries:[] };
   let uidCounter = 0;
 
   const saveIndicator = document.getElementById('saveIndicator');
   const toastEl = document.getElementById('toast');
+  const conditionsListEl = document.getElementById('conditionsList');
+  const conditionsEmptyEl = document.getElementById('conditionsEmpty');
+  const surgeriesListEl = document.getElementById('surgeriesList');
+  const surgeriesEmptyEl = document.getElementById('surgeriesEmpty');
 
-  const config = {
-    conditions: {
-      listEl: document.getElementById('conditionsList'),
-      emptyEl: document.getElementById('conditionsEmpty'),
-      nameLabel: 'Medical Condition', nameField: 'condition',
-      yearLabel: 'Year Diagnosed', docLabel: 'Doctor', docField:'doctor'
-    },
-    surgeries: {
-      listEl: document.getElementById('surgeriesList'),
-      emptyEl: document.getElementById('surgeriesEmpty'),
-      nameLabel: 'Surgery', nameField: 'surgery',
-      yearLabel: 'Year of Surgery', docLabel: 'Doctor / Hospital', docField:'facility'
-    }
-  };
+  const CONDITIONS_LIST = [
+    "Hypertension","Type 2 Diabetes","Type 1 Diabetes","Hyperlipidemia","Asthma","COPD",
+    "Coronary Artery Disease","Congestive Heart Failure","Atrial Fibrillation","Chronic Kidney Disease",
+    "End Stage Renal Disease","Hypothyroidism","Hyperthyroidism","GERD","Peptic Ulcer Disease",
+    "Irritable Bowel Syndrome","Crohn's Disease","Ulcerative Colitis","Celiac Disease","Depression",
+    "Anxiety","Bipolar Disorder","Schizophrenia","PTSD","ADHD","Migraine","Epilepsy","Seizure Disorder",
+    "Stroke","TIA (Mini Stroke)","Parkinson's Disease","Alzheimer's Disease","Dementia","Multiple Sclerosis",
+    "Osteoarthritis","Rheumatoid Arthritis","Gout","Osteoporosis","Fibromyalgia","Chronic Back Pain",
+    "Sciatica","Herniated Disc","Obesity","Sleep Apnea","Insomnia","Anemia","Sickle Cell Disease",
+    "Hemophilia","Deep Vein Thrombosis","Pulmonary Embolism","Peripheral Artery Disease",
+    "Chronic Venous Insufficiency","Varicose Veins","Breast Cancer","Colon Cancer","Lung Cancer",
+    "Prostate Cancer","Skin Cancer","Melanoma","Leukemia","Lymphoma","Thyroid Cancer","Bladder Cancer",
+    "Cervical Cancer","Ovarian Cancer","Pancreatic Cancer","Kidney Cancer","HIV / AIDS","Hepatitis B",
+    "Hepatitis C","Cirrhosis","Fatty Liver Disease","Gallstones","Pancreatitis","Kidney Stones",
+    "Urinary Tract Infections","Benign Prostatic Hyperplasia (BPH)","Erectile Dysfunction","Endometriosis",
+    "Polycystic Ovary Syndrome (PCOS)","Menopause","Psoriasis","Eczema","Chronic Sinusitis",
+    "Allergic Rhinitis","Food Allergies","Glaucoma","Cataracts","Macular Degeneration","Hearing Loss",
+    "Tinnitus","Chronic Fatigue Syndrome","Lupus","Multiple Myeloma","Autism Spectrum Disorder",
+    "Down Syndrome","Cerebral Palsy","Cystic Fibrosis","Chronic Pancreatitis","Barrett's Esophagus",
+    "Diverticulitis","Hemorrhoids","Hernia","Restless Leg Syndrome","Peripheral Neuropathy","Vertigo",
+    "Meniere's Disease","High Cholesterol","Chronic Migraine"
+  ];
+
+  const SURGERIES_LIST = [
+    "Appendectomy","Cholecystectomy (Gallbladder Removal)","Hysterectomy","Cesarean Section (C-Section)",
+    "Tonsillectomy","Adenoidectomy","Hernia Repair","Inguinal Hernia Repair","Hip Replacement",
+    "Knee Replacement","Shoulder Replacement","Rotator Cuff Repair","ACL Reconstruction","Meniscus Repair",
+    "Spinal Fusion","Laminectomy","Discectomy","Carpal Tunnel Release","Cataract Surgery","LASIK",
+    "Coronary Artery Bypass Graft (CABG)","Heart Valve Replacement","Pacemaker Placement",
+    "Angioplasty with Stent","Carotid Endarterectomy","Aortic Aneurysm Repair","Thyroidectomy",
+    "Parathyroidectomy","Mastectomy","Lumpectomy","Breast Augmentation","Breast Reduction","Tummy Tuck",
+    "Liposuction","Rhinoplasty","Bariatric Surgery","Gastric Bypass","Gastric Sleeve","Lap Band Surgery",
+    "Colon Resection","Colostomy","Hemorrhoidectomy","Splenectomy","Nephrectomy (Kidney Removal)",
+    "Kidney Transplant","Liver Transplant","Prostatectomy","Vasectomy","Tubal Ligation",
+    "Oophorectomy (Ovary Removal)","Ovarian Cyst Removal","D and C (Dilation and Curettage)",
+    "Cervical Biopsy","LEEP Procedure","Skin Graft","Wound Debridement","Amputation","Craniotomy",
+    "Brain Tumor Resection","Ventriculoperitoneal (VP) Shunt","Deep Brain Stimulation","Cochlear Implant",
+    "Sinus Surgery","Septoplasty","Tympanoplasty","Bunionectomy","Achilles Tendon Repair",
+    "Ankle Fracture Repair","Wrist Fracture Repair","Hip Fracture Repair","Hardware Removal",
+    "Joint Arthroscopy","Total Ankle Replacement","Bowel Resection","Ileostomy","Hiatal Hernia Repair",
+    "Fundoplication","Esophagectomy","Lung Resection","Lobectomy","Pneumonectomy","Tracheostomy",
+    "Bronchoscopy with Biopsy","Pericardiectomy","Hemorrhoid Banding","Circumcision","Orchiectomy",
+    "Penile Implant","Hip Labral Repair","Spinal Cord Stimulator Placement","Gastrectomy",
+    "Whipple Procedure","Pancreatectomy","Adrenalectomy","Thymectomy","Hysteroscopy","Myomectomy",
+    "Salpingectomy","Endometrial Ablation","Appendix Removal","Back Surgery","Hip Surgery"
+  ];
 
   function uid(){ uidCounter += 1; return 'e' + Date.now() + uidCounter; }
-  function newEntry(key){
-    const nf = config[key].nameField, df = config[key].docField;
-    const obj = { id: uid(), year:'' };
-    obj[nf] = ''; obj[df] = '';
-    return obj;
-  }
+  function newCondition(){ return { id: uid(), condition:'' }; }
+  function newSurgery(){ return { id: uid(), surgery:'', year:'', doctor:'' }; }
 
   function loadState(){
     try{
@@ -239,8 +278,8 @@
     }catch(e){ /* storage unavailable */ }
     if(!Array.isArray(state.conditions)) state.conditions = [];
     if(!Array.isArray(state.surgeries)) state.surgeries = [];
-    if(state.conditions.length === 0) state.conditions.push(newEntry('conditions'));
-    if(state.surgeries.length === 0) state.surgeries.push(newEntry('surgeries'));
+    if(state.conditions.length === 0) state.conditions.push(newCondition());
+    if(state.surgeries.length === 0) state.surgeries.push(newSurgery());
   }
 
   function flashSaved(){
@@ -258,77 +297,156 @@
   function escapeAttr(str){
     return (str || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
   }
+  function escapeHtml(str){
+    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
 
-  function renderList(key){
-    const cfg = config[key];
-    const items = state[key];
-    cfg.listEl.innerHTML = '';
-    cfg.emptyEl.style.display = items.length ? 'none' : 'block';
-    items.forEach(item => {
+  // ----- Generic autocomplete -----
+  function attachAutocomplete(input, listEl, sourceArr){
+    function showMatches(){
+      const q = input.value.trim().toLowerCase();
+      if(!q){ listEl.style.display = 'none'; listEl.innerHTML = ''; return; }
+      const starts = sourceArr.filter(item => item.toLowerCase().startsWith(q));
+      const rest = sourceArr.filter(item => !item.toLowerCase().startsWith(q) && item.toLowerCase().includes(q));
+      const matches = starts.concat(rest).slice(0, 7);
+      if(matches.length === 0){ listEl.style.display = 'none'; listEl.innerHTML = ''; return; }
+      listEl.innerHTML = matches.map(m => `<div class="ac-item">${escapeHtml(m)}</div>`).join('');
+      listEl.style.display = 'block';
+    }
+    input.addEventListener('input', showMatches);
+    input.addEventListener('focus', showMatches);
+    input.addEventListener('blur', () => { setTimeout(() => { listEl.style.display = 'none'; }, 150); });
+    listEl.addEventListener('mousedown', (e) => {
+      const item = e.target.closest('.ac-item');
+      if(!item) return;
+      e.preventDefault();
+      input.value = item.textContent;
+      listEl.style.display = 'none';
+      input.dispatchEvent(new Event('input', { bubbles:true }));
+    });
+  }
+
+  // ----- Render: Conditions (single field, autocomplete) -----
+  function renderConditions(){
+    conditionsListEl.innerHTML = '';
+    conditionsEmptyEl.style.display = state.conditions.length ? 'none' : 'block';
+    state.conditions.forEach(item => {
       const row = document.createElement('div');
       row.className = 'entry';
       row.innerHTML = `
         <div class="entry-card" data-id="${item.id}">
-          <button class="remove-btn" data-list="${key}" data-action="remove" aria-label="Remove entry">✕</button>
+          <button class="remove-btn" data-action="remove-condition" aria-label="Remove condition">✕</button>
           <div class="entry-grid">
-            <div class="field-full">
-              <label>${cfg.nameLabel}</label>
-              <input type="text" data-field="${cfg.nameField}" value="${escapeAttr(item[cfg.nameField])}">
-            </div>
-            <div>
-              <label>${cfg.yearLabel}</label>
-              <input type="text" inputmode="numeric" data-field="year" value="${escapeAttr(item.year)}" placeholder="e.g. 2019">
-            </div>
-            <div>
-              <label>${cfg.docLabel}</label>
-              <input type="text" data-field="${cfg.docField}" value="${escapeAttr(item[cfg.docField])}">
+            <div class="field-full ac-wrap">
+              <label>Medical Condition</label>
+              <input type="text" class="ac-input" data-field="condition" value="${escapeAttr(item.condition)}" placeholder="Start typing, e.g. Hyper...">
+              <div class="ac-list" style="display:none;"></div>
             </div>
           </div>
         </div>
       `;
-      cfg.listEl.appendChild(row);
+      conditionsListEl.appendChild(row);
+    });
+    conditionsListEl.querySelectorAll('.entry-card').forEach(card => {
+      const input = card.querySelector('.ac-input');
+      const acList = card.querySelector('.ac-list');
+      attachAutocomplete(input, acList, CONDITIONS_LIST);
+    });
+  }
+
+  // ----- Render: Surgeries (name w/ autocomplete + year + doctor) -----
+  function renderSurgeries(){
+    surgeriesListEl.innerHTML = '';
+    surgeriesEmptyEl.style.display = state.surgeries.length ? 'none' : 'block';
+    state.surgeries.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'entry';
+      row.innerHTML = `
+        <div class="entry-card" data-id="${item.id}">
+          <button class="remove-btn" data-action="remove-surgery" aria-label="Remove surgery">✕</button>
+          <div class="entry-grid">
+            <div class="field-full ac-wrap">
+              <label>Surgery</label>
+              <input type="text" class="ac-input" data-field="surgery" value="${escapeAttr(item.surgery)}" placeholder="Start typing, e.g. Append...">
+              <div class="ac-list" style="display:none;"></div>
+            </div>
+            <div>
+              <label>Year of Surgery</label>
+              <input type="text" inputmode="numeric" data-field="year" value="${escapeAttr(item.year)}" placeholder="e.g. 2019">
+            </div>
+            <div>
+              <label>Doctor</label>
+              <input type="text" data-field="doctor" value="${escapeAttr(item.doctor)}" placeholder="e.g. Dr. Smith">
+            </div>
+          </div>
+        </div>
+      `;
+      surgeriesListEl.appendChild(row);
+    });
+    surgeriesListEl.querySelectorAll('.entry-card').forEach(card => {
+      const input = card.querySelector('.ac-input');
+      const acList = card.querySelector('.ac-list');
+      attachAutocomplete(input, acList, SURGERIES_LIST);
     });
   }
 
   function render(){
     document.getElementById('fName').value = state.name || '';
     document.getElementById('fAllergies').value = state.allergies || '';
-    renderList('conditions');
-    renderList('surgeries');
+    renderConditions();
+    renderSurgeries();
   }
 
   document.getElementById('fName').addEventListener('input', e => { state.name = e.target.value; debouncedPersist(); });
   document.getElementById('fAllergies').addEventListener('input', e => { state.allergies = e.target.value; debouncedPersist(); });
 
-  ['conditions','surgeries'].forEach(key => {
-    const cfg = config[key];
-    cfg.listEl.addEventListener('input', (e) => {
-      const field = e.target.dataset.field;
-      if(!field) return;
+  conditionsListEl.addEventListener('input', (e) => {
+    const field = e.target.dataset.field;
+    if(!field) return;
+    const card = e.target.closest('.entry-card');
+    const item = state.conditions.find(x => x.id === card.dataset.id);
+    if(item){ item[field] = e.target.value; debouncedPersist(); }
+  });
+  conditionsListEl.addEventListener('click', (e) => {
+    if(e.target.dataset.action === 'remove-condition'){
       const card = e.target.closest('.entry-card');
-      const item = state[key].find(x => x.id === card.dataset.id);
-      if(item){ item[field] = e.target.value; debouncedPersist(); }
-    });
-    cfg.listEl.addEventListener('click', (e) => {
-      if(e.target.dataset.action === 'remove'){
-        const card = e.target.closest('.entry-card');
-        state[key] = state[key].filter(x => x.id !== card.dataset.id);
-        renderList(key);
-        persist();
-      }
-    });
+      state.conditions = state.conditions.filter(x => x.id !== card.dataset.id);
+      renderConditions();
+      persist();
+    }
   });
 
-  document.querySelectorAll('.add-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const key = btn.dataset.list;
-      state[key].push(newEntry(key));
-      renderList(key);
+  surgeriesListEl.addEventListener('input', (e) => {
+    const field = e.target.dataset.field;
+    if(!field) return;
+    const card = e.target.closest('.entry-card');
+    const item = state.surgeries.find(x => x.id === card.dataset.id);
+    if(item){ item[field] = e.target.value; debouncedPersist(); }
+  });
+  surgeriesListEl.addEventListener('click', (e) => {
+    if(e.target.dataset.action === 'remove-surgery'){
+      const card = e.target.closest('.entry-card');
+      state.surgeries = state.surgeries.filter(x => x.id !== card.dataset.id);
+      renderSurgeries();
       persist();
-      const cards = config[key].listEl.querySelectorAll('.entry-card');
-      const last = cards[cards.length - 1];
-      if(last) last.querySelector('input').focus();
-    });
+    }
+  });
+
+  document.getElementById('addConditionBtn').addEventListener('click', () => {
+    state.conditions.push(newCondition());
+    renderConditions();
+    persist();
+    const cards = conditionsListEl.querySelectorAll('.entry-card');
+    const last = cards[cards.length - 1];
+    if(last) last.querySelector('input').focus();
+  });
+  document.getElementById('addSurgeryBtn').addEventListener('click', () => {
+    state.surgeries.push(newSurgery());
+    renderSurgeries();
+    persist();
+    const cards = surgeriesListEl.querySelectorAll('.entry-card');
+    const last = cards[cards.length - 1];
+    if(last) last.querySelector('input').focus();
   });
 
   function buildSummary(){
@@ -337,26 +455,23 @@
     if(state.allergies) lines.push('Allergies: ' + state.allergies);
     lines.push('');
     lines.push('MEDICAL CONDITIONS');
-    let anyCond = false;
-    state.conditions.forEach((c, i) => {
-      if(c.condition || c.year || c.doctor){
-        anyCond = true;
-        lines.push((i+1) + '. ' + (c.condition || 'Unnamed condition') + (c.year ? ' (' + c.year + ')' : ''));
-        if(c.doctor) lines.push('   Doctor: ' + c.doctor);
-      }
-    });
-    if(!anyCond) lines.push('None entered.');
+    const conds = state.conditions.filter(c => c.condition && c.condition.trim());
+    if(conds.length){
+      conds.forEach((c, i) => lines.push((i+1) + '. ' + c.condition));
+    } else {
+      lines.push('None entered.');
+    }
     lines.push('');
     lines.push('SURGICAL HISTORY');
-    let anySurg = false;
-    state.surgeries.forEach((s, i) => {
-      if(s.surgery || s.year || s.facility){
-        anySurg = true;
+    const surgs = state.surgeries.filter(s => s.surgery || s.year || s.doctor);
+    if(surgs.length){
+      surgs.forEach((s, i) => {
         lines.push((i+1) + '. ' + (s.surgery || 'Unnamed surgery') + (s.year ? ' (' + s.year + ')' : ''));
-        if(s.facility) lines.push('   Doctor/Hospital: ' + s.facility);
-      }
-    });
-    if(!anySurg) lines.push('None entered.');
+        if(s.doctor) lines.push('   Doctor: ' + s.doctor);
+      });
+    } else {
+      lines.push('None entered.');
+    }
     return lines.join('\n').trim();
   }
 
@@ -393,7 +508,7 @@
   document.getElementById('modalCancel').addEventListener('click', () => overlay.classList.remove('show'));
   overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('show'); });
   document.getElementById('modalConfirm').addEventListener('click', () => {
-    state = { name:'', allergies:'', conditions:[newEntry('conditions')], surgeries:[newEntry('surgeries')] };
+    state = { name:'', allergies:'', conditions:[newCondition()], surgeries:[newSurgery()] };
     try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
     render();
     overlay.classList.remove('show');
