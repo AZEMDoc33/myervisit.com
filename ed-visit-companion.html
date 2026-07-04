@@ -326,7 +326,13 @@
     .section, .info-card, .privacy{box-shadow:none; border:1px solid #ddd; break-inside:avoid;}
     textarea{border:1px solid #ccc; background:#fff; overflow:visible;}
     input[type="checkbox"]{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    .print-footer{
+      display:block; margin-top:22px; padding-top:16px; border-top:1px solid #ccc;
+      text-align:center; font-family:'Playfair Display', serif; font-style:italic;
+      color:var(--navy); font-size:0.95rem; line-height:1.6;
+    }
   }
+  .print-footer{display:none;}
 </style>
 </head>
 <body>
@@ -446,6 +452,11 @@
           <input type="text" id="fWhen" placeholder="e.g. Within 3 days">
         </div>
       </div>
+    </div>
+
+    <div class="print-footer">
+      Thank you for coming to Banner Gateway Medical Center.<br>
+      Eric Cummins, MD · myervisit.com
     </div>
 
   </div>
@@ -628,6 +639,9 @@
       if(s.fWho) lines.push('Who: ' + s.fWho);
       if(s.fWhen) lines.push('How soon: ' + s.fWhen);
     }
+    lines.push('');
+    lines.push('Thank you for coming to Banner Gateway Medical Center.');
+    lines.push('Eric Cummins, MD · myervisit.com');
     return lines.join('\n').trim();
   }
 

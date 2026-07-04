@@ -122,7 +122,13 @@
     .topbar .sub{color:var(--gold) !important;}
     .info-card, .privacy, .entry-card{box-shadow:none; border:1px solid #ddd; break-inside:avoid;}
     .timeline::before{background:#ccc;}
+    .print-footer{
+      display:block; margin-top:22px; padding-top:16px; border-top:1px solid #ccc;
+      text-align:center; font-family:'Playfair Display', serif; font-style:italic;
+      color:var(--navy); font-size:0.95rem; line-height:1.6;
+    }
   }
+  .print-footer{display:none;}
 </style>
 </head>
 <body>
@@ -174,6 +180,11 @@
       <div class="timeline" id="surgeriesList"></div>
       <p class="empty-state" id="surgeriesEmpty">No surgeries added yet.</p>
       <button class="add-btn" id="addSurgeryBtn">+ Add a Surgery</button>
+    </div>
+
+    <div class="print-footer">
+      Thank you for coming to Banner Gateway Medical Center.<br>
+      Eric Cummins, MD · myervisit.com
     </div>
 
   </div>
@@ -472,6 +483,9 @@
     } else {
       lines.push('None entered.');
     }
+    lines.push('');
+    lines.push('Thank you for coming to Banner Gateway Medical Center.');
+    lines.push('Eric Cummins, MD · myervisit.com');
     return lines.join('\n').trim();
   }
 
