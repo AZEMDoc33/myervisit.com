@@ -1082,6 +1082,7 @@ p:last-child { margin-bottom: 0; }
   color: white;
   border-radius: 999px;
   text-decoration: none;
+  text-align: center;
   box-shadow: 0 10px 34px rgba(30,58,95,0.28);
 }
 .toolkit-banner strong { display: block; font-size: 0.9rem; font-weight: 800; }
