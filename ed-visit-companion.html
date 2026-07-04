@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ED Visit Companion — Eric Cummins, MD</title>
+<meta name="description" content="A private, on-your-phone note-taking tool for your emergency department visit. Nothing you type is sent anywhere.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1E3A5F;
+    --navy-light:#2A4E7A;
+    --gold:#C9973A;
+    --gold-light:#E0B35A;
+    --teal:#3D7A8A;
+    --teal-light:#4E8E9E;
+    --cream:#F7F3EE;
+    --cream-dark:#EDE8E0;
+    --charcoal:#2D2D2D;
+    --warm-white:#FEFCF9;
+    --muted:#6B7280;
+    --shadow-sm:0 2px 8px rgba(30,58,95,0.08);
+    --shadow-md:0 6px 24px rgba(30,58,95,0.13);
+    --shadow-gold:0 4px 20px rgba(201,151,58,0.28);
+    --radius:12px;
+    --radius-sm:8px;
+    --transition:0.2s ease;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family:'DM Sans', sans-serif;
+    line-height:1.5;
+    padding-bottom:96px; /* space for sticky action bar */
+  }
+  h1,h2,h3{font-family:'Playfair Display', Georgia, serif; margin:0;}
+
+  a{color:var(--teal); text-decoration:none;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    background:var(--navy);
+    color:var(--warm-white);
+    padding:14px 18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    box-shadow:var(--shadow-md);
+  }
+  .topbar a.back{
+    color:var(--warm-white);
+    font-size:1.3rem;
+    line-height:1;
+    opacity:0.85;
+    flex-shrink:0;
+  }
+  .topbar .titles{flex:1; min-width:0;}
+  .topbar h1{font-size:1.15rem; color:var(--warm-white); font-weight:700;}
+  .topbar .sub{font-size:0.72rem; color:var(--gold-light); letter-spacing:0.04em; text-transform:uppercase; margin-top:1px;}
+  .save-indicator{
+    font-size:0.7rem;
+    color:var(--gold-light);
+    display:flex;
+    align-items:center;
+    gap:5px;
+    white-space:nowrap;
+    opacity:0;
+    transition:opacity 0.4s ease;
+  }
+  .save-indicator.show{opacity:1;}
+  .save-indicator .dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--gold-light);
+  }
+
+  .wrap{max-width:640px; margin:0 auto; padding:16px;}
+
+  /* ---------- Privacy note ---------- */
+  .privacy{
+    background:var(--warm-white);
+    border:1px solid var(--cream-dark);
+    border-left:4px solid var(--gold);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    font-size:0.83rem;
+    color:var(--muted);
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .privacy .icon{font-size:1.1rem; flex-shrink:0;}
+  .privacy strong{color:var(--charcoal);}
+
+  /* ---------- Header info card ---------- */
+  .info-card{
+    background:var(--warm-white);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-sm);
+    padding:16px;
+    margin-bottom:18px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .info-card .field-full{grid-column:1 / -1;}
+  .field label{
+    display:block;
+    font-size:0.7rem;
+    font-weight:600;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin-bottom:5px;
+  }
+  .field input{
+    width:100%;
+    border:1px solid var(--cream-dark);
+    border-radius:var(--radius-sm);
+    padding:10px 11px;
+    font-size:16px;
+    font-family:inherit;
+    color:var(--charcoal);
+    background:var(--cream);
+  }
+  .field input:focus, textarea:focus{
+    outline:none;
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(201,151,58,0.18);
+    background:var(--warm-white);
+  }
+
+  /* ---------- Section cards ---------- */
+  .section{
+    background:var(--warm-white);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-sm);
+    padding:18px;
+    margin-bottom:16px;
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .section-num{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1rem;
+    color:var(--gold);
+    flex-shrink:0;
+  }
+  .section h2{font-size:1.05rem; color:var(--navy);}
+  .section .hint{
+    font-size:0.8rem;
+    color:var(--muted);
+    margin:2px 0 10px 0;
+  }
+
+  textarea{
+    width:100%;
+    min-height:96px;
+    resize:vertical;
+    border:1px solid var(--cream-dark);
+    border-radius:var(--radius-sm);
+    padding:12px;
+    font-size:16px;
+    font-family:inherit;
+    color:var(--charcoal);
+    background:var(--cream);
+    line-height:1.5;
+  }
+
+  /* ---------- Prompt chips ---------- */
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;}
+  .chip{
+    background:var(--cream-dark);
+    color:var(--navy);
+    border:none;
+    border-radius:999px;
+    padding:8px 13px;
+    font-size:0.78rem;
+    font-family:inherit;
+    font-weight:500;
+    cursor:pointer;
+    transition:background var(--transition);
+  }
+  .chip:active{background:var(--gold-light); color:var(--warm-white);}
+
+  /* ---------- Checklist ---------- */
+  .checklist{display:flex; flex-direction:column; gap:4px;}
+  .check-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 8px;
+    border-radius:var(--radius-sm);
+    cursor:pointer;
+    transition:background var(--transition);
+  }
+  .check-item:active{background:var(--cream);}
+  .check-item input[type="checkbox"]{
+    width:22px; height:22px;
+    flex-shrink:0;
+    accent-color:var(--teal);
+  }
+  .check-item span{font-size:0.95rem;}
+  .check-item.checked span{color:var(--muted); text-decoration:line-through;}
+
+  /* ---------- Follow-up grid ---------- */
+  .followup-grid{display:flex; flex-direction:column; gap:12px;}
+
+  /* ---------- Sticky action bar ---------- */
+  .action-bar{
+    position:fixed;
+    bottom:0; left:0; right:0;
+    background:var(--warm-white);
+    border-top:1px solid var(--cream-dark);
+    box-shadow:0 -4px 20px rgba(30,58,95,0.10);
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+    display:flex;
+    gap:10px;
+    z-index:20;
+  }
+  .btn{
+    flex:1;
+    border:none;
+    border-radius:var(--radius-sm);
+    padding:14px 10px;
+    font-family:inherit;
+    font-size:0.92rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:transform var(--transition), box-shadow var(--transition);
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{
+    background:var(--gold);
+    color:var(--warm-white);
+    box-shadow:var(--shadow-gold);
+  }
+  .btn-secondary{
+    background:var(--cream);
+    color:var(--navy);
+    border:1px solid var(--cream-dark);
+    flex:0 0 auto;
+    padding:14px 16px;
+  }
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(30,58,95,0.45);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:50;
+    padding:20px;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal{
+    background:var(--warm-white);
+    border-radius:var(--radius);
+    padding:22px;
+    max-width:340px;
+    width:100%;
+    box-shadow:var(--shadow-md);
+    text-align:center;
+  }
+  .modal h3{color:var(--navy); font-size:1.15rem; margin-bottom:8px;}
+  .modal p{font-size:0.9rem; color:var(--muted); margin:0 0 18px 0;}
+  .modal-buttons{display:flex; gap:10px;}
+  .modal-buttons .btn{padding:12px;}
+  .btn-danger{background:#B5473A; color:var(--warm-white);}
+
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed;
+    bottom:96px;
+    left:50%;
+    transform:translateX(-50%) translateY(10px);
+    background:var(--navy);
+    color:var(--warm-white);
+    padding:11px 20px;
+    border-radius:999px;
+    font-size:0.85rem;
+    box-shadow:var(--shadow-md);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.25s ease, transform 0.25s ease;
+    z-index:60;
+    white-space:nowrap;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  footer{
+    max-width:640px;
+    margin:0 auto;
+    padding:8px 16px 20px;
+    font-size:0.75rem;
+    color:var(--muted);
+    text-align:center;
+  }
+
+  @media (max-width:380px){
+    .info-card{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Print / Download as PDF ---------- */
+  @media print{
+    body{background:#fff; padding-bottom:0;}
+    .action-bar, .modal-overlay, .toast, .chips, .save-indicator, .topbar a.back{display:none !important;}
+    .topbar{background:#fff !important; color:var(--navy) !important; box-shadow:none; border-bottom:2px solid var(--navy);}
+    .topbar h1{color:var(--navy) !important;}
+    .topbar .sub{color:var(--gold) !important;}
+    .section, .info-card, .privacy{box-shadow:none; border:1px solid #ddd; break-inside:avoid;}
+    textarea{border:1px solid #ccc; background:#fff; overflow:visible;}
+    input[type="checkbox"]{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <a class="back" href="https://myervisit.com" aria-label="Back to myervisit.com">←</a>
+    <div class="titles">
+      <h1>ED Visit Companion</h1>
+      <div class="sub">Dr. Eric Cummins, MD</div>
+    </div>
+    <div class="save-indicator" id="saveIndicator"><span class="dot"></span><span id="saveText">Saved</span></div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="privacy">
+      <span class="icon">🔒</span>
+      <div><strong>Your notes stay on this device.</strong> Nothing you type here is sent to us, stored on a server, or visible to anyone else. Avoid entering sensitive details if this isn't your own phone.</div>
+    </div>
+
+    <div class="info-card">
+      <div class="field">
+        <label for="fDate">Today's Date</label>
+        <input type="date" id="fDate">
+      </div>
+      <div class="field">
+        <label for="fHospital">Hospital</label>
+        <input type="text" id="fHospital" placeholder="e.g. Banner Gateway">
+      </div>
+      <div class="field field-full">
+        <label for="fClinician">Clinician</label>
+        <input type="text" id="fClinician" placeholder="Doctor or Physician Assistant's name">
+      </div>
+      <div class="field field-full">
+        <label for="fNurse">Primary Nurse</label>
+        <input type="text" id="fNurse" placeholder="Nurse's name">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">1</span>
+        <h2>Why I Came In Today</h2>
+      </div>
+      <p class="hint">In your own words, what brought you here?</p>
+      <textarea id="f1" placeholder="e.g. Chest pain that started this morning while I was walking..."></textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">2</span>
+        <h2>Symptoms I Want to Mention</h2>
+      </div>
+      <div class="chips">
+        <button class="chip" data-target="f2" data-text="What brought me in today, specifically: ">What brought me in today?</button>
+        <button class="chip" data-target="f2" data-text="When did it start? ">When did it start?</button>
+        <button class="chip" data-target="f2" data-text="What makes it better or worse? ">Better or worse?</button>
+        <button class="chip" data-target="f2" data-text="What worries me most: ">What worries me most</button>
+      </div>
+      <textarea id="f2" placeholder="Tap a prompt above or type freely..."></textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">3</span>
+        <h2>Questions for the Doctor</h2>
+      </div>
+      <p class="hint">Jot these down as you think of them, even mid-visit.</p>
+      <textarea id="f3" placeholder="e.g. Do I need any imaging? What could this be?"></textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">4</span>
+        <h2>What the Doctor Told Me</h2>
+      </div>
+      <p class="hint">Write down what you hear, in plain language.</p>
+      <textarea id="f4" placeholder="e.g. They think it's probably..."></textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">5</span>
+        <h2>Medicine or Treatment Given</h2>
+      </div>
+      <textarea id="f5" placeholder="e.g. IV fluids, antibiotics, a dose of medication for pain..."></textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">6</span>
+        <h2>Before I Leave, I Need to Understand</h2>
+      </div>
+      <p class="hint">Check these off as they're covered before you go.</p>
+      <div class="checklist" id="checklist">
+        <label class="check-item"><input type="checkbox" data-key="c1"><span>Diagnosis or likely cause</span></label>
+        <label class="check-item"><input type="checkbox" data-key="c2"><span>Test results</span></label>
+        <label class="check-item"><input type="checkbox" data-key="c3"><span>Medications</span></label>
+        <label class="check-item"><input type="checkbox" data-key="c4"><span>Warning signs to watch for</span></label>
+        <label class="check-item"><input type="checkbox" data-key="c5"><span>Follow-up plan</span></label>
+        <label class="check-item"><input type="checkbox" data-key="c6"><span>When to come back to the ER</span></label>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">7</span>
+        <h2>Follow-Up Plan</h2>
+      </div>
+      <div class="followup-grid">
+        <div class="field">
+          <label for="fWho">Who to follow up with</label>
+          <input type="text" id="fWho" placeholder="e.g. My primary care doctor">
+        </div>
+        <div class="field">
+          <label for="fWhen">How soon</label>
+          <input type="text" id="fWhen" placeholder="e.g. Within 3 days">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    This tool is for personal note-taking only and does not constitute medical advice.
+    If you're experiencing a medical emergency, call 911 or tell a staff member right away.
+    <br>© 2026 Eric Cummins, MD · <a href="https://myervisit.com">myervisit.com</a>
+  </footer>
+
+  <div class="action-bar">
+    <button class="btn btn-secondary" id="clearBtn" aria-label="Clear all notes">Clear</button>
+    <button class="btn btn-secondary" id="pdfBtn" aria-label="Download as PDF">PDF</button>
+    <button class="btn btn-primary" id="saveBtn">Save to Notes</button>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h3>Clear all notes?</h3>
+      <p>This deletes everything you've written for this visit. It can't be undone.</p>
+      <div class="modal-buttons">
+        <button class="btn btn-secondary" id="modalCancel">No, keep it</button>
+        <button class="btn btn-danger" id="modalConfirm">Yes, clear</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'edVisitCompanion_v1';
+  const textFields = ['fDate','fHospital','fClinician','fNurse','f1','f2','f3','f4','f5','fWho','fWhen'];
+  const checkKeys = ['c1','c2','c3','c4','c5','c6'];
+
+  const saveIndicator = document.getElementById('saveIndicator');
+  const saveText = document.getElementById('saveText');
+  const toastEl = document.getElementById('toast');
+
+  function getState(){
+    const state = {checks:{}};
+    textFields.forEach(id => {
+      const el = document.getElementById(id);
+      state[id] = el ? el.value : '';
+    });
+    checkKeys.forEach(key => {
+      const cb = document.querySelector(`input[data-key="${key}"]`);
+      state.checks[key] = cb ? cb.checked : false;
+    });
+    return state;
+  }
+
+  function applyState(state){
+    if(!state) return;
+    textFields.forEach(id => {
+      const el = document.getElementById(id);
+      if(el && state[id] !== undefined) el.value = state[id];
+    });
+    if(state.checks){
+      checkKeys.forEach(key => {
+        const cb = document.querySelector(`input[data-key="${key}"]`);
+        if(cb && state.checks[key]) {
+          cb.checked = true;
+          cb.closest('.check-item').classList.add('checked');
+        }
+      });
+    }
+  }
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) applyState(JSON.parse(raw));
+    }catch(e){ /* storage unavailable, tool still works without autosave */ }
+  }
+
+  let saveTimer = null;
+  function flashSaved(){
+    saveText.textContent = 'Saved';
+    saveIndicator.classList.add('show');
+    clearTimeout(saveIndicator._fade);
+    saveIndicator._fade = setTimeout(() => saveIndicator.classList.remove('show'), 1400);
+  }
+
+  function persist(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(getState()));
+      flashSaved();
+    }catch(e){ /* private browsing or storage full — fail silently */ }
+  }
+
+  function debouncedSave(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(persist, 500);
+  }
+
+  // Default date to today if empty
+  const dateField = document.getElementById('fDate');
+
+  // wire up inputs
+  textFields.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('input', debouncedSave);
+  });
+  checkKeys.forEach(key => {
+    const cb = document.querySelector(`input[data-key="${key}"]`);
+    if(cb){
+      cb.addEventListener('change', () => {
+        cb.closest('.check-item').classList.toggle('checked', cb.checked);
+        persist();
+      });
+    }
+  });
+
+  // Save on page hide/close too, as a safety net
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') persist();
+  });
+  window.addEventListener('pagehide', persist);
+
+  // Prompt chips
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const target = document.getElementById(chip.dataset.target);
+      const text = chip.dataset.text;
+      if(!target) return;
+      const current = target.value;
+      target.value = current && !current.endsWith('\n') && current.length ? current + '\n' + text : current + text;
+      target.focus();
+      target.selectionStart = target.selectionEnd = target.value.length;
+      debouncedSave();
+    });
+  });
+
+  // Load saved state, then default the date field to today if still empty
+  loadState();
+  if(dateField && !dateField.value){
+    const d = new Date();
+    dateField.value = d.toISOString().slice(0,10);
+  }
+
+  // ----- Summary builder -----
+  function label(id){
+    const map = {
+      fHospital:'Hospital', fClinician:'Clinician', fNurse:'Primary Nurse',
+      f1:'Why I Came In Today', f2:'Symptoms I Want to Mention',
+      f3:'Questions for the Doctor', f4:'What the Doctor Told Me',
+      f5:'Medicine or Treatment Given'
+    };
+    return map[id];
+  }
+  const checkLabels = {
+    c1:'Diagnosis or likely cause', c2:'Test results', c3:'Medications',
+    c4:'Warning signs to watch for', c5:'Follow-up plan', c6:'When to come back to the ER'
+  };
+
+  function buildSummary(){
+    const s = getState();
+    let lines = [];
+    lines.push('ED VISIT NOTES — ' + (s.fDate || ''));
+    if(s.fHospital) lines.push('Hospital: ' + s.fHospital);
+    if(s.fClinician) lines.push('Clinician: ' + s.fClinician);
+    if(s.fNurse) lines.push('Primary Nurse: ' + s.fNurse);
+    lines.push('');
+    ['f1','f2','f3','f4','f5'].forEach(id => {
+      if(s[id] && s[id].trim()){
+        lines.push(label(id).toUpperCase());
+        lines.push(s[id].trim());
+        lines.push('');
+      }
+    });
+    lines.push('BEFORE LEAVING, I UNDERSTOOD:');
+    checkKeys.forEach(key => {
+      lines.push((s.checks[key] ? '[x] ' : '[ ] ') + checkLabels[key]);
+    });
+    lines.push('');
+    if(s.fWho || s.fWhen){
+      lines.push('FOLLOW-UP PLAN');
+      if(s.fWho) lines.push('Who: ' + s.fWho);
+      if(s.fWhen) lines.push('How soon: ' + s.fWhen);
+    }
+    return lines.join('\n').trim();
+  }
+
+  function showToast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    setTimeout(() => toastEl.classList.remove('show'), 2200);
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', async () => {
+    const summary = buildSummary();
+    if(navigator.share){
+      try{
+        await navigator.share({ title: 'My ED Visit Notes', text: summary });
+        return;
+      }catch(e){
+        // user cancelled the share sheet — no error needed
+        return;
+      }
+    }
+    // fallback: clipboard
+    try{
+      await navigator.clipboard.writeText(summary);
+      showToast('Copied! Paste it into your Notes app.');
+    }catch(e){
+      showToast('Could not copy automatically — select and copy your notes manually.');
+    }
+  });
+
+  // ----- Download as PDF (uses browser print > Save as PDF) -----
+  const textareaOriginalHeights = new Map();
+  window.addEventListener('beforeprint', () => {
+    document.querySelectorAll('textarea').forEach(ta => {
+      textareaOriginalHeights.set(ta, ta.style.height);
+      ta.style.height = ta.scrollHeight + 'px';
+    });
+  });
+  window.addEventListener('afterprint', () => {
+    document.querySelectorAll('textarea').forEach(ta => {
+      ta.style.height = textareaOriginalHeights.get(ta) || '';
+    });
+  });
+  document.getElementById('pdfBtn').addEventListener('click', () => {
+    window.print();
+  });
+
+  // ----- Clear all -----
+  const overlay = document.getElementById('modalOverlay');
+  document.getElementById('clearBtn').addEventListener('click', () => overlay.classList.add('show'));
+  document.getElementById('modalCancel').addEventListener('click', () => overlay.classList.remove('show'));
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('show'); });
+  document.getElementById('modalConfirm').addEventListener('click', () => {
+    textFields.forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+    checkKeys.forEach(key => {
+      const cb = document.querySelector(`input[data-key="${key}"]`);
+      if(cb){ cb.checked = false; cb.closest('.check-item').classList.remove('checked'); }
+    });
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    if(dateField){
+      const d = new Date();
+      dateField.value = d.toISOString().slice(0,10);
+    }
+    overlay.classList.remove('show');
+    showToast('All notes cleared.');
+  });
+
+})();
+</script>
+
+</body>
+</html>
