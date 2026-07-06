@@ -176,26 +176,26 @@ body {
 .portal-card { position: relative; }
 /* EKG TRACE DIVIDER */
 .ekg-divider {
-  margin-top: 14px;
-  height: 34px;
+  margin: 4px 0 22px;
+  height: 40px;
   overflow: hidden;
 }
-.ekg-divider svg { display: block; width: 100%; height: 34px; }
+.ekg-divider svg { display: block; width: 100%; height: 40px; }
 .ekg-trace {
   fill: none;
   stroke: var(--gold);
   stroke-width: 1.75;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 640;
-  stroke-dashoffset: 640;
-  animation: ekgSweep 4s linear infinite;
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: ekgSweep 5s linear infinite;
   opacity: 0.85;
 }
 @keyframes ekgSweep {
-  0%   { stroke-dashoffset: 640; }
-  70%  { stroke-dashoffset: 0; opacity: 0.85; }
-  90%  { opacity: 0.15; }
+  0%   { stroke-dashoffset: 900; }
+  72%  { stroke-dashoffset: 0; opacity: 0.85; }
+  92%  { opacity: 0.15; }
   100% { stroke-dashoffset: 0; opacity: 0; }
 }
 /* PRIORITY CARD */
@@ -280,9 +280,12 @@ body {
 }
 /* COMING SOON CARD */
 .portal-card.coming-soon {
-  opacity: 0.55;
+  opacity: 0.45 !important; /* !important beats the entrance animation's fill-mode */
+  filter: grayscale(0.55);
   cursor: default;
   pointer-events: none;
+  box-shadow: none;
+  border: 1.5px dashed rgba(30,58,95,0.22);
 }
 .coming-label {
   font-size: 0.65rem; font-weight: 600;
@@ -591,6 +594,13 @@ body {
 
   </div>
 
+  <!-- EKG DIVIDER — 2 beats, STEMI morphology (for the trained eye 👀) -->
+  <div class="ekg-divider" aria-hidden="true">
+    <svg viewBox="0 0 640 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="ekg-trace" d="M0,28 L96,28 Q104,24 112,28 L120,31 L127,6 L134,33 L140,15 L162,14 Q178,9 194,28 L288,28 Q296,24 304,28 L312,31 L319,6 L326,33 L332,15 L354,14 Q370,9 386,28 L640,28"/>
+    </svg>
+  </div>
+
   <!-- WHAT OUR PATIENTS ARE SAYING -->
   <div class="testimonial-wrap">
     <div class="section-label" style="margin-bottom:10px;">💬 What Our Patients Are Saying</div>
@@ -664,11 +674,7 @@ body {
       <span class="vol-leg-item"><span class="vol-leg-dot m"></span>131–155</span>
       <span class="vol-leg-item"><span class="vol-leg-dot h"></span>≥156</span>
     </div>
-    <div class="ekg-divider" aria-hidden="true">
-      <svg viewBox="0 0 640 34" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path class="ekg-trace" d="M0,17 L180,17 L196,17 L204,11 L212,17 L236,17 L244,20 L252,2 L260,30 L268,14 L276,17 L300,17 L316,13 L332,17 L640,17"/>
-      </svg>
-    </div>
+    <hr class="vol-cal-divider" />
   </div>
 
   <!-- ADD TO HOME SCREEN -->
