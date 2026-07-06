@@ -246,8 +246,8 @@ ed-metrics/
     february.html         ← ✅ Published
     march.html            ← ✅ Published
     april.html            ← ✅ Published
-    may.html              ← Coming Soon
-    june.html             ← Coming Soon
+    may.html              ← ✅ Published
+    june.html             ← ✅ Published (latest)
     ...
 ```
 
@@ -431,7 +431,7 @@ const provBdr = provLOS.map(v => v <= LOS_STAR ? 'rgba(27,76,56,1)'      : 'rgba
 ### Sophias Served Ticker
 - "Sophias Served" = Banner Health terminology for patients served
 - Animated counter 0 → YTD total on scroll-in
-- **Current total:** 17,594 (Jan 4,345 + Feb 4,318 + Mar 4,620 + Apr 4,311)
+- **Current total:** 25,988 YTD through June (update each month)
 - Update the `TARGET` constant and month breakdown pills when publishing a new month
 - Desktop: sticky sidebar (190px); Mobile (≤600px): compact horizontal strip
 
@@ -563,3 +563,38 @@ Never build incrementally by patching a template with Python restructuring scrip
 Each month's HTML should be fully written from scratch using a prior month as visual reference.
 If edits to existing months are needed, use targeted `str_replace` on specific lines only.
 
+
+---
+
+# 🆕 JULY 2026 SITE-WIDE UX PASS (STANDING RULES)
+
+> All rules below are now permanent. New month pages inherit them automatically via the appended override `<style>` block (marker comment: `July 2026 mobile UX pass`) present in every month file — **copy this block forward when building July+ from a template month.**
+
+## MOR Month Pages — new standing behaviors
+- **Appended override block** near `</head>` in every month page contains: scroll-edge gradient shadows + always-visible thin scrollbar on `.chart-scroll-outer` and `.table-responsive`, 11px label floor (10px labels bumped), sticky `.month-nav`, `#viewToggleBtn` safe-area bottom offset + hide-on-scroll-down JS (guarded, near `</body>`), mobile hero KPI (`.hkpi:first-child` spans full width → 6 remaining in 2×3), and the **overflow containment fix**: `min-width:0` on children of `.grid-chart-side/.grid-4/.prod-grid/.grid-2` plus `html,body{overflow-x:hidden}`. Without min-width:0, grid children refuse to shrink and 580px charts blow out the page width (this was the ESI 2 D2D whole-page-scroll bug).
+- **Swipe hints:** `<div class="scroll-hint">swipe to scroll →</div>` (mobile-only via CSS) placed before the hourly-arrivals chart wrapper and the YTD trend table wrapper.
+- **All chart containers AND all tables must be wrapped** — charts in `.chart-scroll-outer`, tables in `.table-responsive`. April was missing several; now fixed. Verify on every new month.
+- **Header KPI badges:** title + percentage only, never numerator/denominator fractions (standing rule, unchanged).
+- ⚠️ **Script-append gotcha:** when appending blocks via Python, use real newlines — a literal `'\n'` string was once injected into pages and rendered as visible "\n" text.
+
+## ED Metrics Hub (index.html)
+- **Latest Report strip REMOVED permanently** — page opens with 📅 2026 + month grid. Do not re-add.
+- Month card flip + NEW badge + Sophias ticker update process unchanged.
+
+## Portal (myervisit.com/portal → inpatient-criteria-pdf.html)
+- **6-card grid:** Inpatient vs Obs (priority), Phone Book, ED Podcasts, ED Metrics, GroupMe Archive, **Discord History (coming-soon: 45% opacity !important, grayscale, dashed border — !important required because entrance animation fill-mode otherwise overrides opacity)**.
+- **EKG divider:** animated gold SVG, **2 beats with STEMI morphology (elevated ST → T)**, sits between tool grid and testimonials. Sweep every 5s then fades.
+- **Staggered card entrance** (0.35s, 50ms stagger), **icon wiggle on tap** (pointerdown JS), **NEW dot** (`.new-dot` pulsing gold) goes on the ED Metrics card when a new MOR publishes — move it as part of the monthly pipeline.
+- **Testimonials:** real `<button>` arrows with aria-labels; **8-second** auto-cycle.
+- **Volume calendar colors:** teal/navy intensity ramp (light teal → medium teal → solid navy). NOT red/green. Eric updates calendar data manually a few times weekly — never touch the hardcoded day data.
+
+## Directory (bgmc-directory/index.html)
+- **Sticky search bar** (`position:sticky; top:10px; z-index:100`).
+- **Mobile (≤600px):** table hidden, **card rows** rendered into `#dirCards` (full name incl. clinic/department strings, specialty + type badge, tel link, save button). ⚠️ CSS ordering matters: base `.dir-cards{display:none}` must come BEFORE the media query that shows it (this ordering bug once hid all mobile results).
+- **Filter chips:** single horizontally scrollable strip on mobile with edge-fade mask.
+- **Save contact:** `SAVE_ICON` person-add SVG (not 💾). `saveContact()` tries **Web Share API first** (cancellable native sheet; Contacts appears as destination) with blob-download fallback. Apple's vCard preview modal cannot be given a close button — the share sheet is the workaround.
+- **Dedupes done (keep merged forms):** "BGMC Emergency Main Line (Main ED Phone)" is one entry (both keywords searchable); "Cerner / Physician IT Hotline 24/7" is the sole IT hotline entry; "MDA Rapid Access / Pulmonary Nodule Clinic" is the sole nodule clinic entry. The old "Key Phone Numbers" list above predates this merge.
+
+## File-editing reminder
+- `str_replace` on exact known strings only; Python plain `str.replace` on exact literals is acceptable. Never regex with DOTALL on these files.
+- Integrity check before every push: `new Chart(` count ≥6 per month page, `</body>` and `</html>` present exactly once, `node --check` every inline script.
