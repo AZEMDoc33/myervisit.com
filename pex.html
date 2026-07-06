@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>BGMC ED · 2026 Provider Patient Experience</title>
+
+<!-- ============================================================
+     SECTION 1: STYLES
+     Everything below can live in a <style> block on your page,
+     or be moved into your existing stylesheet. All class names
+     are prefixed "pex-" so nothing collides with your site CSS.
+     ============================================================ -->
+<style>
+  :root{
+    --pex-bg:#f6f8fa;
+    --pex-card:#ffffff;
+    --pex-ink:#16232e;
+    --pex-muted:#5b6b7a;
+    --pex-line:#e4eaf0;
+    --pex-pos:#0f9d8a;      /* teal — positive */
+    --pex-pos-soft:#e2f5f1;
+    --pex-neu:#64748b;      /* slate — neutral */
+    --pex-neu-soft:#eef2f6;
+    --pex-det:#e0592a;      /* warm red-orange — detractor */
+    --pex-det-soft:#fdece4;
+    --pex-accent:#0b5fa5;   /* BGMC-ish blue for chrome only */
+    --pex-radius:14px;
+    --pex-shadow:0 1px 2px rgba(22,35,46,.06), 0 8px 24px rgba(22,35,46,.07);
+  }
+
+  .pex-wrap{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--pex-ink);
+    background:var(--pex-bg);
+    padding:20px;
+    max-width:980px;
+    margin:0 auto;
+    line-height:1.45;
+  }
+  .pex-wrap *{box-sizing:border-box}
+
+  /* ---------- header ---------- */
+  .pex-header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .pex-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--pex-accent)}
+  .pex-title{font-size:1.35rem;font-weight:800;margin:2px 0 0}
+  .pex-sub{font-size:.85rem;color:var(--pex-muted);margin-top:2px}
+
+  /* ---------- tabs ---------- */
+  .pex-tabs{display:flex;gap:6px;background:var(--pex-neu-soft);border-radius:999px;padding:4px}
+  .pex-tab{border:0;background:transparent;padding:7px 16px;border-radius:999px;font-size:.85rem;font-weight:600;color:var(--pex-muted);cursor:pointer}
+  .pex-tab[aria-selected="true"]{background:var(--pex-card);color:var(--pex-ink);box-shadow:var(--pex-shadow)}
+  .pex-tab:focus-visible{outline:2px solid var(--pex-accent);outline-offset:2px}
+
+  /* ---------- month filter ---------- */
+  .pex-monthbar{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;-webkit-overflow-scrolling:touch}
+  .pex-month{flex:0 0 auto;border:1px solid var(--pex-line);background:var(--pex-card);border-radius:999px;padding:5px 12px;font-size:.78rem;font-weight:600;color:var(--pex-muted);cursor:pointer}
+  .pex-month[aria-pressed="true"]{background:var(--pex-accent);border-color:var(--pex-accent);color:#fff}
+  .pex-month:focus-visible{outline:2px solid var(--pex-accent);outline-offset:2px}
+
+  /* ---------- grid + cards ---------- */
+  .pex-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+  .pex-card{background:var(--pex-card);border:1px solid var(--pex-line);border-radius:var(--pex-radius);box-shadow:var(--pex-shadow);padding:18px}
+  .pex-card h3{margin:0 0 4px;font-size:.95rem;font-weight:700}
+  .pex-card .pex-cap{font-size:.78rem;color:var(--pex-muted);margin:0 0 12px}
+
+  .pex-span-5{grid-column:span 5}
+  .pex-span-7{grid-column:span 7}
+  .pex-span-6{grid-column:span 6}
+  .pex-span-12{grid-column:span 12}
+  @media(max-width:760px){
+    .pex-span-5,.pex-span-7,.pex-span-6{grid-column:span 12}
+    .pex-wrap{padding:12px}
+  }
+
+  /* ---------- donut ---------- */
+  .pex-donutbox{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .pex-donut{width:150px;height:150px;flex:0 0 auto}
+  .pex-donut circle{fill:none;stroke-width:16;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dasharray .9s cubic-bezier(.22,.8,.3,1)}
+  .pex-donut-num{font-size:1.6rem;font-weight:800;fill:var(--pex-ink)}
+  .pex-donut-lab{font-size:.6rem;font-weight:700;letter-spacing:.06em;fill:var(--pex-muted);text-transform:uppercase}
+
+  .pex-legend{display:flex;flex-direction:column;gap:8px;min-width:150px;flex:1}
+  .pex-legrow{display:flex;align-items:center;gap:8px;font-size:.85rem}
+  .pex-dot{width:10px;height:10px;border-radius:3px;flex:0 0 auto}
+  .pex-legrow b{margin-left:auto;font-variant-numeric:tabular-nums}
+  .pex-surveys{margin-top:10px;font-size:.78rem;color:var(--pex-muted);border-top:1px dashed var(--pex-line);padding-top:8px}
+  .pex-surveys b{color:var(--pex-ink)}
+
+  /* ---------- monthly stacked bars ---------- */
+  .pex-bars{display:flex;align-items:flex-end;gap:6px;height:170px;margin-top:6px}
+  .pex-barcol{flex:1;display:flex;flex-direction:column-reverse;gap:2px;cursor:pointer;border-radius:6px;background:transparent;border:0;padding:0}
+  .pex-barcol:focus-visible{outline:2px solid var(--pex-accent);outline-offset:2px}
+  .pex-seg{width:100%;border-radius:3px;transition:height .7s cubic-bezier(.22,.8,.3,1)}
+  .pex-seg.pos{background:var(--pex-pos)}
+  .pex-seg.neu{background:#b9c4cf}
+  .pex-seg.det{background:var(--pex-det)}
+  .pex-barcol.dim{opacity:.35}
+  .pex-barlabels{display:flex;gap:6px;margin-top:6px}
+  .pex-barlabels span{flex:1;text-align:center;font-size:.68rem;color:var(--pex-muted);font-weight:600}
+  .pex-mnote{margin-top:10px;font-size:.8rem;color:var(--pex-muted);background:var(--pex-neu-soft);border-radius:8px;padding:8px 10px;min-height:38px}
+  .pex-trendtag{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;border-radius:999px;padding:3px 10px;margin-left:8px;vertical-align:middle}
+  .pex-trendtag.up{background:var(--pex-pos-soft);color:var(--pex-pos)}
+  .pex-trendtag.down{background:var(--pex-det-soft);color:var(--pex-det)}
+  .pex-trendtag.flat{background:var(--pex-neu-soft);color:var(--pex-neu)}
+
+  /* ---------- themes ---------- */
+  .pex-themetoggle{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+  .pex-ttbtn{border:1px solid var(--pex-line);background:var(--pex-card);border-radius:999px;padding:5px 14px;font-size:.78rem;font-weight:700;cursor:pointer;color:var(--pex-muted)}
+  .pex-ttbtn[aria-pressed="true"].pos{background:var(--pex-pos);border-color:var(--pex-pos);color:#fff}
+  .pex-ttbtn[aria-pressed="true"].det{background:var(--pex-det);border-color:var(--pex-det);color:#fff}
+  .pex-ttbtn:focus-visible{outline:2px solid var(--pex-accent);outline-offset:2px}
+
+  .pex-themes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .pex-theme{display:flex;align-items:center;gap:10px;background:var(--pex-bg);border:1px solid var(--pex-line);border-radius:10px;padding:10px 12px;opacity:0;transform:translateY(6px);animation:pexFade .4s forwards}
+  .pex-theme:nth-child(2){animation-delay:.06s}
+  .pex-theme:nth-child(3){animation-delay:.12s}
+  .pex-theme:nth-child(4){animation-delay:.18s}
+  .pex-theme:nth-child(5){animation-delay:.24s}
+  @keyframes pexFade{to{opacity:1;transform:none}}
+  .pex-rank{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;flex:0 0 auto}
+  .pex-theme.pos .pex-rank{background:var(--pex-pos-soft);color:var(--pex-pos)}
+  .pex-theme.det .pex-rank{background:var(--pex-det-soft);color:var(--pex-det)}
+  .pex-theme .t{font-size:.88rem;font-weight:600}
+  .pex-theme .d{font-size:.75rem;color:var(--pex-muted)}
+  .pex-theme .n{margin-left:auto;font-size:.78rem;font-weight:700;color:var(--pex-muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  /* ---------- callouts ---------- */
+  .pex-callouts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:600px){.pex-callouts{grid-template-columns:1fr}}
+  .pex-callout{border-radius:var(--pex-radius);padding:16px 18px;border:1px solid var(--pex-line)}
+  .pex-callout.pos{background:var(--pex-pos-soft)}
+  .pex-callout.det{background:var(--pex-det-soft)}
+  .pex-callout .k{font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .pex-callout.pos .k{color:var(--pex-pos)}
+  .pex-callout.det .k{color:var(--pex-det)}
+  .pex-callout .v{font-size:1.02rem;font-weight:800;margin:4px 0 2px}
+  .pex-callout .s{font-size:.8rem;color:var(--pex-muted)}
+
+  /* ---------- BGMC insights ---------- */
+  .pex-insights{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+  @media(max-width:600px){.pex-insights{grid-template-columns:1fr}}
+  .pex-ins{background:var(--pex-bg);border:1px solid var(--pex-line);border-radius:10px;padding:12px 14px}
+  .pex-ins .h{font-size:.78rem;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .pex-ins ul{margin:0;padding-left:18px;font-size:.82rem;color:var(--pex-ink)}
+  .pex-ins li{margin-bottom:4px}
+  .pex-ins li:last-child{margin-bottom:0}
+
+  .pex-foot{margin-top:14px;font-size:.72rem;color:var(--pex-muted);text-align:center}
+
+  .pex-hidden{display:none !important}
+
+
+  /* ---------- expandable comments ---------- */
+  .pex-theme{cursor:pointer;flex-wrap:wrap;user-select:none}
+  .pex-theme:hover{border-color:var(--pex-accent)}
+  .pex-theme .pex-chev{margin-left:6px;font-size:.7rem;color:var(--pex-muted);transition:transform .25s}
+  .pex-theme.open .pex-chev{transform:rotate(180deg)}
+  .pex-comments{flex-basis:100%;max-height:0;overflow:hidden;transition:max-height .35s ease}
+  .pex-theme.open .pex-comments{max-height:340px;overflow-y:auto;margin-top:10px}
+  .pex-comment{background:var(--pex-card);border:1px solid var(--pex-line);border-radius:8px;padding:8px 10px;font-size:.8rem;margin-bottom:6px;line-height:1.4}
+  .pex-comment .mo{display:inline-block;font-size:.65rem;font-weight:800;color:var(--pex-muted);background:var(--pex-neu-soft);border-radius:5px;padding:1px 6px;margin-right:6px;vertical-align:middle}
+  .pex-callout{cursor:pointer;transition:transform .15s}
+  .pex-callout:hover{transform:translateY(-2px)}
+  .pex-callout .go{font-size:.72rem;font-weight:700;margin-top:6px}
+  .pex-callout.pos .go{color:var(--pex-pos)}
+  .pex-callout.det .go{color:var(--pex-det)}
+
+  @media print{
+    .pex-tabs,.pex-monthbar,.pex-themetoggle{display:none}
+    .pex-hidden{display:block !important}
+    .pex-card{break-inside:avoid;box-shadow:none}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .pex-donut circle,.pex-seg{transition:none}
+    .pex-theme{animation:none;opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SECTION 2: HTML STRUCTURE
+     Paste this block wherever the card should appear on your page
+     (e.g., inside your portal or a new /pex page). It is fully
+     self-contained.
+     ============================================================ -->
+<div class="pex-wrap" id="pexApp">
+
+  <div class="pex-header">
+    <div>
+      <div class="pex-eyebrow">BGMC Emergency Department</div>
+      <h2 class="pex-title">2026 Provider Patient Experience</h2>
+      <p class="pex-sub">Provider and APP feedback only · De-identified · Updated monthly</p>
+    </div>
+    <div class="pex-tabs" role="tablist" aria-label="Dashboard view">
+      <button class="pex-tab" role="tab" aria-selected="true" data-view="overview">Overview</button>
+      <button class="pex-tab" role="tab" aria-selected="false" data-view="themes">Themes</button>
+    </div>
+  </div>
+
+  <div class="pex-monthbar" id="pexMonthBar" role="group" aria-label="Filter by month"></div>
+
+  <!-- ===== OVERVIEW VIEW ===== -->
+  <div class="pex-grid" id="pexViewOverview">
+
+    <div class="pex-card pex-span-5">
+      <h3>Sentiment breakdown</h3>
+      <p class="pex-cap" id="pexScopeLabel">All of 2026</p>
+      <div class="pex-donutbox">
+        <svg class="pex-donut" viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="46" stroke="var(--pex-neu-soft)"></circle>
+          <circle id="pexArcDet" cx="60" cy="60" r="46" stroke="var(--pex-det)"></circle>
+          <circle id="pexArcNeu" cx="60" cy="60" r="46" stroke="#b9c4cf"></circle>
+          <circle id="pexArcPos" cx="60" cy="60" r="46" stroke="var(--pex-pos)"></circle>
+          <text x="60" y="58" text-anchor="middle" class="pex-donut-num" id="pexPosBig">0%</text>
+          <text x="60" y="74" text-anchor="middle" class="pex-donut-lab">Positive</text>
+        </svg>
+        <div class="pex-legend">
+          <div class="pex-legrow"><span class="pex-dot" style="background:var(--pex-pos)"></span>Positive <b id="pexLegPos">–</b></div>
+          <div class="pex-legrow"><span class="pex-dot" style="background:#b9c4cf"></span>Neutral <b id="pexLegNeu">–</b></div>
+          <div class="pex-legrow"><span class="pex-dot" style="background:var(--pex-det)"></span>Detractor <b id="pexLegDet">–</b></div>
+          <div class="pex-surveys"><b id="pexSurveyCount">0</b> provider-related comments reviewed</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pex-card pex-span-7">
+      <h3>Month-to-month trend <span class="pex-trendtag flat" id="pexTrendTag">—</span></h3>
+      <p class="pex-cap">Share of positive, neutral, and detractor feedback by month. Tap a month for a short summary.</p>
+      <div class="pex-bars" id="pexBars"></div>
+      <div class="pex-barlabels" id="pexBarLabels"></div>
+      <div class="pex-mnote" id="pexMonthNote">Tap or click any month above to see its de-identified summary.</div>
+    </div>
+
+    <div class="pex-span-12">
+      <div class="pex-callouts">
+        <div class="pex-callout pos">
+          <div class="k">Strongest positive theme</div>
+          <div class="v" id="pexBestTheme">—</div>
+          <div class="s" id="pexBestThemeSub"></div><div class="go">Tap to read all comments →</div>
+        </div>
+        <div class="pex-callout det">
+          <div class="k">Biggest improvement opportunity</div>
+          <div class="v" id="pexWorstTheme">—</div>
+          <div class="s" id="pexWorstThemeSub"></div><div class="go">Tap to read all comments →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== THEMES VIEW ===== -->
+  <div class="pex-grid pex-hidden" id="pexViewThemes">
+
+    <div class="pex-card pex-span-6">
+      <h3>Top 5 positive themes</h3>
+      <p class="pex-cap">Tap any theme to read every de-identified comment</p>
+      <ul class="pex-themes" id="pexPosThemes"></ul>
+    </div>
+
+    <div class="pex-card pex-span-6">
+      <h3>Top 5 improvement themes</h3>
+      <p class="pex-cap">Tap any theme to read every de-identified comment</p>
+      <ul class="pex-themes" id="pexDetThemes"></ul>
+    </div>
+
+    <div class="pex-card pex-span-12">
+      <h3>BGMC-specific insights</h3>
+      <p class="pex-cap">Local patterns from 2026 provider feedback</p>
+      <div class="pex-insights">
+        <div class="pex-ins"><div class="h">👍 What BGMC patients praise</div><ul id="pexInsPos"></ul></div>
+        <div class="pex-ins"><div class="h">⚠️ What BGMC patients flag</div><ul id="pexInsNeg"></ul></div>
+        <div class="pex-ins"><div class="h">📅 Repeated monthly patterns</div><ul id="pexInsPat"></ul></div>
+        <div class="pex-ins"><div class="h">🎯 Actionable opportunity</div><ul id="pexInsAct"></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pex-foot">
+    Aggregate, de-identified provider feedback only. Excludes nursing, registration, facility, and billing comments.
+    Source: 2026 BGMC ED survey comments, Doctors section (n=424). Mixed ratings grouped with Neutral. Provider names shown in positive comments only; neutral and negative comments are de-identified.
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 3: JAVASCRIPT
+     PEX_DATA at the top is the ONLY thing you edit each month.
+     Everything below it is rendering logic — no changes needed.
+     ============================================================ -->
+<script>
+/* =========================================================
+   EDIT THIS BLOCK ONLY — replace sample data with real 2026
+   BGMC provider patient experience data.
+   Counts are raw comment counts per month:
+   pos = positive, neu = neutral, det = detractor
+   Notes must stay de-identified (no names, dates of service,
+   MRNs, or quotable identifying details).
+   ========================================================= */
+const PEX_DATA = {
+  months: [
+    { label:"Jan", pos:46, neu:7,  det:21, note:"Strongest positive share of Q1. Praise centered on compassion and clear explanations. Detractors cited feeling rushed and workup concerns." },
+    { label:"Feb", pos:39, neu:10, det:24, note:"Detractor share rose slightly. Recurring themes: feeling dismissed and disagreement with imaging or testing decisions." },
+    { label:"Mar", pos:37, neu:12, det:26, note:"Highest detractor count of H1. Workup and diagnosis concerns were the dominant driver, followed by communication of the plan." },
+    { label:"Apr", pos:39, neu:10, det:28, note:"Detractor peak for 2026 so far. Comments clustered on not feeling heard and discharge or follow-up clarity." },
+    { label:"May", pos:39, neu:13, det:19, note:"Meaningful improvement. Detractors dropped to a 2026 low while positive mentions of listening and bedside manner held steady." },
+    { label:"Jun", pos:22, neu:13, det:19, note:"Positive volume appears lower, but June surveys are still arriving due to survey lag. Interpret with caution until data matures." }
+  ],
+
+  positiveThemes: [
+  {
+    "title": "Compassion and kindness",
+    "detail": "Felt genuinely cared for by their provider",
+    "count": 60,
+    "comments": [
+      {
+        "m": "Jun",
+        "c": "Dr. Hamblin listened to my concerns about the pain medicine and let me choose the option I was most comfortable with. Just trying the toradol and zofran seemed to work good without having to take a narcotic. He did a great job explaining my CT scan results and what the plan of care was going to be based on the findings from the tests."
+      },
+      {
+        "m": "Jun",
+        "c": "Dr Figueroa was very caring & explained. Made recommendations for medical follow up when I return home. I was not local. Live in yerington, NV."
+      },
+      {
+        "m": "Jun",
+        "c": "Again the doctor was kind 0& knowledgeable"
+      },
+      {
+        "m": "Jun",
+        "c": "Treated nicely"
+      },
+      {
+        "m": "Jun",
+        "c": "My doctor was exceptional. He was down to earth, kind, and caring. I trusted him 100%. He was skilled in his bedside manner and I felt well taken care of. He addressed all of my concerns and I left feeling well taken care of. I left with a game plan for my health as well."
+      },
+      {
+        "m": "May",
+        "c": "The PA expressed a genuine desire to keep me comfortable and could see I was anxious due to breathing difficulty. Tests and results were quick and thorough and I felt like diagnosing me and getting me on the correct meds were his goal. Pleasant and caring staff from admission to ER to discharge."
+      },
+      {
+        "m": "Jun",
+        "c": "Above and beyond how wonderful my Nurse was and My Doctor was amazing"
+      },
+      {
+        "m": "Jun",
+        "c": "Dr.B? Was the best doctor I've ever seen. Very kind,very helpful."
+      },
+      {
+        "m": "May",
+        "c": "Vary professional and caring"
+      },
+      {
+        "m": "May",
+        "c": "The PA expressed a genuine desire to keep me comfortable and could see I was anxious due to breathing difficulty. Tests and results were quick and thorough and I felt like diagnosing me and getting me on the correct meds were his goal. Pleasant and caring staff from admission to ER to discharge."
+      },
+      {
+        "m": "May",
+        "c": "Vary professional and caring"
+      },
+      {
+        "m": "May",
+        "c": "Everyone who caed for me was very thoughtful and compassionate"
+      },
+      {
+        "m": "May",
+        "c": "Dr. Cummins is a wonderful doctor and very caring"
+      },
+      {
+        "m": "May",
+        "c": "Lombardi was super attentive and kind. Very good bedside manner"
+      },
+      {
+        "m": "May",
+        "c": "This doctor was particularly caring as of matter of fact, I was confusing him so much because I was in so much pain, eventually we looked it out and he did what he knew should be done.So I was able to be ready to go home in hours"
+      },
+      {
+        "m": "May",
+        "c": "Dr Boesch was so kind, thorough and informative! I really liked him a lot!"
+      },
+      {
+        "m": "May",
+        "c": "She was fantastic. She listened to me with concern and laughed with me. I feel she understood my pain level because when I hurt really bad I try to make jokes and lighten the mood."
+      },
+      {
+        "m": "May",
+        "c": "Doctor was very kind"
+      },
+      {
+        "m": "May",
+        "c": "The PA was genuinely concerned for my well being."
+      },
+      {
+        "m": "May",
+        "c": "Dr. Care was outstanding and so kind."
+      },
+      {
+        "m": "Apr",
+        "c": "Your p.a.and staff was exceptionally caring"
+      },
+      {
+        "m": "Apr",
+        "c": "The Dr's name was Jordan Hunter. I was surprised how quickly he came in after I was on the stretcher. He was very compassionate and took care of my pain almost immediately. I was very unclear on my instructions on when to remove my catheter, and he was very cautious not to step on the surgeon's toes. Additionally, pulling the catheter out too early would mean having to put a new one in. In hindsight, removing the catheter was exactly what was needed. Shortly after I got back home, I called the on-call post-op doctor, who told me to remove it. Getting the catheter out was my 'over the hump' moment for my outpatient surgery."
+      },
+      {
+        "m": "Apr",
+        "c": "The Doctor was wonderful and did a great job putting my shoulder back into place. The rest of the Assistants were great also."
+      },
+      {
+        "m": "Apr",
+        "c": "I believe ___ was my doctor. He was also great. Very thorough and easy to understand. He seemed very patient and concerned about my health."
+      },
+      {
+        "m": "Apr",
+        "c": "Everyone was so nice"
+      },
+      {
+        "m": "Apr",
+        "c": "The ER physician was knowledgeable, personable, and caring."
+      },
+      {
+        "m": "Apr",
+        "c": "Dr. Winter is amazing. She has cared for my family two times and both times I have been very impressed by how wonderful she is. I wish she could be my PCP."
+      },
+      {
+        "m": "Apr",
+        "c": "Dr Andes was absolutely wonderful. He explained all tests that were being completed & did not rush through any communication. He answered my questions clearly & presented himself as caring. I very much appreciate a Dr who takes the time to listen to everything (no matter how small) & who does not make you feel rushed for time. Dr Andes did just that & I am grateful. I really appreciate the care I rec'd from all members of the ER team."
+      },
+      {
+        "m": "Apr",
+        "c": "Very thorough and showed concern and went in depth to help me. I was very pleased with my emergency care service that day."
+      },
+      {
+        "m": "Apr",
+        "c": "Dr. Hamblin was very attentive and caring. He explained steps in making an accurate diagnosis and the importance of proper treatment due to the nature of my condition + symptoms"
+      },
+      {
+        "m": "Apr",
+        "c": "They were all wonderful minus the nurse practitioner. Doug was his name and he made me cry and then made fun of me for crying and raised his voice when he did it so that everyone would"
+      },
+      {
+        "m": "Mar",
+        "c": "It was a different kind of process than in years past. Definitely much more better now"
+      },
+      {
+        "m": "Mar",
+        "c": "My provider was great! He listened to my concerns and worked with me on what medications worked and what didn't"
+      },
+      {
+        "m": "Mar",
+        "c": "They were all very kind and they listened very well to me as I wasn't feeling good and they filled all my needs and answers"
+      },
+      {
+        "m": "Mar",
+        "c": "Everyone was very nice"
+      },
+      {
+        "m": "Mar",
+        "c": "Dr. Hunter was very kind"
+      },
+      {
+        "m": "Mar",
+        "c": "The men were so kind. I LOVE them!! They never dismissed my pain at all, show them both some love, they seemed very tired."
+      },
+      {
+        "m": "Mar",
+        "c": "Excellent caring and professional nurses and PA."
+      },
+      {
+        "m": "Mar",
+        "c": "Dr. Boesch was incredibly amazing. Very attentive and surprisingly very active on the floor. My mother had came to the ER at Banner Gateway countless number of times and for once the doctor who treated her was not only taking his time to actively listen but also took the time to check in on her. The ER department was super busy that day but during the 8 hours we were here, we actively saw him walking around and he checked in with me and my mother several times to make sure everything was going well if she was feeling well. Amazing Doctor! Grateful for his help and concern that day."
+      },
+      {
+        "m": "Mar",
+        "c": "The doctor that treated me was quick to discharge me. I expressed my concerns and tried to give all the information I could to make a better decision. Thankfully my daughter st k to her intuition and got me in to see a specialist the next day that diagnosed me with a severe bone infection that resulted in an amputation. The doctor I saw at your hospital passed t off as a stress fracture which was the case f the swelling but you could clearly see t was infected. I am ny happy with the care I received at all."
+      },
+      {
+        "m": "Feb",
+        "c": "Very good caring nurses and doctors"
+      },
+      {
+        "m": "Feb",
+        "c": "He did a wonderful job job with explaining to me, my husband and son his and why this could have happened and recommended we see my regular doc to follow up...we all left there feeling well taken care of! Thank u"
+      },
+      {
+        "m": "Feb",
+        "c": "___ ___ was efficient and very kind to me!"
+      },
+      {
+        "m": "Feb",
+        "c": "Very nice Doctor very informative. Called back next day to check up on me."
+      },
+      {
+        "m": "Feb",
+        "c": "So many of them asked me if I wanted a warm blanket, made sure I was comfortable in the bed, TV okay?.. So nice."
+      },
+      {
+        "m": "Feb",
+        "c": "Very nice gal"
+      },
+      {
+        "m": "Feb",
+        "c": "She was very informative and kind"
+      },
+      {
+        "m": "Feb",
+        "c": "The doctor was very knowledgeable, he showed concern for my feelings and well being."
+      },
+      {
+        "m": "Jan",
+        "c": "I was very surprised. I believe that Dr Winter was Fantastic. Very caring and informative. Best I have ever seen."
+      },
+      {
+        "m": "Jan",
+        "c": "Dr was very thoughtful and thorough. Very nice."
+      },
+      {
+        "m": "Jan",
+        "c": "Excellent care by the doctor very informative, professional, and kind"
+      },
+      {
+        "m": "Jan",
+        "c": "The doctor, providing my care was excellent. He was caring, concerned, listened well, and efficient. he was genuinely concerned with providing me the best care."
+      },
+      {
+        "m": "Jan",
+        "c": "Just can't say enough exceptional service. Usually there's a long weight to see the doctor. He knew my concerns and explained each step he was taking."
+      },
+      {
+        "m": "Jan",
+        "c": "The Dr was the responsive and listened to my needs. He discussed my care with me and I could tell he was caring and concerned."
+      },
+      {
+        "m": "Jan",
+        "c": "I don't remember having a great experience with ___ Pavlue but my second visit with ___ Fakler was amazing. He listened to me and prescribed the medications I needed. I appreciate the time and concern ___ showed for me at my second visit to the ED"
+      },
+      {
+        "m": "Jan",
+        "c": "Doctor ___ Pavlue is one of the best doctors as far as knowledge, skills and compassion."
+      },
+      {
+        "m": "Jan",
+        "c": "I believe my care was given my an ER PA - he was so knowledgeable and caring - I was thankful for the high standard of care - it was stressful being hurt and sick - but he took the time to make sure I knew what was happening and made me feel like everything would be good"
+      },
+      {
+        "m": "Jan",
+        "c": "The physician covered every base which I am thankful for. He was very kind and listened to everything I had to say."
+      },
+      {
+        "m": "Jan",
+        "c": "Very kind and well informed!!!"
+      },
+      {
+        "m": "Jan",
+        "c": "She was very nice and helpful"
+      }
+    ]
+  },
+  {
+    "title": "Clear explanations",
+    "detail": "Understood the workup, results, and plan",
+    "count": 46,
+    "comments": [
+      {
+        "m": "Jun",
+        "c": "Dr. Hamblin listened to my concerns about the pain medicine and let me choose the option I was most comfortable with. Just trying the toradol and zofran seemed to work good without having to take a narcotic. He did a great job explaining my CT scan results and what the plan of care was going to be based on the findings from the tests."
+      },
+      {
+        "m": "Jun",
+        "c": "Dr Figueroa was very caring & explained. Made recommendations for medical follow up when I return home. I was not local. Live in yerington, NV."
+      },
+      {
+        "m": "Jun",
+        "c": "Doctor took time to explain everything in simple terms."
+      },
+      {
+        "m": "Jun",
+        "c": "I was well informed as to what was being done."
+      },
+      {
+        "m": "May",
+        "c": "The PA expressed a genuine desire to keep me comfortable and could see I was anxious due to breathing difficulty. Tests and results were quick and thorough and I felt like diagnosing me and getting me on the correct meds were his goal. Pleasant and caring staff from admission to ER to discharge."
+      },
+      {
+        "m": "Jun",
+        "c": "Informative and explained everything to where I can understand."
+      },
+      {
+        "m": "May",
+        "c": "The PA expressed a genuine desire to keep me comfortable and could see I was anxious due to breathing difficulty. Tests and results were quick and thorough and I felt like diagnosing me and getting me on the correct meds were his goal. Pleasant and caring staff from admission to ER to discharge."
+      },
+      {
+        "m": "May",
+        "c": "Dr Boesch was so kind, thorough and informative! I really liked him a lot!"
+      },
+      {
+        "m": "May",
+        "c": "The Physician was amazing. He was informative and explained why he was ordering tests as well as explaining results."
+      },
+      {
+        "m": "May",
+        "c": "The Doctors took care of my issues and I hey explained each and every step and direction of my care."
+      },
+      {
+        "m": "May",
+        "c": "One of the best emergency room doctors I've ever encountered! Wish more doctors and emergency rooms were as thorough and friendly. One out of a 10 I would give this doctor an eight plus."
+      },
+      {
+        "m": "Apr",
+        "c": "Loved the text updates, they helped to keep me informed on my test's results"
+      },
+      {
+        "m": "Apr",
+        "c": "I believe ___ was my doctor. He was also great. Very thorough and easy to understand. He seemed very patient and concerned about my health."
+      },
+      {
+        "m": "Apr",
+        "c": "Dr Andes was absolutely wonderful. He explained all tests that were being completed & did not rush through any communication. He answered my questions clearly & presented himself as caring. I very much appreciate a Dr who takes the time to listen to everything (no matter how small) & who does not make you feel rushed for time. Dr Andes did just that & I am grateful. I really appreciate the care I rec'd from all members of the ER team."
+      },
+      {
+        "m": "Apr",
+        "c": "Doc was amazing! Professional, to the point, thorough, excellent follow up."
+      },
+      {
+        "m": "Apr",
+        "c": "Very thorough and showed concern and went in depth to help me. I was very pleased with my emergency care service that day."
+      },
+      {
+        "m": "Apr",
+        "c": "Dr. Hamblin was very attentive and caring. He explained steps in making an accurate diagnosis and the importance of proper treatment due to the nature of my condition + symptoms"
+      },
+      {
+        "m": "Apr",
+        "c": "They kept my elderly father informed and called me appropriately"
+      },
+      {
+        "m": "Mar",
+        "c": "Provider was thorough."
+      },
+      {
+        "m": "Mar",
+        "c": "He was in right away, explained quickly what was going on? I sent the order. Everything came back"
+      },
+      {
+        "m": "Mar",
+        "c": "My physician explained and provided me an excellent service."
+      },
+      {
+        "m": "Mar",
+        "c": "Spent a lot of time explaining everything, Very helpful. I give him 100%"
+      },
+      {
+        "m": "Mar",
+        "c": "Very thorough. Excellent bedside manner. Thank uou."
+      },
+      {
+        "m": "Mar",
+        "c": "Extremely well taken care of. Explained everything beforehand and felt like he took the time to listen and actually care."
+      },
+      {
+        "m": "Mar",
+        "c": "Cool informative doc"
+      },
+      {
+        "m": "Mar",
+        "c": "It was explained to me fully on procedure including local anesthesia, excision and culture obtained as well as post procedure care"
+      },
+      {
+        "m": "Feb",
+        "c": "Med staff kept me informed and explained everything in detail"
+      },
+      {
+        "m": "Feb",
+        "c": "He did a wonderful job job with explaining to me, my husband and son his and why this could have happened and recommended we see my regular doc to follow up...we all left there feeling well taken care of! Thank u"
+      },
+      {
+        "m": "Feb",
+        "c": "Dr Cummins was great, I commented to my wife later that he checked out everything thoroughly, giving choices from myvperspective.Called me at ro make sure I was doibg well"
+      },
+      {
+        "m": "Feb",
+        "c": "Very nice Doctor very informative. Called back next day to check up on me."
+      },
+      {
+        "m": "Feb",
+        "c": "No issue with the doc. He was responsive and thorough."
+      },
+      {
+        "m": "Feb",
+        "c": "She was very informative and kind"
+      },
+      {
+        "m": "Feb",
+        "c": "The Dr that was taking care of me was very attentiveTo my pain. Asked me Information regarding my health. Keep me informed and very aware if my pain level."
+      },
+      {
+        "m": "Feb",
+        "c": "Dr. Winters provided me with exceptional care and understanding. She listened and was detailed in her examination. She made me feel safe and comfortable. I would love to have her as a primary care. One of the top docs ive seen at banner!"
+      },
+      {
+        "m": "Jan",
+        "c": "He was great! Very thorough, and explained things well. Again, it was appreciated that he showed a bit of personality. Great bedside manner."
+      },
+      {
+        "m": "Jan",
+        "c": "I was very surprised. I believe that Dr Winter was Fantastic. Very caring and informative. Best I have ever seen."
+      },
+      {
+        "m": "Jan",
+        "c": "Dr was very thoughtful and thorough. Very nice."
+      },
+      {
+        "m": "Jan",
+        "c": "The ER doc was great, made sure I was well numbed before stitches and thoroughly went through all of the follow up instructions, test results, necessary referrals and even chatted about residency programs and Banner."
+      },
+      {
+        "m": "Jan",
+        "c": "Excellent care by the doctor very informative, professional, and kind"
+      },
+      {
+        "m": "Jan",
+        "c": "Just can't say enough exceptional service. Usually there's a long weight to see the doctor. He knew my concerns and explained each step he was taking."
+      },
+      {
+        "m": "Jan",
+        "c": "Kept me informed answered all my questions"
+      },
+      {
+        "m": "Jan",
+        "c": "It seemed to be quiet in the ER and the doctors and nurses were just great. Explain my options and helped get me back on my way. Thank you."
+      },
+      {
+        "m": "Jan",
+        "c": "Very kind and well informed!!!"
+      },
+      {
+        "m": "Jan",
+        "c": "The doctor was very knowledgeable and easy to understand. It was a very pleasant educational moment"
+      },
+      {
+        "m": "Jan",
+        "c": "Very professional and explain everything very well"
+      },
+      {
+        "m": "Jan",
+        "c": "Great Bedside Manner. Easy to Talk with, Great Accurate Listener. Thoroughl Satisfaction."
+      }
+    ]
+  },
+  {
+    "title": "Professionalism and bedside manner",
+    "detail": "Provider sat down, engaged, and was thorough",
+    "count": 39,
+    "comments": [
+      {
+        "m": "Jun",
+        "c": "My doctor was exceptional. He was down to earth, kind, and caring. I trusted him 100%. He was skilled in his bedside manner and I felt well taken care of. He addressed all of my concerns and I left feeling well taken care of. I left with a game plan for my health as well."
+      },
+      {
+        "m": "May",
+        "c": "Excellent experience"
+      },
+      {
+        "m": "Jun",
+        "c": "I received excellent care from the doctor. He was very good at his job and had an excellent bedside manner."
+      },
+      {
+        "m": "Jun",
+        "c": "I was especially impressed with Dr. Besh. His analysis was exactly what I needed. He was flexible with resolution. He followed up with me the next day to be assured my recovery was continuing. Very professional, knowledgeable and pleasant Doctor."
+      },
+      {
+        "m": "May",
+        "c": "Vary professional and caring"
+      },
+      {
+        "m": "May",
+        "c": "Excellent experience"
+      },
+      {
+        "m": "May",
+        "c": "Vary professional and caring"
+      },
+      {
+        "m": "May",
+        "c": "Lombardi was super attentive and kind. Very good bedside manner"
+      },
+      {
+        "m": "May",
+        "c": "Excellent care provided by physician"
+      },
+      {
+        "m": "May",
+        "c": "Excellent care"
+      },
+      {
+        "m": "May",
+        "c": "Dr. ___ Andes was excellent. His professionalism, bedside manner and communications were, honestly, the best I have experienced in a very long time. Nurse ___ was also above reproach. Thanks to the rest of the techs too."
+      },
+      {
+        "m": "Apr",
+        "c": "The Dr. Was professional, promp and friendly"
+      },
+      {
+        "m": "Apr",
+        "c": "Excellent service!!!"
+      },
+      {
+        "m": "Apr",
+        "c": "Doc was amazing! Professional, to the point, thorough, excellent follow up."
+      },
+      {
+        "m": "Apr",
+        "c": "Excellent p a"
+      },
+      {
+        "m": "Apr",
+        "c": "Also excellent"
+      },
+      {
+        "m": "Mar",
+        "c": "Very professional"
+      },
+      {
+        "m": "Mar",
+        "c": "Doctor was excellent and efficient"
+      },
+      {
+        "m": "Mar",
+        "c": "My physician explained and provided me an excellent service."
+      },
+      {
+        "m": "Mar",
+        "c": "Trauma Drs excellent"
+      },
+      {
+        "m": "Mar",
+        "c": "Excellent caring and professional nurses and PA."
+      },
+      {
+        "m": "Mar",
+        "c": "Very thorough. Excellent bedside manner. Thank uou."
+      },
+      {
+        "m": "Mar",
+        "c": "Excellent"
+      },
+      {
+        "m": "Mar",
+        "c": "Excellent, 100 precent helpful and experienced."
+      },
+      {
+        "m": "Mar",
+        "c": "All the doctors I interacted with had great 'bedside manner.'"
+      },
+      {
+        "m": "Feb",
+        "c": "Excellent"
+      },
+      {
+        "m": "Feb",
+        "c": "Excellent. Very knowledgeable. And he provided pain relief when 3 other specialists outside of your hospital could not."
+      },
+      {
+        "m": "Feb",
+        "c": "Doctor was professional, personable and concise 12/10"
+      },
+      {
+        "m": "Feb",
+        "c": "Great experience very professional staff"
+      },
+      {
+        "m": "Feb",
+        "c": "___ ___ should be commended for her professionalism and bedside manner."
+      },
+      {
+        "m": "Feb",
+        "c": "The nurse practitioner was excellent. Understood my issue and provided guidance and a prescription."
+      },
+      {
+        "m": "Feb",
+        "c": "It was an excellent experience."
+      },
+      {
+        "m": "Jan",
+        "c": "He was great! Very thorough, and explained things well. Again, it was appreciated that he showed a bit of personality. Great bedside manner."
+      },
+      {
+        "m": "Jan",
+        "c": "Excellent care by the doctor very informative, professional, and kind"
+      },
+      {
+        "m": "Jan",
+        "c": "The doctor, providing my care was excellent. He was caring, concerned, listened well, and efficient. he was genuinely concerned with providing me the best care."
+      },
+      {
+        "m": "Jan",
+        "c": "Doc was excellent"
+      },
+      {
+        "m": "Jan",
+        "c": "Very professional and explain everything very well"
+      },
+      {
+        "m": "Jan",
+        "c": "Great Bedside Manner. Easy to Talk with, Great Accurate Listener. Thoroughl Satisfaction."
+      },
+      {
+        "m": "Jan",
+        "c": "Excellent Services!"
+      }
+    ]
+  },
+  {
+    "title": "Attentiveness and efficiency",
+    "detail": "Seen and worked up promptly",
+    "count": 20,
+    "comments": [
+      {
+        "m": "May",
+        "c": "The PA expressed a genuine desire to keep me comfortable and could see I was anxious due to breathing difficulty. Tests and results were quick and thorough and I felt like diagnosing me and getting me on the correct meds were his goal. Pleasant and caring staff from admission to ER to discharge."
+      },
+      {
+        "m": "May",
+        "c": "The PA expressed a genuine desire to keep me comfortable and could see I was anxious due to breathing difficulty. Tests and results were quick and thorough and I felt like diagnosing me and getting me on the correct meds were his goal. Pleasant and caring staff from admission to ER to discharge."
+      },
+      {
+        "m": "May",
+        "c": "Lombardi was super attentive and kind. Very good bedside manner"
+      },
+      {
+        "m": "May",
+        "c": "They were very attentive. I said I was cold , and they brought me a heated blanket. I said that I had to use the restroom and that I was a little dizzy, so they helped me to and from the bathroom."
+      },
+      {
+        "m": "Apr",
+        "c": "The Dr's name was Jordan Hunter. I was surprised how quickly he came in after I was on the stretcher. He was very compassionate and took care of my pain almost immediately. I was very unclear on my instructions on when to remove my catheter, and he was very cautious not to step on the surgeon's toes. Additionally, pulling the catheter out too early would mean having to put a new one in. In hindsight, removing the catheter was exactly what was needed. Shortly after I got back home, I called the on-call post-op doctor, who told me to remove it. Getting the catheter out was my 'over the hump' moment for my outpatient surgery."
+      },
+      {
+        "m": "Apr",
+        "c": "The doctor was very responsive and very efficient"
+      },
+      {
+        "m": "Apr",
+        "c": "Dr. Hamblin was very attentive and caring. He explained steps in making an accurate diagnosis and the importance of proper treatment due to the nature of my condition + symptoms"
+      },
+      {
+        "m": "Mar",
+        "c": "Dr. ___ Boesch was very attentive to my medical needs. He even gave me a follow up phone call the next day to see how I was doing. Very appreciative of his attention to details."
+      },
+      {
+        "m": "Mar",
+        "c": "He was in right away, explained quickly what was going on? I sent the order. Everything came back"
+      },
+      {
+        "m": "Mar",
+        "c": "Doctor was excellent and efficient"
+      },
+      {
+        "m": "Mar",
+        "c": "Friendly accommodations in ER and very attentive!!!"
+      },
+      {
+        "m": "Mar",
+        "c": "Dr. Boesch was incredibly amazing. Very attentive and surprisingly very active on the floor. My mother had came to the ER at Banner Gateway countless number of times and for once the doctor who treated her was not only taking his time to actively listen but also took the time to check in on her. The ER department was super busy that day but during the 8 hours we were here, we actively saw him walking around and he checked in with me and my mother several times to make sure everything was going well if she was feeling well. Amazing Doctor! Grateful for his help and concern that day."
+      },
+      {
+        "m": "Mar",
+        "c": "The doctor that treated me was quick to discharge me. I expressed my concerns and tried to give all the information I could to make a better decision. Thankfully my daughter st k to her intuition and got me in to see a specialist the next day that diagnosed me with a severe bone infection that resulted in an amputation. The doctor I saw at your hospital passed t off as a stress fracture which was the case f the swelling but you could clearly see t was infected. I am ny happy with the care I received at all."
+      },
+      {
+        "m": "Feb",
+        "c": "___ ___ was efficient and very kind to me!"
+      },
+      {
+        "m": "Feb",
+        "c": "Just consistently attentive care throughout the day."
+      },
+      {
+        "m": "Feb",
+        "c": "My whole care team was very attentive, responsive and knowledgeable. Felt like I was in good hands."
+      },
+      {
+        "m": "Feb",
+        "c": "The Dr that was taking care of me was very attentiveTo my pain. Asked me Information regarding my health. Keep me informed and very aware if my pain level."
+      },
+      {
+        "m": "Jan",
+        "c": "The doctor, providing my care was excellent. He was caring, concerned, listened well, and efficient. he was genuinely concerned with providing me the best care."
+      },
+      {
+        "m": "Jan",
+        "c": "Dr arrived quickly and was very attentive. His dIagnosis and advice were good."
+      },
+      {
+        "m": "Jan",
+        "c": "I appreciated the courtesy and attentiveness."
+      }
+    ]
+  },
+  {
+    "title": "Listening and feeling heard",
+    "detail": "Provider heard the full story before deciding",
+    "count": 19,
+    "comments": [
+      {
+        "m": "Jun",
+        "c": "Dr. Hamblin listened to my concerns about the pain medicine and let me choose the option I was most comfortable with. Just trying the toradol and zofran seemed to work good without having to take a narcotic. He did a great job explaining my CT scan results and what the plan of care was going to be based on the findings from the tests."
+      },
+      {
+        "m": "Jun",
+        "c": "Dr Cummins was fantastic as were the nurses and blood draw staff. I felt heard and well understood."
+      },
+      {
+        "m": "May",
+        "c": "She was fantastic. She listened to me with concern and laughed with me. I feel she understood my pain level because when I hurt really bad I try to make jokes and lighten the mood."
+      },
+      {
+        "m": "Apr",
+        "c": "Good listener. Answered All my questions."
+      },
+      {
+        "m": "Apr",
+        "c": "Dr Andes was absolutely wonderful. He explained all tests that were being completed & did not rush through any communication. He answered my questions clearly & presented himself as caring. I very much appreciate a Dr who takes the time to listen to everything (no matter how small) & who does not make you feel rushed for time. Dr Andes did just that & I am grateful. I really appreciate the care I rec'd from all members of the ER team."
+      },
+      {
+        "m": "Mar",
+        "c": "My provider was great! He listened to my concerns and worked with me on what medications worked and what didn't"
+      },
+      {
+        "m": "Mar",
+        "c": "They were all very kind and they listened very well to me as I wasn't feeling good and they filled all my needs and answers"
+      },
+      {
+        "m": "Mar",
+        "c": "Good listener"
+      },
+      {
+        "m": "Mar",
+        "c": "Dr. Boesch was incredibly amazing. Very attentive and surprisingly very active on the floor. My mother had came to the ER at Banner Gateway countless number of times and for once the doctor who treated her was not only taking his time to actively listen but also took the time to check in on her. The ER department was super busy that day but during the 8 hours we were here, we actively saw him walking around and he checked in with me and my mother several times to make sure everything was going well if she was feeling well. Amazing Doctor! Grateful for his help and concern that day."
+      },
+      {
+        "m": "Mar",
+        "c": "Extremely well taken care of. Explained everything beforehand and felt like he took the time to listen and actually care."
+      },
+      {
+        "m": "Mar",
+        "c": "Dr Besh was great. He sat down next to me, asked questions and listened. He answered my questions when I asked. He was great. Very happy with my visit. I hope I never have to visit again, but if I do, Banner Gateway is my place."
+      },
+      {
+        "m": "Feb",
+        "c": "Our doctor was just lovely! She was very good with my son and definitely took the time in her busy schedule to make us feel comfortable, and heard. 100 percent would recommend her."
+      },
+      {
+        "m": "Feb",
+        "c": "Dr. Winters provided me with exceptional care and understanding. She listened and was detailed in her examination. She made me feel safe and comfortable. I would love to have her as a primary care. One of the top docs ive seen at banner!"
+      },
+      {
+        "m": "Jan",
+        "c": "The doctor, providing my care was excellent. He was caring, concerned, listened well, and efficient. he was genuinely concerned with providing me the best care."
+      },
+      {
+        "m": "Jan",
+        "c": "The Dr was the responsive and listened to my needs. He discussed my care with me and I could tell he was caring and concerned."
+      },
+      {
+        "m": "Jan",
+        "c": "I don't remember having a great experience with ___ Pavlue but my second visit with ___ Fakler was amazing. He listened to me and prescribed the medications I needed. I appreciate the time and concern ___ showed for me at my second visit to the ED"
+      },
+      {
+        "m": "Jan",
+        "c": "The Dr was very pleasant and took time to listen to me."
+      },
+      {
+        "m": "Jan",
+        "c": "The physician covered every base which I am thankful for. He was very kind and listened to everything I had to say."
+      },
+      {
+        "m": "Jan",
+        "c": "Great Bedside Manner. Easy to Talk with, Great Accurate Listener. Thoroughl Satisfaction."
+      }
+    ]
+  }
+],
+
+  improvementThemes: [
+  {
+    "title": "Workup and diagnosis concerns",
+    "detail": "Disagreement with testing decisions or perceived missed findings",
+    "count": 71,
+    "comments": [
+      {
+        "m": "Jun",
+        "c": "The department was understaffed. I waited for 1.5 hours before I received something for the pain on an amputated finger tip. Poor instructions on proper wound care. The Provider ___ RN were rarely in the room. The candy striper was bandaging the wound and I could tell he didn't know what he was doing. He would answer with 'I don't know' after most questions."
+      },
+      {
+        "m": "Jun",
+        "c": "The Dr. ___. ___ ___. I was sent to the ER from Banner urgent care on Higly. The Medical staff there were concerned with my low heart rate. 47 bpm and my symptoms of dizziness and light headedness. They advised I go to the ER. Dr. ___ that the ER was for Life and Death situation and that this was not one. He said that the urgent care is staffed with mid level medical staff and when they don't know what to do they send you to the ER. This Dr. ___ feel dumb and like I should not have come to the ER and waisted his time. I told him I thought maybe I had an inner ear infection. He checked that and said no but could have a Eustachian tube dysfunction. I asked if he would write me a prescription for a steroid. He said yes and left. Before I knew it the Provider ___ with the discharge papers. I was surprised that the Dr. ___ returned. The Provider ___ get the Dr. ___ now I was finished with Dr. ___. I asked about the steroid prescription. The Provider ___ had prescribed a nasal spray. I said I wasn't having any sinus problems and would like a prescription for a steroid like prednisone. He went to speak with the doctor. The Provider ___ said the nasal spray had a steroid in it. So I left. I feel like Dr. ___ rude and belittling to both me and the Banner urgent care staff. I felt like he didn't address my low heart rate concerns at all or what he thought was considered a low heart rate because I think 47 is pretty low. While I was in the ER it got to 45. I have confidence in Banner Gateway. I have confidence in the medical staff there. But I have no respect for Dr. ___."
+      },
+      {
+        "m": "Jun",
+        "c": "The nurses brushed me off when I got there. Did not see them for hours and did not see a Dr. ___ hours. Poor quality treatment. In the end, I was rushed off, and my CAT scan was not even explained. Sorry you all were too busy to provide the appropriate level of concern and care."
+      },
+      {
+        "m": "Jun",
+        "c": "I decided to not listen and didn't wait 3 days and I'm glad I didn't. I was becoming paralyzed from infection that was spreading rapidly. I could have died."
+      },
+      {
+        "m": "Jun",
+        "c": "I always request to see a Dr. ___ I do not trust PAs or NPs since they do not have the same scope of practice as an MD or DO. Yes, they both specialize in emergency medicine but if they were just as good as an MD or DO then there wouldn't be different titles. Anyway, I always feel that the doctors are in a rush to get to the next patient. They don't include/inform you about the course of action they are putting in place to find out what's wrong. It became evident to me that I had absolutely no say in my care. If I am asking for help that means you as a Dr. ___ doing your job to the fullest extent possible. During my last visit, I saw Dr. ___, I came there because I had sudden onset swelling in my throat and knees following an incident friday night where I was seen at desert. I told him they did ankle x-rays and venous US which were normal. He did knee xray and nothing else to check for the cause of the swelling. Now I may just be a medical assistant but im pretty sure that x-rays are primarily used to detect bone abnormalities. Anyways, he read me the disappointing results said there not much else he can do or tell me. Reluctantly I said thats fine because I knew they weren't going to see anything. I told I am not comfortable leaving with my throat still swelling. It felt like something was pushing up against my trachea, I could literally feel my epiglottis moving, my voice Is getting more and more hoarse. I kid you not he literally huffed and puffed in my face and said 'i guess I can order I neck xray.' what the actual [expletive] did I do to deserve a response like that from a doctor. I told him about this swelling when he first came to evaluate me, I even showed him how distended my neck looked on the sides when I lift my head up and yet he never ordered anything to evaluate my neck better. It seemed like his only concern was about the knee swelling if that."
+      },
+      {
+        "m": "Jun",
+        "c": "I still feel like something is wrong because I still don't feel right. I don't think enough was done with just a blood test. I feel I was just given the basic and sent out the door. No xray, no scans of any kind. I was just given fluids and told I was dehydrated, but I still have fatigue and weakness and I've been resting all weekend. I think there is a deeper issue that they didn't even try to find."
+      },
+      {
+        "m": "Jun",
+        "c": "Dr. ___ rushed on 1st vist. Didn't really listen to me. He needed to call on call Dr. ___ but called 2 wrong Dr's. I finally called my Dr's Provider ___ out what was taking so long for a response. 1st my Dr. ___ of office 2nd my other Dr. ___ clinics. She gave me the name of the on call Dr. ___ husband told the the Provider ___ on call Dr's name to be be contacted and within 30 min had a response. This delay of treatment was unacceptable. Why wasn't the on call Dr. ___ 1st?"
+      },
+      {
+        "m": "May",
+        "c": "Dr. ___ he already knew what was wrong before he came in. I asked for pain meds 3 times and he discharged me before even given me any. I tried to tell him some medical history but he already was walking out the door and ignored me as he thought I had the flu. I was discharged with out any pain medication. I saw the Dr. ___ once in the beginning and once at discharge both times he was very rushed and wanting to leave with zero care for how I actually feel or the reason I'm in the er."
+      },
+      {
+        "m": "May",
+        "c": "The Dr. ___ worst medical experience I have ever had. He walked in, asked what I was feeling, and then immediately began speaking over me instead of listening to why I was there. While examining my abdomen, he burped directly in my face, which was extremely unprofessional and disgusting.Within seconds of touching my abdomen and asking only two brief questions, he concluded it was a UTI - despite the fact that I came in concerned about a possible ruptured ovarian cyst. I was asked to provide a urine sample only to later be told I had nothing and that 'maybe' it was a small cyst. No imaging was done, no ultrasound was ordered, and no effort was made to properly investigate my symptoms.I was then left alone in my room for hours. Even after pressing the call button, I waited several minutes for assistance. When I asked my nurse, ___, for basic things such as water, it took over 30 minutes, and afterward I barely saw her again.The communication between staff was also terrible. When a second Provider ___, I explained that I was still in pain, and he responded by saying I was being discharged. At no point did I feel heard, cared for, or properly informed. When I asked the Dr. ___ actually been ruled out, he could not clearly answer my questions and continued dismissing my concerns.I left feeling ignored, dismissed, and without answers regarding the severe pain that brought me to the ER in the first place."
+      },
+      {
+        "m": "May",
+        "c": "My port incision was infected. The question was whether I would need to be admitted for IV antibiotics or go home with oral antibiotics. Once the labs came back, the decision was made to send me home with oral antibiotics."
+      },
+      {
+        "m": "May",
+        "c": "The Dr. ___ my responsibility to to find an Oncology OBGYN when MD ___ is next door. Being on morphine and delauden I didn't advocate for myself and he just wanted me gone."
+      },
+      {
+        "m": "May",
+        "c": "Since this was my second visit in 2 weeks, again they mentioned the tests I was needing. Again I wish they would have done them so I could be on my way to feeling better."
+      },
+      {
+        "m": "May",
+        "c": "No MRI on knee because department was closed. I left with excruciating pain just like I went in with . I was told to go to ortho Arizona. I have had the pain for 6 days and I have to wait until this Friday to be seen at Ortho Az. The pain is awful . It was absolutely ridiculous"
+      },
+      {
+        "m": "May",
+        "c": "I thought an MRI L-Spine was warranted due to severe pain, but CT C/A/P was ordered. The severe pain was dominating my thoughts. I inquired about LBP. In hindsight, I would have declined the CT scans. I expressed to the triage RN of severe pain in hips, lower back & mid-back. The ER cost is weighing heavily on me."
+      },
+      {
+        "m": "May",
+        "c": "My mouth wasn't huge from the infection yet, that happened the next morning, so I was disregarded and pushed out quickly while completely ignoring my concern for the abdomen pain."
+      },
+      {
+        "m": "May",
+        "c": "My bladder hurts really bad still and I'm not sure what's going on but they did not diagnose me and they should have given me a CAT scan And they say I was combative but I wasn't as I just was wanting to leave because I was getting the worst service And honestly don't even know what they did"
+      },
+      {
+        "m": "Apr",
+        "c": "MRI tech was horrible and mean. Yelled and me for a concern with religious clothing. Refused to let me elevate my arm to lessen pain."
+      },
+      {
+        "m": "Apr",
+        "c": "Dr. ___ and felt like he was rushing and didn't care."
+      },
+      {
+        "m": "Apr",
+        "c": "Dr. ___ himself and lacked bedside manner"
+      },
+      {
+        "m": "Apr",
+        "c": "Nurses and Dr. ___'t care at all about my pain or my welfare. Just dismissed me because I have a Urinary Tract Infection, not acknowledging my Anemia or bacterial infection and the large lump on my arm. Simply did not care."
+      },
+      {
+        "m": "Apr",
+        "c": "Gave some bad info that contradicted what my endocrinologist said later"
+      },
+      {
+        "m": "Apr",
+        "c": "I saw the Dr. ___ about a minute. He never laid a finger on me or asked any questions at all. With my symptoms, I think it was clear it was not a heart attack and I never suggested it was. The Dr. ___ that own self-diagnosis and never attempted to find cause for the pain or identify any other concerns with questions, tests or exam, etc. I was discharged in the same state I arrived but by only being informed I had not had a several days long heart attack which did not help me at all."
+      },
+      {
+        "m": "Apr",
+        "c": "I had a list of symptoms that are making my life unbearable and would have liked more medical attention / testing"
+      },
+      {
+        "m": "Apr",
+        "c": "Care Provider ___ completely dismissed our concerns, did no blood work, ordered no soft tissue scans even though there was obviously something going on with the soft tissue. Basically said 'Well, you're not in imminent danger of dying, so this is not my problem' without saying those exact words even though something was obviously wrong. Still have the same problem days later, with no answers. Just kind of suffering through it I guess!"
+      },
+      {
+        "m": "Apr",
+        "c": "I have a broken foot that was COMPLETELY MISSED on the XRAY in the ER. The report said foot was fine. Went to a specialist the flollowing Wednesday and he saw that my foot was broken from the same XRAY. Because they missed the break, my pain was under treated. I am also a stage 4 cancer patient on active chemo which no one seemed to be concerned about at all."
+      },
+      {
+        "m": "Apr",
+        "c": "Dr. ___ extremely unprofessional and verbally abusive to me. He did not listen, disregarded my medical history or made false and misleading statements about what happened to me in the midst of an active seizure. I have written a formal complaint against him for physical trying to restrain me during an active seizure and making false statements about my condition, as well as lack of care and understanding about my condition."
+      },
+      {
+        "m": "Apr",
+        "c": "Left the hospital just to be still in pain and being advise to follow up with PCP. After letting them know that I have been in pain for a week and still having stomach pain that is effecting my back."
+      },
+      {
+        "m": "Apr",
+        "c": "Again, nurses and Doctors scribe Totally misrepresented reasoning for my treatment. It had nothing to do with me supposedly having anything to do with a fire extinguisher !"
+      },
+      {
+        "m": "Apr",
+        "c": "Overall bad experience with the doctor"
+      },
+      {
+        "m": "Apr",
+        "c": "I had to remind the dr I needed pain medication. The Dr. ___ put me on crutches when I had a broken wrist. When we were exiting the building, there was no one to help us. I was with my 83-year-old cousin. Nobody helped us out the door. I'm in a wheelchair with a broken ankle and a broken wrist. She had to go looking for her car and absolutely no one would come out and help us. I was Very upset"
+      },
+      {
+        "m": "Mar",
+        "c": "Gave me a non narcotic pain reliever ( by request. Ambiguous about true diagnosis. Concern was kidney stones. Answer was we all have stones. Was told kidney function was normal. I am diabetic."
+      },
+      {
+        "m": "Mar",
+        "c": "The Dr. ___ notes, didn't really ask questions , didn't even perform a physical exam or put her hands on my child until it was mentioned to her that she hasn't done anything. She had been suffering w a gyno issue and severe stomach issues for a week and seems like all they cared about is to put some IV in her and send her home w meds and not figure out what is going on, the meds have not helped and my child is even worse"
+      },
+      {
+        "m": "Mar",
+        "c": "I saw the Dr. ___ more than 2 minutes, and don't feel I received adequate care during this visit. I went home still very unwell."
+      },
+      {
+        "m": "Mar",
+        "c": "It was diagnosed that I needed a new foly catheter. The Provider ___ the Foley catheter either inserted the wrong one or the wrong kind or the wrong size. Since then I have had leakage around the penis. And it hurts."
+      },
+      {
+        "m": "Mar",
+        "c": "The Provider ___ take the time to listen to me. He was rushed and brusque. He was not reassuring or comforting and lacked compassion. He didn't even make eye contact. He showed no evidence of concern for my comfort at all. Once he got the results from my ultrasound, he didn't even bother to come into the room. He simply opened up the sliding door, popped his head in, and with a wave of his hand said: 'No blood clots. Bye-bye!' Rude and so impersonal. His bedside manner was non-existent. I believe persons like him should not be in the medical field, let alone the emergency room."
+      },
+      {
+        "m": "Mar",
+        "c": "Dr. ___ he would prescribe muscle relaxers to my Walgreens and never did. I in a lot of pain still."
+      },
+      {
+        "m": "Mar",
+        "c": "Long wait after x-rays review before Dr. ___ results"
+      },
+      {
+        "m": "Mar",
+        "c": "My husband had a massive stroke two years ago, and three surgeries since that time. Each time I made an effort to tell the Dr. ___ he just ignored me and talked over me."
+      },
+      {
+        "m": "Mar",
+        "c": "We never saw a doctor. Only a PA. A Dr. ___ seen us for at least a short visit."
+      },
+      {
+        "m": "Mar",
+        "c": "I only saw the Dr. ___ told me the results of the X-RAY. He explained my foot wasn't broken and I'd need a boot. The nurses did the rest."
+      },
+      {
+        "m": "Mar",
+        "c": "The Provider ___ to a respiratory treatment and left. Treatment ended and nobody returned to disconnect it so the air was blowing for a long time. Still running when I was discharged."
+      },
+      {
+        "m": "Mar",
+        "c": "The 4th year internist keeped asking me the same questions. I had to repeat myself. I was transferred from a Banner urgent care facility with notes that no Dr. ___ ever read. The actual Dr. ___ a joke!"
+      },
+      {
+        "m": "Mar",
+        "c": "I had a very bad experience with the Provider ___. He was extremely dismissive, had no intent in hearing my concerns whatsoever, and was completely disrespectful. He seemed extremely bothered with anything I said and how I felt. Every symptom or concern I had he would completely rule out and make it seem as if I knew nothing even thought I had tried half of the things he had recommended already and went back to the ER as my last resort. Then he continues to tell me that there's is not much they can do because he is not a skin Dr. ___'s not his job. I also work in the medical field and I would never dismiss a patient or make them feel less than. I was in a lot of pain and he never tried to help me I had to ask the Provider ___ was anything I could've have for the pain because he didn't even care. People who have no empathy should definitely not be working in the medical field. How disappointing and frustrating this whole experience was. He would talk over me and not let me express any of my concerns, which lead him to give me a medication that had already caused me more pain and when he came back he seemed even more bothered because I didn't want to risk getting hurt again. Overall, this Provider ___ me not want to ever go back to this hospital, which is such a shame because every time I've been there before every one treated me amazing, until now."
+      },
+      {
+        "m": "Feb",
+        "c": "The Dr. ___ exactly considerate of my concerns. He appeared that he didn't want to be there In the ER. I felt he didn't want to take time to discuss my Issues and concerns."
+      },
+      {
+        "m": "Feb",
+        "c": "The Dr. ___ but touch my head, prescribed me antibotics without knowing if I had an infection, said It may have something to do with my lyphm nodes but didnt even touch them. Told me to follow up with my doctor. I told him my Dr. ___ to come to the ER. Kinda dismissive. Then on his way out he remembered to ask me if I had any allergies to medications."
+      },
+      {
+        "m": "Feb",
+        "c": "The Provider ___ run a flu and covid test on me. Both came back negative and he stated I just had a cold. He also told me he couldn't prescribe tamiflu because If my flu test came back negative, their system wouldn't let him prescribe It to me. He didn't ask my symptoms, nor did he fully look at my chart until I was in the discharge area. My vitals were concerning. My blood pressure, heart rate and temp were all high when I was brought in. It wasn't until I was in the discharge area when the Provider ___ 'oh I actually just took a look at your chart and you meet certain criteria to run more tests'. He told a nurse, to take my vitals, get blood and start an IV. She got blood, and obtained vitals but when she noticed I was a hard stuck for the IV she said she was going to ask the Provider ___ IV was 'really necessary'. The Provider ___ they didn't need the IV and I was discharged shortly after receiving the results from my blood test, being discharged with the exact mediations the Provider ___ system wouldn't allow him to prescribe."
+      },
+      {
+        "m": "Feb",
+        "c": "Dr. ___ order pain medication although I mentioned it to the Provider ___ moved me to the waiting area. Waited 5 hours for labs. Dr. ___'t check back with me until 5 hours after asked me how I was feeling with the meds which weren't given to me. Absolutely horrible service! I was told I'd get a work note and meds ordered to my pharmacy. Pharmacy said they couldn't order the meds per legal reasons since Dr. ___'t administer meds at the ER and the Dr. ___ known this so I continued to be in pain even after visiting the ER and had no answers regarding the cause for the pain."
+      },
+      {
+        "m": "Feb",
+        "c": "No doctors took care of me.I was in for a c.T exam"
+      },
+      {
+        "m": "Feb",
+        "c": "Did 1 test and ignored seizures. My wife is still not the same. She lost 2 days of memory."
+      },
+      {
+        "m": "Feb",
+        "c": "Took 4.5 hours for the Dr. ___ me my baby had a heartbeat. I understand the ultrasound tec couldn't but 4.5 hours for that is insane."
+      },
+      {
+        "m": "Feb",
+        "c": "Throughout the 22 hour stay there seemed to be no one in charge but with a lot of 'buck' passing. At least 6 hours were simply waiting because there WAS ONLY ONE PERSON reading the test results who then passed them on to ??? Who finally got someone to advice??? Andtook me to the next strp. The whole department seemed to be without someone to guide the patient through treatments and then to discharge. A tremendous amount of time just waiting for test results and then finding someone who would actually DO something. A 'Sargent Major' type is sorely needed."
+      },
+      {
+        "m": "Feb",
+        "c": "I was seen by a male. From discharge papers, his name was ___. He never introduced himself. I assume he was a PA. I was not at all pleased with my interaction when th him."
+      },
+      {
+        "m": "Feb",
+        "c": "___ ___ stands out as the most unprofessional emergency room physician I have encountered in my 74 years of medical experience. He failed to conduct a thorough and visual examination of my condition. He arrived at the conclusion of a test being administrated, when the room was dimly lit, barely introduced himself, and spent less than three minutes assuring me that he would contact me later. He did not inquire about any other potential conditions, medications, or the underlying cause of my issue. His response to the test results was utterly inappropriate. I have no confidence in the tests administered or his analysis and diagnosis. He was not receptive to any questions and exhibited rude behavior. He was in and out of my room within approximately three minutes.The hospital was not particularly busy, as there were at least five to seven staff members standing around the nursing station, engaged in laughter and conversation throughout our visit.This experience was extremely frustrating, and I feel that I have wasted nearly three hours of my time."
+      },
+      {
+        "m": "Feb",
+        "c": "So this is hard to judge. My expectations when going to the ER were to resolve the pain I tool otc pain medications, and that was not helping. I was also concerned about something in my eye.. There was a scratching. I have been struggling with head pressure issues recently. I talked to my pcp, my 2 eye specalists and they did not seem to put much concern on the issue."
+      },
+      {
+        "m": "Feb",
+        "c": "The Dr. ___ of my concerns and was unwilling to run tests"
+      },
+      {
+        "m": "Feb",
+        "c": "I went in with a skin allergy expecting more than a visual check. Possible blood test might have given me information of something other than, there is really nothing he could but give me a steroid medication. It would have been better to go to a PA."
+      },
+      {
+        "m": "Jan",
+        "c": "I am not confident the Provider ___ severity and unusual nature of the leg attacks I was experiencing. Seems that a blood panel might have made sense rather than send me home to see my family practice doc Monday - three days away."
+      },
+      {
+        "m": "Jan",
+        "c": "If it wasn't for the ER Dr. ___ (whom insisted I take the air flight to Baewood), I would not be ALIVE right now."
+      },
+      {
+        "m": "Jan",
+        "c": "The Dr. ___ rude and made me extremely uncomfortable to where I didn't even want to do a pelvic exam at that point or a ct if he wouldn't have been rude I would have done it and then I also felt violated because usually doctors ask my to lift my shirt and expose the area the need to see whereas he just lifted my shirt and the blanket completely exposing me because I didn't have pants on because the nurses told me I was gonna get a pelvic exam and that didnt even happen he really needs to work on his bedside manner especially while dealing with female patients that have anxiety disorders"
+      },
+      {
+        "m": "Jan",
+        "c": "One day last week the Dr. ___ I had didn't take blood pressure or blood ( even though he said that what he was going to do when he came back) but never did. The next time I saw him he brought me paper to sign me out."
+      },
+      {
+        "m": "Jan",
+        "c": "It would have been nice to receive copies of the xrays and scan."
+      },
+      {
+        "m": "Jan",
+        "c": "It was apparent right from the beginning that the Provider ___ unwilling or unable to spend any reasonable amount of time talking to me to gather information about my symptoms and my history leading up to them. He actually missed some of my symptoms during his nearly non-existent initial examination and only later noticed them as I was being discharged."
+      },
+      {
+        "m": "Jan",
+        "c": "Notes typed in my discharge papers never discussed, the Dr. ___'t really care about my health, sent me home and told me to call family physician. I will not return to your ER!! I'm still sick and it's been a week,"
+      },
+      {
+        "m": "Jan",
+        "c": "I came to the ER due to an episode of A-Fib Heart rate about 140-170 at home. By the time I got to a room I had converted back to a normal rate around 60-70. I think the Dr. ___ questions to determine any extenuating health issues that may have altered or contributed to the A-fib. I dont recall that he even got close enough to listen to my heart. The past 6 months I have been having issues with my Thyroid and A1c after my cardiologist altered my Levothyroxin dose. He did not mention if blood tests were done for either of these diagnosis. I feel like because my rate converted before he even got in the room that it wasnt a big deal and was discharged."
+      },
+      {
+        "m": "Jan",
+        "c": "The Dr. ___ my kid eats spicy foods as per the reason of his abdominal pain and only ordered bloodwork and when I asked to get an xray or ct scan he refused and sent us home saying it was just an upset stomach based on blood work and he laughywhen I said what if my son had a tapeworm or something his always had stomach pain but more today, and again he assumed my son wasn't in pain even though he was just not complaining about it and sent us home with just some acid reflux meds for abdominal pain with my heartburn or diarrhea instead of checking him some more."
+      },
+      {
+        "m": "Jan",
+        "c": "The Provider ___ in well over an 1.5 hours, as I listened to staff outside my door laughing and playing with apps on their phones assigning nicknames to each other, for example, SUBWAY...came in, heard only one thing out of the multitudinous concerns I had. She did not listen me, I had a severe headache, low base of my neck pain, R shoulder, R elbow, R knee, L thigh pain, numbness, weakness & tingling in my pinky and ring finger on my L hand, in addition to whole body pain that one would normally feel when being hit by a car as a pedestrian. She chose to x ray my L hand and L shoulder.??????"
+      },
+      {
+        "m": "Jan",
+        "c": "The Dr. ___ give me a prescription for your medication, which is Pepcid Or pantoprazole He just told me to buy it over-the-counter, which I do not have money to buy it and I have access"
+      },
+      {
+        "m": "Jan",
+        "c": "I had a very negative experience with Dr. ___. He was incredibly dismissive throughout my visit, but especially while going through my medical history and medications. When I told him what the Banner Urgent Care Provider ___ me to the ER thought might be the problem, he laughed. He didn't discuss anything with me. I still don't know why I needed both an ultrasound and a CT, and I would like to know because I can't afford either. He made it clear that he didn't believe there was anything wrong with me, and when he came to tell me I had diverticulitis, he began with, 'You're NOT crazy! We DID find something.' I never suggested that I was crazy. I knew something was wrong, and had only come to the ER after urgent care told me I should. He took no time to answer any questions. I've read the education materials, but he didn't specify which diet I should be eating, and the information suggests different diets for different circumstances. He didn't explain which one I was. The education materials also say that with diverticulitis I should not take NSAIDs, which is what he prescribed me. I'm confused and concerned by this. I would never recommend Dr. ___ anyone, but especially not to a woman."
+      },
+      {
+        "m": "Jan",
+        "c": "Came in rudely, didnt introduce himself. Left MID CONVERSATION. WHILE I WAS TALKING. WITHOUT EXCUSING HIMSELF. I was so pissed talking to that old [expletive]. Like ong you need to fire him. Hes rude.impolite. And also spoke to my father about my treatment instead of me. And im 18 so my hippa was violated. And I will be suing you and this Dr. ___ a well mannered time. Please keep this man away from me at all times. He told me to drink water. While I was mid drinking water. Hes ignorant. And a piece of [expletive]. And im very disappointed in the banner standards he was upholding."
+      },
+      {
+        "m": "Jan",
+        "c": "The info I was given wasn't reviewed with me because of my previous diverticulitis diagnoses."
+      },
+      {
+        "m": "Jan",
+        "c": "This was my second visit to the emergency room and was quite different than my first. I had wounds underneath the splint and they were replacing the splint and they were hesitant to treat the wounds. I had to ask them to put medication and bandage on the wounds and they seem to not want toso they agreed to bandage but they the Dr. ___ Provider ___'t think it needed medication. I work with Wound Care all the time and I know it needed medication so I demanded some sort of an anti-Septic before they covered it with a splint.So they agreed to bandage but they the Dr. ___ Provider ___'t think it needed medication. I work with Wound Care all the time and I know it needed medication so I demanded some sort of a septic before they covered it with The slant. So they agreed to do it, but the Provider ___ with me as she did it saying it did not need It, the wounds were healed Althoughthey were actively bleeding. I don't think emergency room nurses know as much about treating active Wounds, as Wound Care. This is the second time I've been an emergency room in this hospital over the years that even doctors don't seem to understand how wounds work. I'm really very surprised given that it's the emergency room plus I asked the Dr. ___ I left if he was sure the bones were still in place before he put the splint back on and he said it didn't matter I was going to the ortho and he would do it that his job was just to temporarily patch me up and send me out, very dismissive very cold. Just wanted to get me out and get me gone no need for x-ray. No need just to make sure the other splint which fell off the one they put on and was replaced . He didn't care if my bones had displaced. He just wanted me gone. Not a good feeling."
+      }
+    ]
+  },
+  {
+    "title": "Feeling dismissed or rushed",
+    "detail": "Not listened to, brusque, or hurried encounters",
+    "count": 33,
+    "comments": [
+      {
+        "m": "Jun",
+        "c": "The Dr. ___. ___ ___. I was sent to the ER from Banner urgent care on Higly. The Medical staff there were concerned with my low heart rate. 47 bpm and my symptoms of dizziness and light headedness. They advised I go to the ER. Dr. ___ that the ER was for Life and Death situation and that this was not one. He said that the urgent care is staffed with mid level medical staff and when they don't know what to do they send you to the ER. This Dr. ___ feel dumb and like I should not have come to the ER and waisted his time. I told him I thought maybe I had an inner ear infection. He checked that and said no but could have a Eustachian tube dysfunction. I asked if he would write me a prescription for a steroid. He said yes and left. Before I knew it the Provider ___ with the discharge papers. I was surprised that the Dr. ___ returned. The Provider ___ get the Dr. ___ now I was finished with Dr. ___. I asked about the steroid prescription. The Provider ___ had prescribed a nasal spray. I said I wasn't having any sinus problems and would like a prescription for a steroid like prednisone. He went to speak with the doctor. The Provider ___ said the nasal spray had a steroid in it. So I left. I feel like Dr. ___ rude and belittling to both me and the Banner urgent care staff. I felt like he didn't address my low heart rate concerns at all or what he thought was considered a low heart rate because I think 47 is pretty low. While I was in the ER it got to 45. I have confidence in Banner Gateway. I have confidence in the medical staff there. But I have no respect for Dr. ___."
+      },
+      {
+        "m": "Jun",
+        "c": "The nurses brushed me off when I got there. Did not see them for hours and did not see a Dr. ___ hours. Poor quality treatment. In the end, I was rushed off, and my CAT scan was not even explained. Sorry you all were too busy to provide the appropriate level of concern and care."
+      },
+      {
+        "m": "Jun",
+        "c": "The Dr. ___ to my heart once while I was sitting up, but my palpitations happened when I laid down. He didn't have me lay down to listen to my heart when it was struggling. I also said I was having shortness of breath but wasn't offered any oxygen"
+      },
+      {
+        "m": "Jun",
+        "c": "I decided to not listen and didn't wait 3 days and I'm glad I didn't. I was becoming paralyzed from infection that was spreading rapidly. I could have died."
+      },
+      {
+        "m": "Jun",
+        "c": "Perscriptions sent to MD ___ pharmacy which was strange. The Provider ___ discharging and just said 'do you have her to wheel her out' no assistance after sitting about an hour to be discharged."
+      },
+      {
+        "m": "Jun",
+        "c": "I almost felt like a number with my main Caregiver. I have had so many many reoccurring UTIs in my life and have been in the hospital with them. I didn't feel she was really listening to me about my concerns of another complicated UTI."
+      },
+      {
+        "m": "Jun",
+        "c": "Dr. ___ rushed on 1st vist. Didn't really listen to me. He needed to call on call Dr. ___ but called 2 wrong Dr's. I finally called my Dr's Provider ___ out what was taking so long for a response. 1st my Dr. ___ of office 2nd my other Dr. ___ clinics. She gave me the name of the on call Dr. ___ husband told the the Provider ___ on call Dr's name to be be contacted and within 30 min had a response. This delay of treatment was unacceptable. Why wasn't the on call Dr. ___ 1st?"
+      },
+      {
+        "m": "Jun",
+        "c": "Provider ___ condescending to my husband when he was too fatigued to even open his eyes. She did not communicate well and kept us waiting for extensive periods of time."
+      },
+      {
+        "m": "May",
+        "c": "Dr. ___ he already knew what was wrong before he came in. I asked for pain meds 3 times and he discharged me before even given me any. I tried to tell him some medical history but he already was walking out the door and ignored me as he thought I had the flu. I was discharged with out any pain medication. I saw the Dr. ___ once in the beginning and once at discharge both times he was very rushed and wanting to leave with zero care for how I actually feel or the reason I'm in the er."
+      },
+      {
+        "m": "May",
+        "c": "Ignored after pushing call button, Oxygen level alert on machine was going off loud, for a long time, I was repeatedly yelling for Assistance."
+      },
+      {
+        "m": "May",
+        "c": "The Dr. ___ worst medical experience I have ever had. He walked in, asked what I was feeling, and then immediately began speaking over me instead of listening to why I was there. While examining my abdomen, he burped directly in my face, which was extremely unprofessional and disgusting.Within seconds of touching my abdomen and asking only two brief questions, he concluded it was a UTI - despite the fact that I came in concerned about a possible ruptured ovarian cyst. I was asked to provide a urine sample only to later be told I had nothing and that 'maybe' it was a small cyst. No imaging was done, no ultrasound was ordered, and no effort was made to properly investigate my symptoms.I was then left alone in my room for hours. Even after pressing the call button, I waited several minutes for assistance. When I asked my nurse, ___, for basic things such as water, it took over 30 minutes, and afterward I barely saw her again.The communication between staff was also terrible. When a second Provider ___, I explained that I was still in pain, and he responded by saying I was being discharged. At no point did I feel heard, cared for, or properly informed. When I asked the Dr. ___ actually been ruled out, he could not clearly answer my questions and continued dismissing my concerns.I left feeling ignored, dismissed, and without answers regarding the severe pain that brought me to the ER in the first place."
+      },
+      {
+        "m": "May",
+        "c": "My mouth wasn't huge from the infection yet, that happened the next morning, so I was disregarded and pushed out quickly while completely ignoring my concern for the abdomen pain."
+      },
+      {
+        "m": "Apr",
+        "c": "Dr. ___ short very rude"
+      },
+      {
+        "m": "Apr",
+        "c": "Dr. ___ and felt like he was rushing and didn't care."
+      },
+      {
+        "m": "Apr",
+        "c": "Nurses and Dr. ___'t care at all about my pain or my welfare. Just dismissed me because I have a Urinary Tract Infection, not acknowledging my Anemia or bacterial infection and the large lump on my arm. Simply did not care."
+      },
+      {
+        "m": "Apr",
+        "c": "Care Provider ___ completely dismissed our concerns, did no blood work, ordered no soft tissue scans even though there was obviously something going on with the soft tissue. Basically said 'Well, you're not in imminent danger of dying, so this is not my problem' without saying those exact words even though something was obviously wrong. Still have the same problem days later, with no answers. Just kind of suffering through it I guess!"
+      },
+      {
+        "m": "Apr",
+        "c": "Very rude"
+      },
+      {
+        "m": "Apr",
+        "c": "I was lied to, I was rushed, and they gave me fake medication"
+      },
+      {
+        "m": "Apr",
+        "c": "Dr. ___ extremely unprofessional and verbally abusive to me. He did not listen, disregarded my medical history or made false and misleading statements about what happened to me in the midst of an active seizure. I have written a formal complaint against him for physical trying to restrain me during an active seizure and making false statements about my condition, as well as lack of care and understanding about my condition."
+      },
+      {
+        "m": "Mar",
+        "c": "The Provider ___ take the time to listen to me. He was rushed and brusque. He was not reassuring or comforting and lacked compassion. He didn't even make eye contact. He showed no evidence of concern for my comfort at all. Once he got the results from my ultrasound, he didn't even bother to come into the room. He simply opened up the sliding door, popped his head in, and with a wave of his hand said: 'No blood clots. Bye-bye!' Rude and so impersonal. His bedside manner was non-existent. I believe persons like him should not be in the medical field, let alone the emergency room."
+      },
+      {
+        "m": "Mar",
+        "c": "My husband had a massive stroke two years ago, and three surgeries since that time. Each time I made an effort to tell the Dr. ___ he just ignored me and talked over me."
+      },
+      {
+        "m": "Mar",
+        "c": "I had a very bad experience with the Provider ___. He was extremely dismissive, had no intent in hearing my concerns whatsoever, and was completely disrespectful. He seemed extremely bothered with anything I said and how I felt. Every symptom or concern I had he would completely rule out and make it seem as if I knew nothing even thought I had tried half of the things he had recommended already and went back to the ER as my last resort. Then he continues to tell me that there's is not much they can do because he is not a skin Dr. ___'s not his job. I also work in the medical field and I would never dismiss a patient or make them feel less than. I was in a lot of pain and he never tried to help me I had to ask the Provider ___ was anything I could've have for the pain because he didn't even care. People who have no empathy should definitely not be working in the medical field. How disappointing and frustrating this whole experience was. He would talk over me and not let me express any of my concerns, which lead him to give me a medication that had already caused me more pain and when he came back he seemed even more bothered because I didn't want to risk getting hurt again. Overall, this Provider ___ me not want to ever go back to this hospital, which is such a shame because every time I've been there before every one treated me amazing, until now."
+      },
+      {
+        "m": "Feb",
+        "c": "The Dr. ___ but touch my head, prescribed me antibotics without knowing if I had an infection, said It may have something to do with my lyphm nodes but didnt even touch them. Told me to follow up with my doctor. I told him my Dr. ___ to come to the ER. Kinda dismissive. Then on his way out he remembered to ask me if I had any allergies to medications."
+      },
+      {
+        "m": "Feb",
+        "c": "I feel like the Provider ___ listen to what was going on with me or seemed to not think it was that big of a deal. He was the only staff member that seemed like they didn't take things seriously."
+      },
+      {
+        "m": "Feb",
+        "c": "Did 1 test and ignored seizures. My wife is still not the same. She lost 2 days of memory."
+      },
+      {
+        "m": "Feb",
+        "c": "___ ___ stands out as the most unprofessional emergency room physician I have encountered in my 74 years of medical experience. He failed to conduct a thorough and visual examination of my condition. He arrived at the conclusion of a test being administrated, when the room was dimly lit, barely introduced himself, and spent less than three minutes assuring me that he would contact me later. He did not inquire about any other potential conditions, medications, or the underlying cause of my issue. His response to the test results was utterly inappropriate. I have no confidence in the tests administered or his analysis and diagnosis. He was not receptive to any questions and exhibited rude behavior. He was in and out of my room within approximately three minutes.The hospital was not particularly busy, as there were at least five to seven staff members standing around the nursing station, engaged in laughter and conversation throughout our visit.This experience was extremely frustrating, and I feel that I have wasted nearly three hours of my time."
+      },
+      {
+        "m": "Feb",
+        "c": "The Dr. ___ of my concerns and was unwilling to run tests"
+      },
+      {
+        "m": "Jan",
+        "c": "The Dr. ___ rude and made me extremely uncomfortable to where I didn't even want to do a pelvic exam at that point or a ct if he wouldn't have been rude I would have done it and then I also felt violated because usually doctors ask my to lift my shirt and expose the area the need to see whereas he just lifted my shirt and the blanket completely exposing me because I didn't have pants on because the nurses told me I was gonna get a pelvic exam and that didnt even happen he really needs to work on his bedside manner especially while dealing with female patients that have anxiety disorders"
+      },
+      {
+        "m": "Jan",
+        "c": "I came to the ER due to an episode of A-Fib Heart rate about 140-170 at home. By the time I got to a room I had converted back to a normal rate around 60-70. I think the Dr. ___ questions to determine any extenuating health issues that may have altered or contributed to the A-fib. I dont recall that he even got close enough to listen to my heart. The past 6 months I have been having issues with my Thyroid and A1c after my cardiologist altered my Levothyroxin dose. He did not mention if blood tests were done for either of these diagnosis. I feel like because my rate converted before he even got in the room that it wasnt a big deal and was discharged."
+      },
+      {
+        "m": "Jan",
+        "c": "The Provider ___ in well over an 1.5 hours, as I listened to staff outside my door laughing and playing with apps on their phones assigning nicknames to each other, for example, SUBWAY...came in, heard only one thing out of the multitudinous concerns I had. She did not listen me, I had a severe headache, low base of my neck pain, R shoulder, R elbow, R knee, L thigh pain, numbness, weakness & tingling in my pinky and ring finger on my L hand, in addition to whole body pain that one would normally feel when being hit by a car as a pedestrian. She chose to x ray my L hand and L shoulder.??????"
+      },
+      {
+        "m": "Jan",
+        "c": "I had a very negative experience with Dr. ___. He was incredibly dismissive throughout my visit, but especially while going through my medical history and medications. When I told him what the Banner Urgent Care Provider ___ me to the ER thought might be the problem, he laughed. He didn't discuss anything with me. I still don't know why I needed both an ultrasound and a CT, and I would like to know because I can't afford either. He made it clear that he didn't believe there was anything wrong with me, and when he came to tell me I had diverticulitis, he began with, 'You're NOT crazy! We DID find something.' I never suggested that I was crazy. I knew something was wrong, and had only come to the ER after urgent care told me I should. He took no time to answer any questions. I've read the education materials, but he didn't specify which diet I should be eating, and the information suggests different diets for different circumstances. He didn't explain which one I was. The education materials also say that with diverticulitis I should not take NSAIDs, which is what he prescribed me. I'm confused and concerned by this. I would never recommend Dr. ___ anyone, but especially not to a woman."
+      },
+      {
+        "m": "Jan",
+        "c": "Came in rudely, didnt introduce himself. Left MID CONVERSATION. WHILE I WAS TALKING. WITHOUT EXCUSING HIMSELF. I was so pissed talking to that old [expletive]. Like ong you need to fire him. Hes rude.impolite. And also spoke to my father about my treatment instead of me. And im 18 so my hippa was violated. And I will be suing you and this Dr. ___ a well mannered time. Please keep this man away from me at all times. He told me to drink water. While I was mid drinking water. Hes ignorant. And a piece of [expletive]. And im very disappointed in the banner standards he was upholding."
+      },
+      {
+        "m": "Jan",
+        "c": "This was my second visit to the emergency room and was quite different than my first. I had wounds underneath the splint and they were replacing the splint and they were hesitant to treat the wounds. I had to ask them to put medication and bandage on the wounds and they seem to not want toso they agreed to bandage but they the Dr. ___ Provider ___'t think it needed medication. I work with Wound Care all the time and I know it needed medication so I demanded some sort of an anti-Septic before they covered it with a splint.So they agreed to bandage but they the Dr. ___ Provider ___'t think it needed medication. I work with Wound Care all the time and I know it needed medication so I demanded some sort of a septic before they covered it with The slant. So they agreed to do it, but the Provider ___ with me as she did it saying it did not need It, the wounds were healed Althoughthey were actively bleeding. I don't think emergency room nurses know as much about treating active Wounds, as Wound Care. This is the second time I've been an emergency room in this hospital over the years that even doctors don't seem to understand how wounds work. I'm really very surprised given that it's the emergency room plus I asked the Dr. ___ I left if he was sure the bones were still in place before he put the splint back on and he said it didn't matter I was going to the ortho and he would do it that his job was just to temporarily patch me up and send me out, very dismissive very cold. Just wanted to get me out and get me gone no need for x-ray. No need just to make sure the other splint which fell off the one they put on and was replaced . He didn't care if my bones had displaced. He just wanted me gone. Not a good feeling."
+      }
+    ]
+  },
+  {
+    "title": "Discharge and follow-up clarity",
+    "detail": "Confusing instructions or unclear next steps",
+    "count": 23,
+    "comments": [
+      {
+        "m": "Jun",
+        "c": "The Dr. ___. ___ ___. I was sent to the ER from Banner urgent care on Higly. The Medical staff there were concerned with my low heart rate. 47 bpm and my symptoms of dizziness and light headedness. They advised I go to the ER. Dr. ___ that the ER was for Life and Death situation and that this was not one. He said that the urgent care is staffed with mid level medical staff and when they don't know what to do they send you to the ER. This Dr. ___ feel dumb and like I should not have come to the ER and waisted his time. I told him I thought maybe I had an inner ear infection. He checked that and said no but could have a Eustachian tube dysfunction. I asked if he would write me a prescription for a steroid. He said yes and left. Before I knew it the Provider ___ with the discharge papers. I was surprised that the Dr. ___ returned. The Provider ___ get the Dr. ___ now I was finished with Dr. ___. I asked about the steroid prescription. The Provider ___ had prescribed a nasal spray. I said I wasn't having any sinus problems and would like a prescription for a steroid like prednisone. He went to speak with the doctor. The Provider ___ said the nasal spray had a steroid in it. So I left. I feel like Dr. ___ rude and belittling to both me and the Banner urgent care staff. I felt like he didn't address my low heart rate concerns at all or what he thought was considered a low heart rate because I think 47 is pretty low. While I was in the ER it got to 45. I have confidence in Banner Gateway. I have confidence in the medical staff there. But I have no respect for Dr. ___."
+      },
+      {
+        "m": "Jun",
+        "c": "In the appt I was told 100 ounces of water was a lot. Yet, in the discharge paperwork I was told I needed to drink a lot of water."
+      },
+      {
+        "m": "Jun",
+        "c": "There was a three hour delay (approximate) between ordering the ultrasound and getting the ultrasound. I had to ask the nurse a couple times to follow up on that delay."
+      },
+      {
+        "m": "Jun",
+        "c": "Perscriptions sent to MD ___ pharmacy which was strange. The Provider ___ discharging and just said 'do you have her to wheel her out' no assistance after sitting about an hour to be discharged."
+      },
+      {
+        "m": "May",
+        "c": "I was to receive a breathing tube upon discharge, I didn't get one?"
+      },
+      {
+        "m": "May",
+        "c": "I was to receive a breathing tube upon discharge, I didn't get one?"
+      },
+      {
+        "m": "May",
+        "c": "Dr. ___ he already knew what was wrong before he came in. I asked for pain meds 3 times and he discharged me before even given me any. I tried to tell him some medical history but he already was walking out the door and ignored me as he thought I had the flu. I was discharged with out any pain medication. I saw the Dr. ___ once in the beginning and once at discharge both times he was very rushed and wanting to leave with zero care for how I actually feel or the reason I'm in the er."
+      },
+      {
+        "m": "May",
+        "c": "The Dr. ___ worst medical experience I have ever had. He walked in, asked what I was feeling, and then immediately began speaking over me instead of listening to why I was there. While examining my abdomen, he burped directly in my face, which was extremely unprofessional and disgusting.Within seconds of touching my abdomen and asking only two brief questions, he concluded it was a UTI - despite the fact that I came in concerned about a possible ruptured ovarian cyst. I was asked to provide a urine sample only to later be told I had nothing and that 'maybe' it was a small cyst. No imaging was done, no ultrasound was ordered, and no effort was made to properly investigate my symptoms.I was then left alone in my room for hours. Even after pressing the call button, I waited several minutes for assistance. When I asked my nurse, ___, for basic things such as water, it took over 30 minutes, and afterward I barely saw her again.The communication between staff was also terrible. When a second Provider ___, I explained that I was still in pain, and he responded by saying I was being discharged. At no point did I feel heard, cared for, or properly informed. When I asked the Dr. ___ actually been ruled out, he could not clearly answer my questions and continued dismissing my concerns.I left feeling ignored, dismissed, and without answers regarding the severe pain that brought me to the ER in the first place."
+      },
+      {
+        "m": "May",
+        "c": "Moved out of green room which was private over to red area which was not private to get results and then be discharged. A sick person with a cold or flu was placed next to me, they constantly coughed and sneezed and I have been fighting getting sick ever since. I also could hear the results given to those around me as I know they could hear my results too. This I did not appreciate. Results should be given in the private room, then once given, moved to the red area to await discharge papers."
+      },
+      {
+        "m": "Apr",
+        "c": "Provider ___ me from holding area had my medication in her sweatshirt in a medcup And it was 3. 20 mg Prednisone tablets Very unsanitaryIt might have been different if they had been individually wrapped but they were not. I am a Provider ___ would I have carried a medication in my pocket"
+      },
+      {
+        "m": "Apr",
+        "c": "I saw the Dr. ___ about a minute. He never laid a finger on me or asked any questions at all. With my symptoms, I think it was clear it was not a heart attack and I never suggested it was. The Dr. ___ that own self-diagnosis and never attempted to find cause for the pain or identify any other concerns with questions, tests or exam, etc. I was discharged in the same state I arrived but by only being informed I had not had a several days long heart attack which did not help me at all."
+      },
+      {
+        "m": "Apr",
+        "c": "Left the hospital just to be still in pain and being advise to follow up with PCP. After letting them know that I have been in pain for a week and still having stomach pain that is effecting my back."
+      },
+      {
+        "m": "Mar",
+        "c": "Discharge papers were confusing to me"
+      },
+      {
+        "m": "Mar",
+        "c": "The Provider ___ to a respiratory treatment and left. Treatment ended and nobody returned to disconnect it so the air was blowing for a long time. Still running when I was discharged."
+      },
+      {
+        "m": "Feb",
+        "c": "The Dr. ___ but touch my head, prescribed me antibotics without knowing if I had an infection, said It may have something to do with my lyphm nodes but didnt even touch them. Told me to follow up with my doctor. I told him my Dr. ___ to come to the ER. Kinda dismissive. Then on his way out he remembered to ask me if I had any allergies to medications."
+      },
+      {
+        "m": "Feb",
+        "c": "The Provider ___ run a flu and covid test on me. Both came back negative and he stated I just had a cold. He also told me he couldn't prescribe tamiflu because If my flu test came back negative, their system wouldn't let him prescribe It to me. He didn't ask my symptoms, nor did he fully look at my chart until I was in the discharge area. My vitals were concerning. My blood pressure, heart rate and temp were all high when I was brought in. It wasn't until I was in the discharge area when the Provider ___ 'oh I actually just took a look at your chart and you meet certain criteria to run more tests'. He told a nurse, to take my vitals, get blood and start an IV. She got blood, and obtained vitals but when she noticed I was a hard stuck for the IV she said she was going to ask the Provider ___ IV was 'really necessary'. The Provider ___ they didn't need the IV and I was discharged shortly after receiving the results from my blood test, being discharged with the exact mediations the Provider ___ system wouldn't allow him to prescribe."
+      },
+      {
+        "m": "Feb",
+        "c": "I felt like the care Provider ___ like what I was going through was an emergency. He ran bloodwork and said everything came back normal, so he didnt understand what brought me into the 'emergency room'. I reexplained my symptoms and he just nodded and said he was going to get me discharged and to follow up with my Dr."
+      },
+      {
+        "m": "Feb",
+        "c": "Throughout the 22 hour stay there seemed to be no one in charge but with a lot of 'buck' passing. At least 6 hours were simply waiting because there WAS ONLY ONE PERSON reading the test results who then passed them on to ??? Who finally got someone to advice??? Andtook me to the next strp. The whole department seemed to be without someone to guide the patient through treatments and then to discharge. A tremendous amount of time just waiting for test results and then finding someone who would actually DO something. A 'Sargent Major' type is sorely needed."
+      },
+      {
+        "m": "Feb",
+        "c": "No follow-up"
+      },
+      {
+        "m": "Feb",
+        "c": "I was seen by a male. From discharge papers, his name was ___. He never introduced himself. I assume he was a PA. I was not at all pleased with my interaction when th him."
+      },
+      {
+        "m": "Jan",
+        "c": "It was apparent right from the beginning that the Provider ___ unwilling or unable to spend any reasonable amount of time talking to me to gather information about my symptoms and my history leading up to them. He actually missed some of my symptoms during his nearly non-existent initial examination and only later noticed them as I was being discharged."
+      },
+      {
+        "m": "Jan",
+        "c": "Notes typed in my discharge papers never discussed, the Dr. ___'t really care about my health, sent me home and told me to call family physician. I will not return to your ER!! I'm still sick and it's been a week,"
+      },
+      {
+        "m": "Jan",
+        "c": "I came to the ER due to an episode of A-Fib Heart rate about 140-170 at home. By the time I got to a room I had converted back to a normal rate around 60-70. I think the Dr. ___ questions to determine any extenuating health issues that may have altered or contributed to the A-fib. I dont recall that he even got close enough to listen to my heart. The past 6 months I have been having issues with my Thyroid and A1c after my cardiologist altered my Levothyroxin dose. He did not mention if blood tests were done for either of these diagnosis. I feel like because my rate converted before he even got in the room that it wasnt a big deal and was discharged."
+      }
+    ]
+  },
+  {
+    "title": "Pain plan communication",
+    "detail": "Expectations for pain control not set or met",
+    "count": 11,
+    "comments": [
+      {
+        "m": "Jun",
+        "c": "It took over an hour for him to prescribe a strong enough pain med."
+      },
+      {
+        "m": "Jun",
+        "c": "No referral for pain relief. EM doc provided prescriptions for med. Meds not working after 2 days. Pain 5-10. Depends position. Pain Increased. No pain relief. ER wants to reevaluate condition with 2nd visit. Going back to ER for unknown evaluation or waiting for doc visit for relief is difficult choice."
+      },
+      {
+        "m": "May",
+        "c": "I was surprised the provider's first suggestion for pain medication was morphine. My discomfort level was a 6 or 7. There would have been better options which was given to me instead."
+      },
+      {
+        "m": "May",
+        "c": "I was surprised the provider's first suggestion for pain medication was morphine. My discomfort level was a 6 or 7. There would have been better options which was given to me instead."
+      },
+      {
+        "m": "May",
+        "c": "Dr. ___ he already knew what was wrong before he came in. I asked for pain meds 3 times and he discharged me before even given me any. I tried to tell him some medical history but he already was walking out the door and ignored me as he thought I had the flu. I was discharged with out any pain medication. I saw the Dr. ___ once in the beginning and once at discharge both times he was very rushed and wanting to leave with zero care for how I actually feel or the reason I'm in the er."
+      },
+      {
+        "m": "Apr",
+        "c": "I had to remind the dr I needed pain medication. The Dr. ___ put me on crutches when I had a broken wrist. When we were exiting the building, there was no one to help us. I was with my 83-year-old cousin. Nobody helped us out the door. I'm in a wheelchair with a broken ankle and a broken wrist. She had to go looking for her car and absolutely no one would come out and help us. I was Very upset"
+      },
+      {
+        "m": "Mar",
+        "c": "Gave me a non narcotic pain reliever ( by request. Ambiguous about true diagnosis. Concern was kidney stones. Answer was we all have stones. Was told kidney function was normal. I am diabetic."
+      },
+      {
+        "m": "Feb",
+        "c": "Dr. ___ order pain medication although I mentioned it to the Provider ___ moved me to the waiting area. Waited 5 hours for labs. Dr. ___'t check back with me until 5 hours after asked me how I was feeling with the meds which weren't given to me. Absolutely horrible service! I was told I'd get a work note and meds ordered to my pharmacy. Pharmacy said they couldn't order the meds per legal reasons since Dr. ___'t administer meds at the ER and the Dr. ___ known this so I continued to be in pain even after visiting the ER and had no answers regarding the cause for the pain."
+      },
+      {
+        "m": "Feb",
+        "c": "I was alone for hours at a time. NEVER offered ANYTHING for pain! NotEven ibuprofen!"
+      },
+      {
+        "m": "Feb",
+        "c": "So this is hard to judge. My expectations when going to the ER were to resolve the pain I tool otc pain medications, and that was not helping. I was also concerned about something in my eye.. There was a scratching. I have been struggling with head pressure issues recently. I talked to my pcp, my 2 eye specalists and they did not seem to put much concern on the issue."
+      },
+      {
+        "m": "Jan",
+        "c": "Dr. ___'t do really anything just came in came out I asked them for something for pain almost got given ibuprofen something I'm highly allergic to got what already take for a messed up back and shoulder percacet and Tylenol after telling them I can't have ibuprofen and the other meds they tried to give Dr. ___'t really show much care ! And I told the Dr. ___ I can have something other than the ghetto used splint both wrong size they tried second one Dr. ___'s all I. Have Im not going to do anything else cause he got mad Provider ___ a second time the Provider ___ she didn't even know how to put on the arm brace/ splint her 1st time using something like that eventually was posted very uncomfortable eventually registration Provider ___ to get my insurance card I asked her if I can at least get some gos to level out so my hand can rest little bit more comfortable she gave me some gos splint slash arm brace didn't even fit I had to push the finger rest area down myself cause it was all poor service and Dr. ___'s didn't really want to help much! When I went home I had to make my own concert for the wrist brace I used fabric material to level out for comfort and ace wrap to post the cotton material and my girlfriend had to stich a extra strap from some other material cause it kept falling off from the swelling and the size of the brace just all together a poor visit if I would have known treatment was going to be that lazy and uncomfortable I could have just went to Walgreens and got the same thing but something more comfortable that fit!"
+      }
+    ]
+  },
+  {
+    "title": "Updates during the visit",
+    "detail": "Long gaps without provider communication",
+    "count": 8,
+    "comments": [
+      {
+        "m": "Jun",
+        "c": "Very little communication, especially whe I asked questions."
+      },
+      {
+        "m": "Jun",
+        "c": "No referral for pain relief. EM doc provided prescriptions for med. Meds not working after 2 days. Pain 5-10. Depends position. Pain Increased. No pain relief. ER wants to reevaluate condition with 2nd visit. Going back to ER for unknown evaluation or waiting for doc visit for relief is difficult choice."
+      },
+      {
+        "m": "Jun",
+        "c": "Provider ___ condescending to my husband when he was too fatigued to even open his eyes. She did not communicate well and kept us waiting for extensive periods of time."
+      },
+      {
+        "m": "May",
+        "c": "The Dr. ___ worst medical experience I have ever had. He walked in, asked what I was feeling, and then immediately began speaking over me instead of listening to why I was there. While examining my abdomen, he burped directly in my face, which was extremely unprofessional and disgusting.Within seconds of touching my abdomen and asking only two brief questions, he concluded it was a UTI - despite the fact that I came in concerned about a possible ruptured ovarian cyst. I was asked to provide a urine sample only to later be told I had nothing and that 'maybe' it was a small cyst. No imaging was done, no ultrasound was ordered, and no effort was made to properly investigate my symptoms.I was then left alone in my room for hours. Even after pressing the call button, I waited several minutes for assistance. When I asked my nurse, ___, for basic things such as water, it took over 30 minutes, and afterward I barely saw her again.The communication between staff was also terrible. When a second Provider ___, I explained that I was still in pain, and he responded by saying I was being discharged. At no point did I feel heard, cared for, or properly informed. When I asked the Dr. ___ actually been ruled out, he could not clearly answer my questions and continued dismissing my concerns.I left feeling ignored, dismissed, and without answers regarding the severe pain that brought me to the ER in the first place."
+      },
+      {
+        "m": "May",
+        "c": "Again after waiting from 245 to nearly 11 pm no one brought him insulin or his other meds, or water, this is unacceptable for a diabetic with only 1 kidney and half a pancreas."
+      },
+      {
+        "m": "Apr",
+        "c": "Long wait in patient room, several hours wait with no updates"
+      },
+      {
+        "m": "Feb",
+        "c": "Dr. ___ order pain medication although I mentioned it to the Provider ___ moved me to the waiting area. Waited 5 hours for labs. Dr. ___'t check back with me until 5 hours after asked me how I was feeling with the meds which weren't given to me. Absolutely horrible service! I was told I'd get a work note and meds ordered to my pharmacy. Pharmacy said they couldn't order the meds per legal reasons since Dr. ___'t administer meds at the ER and the Dr. ___ known this so I continued to be in pain even after visiting the ER and had no answers regarding the cause for the pain."
+      },
+      {
+        "m": "Feb",
+        "c": "Throughout the 22 hour stay there seemed to be no one in charge but with a lot of 'buck' passing. At least 6 hours were simply waiting because there WAS ONLY ONE PERSON reading the test results who then passed them on to ??? Who finally got someone to advice??? Andtook me to the next strp. The whole department seemed to be without someone to guide the patient through treatments and then to discharge. A tremendous amount of time just waiting for test results and then finding someone who would actually DO something. A 'Sargent Major' type is sorely needed."
+      }
+    ]
+  }
+],
+
+  bgmcInsights: {
+    positives: [
+      "Named provider shoutouts are common, patients remember and credit individual physicians and APPs",
+      "Compassion is the single most repeated positive theme, ahead of clinical skill",
+      "Explaining the plan in plain language drives many top-box comments"
+    ],
+    negatives: [
+      "Workup disagreement is the top detractor driver, patients who wanted imaging and did not get it, or felt something was missed",
+      "\"Dismissed\" and \"rushed\" appear repeatedly in negative comments about brief encounters",
+      "Red Zone and results-pending flow generates privacy and update complaints"
+    ],
+    patterns: [
+      "Detractor share climbed Jan through Apr, then improved sharply in May",
+      "Positive share was highest in January (62%) and lowest in April (51%)",
+      "Roughly 1 in 3 provider comments in H1 2026 was a detractor"
+    ],
+    actions: [
+      "Narrate the medical decision making: say why a test is or is not indicated before discharge",
+      "Sit down and close the loop, ask \"what questions do you have\" before leaving the room",
+      "Set the pain plan expectation on the first encounter"
+    ]
+  }
+};
+
+/* =========================================================
+   RENDERING LOGIC — no edits needed below this line
+   ========================================================= */
+(function(){
+  const $ = id => document.getElementById(id);
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let activeMonth = "all"; // "all" or index
+
+  /* ----- helpers ----- */
+  function totals(scope){
+    const rows = scope === "all" ? PEX_DATA.months : [PEX_DATA.months[scope]];
+    return rows.reduce((a,m)=>({pos:a.pos+m.pos, neu:a.neu+m.neu, det:a.det+m.det}),{pos:0,neu:0,det:0});
+  }
+  const pct = (n,t)=> t ? Math.round(n/t*100) : 0;
+
+  function countUp(el, target, suffix){
+    if(reduceMotion){ el.textContent = target + suffix; return; }
+    const start = performance.now(), dur = 800;
+    function step(now){
+      const p = Math.min((now-start)/dur, 1);
+      el.textContent = Math.round(target * (1-Math.pow(1-p,3))) + suffix;
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ----- donut ----- */
+  const CIRC = 2 * Math.PI * 46;
+  function setArc(el, fracLen, offsetFrac){
+    el.style.strokeDasharray = (fracLen*CIRC) + " " + CIRC;
+    el.style.strokeDashoffset = -(offsetFrac*CIRC);
+  }
+  function renderDonut(){
+    const t = totals(activeMonth), total = t.pos+t.neu+t.det;
+    const p = pct(t.pos,total), n = pct(t.neu,total), d = 100-p-n;
+    setArc($("pexArcPos"), t.pos/total, 0);
+    setArc($("pexArcNeu"), t.neu/total, t.pos/total);
+    setArc($("pexArcDet"), t.det/total, (t.pos+t.neu)/total);
+    countUp($("pexPosBig"), p, "%");
+    $("pexLegPos").textContent = p + "%";
+    $("pexLegNeu").textContent = n + "%";
+    $("pexLegDet").textContent = d + "%";
+    countUp($("pexSurveyCount"), total, "");
+    $("pexScopeLabel").textContent = activeMonth === "all"
+      ? "All of 2026 (year to date)"
+      : PEX_DATA.months[activeMonth].label + " 2026";
+  }
+
+  /* ----- monthly bars ----- */
+  function renderBars(){
+    const bars = $("pexBars"), labels = $("pexBarLabels");
+    bars.innerHTML = ""; labels.innerHTML = "";
+    const maxTotal = Math.max(...PEX_DATA.months.map(m=>m.pos+m.neu+m.det));
+    PEX_DATA.months.forEach((m,i)=>{
+      const total = m.pos+m.neu+m.det, H = 160;
+      const col = document.createElement("button");
+      col.className = "pex-barcol" + (activeMonth!=="all" && activeMonth!==i ? " dim" : "");
+      col.setAttribute("aria-label", m.label + ": " + pct(m.pos,total) + "% positive, " + pct(m.det,total) + "% detractor");
+      ["pos","neu","det"].forEach(k=>{
+        const seg = document.createElement("div");
+        seg.className = "pex-seg " + k;
+        seg.style.height = "0px";
+        col.appendChild(seg);
+        requestAnimationFrame(()=>requestAnimationFrame(()=>{
+          seg.style.height = (m[k]/maxTotal*H) + "px";
+        }));
+      });
+      col.addEventListener("click", ()=>{
+        activeMonth = (activeMonth === i) ? "all" : i;
+        syncMonthButtons(); renderDonut(); renderBars(); renderNote(); renderCallouts();
+      });
+      bars.appendChild(col);
+      const lab = document.createElement("span");
+      lab.textContent = m.label;
+      labels.appendChild(lab);
+    });
+    renderTrendTag();
+  }
+
+  function renderTrendTag(){
+    const ms = PEX_DATA.months;
+    if(ms.length < 2) return;
+    const f = ms[0], l = ms[ms.length-1];
+    const fp = pct(f.pos, f.pos+f.neu+f.det), lp = pct(l.pos, l.pos+l.neu+l.det);
+    const diff = lp - fp, tag = $("pexTrendTag");
+    tag.className = "pex-trendtag " + (diff>1 ? "up" : diff<-1 ? "down" : "flat");
+    tag.textContent = diff>1 ? "▲ Improving (+"+diff+" pts)" : diff<-1 ? "▼ Declining ("+diff+" pts)" : "◆ Stable";
+  }
+
+  function renderNote(){
+    $("pexMonthNote").textContent = activeMonth === "all"
+      ? "Tap or click any month above to see its de-identified summary."
+      : PEX_DATA.months[activeMonth].label + " — " + PEX_DATA.months[activeMonth].note;
+  }
+
+  function renderCallouts(){
+    const best = PEX_DATA.positiveThemes[0], worst = PEX_DATA.improvementThemes[0];
+    $("pexBestTheme").textContent = best.title;
+    $("pexBestThemeSub").textContent = best.count + " mentions · " + best.detail;
+    $("pexWorstTheme").textContent = worst.title;
+    $("pexWorstThemeSub").textContent = worst.count + " mentions · " + worst.detail;
+  }
+
+  /* ----- month filter buttons ----- */
+  function buildMonthBar(){
+    const bar = $("pexMonthBar");
+    const mk = (label, val)=>{
+      const b = document.createElement("button");
+      b.className = "pex-month"; b.textContent = label; b.dataset.val = val;
+      b.addEventListener("click", ()=>{
+        activeMonth = (val==="all") ? "all" : Number(val);
+        syncMonthButtons(); renderDonut(); renderBars(); renderNote();
+      });
+      bar.appendChild(b);
+    };
+    mk("All 2026","all");
+    PEX_DATA.months.forEach((m,i)=>mk(m.label, i));
+    syncMonthButtons();
+  }
+  function syncMonthButtons(){
+    document.querySelectorAll(".pex-month").forEach(b=>{
+      b.setAttribute("aria-pressed", String(b.dataset.val) === String(activeMonth) ? "true" : "false");
+    });
+  }
+
+  /* ----- themes ----- */
+  function esc(s){const d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+  function renderThemes(){
+    const build = (listEl, items, cls)=>{
+      listEl.innerHTML = "";
+      items.forEach((t,i)=>{
+        const li = document.createElement("li");
+        li.className = "pex-theme " + cls;
+        li.dataset.theme = t.title;
+        li.setAttribute("role","button");
+        li.setAttribute("tabindex","0");
+        li.setAttribute("aria-expanded","false");
+        const comments = (t.comments||[]).map(c=>
+          '<div class="pex-comment"><span class="mo">'+esc(c.m)+'</span>'+esc(c.c)+'</div>').join("");
+        li.innerHTML =
+          '<span class="pex-rank">'+(i+1)+'</span>' +
+          '<span><span class="t">'+esc(t.title)+'</span><br><span class="d">'+esc(t.detail)+'</span></span>' +
+          '<span class="n">'+t.count+' mentions <span class="pex-chev">\u25BC</span></span>' +
+          '<div class="pex-comments">'+ (comments || '<div class="pex-comment">No comments captured for this theme yet.</div>') +'</div>';
+        const toggle = ()=>{
+          li.classList.toggle("open");
+          li.setAttribute("aria-expanded", li.classList.contains("open") ? "true" : "false");
+        };
+        li.addEventListener("click", toggle);
+        li.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle();} });
+        listEl.appendChild(li);
+      });
+    };
+    build($("pexPosThemes"), PEX_DATA.positiveThemes, "pos");
+    build($("pexDetThemes"), PEX_DATA.improvementThemes, "det");
+
+    const fill = (id, arr)=>{ $(id).innerHTML = arr.map(x=>"<li>"+x+"</li>").join(""); };
+    fill("pexInsPos", PEX_DATA.bgmcInsights.positives);
+    fill("pexInsNeg", PEX_DATA.bgmcInsights.negatives);
+    fill("pexInsPat", PEX_DATA.bgmcInsights.patterns);
+    fill("pexInsAct", PEX_DATA.bgmcInsights.actions);
+  }
+
+  /* ----- callout click: jump to Themes tab and open that theme ----- */
+  function goToTheme(title){
+    document.querySelector('.pex-tab[data-view="themes"]').click();
+    const li = document.querySelector('.pex-theme[data-theme="'+title+'"]');
+    if(li){
+      if(!li.classList.contains("open")) li.click();
+      li.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+  }
+  document.querySelector(".pex-callout.pos").addEventListener("click", ()=>goToTheme(PEX_DATA.positiveThemes[0].title));
+  document.querySelector(".pex-callout.det").addEventListener("click", ()=>goToTheme(PEX_DATA.improvementThemes[0].title));
+
+  /* ----- tabs ----- */
+  document.querySelectorAll(".pex-tab").forEach(tab=>{
+    tab.addEventListener("click", ()=>{
+      document.querySelectorAll(".pex-tab").forEach(t=>t.setAttribute("aria-selected","false"));
+      tab.setAttribute("aria-selected","true");
+      const themes = tab.dataset.view === "themes";
+      $("pexViewOverview").classList.toggle("pex-hidden", themes);
+      $("pexViewThemes").classList.toggle("pex-hidden", !themes);
+      if(!themes){ renderDonut(); renderBars(); }
+    });
+  });
+
+  /* ----- init ----- */
+  buildMonthBar();
+  renderDonut();
+  renderBars();
+  renderNote();
+  renderCallouts();
+  renderThemes();
+})();
+</script>
+</body>
+</html>
