@@ -182,6 +182,12 @@
 <style>
 /* ── July 2026 mobile UX pass (appended overrides) ── */
 
+/* ── Overflow containment fix: grid children must be allowed to shrink so
+   inner chart wrappers scroll instead of blowing out the page width ── */
+.grid-chart-side > *, .grid-4 > *, .prod-grid > *, .grid-2 > * { min-width: 0; }
+.chart-card, .card, .section { min-width: 0; max-width: 100%; }
+html, body { overflow-x: hidden; max-width: 100%; }
+
 /* Scroll affordance: edge shadows that appear only when content overflows in that
    direction (background-attachment:local trick) + always-visible thin scrollbar */
 .chart-scroll-outer, .table-responsive {
