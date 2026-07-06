@@ -1368,6 +1368,136 @@ html[data-theme="dark"] .prec-divider-not-ok {
   .site-header, .sticky-banner { display: none; }
   .main { padding: 0; }
 }
+
+/* ═══ IN-SITE CALCULATORS ═══════════════════════════════ */
+.calc-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(20,17,14,0.45);
+  backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  display: none; align-items: flex-end; justify-content: center;
+  padding: 0;
+}
+.calc-overlay.open { display: flex; animation: fadeUp 0.22s var(--ease-out) both; }
+@media (min-width: 560px) {
+  .calc-overlay { align-items: center; padding: 24px; }
+}
+.calc-sheet {
+  background: var(--bg); width: 100%; max-width: 480px;
+  max-height: 88vh; display: flex; flex-direction: column;
+  border-radius: 20px 20px 0 0;
+  border: 1px solid var(--border);
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+@media (min-width: 560px) { .calc-sheet { border-radius: 20px; } }
+.calc-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 16px 12px; border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.calc-head-ico { font-size: 22px; }
+.calc-head-txt { flex: 1; min-width: 0; }
+.calc-title { font-size: 15px; font-weight: 800; color: var(--text); }
+.calc-sub { font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+.calc-close {
+  border: 1px solid var(--border); background: var(--surface-2);
+  color: var(--text-2); width: 32px; height: 32px; border-radius: 10px;
+  cursor: pointer; font-size: 16px; line-height: 1; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.calc-body { overflow-y: auto; padding: 14px 16px; flex: 1; -webkit-overflow-scrolling: touch; }
+.calc-sec-label {
+  font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-3); margin: 14px 0 8px;
+}
+.calc-sec-label:first-child { margin-top: 2px; }
+.calc-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 12px; margin-bottom: 6px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; cursor: pointer; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+.calc-row.on { border-color: var(--bgmc); background: var(--bgmc-bg); }
+.calc-row input[type=checkbox] {
+  width: 19px; height: 19px; accent-color: var(--bgmc); flex-shrink: 0; pointer-events: none;
+}
+.calc-row-txt { flex: 1; font-size: 13.5px; font-weight: 600; color: var(--text); line-height: 1.35; }
+.calc-row-pts {
+  font-size: 11.5px; font-weight: 800; color: var(--text-3);
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+}
+.calc-row.on .calc-row-pts { color: var(--bgmc); border-color: var(--bgmc); background: var(--bg); }
+.calc-num-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.calc-num {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 9px 12px;
+}
+.calc-num label { display: block; font-size: 10.5px; font-weight: 800; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+.calc-num input {
+  width: 100%; border: none; background: transparent; color: var(--text);
+  font-size: 17px; font-weight: 700; font-family: inherit; outline: none;
+  -moz-appearance: textfield;
+}
+.calc-num input::-webkit-outer-spin-button, .calc-num input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.calc-seg { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.calc-seg button {
+  flex: 1; min-width: 64px; padding: 9px 6px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; cursor: pointer; font-family: inherit;
+  font-size: 12px; font-weight: 700; color: var(--text-2);
+  -webkit-tap-highlight-color: transparent;
+}
+.calc-seg button.sel { border-color: var(--bgmc); background: var(--bgmc-bg); color: var(--bgmc); }
+.calc-foot {
+  border-top: 1px solid var(--border); background: var(--surface);
+  padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+}
+.calc-score-num { font-size: 30px; font-weight: 900; color: var(--text); line-height: 1; min-width: 56px; }
+.calc-score-num small { font-size: 12px; font-weight: 700; color: var(--text-3); }
+.calc-verdict { flex: 1; min-width: 0; }
+.calc-verdict-main { font-size: 13.5px; font-weight: 800; line-height: 1.25; }
+.calc-verdict-sub { font-size: 11.5px; color: var(--text-3); margin-top: 2px; line-height: 1.3; }
+.calc-verdict.v-ip .calc-verdict-main   { color: var(--ip, #C0392B); }
+.calc-verdict.v-obs .calc-verdict-main  { color: var(--obs-dim, #1565C0); }
+.calc-verdict.v-neut .calc-verdict-main { color: var(--text-2); }
+.calc-mdcalc {
+  display: block; text-align: center; font-size: 11px; font-weight: 700;
+  color: var(--text-3); padding: 8px 0 10px; background: var(--surface);
+  text-decoration: none;
+}
+.calc-mdcalc:hover { color: var(--bgmc); text-decoration: underline; }
+
+
+/* ── Criteria group sub-headers ── */
+.crit-group-label {
+  font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-3);
+  padding: 12px 16px 2px; border-top: 1px dashed var(--border);
+  margin-top: 4px;
+}
+.crit-body > .crit-group-label:first-child { border-top: none; margin-top: 0; padding-top: 4px; }
+
+/* ── Calculator sliders (CIWA) ── */
+.calc-slide {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 11px 12px; margin-bottom: 8px;
+}
+.calc-slide-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.calc-slide-label { font-size: 13px; font-weight: 700; color: var(--text); }
+.calc-slide-val {
+  font-size: 14px; font-weight: 900; color: var(--bgmc);
+  background: var(--bgmc-bg); border: 1px solid var(--bgmc);
+  min-width: 30px; text-align: center; border-radius: 8px; padding: 1px 8px;
+}
+.calc-slide input[type=range] {
+  width: 100%; accent-color: var(--bgmc); height: 26px; margin: 0; cursor: pointer;
+  touch-action: pan-x;
+}
+.calc-slide-anchor { font-size: 11.5px; color: var(--text-3); line-height: 1.35; margin-top: 3px; min-height: 15px; }
+
 </style>
 </head>
 <body>
@@ -1568,6 +1698,30 @@ html[data-theme="dark"] .prec-divider-not-ok {
   <button class="sticky-banner-chip" type="button" onclick="toggleStickyBanner(false)" aria-label="Show observation reminder">OBS tip</button>
 </div>
 
+
+<!-- ═══ CALCULATOR MODAL ═══ -->
+<div class="calc-overlay" id="calcOverlay" onclick="if(event.target===this)closeCalc()">
+  <div class="calc-sheet" role="dialog" aria-modal="true" aria-labelledby="calcTitle">
+    <div class="calc-head">
+      <div class="calc-head-ico" id="calcIco">🧮</div>
+      <div class="calc-head-txt">
+        <div class="calc-title" id="calcTitle"></div>
+        <div class="calc-sub" id="calcSub"></div>
+      </div>
+      <button class="calc-close" onclick="closeCalc()" aria-label="Close calculator">✕</button>
+    </div>
+    <div class="calc-body" id="calcBody"></div>
+    <div class="calc-foot">
+      <div class="calc-score-num" id="calcScore">0</div>
+      <div class="calc-verdict v-neut" id="calcVerdict">
+        <div class="calc-verdict-main" id="calcVMain"></div>
+        <div class="calc-verdict-sub" id="calcVSub"></div>
+      </div>
+    </div>
+    <a class="calc-mdcalc" id="calcMdcalc" href="#" target="_blank" rel="noopener">Verify on MDCalc ↗</a>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1575,7 +1729,7 @@ html[data-theme="dark"] .prec-divider-not-ok {
    DATA
 ════════════════════════════════════════════════════════ */
 const CATS = [
-  { id:'gi',          label:'Abdominal / GI',      emoji:'🤰', color:'#C0392B' },
+  { id:'gi',          label:'Abdominal / GI',      emoji:'🤢', color:'#C0392B' },
   { id:'cardio',      label:'Cardiovascular',      emoji:'❤️',  color:'#D81B60' },
   { id:'electrolyte', label:'Electrolytes',        emoji:'⚡', color:'#E65100' },
   { id:'ent',         label:'ENT',                 emoji:'👂', color:'#6A1B9A' },
@@ -1624,7 +1778,7 @@ const DX = [
         'Hepatic Encephalopathy (severe — West Haven Grade III–IV): somnolence, semi-stupor, confusion, disorientation to place, coma',
         'Tachypnea secondary to ascites persisting despite obs care',
         'Infected Ascites (SBP): PMN ≥250/mm³ in ascitic fluid + fever, abdominal pain, or AMS',
-        'Alcoholic Hepatitis: alcohol most likely etiology + MELD score >20 — <a class="calc-link" href="https://www.mdcalc.com/calc/78/meld-score-model-end-stage-liver-disease-12-older" target="_blank" rel="noopener">MDCalc MELD →</a>',
+        'Alcoholic Hepatitis: alcohol most likely etiology + MELD score >20 — <a class="calc-link" href="#" onclick="event.preventDefault();openCalc(\'meld\')">MELD Calculator →</a>',
         'Acute Portal or Splenic Vein Thrombosis: symptoms <60 days + no pre-existing cirrhosis/portal HTN + intestinal ischemia or infarction'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'lower-gi-bleed', name:'Lower GI Bleed', cat:'gi',
@@ -1672,8 +1826,13 @@ const DX = [
         'AICD fired >1× in past 24 hours'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'chest-pain', name:'Chest Pain / ACS Rule Out', cat:'cardio',
-    ip:['High-risk patient + persistent chest pain + positive troponin or delta troponin >5 ng/L: consult Cardiology BEFORE speaking with OOU — may require transfer'],
-    obs:null, notes:null, alwaysIP:false,
+    ip:['High-risk patient + persistent chest pain + positive troponin or delta troponin >5 ng/L: consult Cardiology BEFORE speaking with OOU — may require transfer',
+        'HEART score \u22657 (high risk) \u2014 <a class="calc-link" href="#" onclick="event.preventDefault();openCalc(\'heart\')">HEART Calculator \u2192</a>'],
+    obs:null,
+    notesLabel:'HEART Score Risk Stratification',
+    notes:'HEART 0\u20133 = low risk (MACE 0.9\u20131.7%) \u2014 consider discharge with follow-up. 4\u20136 = moderate (MACE 12\u201316.6%) \u2014 observation. \u22657 = high (MACE 50\u201365%) \u2014 consult Cardiology. <a class="calc-link" href="#" onclick="event.preventDefault();openCalc(\'heart\')">Open HEART Calculator \u2192</a>',
+    notesRaw:'HEART 0-3 low risk MACE 0.9-1.7% discharge. 4-6 moderate 12-16.6% observation. >=7 high 50-65% cardiology. heart score',
+    alwaysIP:false,
     flags:['Strongly consider consulting Cardiology before calling OOU for any high-risk patient with a positive troponin or delta troponin >5 ng/L. Cardiology may request transfer.'] },
   { id:'chf', name:'CHF Exacerbation', cat:'cardio',
     ip:['Malignant arrhythmias (AF with RVR, VT)',
@@ -1724,7 +1883,7 @@ const DX = [
   /* ── Electrolytes ─────────────────────────────────── */
   { id:'hyponatremia',    name:'Hyponatremia',    cat:'electrolyte', ip:['Na <125 mEq/L'], obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'hypernatremia',   name:'Hypernatremia',   cat:'electrolyte', ip:['Na >155 mEq/L'], obs:null, notes:null, alwaysIP:false, flags:[] },
-  { id:'hypokalemia',     name:'Hypokalemia',     cat:'electrolyte', ip:['K <2.5 mEq/L'],  obs:null, notes:null, alwaysIP:false, flags:[] },
+  { id:'hypokalemia',     name:'Hypokalemia',     cat:'electrolyte', ip:['K <2.5 mEq/L','ECG changes or arrhythmia attributable to hypokalemia, regardless of K level'], obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'hyperkalemia',    name:'Hyperkalemia',    cat:'electrolyte', ip:['K >6.5 mEq/L','ECG changes regardless of K level'], obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'hypocalcemia',    name:'Hypocalcemia',    cat:'electrolyte', ip:['Ca <7 mg/dL'],   obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'hypercalcemia',   name:'Hypercalcemia',   cat:'electrolyte', ip:['Ca >14 mg/dL'],  obs:null, notes:null, alwaysIP:false, flags:[] },
@@ -1795,6 +1954,17 @@ const DX = [
         'Underlying etiology requires inpatient treatment (e.g., infection requiring admission)'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
 
+  { id:'hypoglycemia', name:'Hypoglycemia', cat:'endo',
+    ip:['Recurrent hypoglycemia despite dextrose infusion (D10) in ED or observation',
+        'AMS persisting after glucose correction',
+        'Massive or intentional insulin overdose',
+        'Underlying etiology requiring inpatient care (sepsis, adrenal insufficiency, liver failure)'],
+    obs:'Sulfonylurea ingestion (glipizide, glyburide, glimepiride) or long-acting insulin = observation MINIMUM due to delayed recurrence risk up to 24 hours. Short-acting insulin without recurrence + tolerating PO + stable glucose = consider discharge.',
+    notesLabel:'Sulfonylurea Pearls',
+    notes:'Consider octreotide for recurrent sulfonylurea-induced hypoglycemia. Check renal function: reduced clearance of insulin and sulfonylureas prolongs hypoglycemia risk.',
+    alwaysIP:false,
+    flags:['Sulfonylurea or long-acting insulin hypoglycemia = OOU appropriate but observation MINIMUM. Do not discharge from the ED.'] },
+
   /* ── ID ───────────────────────────────────────────── */
   { id:'cellulitis', name:'Cellulitis', cat:'id',
     ip:['AMS',
@@ -1841,7 +2011,7 @@ const DX = [
         'Parenteral antimicrobials requiring inpatient administration or monitoring',
         'Isolation precautions not safely implementable in OOU — <a href="#" onclick="event.preventDefault();showIDPrecautions()" style="color:var(--bgmc);font-weight:700;text-decoration:underline;text-underline-offset:2px">View ID Precautions →</a>'],
     obs:null,
-    notes:'SIRS / Sepsis criteria alone ≠ inpatient admission. <a class="calc-link" href="https://www.mdcalc.com/calc/1096/sirs-sepsis-septic-shock-criteria" target="_blank" rel="noopener">MDCalc SIRS/Sepsis →</a>',
+    notes:'SIRS / Sepsis criteria alone ≠ inpatient admission. <a class="calc-link" href="#" onclick="event.preventDefault();openCalc(\'sirs\')">SIRS Calculator →</a>',
     notesRaw:'SIRS / Sepsis criteria alone ≠ inpatient admission. MDCalc SIRS/Sepsis',
     alwaysIP:false,
     flags:[] },
@@ -1849,22 +2019,40 @@ const DX = [
     ip:['Always meets inpatient criteria'],
     obs:null, notes:null, alwaysIP:true, flags:[] },
   { id:'uti', name:'UTI / Pyelonephritis', cat:'id',
-    ip:['AMS',
+    ip:[],
+    ipGroups:[
+      { label:'Systemic / Clinical', items:[
+        'AMS',
         'AKI >2× baseline creatinine',
-        'Persistent or worsening clinical findings (fever, pain, dehydration, vomiting) despite observation care',
+        'Persistent or worsening clinical findings (fever, pain, dehydration, vomiting) despite observation care'] },
+      { label:'Special Populations', items:[
         'Pregnancy with suspected pyelonephritis',
-        'Kidney transplant recipient with suspected pyelonephritis',
+        'Kidney transplant recipient with suspected pyelonephritis'] },
+      { label:'Obstruction / Structural', items:[
         'Significant uropathy (obstructive defect, moderate–severe VUR)',
-        'Suspected infection of indwelling prosthetic device, stent, implant, or graft',
         'UTI with obstruction (infection proximal to obstruction — e.g., obstructing kidney stone)',
-        'Impaired bladder emptying (bladder outlet obstruction)',
+        'Impaired bladder emptying (bladder outlet obstruction)'] },
+      { label:'Complicated Infection', items:[
+        'Suspected infection of indwelling prosthetic device, stent, implant, or graft',
         'Renal or perinephric abscess',
         'Emphysematous pyelonephritis or cystitis',
         'Pyonephrosis',
-        'Pneumaturia or fecaluria (vesico-enteric or vesico-vaginal fistula)'],
+        'Pneumaturia or fecaluria (vesico-enteric or vesico-vaginal fistula)'] }
+    ],
     obs:null, notes:null, alwaysIP:false, flags:[] },
 
   /* ── Neurologic ───────────────────────────────────── */
+  { id:'alcohol-withdrawal', name:'Alcohol Withdrawal', cat:'neuro',
+    ip:['Clinical withdrawal PLUS any of: HR >100, nausea and vomiting, tremors, or diaphoresis',
+        'Elevated withdrawal risk: history of delirium tremens, alcohol withdrawal seizures, or epilepsy',
+        'Pregnancy',
+        'No response to adequate treatment in the ED'],
+    obs:null,
+    notesLabel:'CIWA-Ar Note',
+    notes:'No formal CIWA-Ar threshold for admission exists. CIWA-Ar \u226515 is considered severe and often warrants admission. Bands: <8 mild \u00b7 8\u201314 moderate \u00b7 \u226515 severe. <a class="calc-link" href="#" onclick="event.preventDefault();openCalc(\'ciwa\')">Open CIWA-Ar Calculator \u2192</a>',
+    notesRaw:'No formal CIWA-Ar threshold for admission. CIWA-Ar >=15 severe, often warrants admission. Bands: <8 mild, 8-14 moderate, >=15 severe. ciwa',
+    alwaysIP:false,
+    flags:['OOU is NOT appropriate for acutely intoxicated patients or those with significant withdrawal risk (history of withdrawal seizures, hallucinations, or severe symptoms).'] },
   { id:'seizure', name:'Seizure', cat:'neuro',
     ip:['Status epilepticus (seizure >5 minutes)',
         'Multiple seizures within a short period',
@@ -1885,7 +2073,8 @@ const DX = [
         'Hypertensive emergency requiring anti-HTN drip',
         'Significant cardiac/vascular disorder requiring inpatient care (valvular disease, myxoma, aortic dissection)',
         'Severe hypertension (SBP >180 or DBP >120)',
-        'Suspected vasculitis'],
+        'Suspected vasculitis',
+        'ABCD2 score \u22654 (moderate to high early stroke risk) \u2014 <a class="calc-link" href="#" onclick="event.preventDefault();openCalc(\'abcd2\')">ABCD2 Calculator \u2192</a>'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
 
   /* ── OB/GYN ───────────────────────────────────────── */
@@ -1937,16 +2126,16 @@ const DX = [
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'pneumonia', name:'Pneumonia', cat:'pulm',
     ip:['Hypoxia (<90%)','AMS','Bacteremia','Hypotension or signs of septic shock',
-        'PSI Class IV or V — <a class="calc-link" href="https://www.mdcalc.com/calc/33/psi-port-score-pneumonia-severity-index-cap" target="_blank" rel="noopener">MDCalc PSI/PORT →</a>',
-        'CURB-65 ≥3 — <a class="calc-link" href="https://www.mdcalc.com/curb-65-score-pneumonia-severity" target="_blank" rel="noopener">MDCalc CURB-65 →</a>',
+        'PSI Class IV or V — <a class="calc-link" href="#" onclick="event.preventDefault();openCalc(\'psi\')">PSI Calculator →</a>',
+        'CURB-65 ≥3 — <a class="calc-link" href="#" onclick="event.preventDefault();openCalc(\'curb65\')">CURB-65 Calculator →</a>',
         'Complicated pleural effusion (empyema, loculated)',
         'Tachypnea persisting despite observation care',
         'Risk factors for poor outcome: cavitary infiltrate, neuromuscular weakness, cystic fibrosis',
         'Outpatient failure: insufficient improvement on appropriate regimen of sufficient duration, or inability to tolerate outpatient regimen'],
     obs:null,
     notesLabel:'CURB-65 Score',
-    notes:'CURB-65 (1 point each): Confusion (new) · BUN >18 mg/dL · RR >29 · SBP <90 or DBP <60 · Age >65. <strong>CURB-65 Score ≥3 = Inpatient.</strong> <a class="calc-link" href="https://www.mdcalc.com/curb-65-score-pneumonia-severity" target="_blank" rel="noopener">MDCalc CURB-65 →</a>',
-    notesRaw:'CURB-65 (1 point each): Confusion (new) · BUN >18 mg/dL · RR >29 · SBP <90 or DBP <60 · Age >65. CURB-65 Score ≥3 = Inpatient.',
+    notes:'CURB-65 (1 point each): Confusion (new) · BUN >18 mg/dL · RR ≥30 · SBP <90 or DBP <60 · Age >65. <strong>CURB-65 Score ≥3 = Inpatient.</strong> <a class="calc-link" href="#" onclick="event.preventDefault();openCalc(\'curb65\')">CURB-65 Calculator →</a>',
+    notesRaw:'CURB-65 (1 point each): Confusion (new) · BUN >18 mg/dL · RR ≥30 · SBP <90 or DBP <60 · Age >65. CURB-65 Score ≥3 = Inpatient.',
     alwaysIP:false, flags:[] },
   { id:'pneumothorax', name:'Pneumothorax', cat:'pulm',
     ip:['Tension pneumothorax (hypotension)',
@@ -1959,7 +2148,7 @@ const DX = [
     notes:'Size reference: Small <2 cm · Moderate 2–3.5 cm · Large >3.5 cm (typically requires pigtail catheter).',
     alwaysIP:false, flags:[] },
   { id:'pe', name:'Pulmonary Embolism', cat:'pulm',
-    ip:['Moderate or high-risk PE',
+    ip:['Moderate or high-risk PE (PESI Class III–V) — <a class="calc-link" href="#" onclick="event.preventDefault();openCalc(\'pesi\')">PESI Calculator →</a>',
         'Signs of cardiac stress: positive troponin or BNP, right heart strain on ECG or echo',
         'Need for respiratory support','Hypoxia (<90%)',
         'Severe or persistent respiratory symptoms likely to require ventilatory support',
@@ -2003,7 +2192,7 @@ const DX = [
         'Tachypnea persisting despite obs'],
     obs:null, notes:null, alwaysIP:false, flags:[] },
   { id:'head-injury', name:'Head Injury / Concussion', cat:'trauma',
-    ip:['AMS','GCS <13 after presentation or post-resuscitation — <a class="calc-link" href="https://www.mdcalc.com/calc/64/glasgow-coma-scale-score-gcs" target="_blank" rel="noopener">MDCalc GCS →</a>',
+    ip:['AMS','GCS <13 after presentation or post-resuscitation — <a class="calc-link" href="#" onclick="event.preventDefault();openCalc(\'gcs\')">GCS Calculator →</a>',
         'Worsening neurologic function after arrival',
         'New or worsening severe symptoms (dizziness, vomiting, headache) persisting despite obs',
         'New focal neurologic findings','Signs of elevated ICP (papilledema, bradycardia)',
@@ -2020,49 +2209,60 @@ const DX = [
 ];
 
 const SEARCH_ALIASES = {
-  'appendicitis': ['appy', 'rlq pain', 'right lower quadrant', 'abdominal pain', 'fever'],
-  'bowel-obstruction': ['sbo', 'small bowel obstruction', 'ileus', 'ng tube', 'nasogastric tube', 'vomiting', 'abdominal pain'],
-  'cholecystitis': ['gallbladder', 'biliary colic', 'cholangitis', 'ruq pain', 'right upper quadrant', 'cbd stone', 'fever', 'lfts'],
-  'liver-cirrhosis': ['cirrhosis', 'ascites', 'hepatic encephalopathy', 'sbp', 'alcoholic hepatitis', 'inr', 'meld'],
-  'lower-gi-bleed': ['gi bleed', 'gib', 'rectal bleeding', 'hematochezia', 'melena', 'brbpr', 'anemia'],
-  'upper-gi-bleed': ['gi bleed', 'gib', 'melena', 'hematemesis', 'variceal bleed', 'octreotide', 'anemia'],
-  'pancreatitis': ['lipase', 'epigastric pain', 'abdominal pain', 'vomiting', 'nausea'],
-  'afib': ['atrial fib', 'af', 'rvr', 'rapid ventricular response', 'tachycardia', 'palpitations'],
-  'chest-pain': ['cp', 'acs', 'rule out acs', 'mi', 'myocardial infarction', 'nstemi', 'stemi', 'troponin', 'ekg', 'ecg'],
-  'chf': ['heart failure', 'congestive heart failure', 'fluid overload', 'pulmonary edema', 'dyspnea', 'shortness of breath', 'sob', 'hypoxia', 'oxygen'],
-  'dvt': ['deep vein thrombosis', 'leg swelling', 'anticoagulation', 'blood clot'],
-  'hypertension': ['htn', 'hypertensive emergency', 'high blood pressure', 'bp'],
-  'syncope': ['passed out', 'passing out', 'fainting', 'near syncope', 'collapse'],
-  'pta': ['peritonsillar abscess', 'tonsillitis', 'sore throat', 'airway', 'fever'],
+  'appendicitis': ['appy', 'rlq pain', 'right lower quadrant', 'abdominal pain', 'fever', 'appendecitis', 'apendicitis', 'appendisitis', 'appendix'],
+  'bowel-obstruction': ['sbo', 'small bowel obstruction', 'ileus', 'ng tube', 'nasogastric tube', 'vomiting', 'abdominal pain', 'bowl obstruction', 'obstuction', 'small bowl'],
+  'cholecystitis': ['gallbladder', 'biliary colic', 'cholangitis', 'ruq pain', 'right upper quadrant', 'cbd stone', 'fever', 'lfts', 'colecystitis', 'cholesystitis', 'gall bladder', 'gallblader', 'colangitis'],
+  'liver-cirrhosis': ['cirrhosis', 'ascites', 'hepatic encephalopathy', 'sbp', 'alcoholic hepatitis', 'inr', 'meld', 'cirhosis', 'cirrohsis', 'liver failure', 'encephalopothy', 'meld score'],
+  'lower-gi-bleed': ['gi bleed', 'gib', 'rectal bleeding', 'hematochezia', 'melena', 'brbpr', 'anemia', 'hemorrhoid bleeding', 'lgib', 'bloody stool'],
+  'upper-gi-bleed': ['gi bleed', 'gib', 'melena', 'hematemesis', 'variceal bleed', 'octreotide', 'anemia', 'hematemisis', 'ugib', 'coffee ground', 'vomiting blood'],
+  'pancreatitis': ['lipase', 'epigastric pain', 'abdominal pain', 'vomiting', 'nausea', 'pancreatitus', 'pancriatitis', 'pancreatits', 'pancreas'],
+  'afib': ['atrial fib', 'af', 'rvr', 'rapid ventricular response', 'tachycardia', 'palpitations', 'a fib', 'atrial fibrilation', 'afib rvr', 'fibrillation', 'irregular heart'],
+  'chest-pain': ['cp', 'acs', 'rule out acs', 'mi', 'myocardial infarction', 'nstemi', 'stemi', 'troponin', 'ekg', 'ecg', 'heart score', 'heart attack', 'chest pressure', 'unstable angina', 'troponin elevation'],
+  'chf': ['heart failure', 'congestive heart failure', 'fluid overload', 'pulmonary edema', 'dyspnea', 'shortness of breath', 'sob', 'hypoxia', 'oxygen', 'hart failure', 'chf exacerbation', 'volume overload', 'bnp', 'edema'],
+  'dvt': ['deep vein thrombosis', 'leg swelling', 'anticoagulation', 'blood clot', 'deep venous thrombosis', 'thrombus', 'clot leg'],
+  'hypertension': ['htn', 'hypertensive emergency', 'high blood pressure', 'bp', 'hypertention', 'hypertensive urgency', 'elevated blood pressure'],
+  'syncope': ['passed out', 'passing out', 'fainting', 'near syncope', 'collapse', 'syncopy', 'sincope', 'loss of consciousness', 'locs'],
+  'pta': ['peritonsillar abscess', 'tonsillitis', 'sore throat', 'airway', 'fever', 'peritonsilar', 'tonsilitis', 'quinsy', 'throat abscess'],
   'mastoiditis': ['otitis', 'ear infection', 'mastoid', 'fever'],
-  'anemia': ['low hemoglobin', 'hgb', 'transfusion', 'dyspnea', 'syncope', 'bleeding'],
-  'neutropenia': ['neutropenic fever', 'anc', 'fever', 'immunocompromised'],
-  'sickle-cell': ['sickle cell crisis', 'pain crisis', 'acute chest', 'vaso occlusive'],
-  'dka': ['diabetic ketoacidosis', 'anion gap', 'ketones', 'hyperglycemia', 'vomiting'],
-  'hhs': ['hyperosmolar', 'hyperglycemia', 'high glucose', 'ams'],
-  'hyperglycemia': ['high glucose', 'diabetes', 'new diabetes', 'dehydration'],
-  'cellulitis': ['skin infection', 'abscess', 'wound', 'fever', 'iv antibiotics'],
-  'osteomyelitis': ['bone infection', 'diabetic foot', 'wound', 'mri', 'podiatry'],
-  'picc-cvc': ['central line infection', 'line infection', 'port infection', 'catheter infection', 'bacteremia'],
-  'sepsis': ['sirs', 'septic shock', 'infection', 'fever', 'lactate', 'tachycardia', 'tachypnea', 'hypotension', 'bacteremia'],
-  'septic-arthritis': ['joint infection', 'hot joint', 'septic joint', 'fever'],
-  'uti': ['pyelo', 'pyelonephritis', 'urinary tract infection', 'urosepsis', 'flank pain', 'fever', 'vomiting'],
-  'seizure': ['new seizure', 'status epilepticus', 'antiepileptic', 'ams'],
-  'tia': ['stroke', 'cva', 'weakness', 'aphasia', 'facial droop', 'neuro deficit', 'dizziness', 'vertigo'],
-  'hyperemesis': ['pregnancy', 'vomiting', 'dehydration', 'nausea'],
-  'pid': ['pelvic inflammatory disease', 'tubo ovarian abscess', 'toa', 'pelvic pain', 'fever'],
-  'asthma': ['wheezing', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'oxygen', 'bipap', 'high flow'],
-  'copd': ['wheezing', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'oxygen', 'bipap', 'hypercarbia'],
-  'pleural-effusion': ['effusion', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'thoracentesis', 'empyema'],
-  'pneumonia': ['pna', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'oxygen', 'fever', 'cough', 'tachypnea', 'curb', 'psi', 'port'],
-  'pneumothorax': ['ptx', 'collapsed lung', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'chest tube'],
-  'pe': ['pulmonary embolism', 'blood clot', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'troponin', 'right heart strain', 'rv strain'],
-  'aki': ['acute renal failure', 'kidney failure', 'creatinine', 'anuria', 'gfr'],
-  'kidney-stone': ['renal colic', 'ureteral stone', 'ureterolithiasis', 'hydronephrosis', 'flank pain', 'urosepsis'],
-  'hemodialysis': ['dialysis', 'esrd', 'hyperkalemia', 'fluid overload', 'pulmonary edema', 'hypoxia', 'uremia'],
-  'rib-fractures': ['rib fracture', 'chest wall injury', 'trauma', 'hypoxia', 'tachypnea', 'pain'],
-  'head-injury': ['concussion', 'head trauma', 'tbi', 'fall', 'vomiting', 'headache', 'dizziness', 'seizure'],
-  'non-op-fracture': ['fracture', 'hip pain', 'pelvic fracture', 'extremity fracture', 'snf', 'skilled nursing', 'placement', 'pt', 'ot', 'ambulate']
+  'anemia': ['low hemoglobin', 'hgb', 'transfusion', 'dyspnea', 'syncope', 'bleeding', 'anaemia', 'anemea', 'low hgb', 'blood loss'],
+  'neutropenia': ['neutropenic fever', 'anc', 'fever', 'immunocompromised', 'nutropenia', 'neutropinia', 'low anc', 'low wbc'],
+  'sickle-cell': ['sickle cell crisis', 'pain crisis', 'acute chest', 'vaso occlusive', 'sicle cell', 'sickel cell', 'voc', 'hemoglobin ss'],
+  'dka': ['diabetic ketoacidosis', 'anion gap', 'ketones', 'hyperglycemia', 'vomiting', 'keto acidosis', 'ketoasidosis', 'diabetic keto', 'gap acidosis'],
+  'hhs': ['hyperosmolar', 'hyperglycemia', 'high glucose', 'ams', 'honk', 'hyperosmolar state', 'nonketotic'],
+  'hyperglycemia': ['high glucose', 'diabetes', 'new diabetes', 'dehydration', 'hyperglycemea', 'sugar high', 'elevated glucose'],
+  'cellulitis': ['skin infection', 'abscess', 'wound', 'fever', 'iv antibiotics', 'cellulitus', 'celulitis', 'cellutitis', 'soft tissue infection', 'erysipelas'],
+  'osteomyelitis': ['bone infection', 'diabetic foot', 'wound', 'mri', 'podiatry', 'osteomylitis', 'osteomyletis', 'osteo', 'diabetic ulcer'],
+  'picc-cvc': ['central line infection', 'line infection', 'port infection', 'catheter infection', 'bacteremia', 'picc line', 'clabsi', 'central line'],
+  'sepsis': ['sirs', 'septic shock', 'infection', 'fever', 'lactate', 'tachycardia', 'tachypnea', 'hypotension', 'bacteremia', 'sepis', 'septis', 'sirs criteria', 'source unclear'],
+  'septic-arthritis': ['joint infection', 'hot joint', 'septic joint', 'fever', 'septic athritis', 'infected joint', 'arthrocentesis'],
+  'uti': ['pyelo', 'pyelonephritis', 'urinary tract infection', 'urosepsis', 'flank pain', 'fever', 'vomiting', 'pylonephritis', 'pyelonephritus', 'pyleonephritis', 'urinary infection', 'dysuria', 'perinephric'],
+  'seizure': ['new seizure', 'status epilepticus', 'antiepileptic', 'ams', 'seziure', 'siezure', 'seizer', 'convulsion', 'epilepsy', 'postictal'],
+  'tia': ['stroke', 'cva', 'weakness', 'aphasia', 'facial droop', 'neuro deficit', 'dizziness', 'vertigo', 'transient ischemic attack', 'mini stroke', 'abcd2', 'ministroke'],
+  'hyperemesis': ['pregnancy', 'vomiting', 'dehydration', 'nausea', 'hypermesis', 'hyperemsis', 'morning sickness severe'],
+  'pid': ['pelvic inflammatory disease', 'tubo ovarian abscess', 'toa', 'pelvic pain', 'fever', 'cervical motion tenderness', 'adnexal'],
+  'asthma': ['wheezing', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'oxygen', 'bipap', 'high flow', 'athsma', 'asma', 'asthma attack', 'bronchospasm', 'albuterol'],
+  'copd': ['wheezing', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'oxygen', 'bipap', 'hypercarbia', 'emphysema', 'chronic bronchitis', 'copd exacerbation', 'emphasema'],
+  'pleural-effusion': ['effusion', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'thoracentesis', 'empyema', 'plural effusion', 'pleural fluid', 'effussion'],
+  'pneumonia': ['pna', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'oxygen', 'fever', 'cough', 'tachypnea', 'curb', 'psi', 'port', 'pnuemonia', 'pnemonia', 'pneumonea', 'numonia', 'infiltrate', 'consolidation', 'cap', 'aspiration'],
+  'pneumothorax': ['ptx', 'collapsed lung', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'chest tube', 'pnuemothorax', 'pneumothrax', 'pneumo'],
+  'pe': ['pulmonary embolism', 'blood clot', 'sob', 'shortness of breath', 'dyspnea', 'hypoxia', 'troponin', 'right heart strain', 'rv strain', 'pulmonary embolus', 'pulmonary emboli', 'embolism', 'pesi', 'saddle embolus', 'ctpa'],
+  'aki': ['acute renal failure', 'kidney failure', 'creatinine', 'anuria', 'gfr', 'kidney injury', 'renal insufficiency', 'elevated creatinine', 'rising creatinine'],
+  'kidney-stone': ['renal colic', 'ureteral stone', 'ureterolithiasis', 'hydronephrosis', 'flank pain', 'urosepsis', 'nephrolithiasis', 'nephrolithias', 'kidney stones', 'renal stone', 'uroliths'],
+  'hemodialysis': ['dialysis', 'esrd', 'hyperkalemia', 'fluid overload', 'pulmonary edema', 'hypoxia', 'uremia', 'dialisis', 'dyalisis', 'missed dialysis', 'hd'],
+  'hyponatremia': ['low sodium', 'hyponatermia', 'sodium 125', 'siadh'],
+  'hypernatremia': ['high sodium', 'hypernatermia', 'dehydration sodium'],
+  'hypokalemia': ['low potassium', 'hypokalemea', 'potassium low', 'k low'],
+  'hyperkalemia': ['high potassium', 'hyperkalemea', 'peaked t waves', 'k high'],
+  'hypocalcemia': ['low calcium', 'hypocalcemea'],
+  'hypercalcemia': ['high calcium', 'hypercalcemea', 'malignancy calcium'],
+  'hypomagnesemia': ['low magnesium', 'low mag', 'hypomag'],
+  'hypermagnesemia': ['high magnesium', 'high mag', 'hypermag'],
+  'rhabdomyolysis': ['rhabdo', 'rabdo', 'ck elevation', 'creatine kinase', 'muscle breakdown'],
+  'hypoglycemia': ['low blood sugar', 'low glucose', 'hypoglycemea', 'sulfonylurea', 'glipizide', 'glyburide', 'glimepiride', 'insulin overdose', 'd50', 'd10'],
+  'alcohol-withdrawal': ['etoh', 'etoh withdrawal', 'withdrawal', 'withdraw', 'dts', 'delirium tremens', 'ciwa', 'ciwa ar', 'detox', 'alchohol', 'achohol', 'alcohal', 'drinking', 'librium', 'phenobarbital'],
+  'rib-fractures': ['rib fracture', 'chest wall injury', 'trauma', 'hypoxia', 'tachypnea', 'pain', 'rib fx', 'broken rib', 'broken ribs', 'flail'],
+  'head-injury': ['concussion', 'head trauma', 'tbi', 'fall', 'vomiting', 'headache', 'dizziness', 'seizure', 'concusion', 'concussed', 'gcs', 'head bleed', 'subdural', 'ich'],
+  'non-op-fracture': ['fracture', 'hip pain', 'pelvic fracture', 'extremity fracture', 'snf', 'skilled nursing', 'placement', 'pt', 'ot', 'ambulate', 'hip fracture', 'femur fracture', 'fall injury', 'cannot walk']
 };
 
 const OOU_EXCL = [
@@ -2144,6 +2344,7 @@ function searchTextForDx(d) {
     c,
     ...(SEARCH_ALIASES[d.id] || []),
     ...(d.ip || []),
+    ...(d.ipGroups ? d.ipGroups.flatMap(g => [g.label, ...g.items]) : []),
     d.obs,
     d.notesRaw || d.notes,
     ...(d.flags || [])
@@ -2221,7 +2422,7 @@ function renderRecent() {
   wrap.innerHTML = ids.map(id => {
     const d = dxById(id); if (!d) return '';
     const c = catById(d.cat);
-    return `<div class="chip" onclick="renderDx('${id}')">
+    return `<div class="chip" onclick="renderDx('${id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();renderDx('${id}')}">
       <span class="chip-em">${c.emoji}</span>
       <span>${escHTML(d.name)}</span>
     </div>`;
@@ -2262,8 +2463,8 @@ function goBack() {
   const grid = document.getElementById('catGrid');
   grid.innerHTML = CATS.map((c, i) => {
     const n = DX.filter(d => d.cat === c.id).length;
-    const delay = (i * 0.38).toFixed(2) + 's';
-    return `<div class="cat-tile" style="--cat-color:${c.color}" onclick="renderCategory('${c.id}')">
+    const delay = (i * 0.15).toFixed(2) + 's';
+    return `<div class="cat-tile" style="--cat-color:${c.color}" onclick="renderCategory('${c.id}')" role="button" tabindex="0" aria-label="${escHTML(c.label)}, ${n} diagnoses" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();renderCategory('${c.id}')}">
       <div class="cat-emoji-wrap">
         <span class="cat-emoji" style="animation-delay:${delay}">${c.emoji}</span>
       </div>
@@ -2297,7 +2498,7 @@ function renderCategory(catId, push=true) {
     if (d.alwaysIP) badges.push('<span class="sr-badge ip">Always IP</span>');
     if (d.flags&&d.flags.length) badges.push('<span class="sr-badge bgmc">BGMC</span>');
     const meta = badges.length ? badges.join(' ') : `<span>${escHTML(c.label)}</span>`;
-    html += `<div class="sr-item" style="--cat-color:${c.color}" onclick="renderDx('${d.id}')">
+    html += `<div class="sr-item" style="--cat-color:${c.color}" onclick="renderDx('${d.id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();renderDx('${d.id}')}">
       <div class="sr-emoji">${c.emoji}</div>
       <div class="sr-body">
         <div class="sr-name">${escHTML(d.name)}</div>
@@ -2321,8 +2522,9 @@ function renderDx(dxId, push=true) {
   const c = catById(d.cat);
 
   // Verdict
+  const hasIP = (d.ip && d.ip.length > 0) || (d.ipGroups && d.ipGroups.length > 0);
   let vCls, vIco, vTitle, vSub;
-  if (!d.ip || d.ip.length === 0) {
+  if (!hasIP) {
     vCls='obs-eligible'; vIco=svg('half',2);
     vTitle='Observation-Appropriate'; vSub='Listed criteria support observation placement.';
   } else if (d.alwaysIP) {
@@ -2357,17 +2559,25 @@ function renderDx(dxId, push=true) {
   });
 
   // Inpatient criteria (skip if empty)
-  if (d.ip && d.ip.length > 0) {
+  if (hasIP) {
   html += `<div class="crit-card">
     <div class="crit-header">
       <div class="crit-title"><span class="crit-dot"></span>Inpatient Criteria</div>
       <div class="crit-aux">any of the following</div>
     </div>
-    <div class="crit-body">
-      <ul class="crit-list">`;
-  d.ip.forEach(item => { html += `<li>${markThresholds(item)}</li>`; });
-  html += `</ul></div></div>`;
-  } // end ip.length check
+    <div class="crit-body">`;
+  if (d.ip && d.ip.length > 0) {
+    html += `<ul class="crit-list">`;
+    d.ip.forEach(item => { html += `<li>${markThresholds(item)}</li>`; });
+    html += `</ul>`;
+  }
+  (d.ipGroups || []).forEach(g => {
+    html += `<div class="crit-group-label">${escHTML(g.label)}</div><ul class="crit-list">`;
+    g.items.forEach(item => { html += `<li>${markThresholds(item)}</li>`; });
+    html += `</ul>`;
+  });
+  html += `</div></div>`;
+  } // end hasIP check
 
   if (d.obs) {
     html += `<div class="expand-card" id="obsCard">
@@ -2516,7 +2726,7 @@ function onSearch(val) {
     if ((d.flags&&d.flags.length) || d.badge === 'BGMC') badges.push('<span class="sr-badge bgmc">BGMC</span>');
     const meta = `<span>${escHTML(c.label)}</span>${badges.length?' · '+badges.join(' '):''}`;
     html += `<div class="sr-item ${i===0?'focused':''}" style="--cat-color:${c.color}"
-      data-idx="${i}" onclick="fromSearch('${d.id}', ${d.special ? 'true' : 'false'})">
+      data-idx="${i}" onclick="fromSearch('${d.id}', ${d.special ? 'true' : 'false'})" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();fromSearch('${d.id}', ${d.special ? 'true' : 'false'})}">
       <div class="sr-emoji">${c.emoji}</div>
       <div class="sr-body">
         <div class="sr-name">${escHTML(d.name)}</div>
@@ -2699,6 +2909,346 @@ function showIDPrecautions() {
   document.getElementById('idPrecContent').innerHTML = html;
   showView('id-precautions');
 }
+
+
+/* ═══════════════════════════════════════════════════════
+   IN-SITE CLINICAL CALCULATORS
+════════════════════════════════════════════════════════ */
+const calcState = {};
+let curCalc = null;
+
+function chk(id, txt, pts) {
+  const ptsLabel = pts === undefined ? '' : `<span class="calc-row-pts">+${pts}</span>`;
+  return `<div class="calc-row" id="row-${id}" onclick="calcTog('${id}')" role="checkbox" aria-checked="false" tabindex="0"
+    onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();calcTog('${id}')}">
+    <input type="checkbox" id="cb-${id}" tabindex="-1">
+    <div class="calc-row-txt">${txt}</div>${ptsLabel}
+  </div>`;
+}
+function num(id, label, ph) {
+  return `<div class="calc-num"><label for="in-${id}">${label}</label>
+    <input type="number" inputmode="decimal" id="in-${id}" placeholder="${ph||'—'}" oninput="calcNum('${id}', this.value)"></div>`;
+}
+function segRow(id, label, opts) {
+  let btns = opts.map(o =>
+    `<button type="button" id="seg-${id}-${o.v}" onclick="calcSeg('${id}',${o.v})">${o.t}</button>`).join('');
+  return `<div class="calc-sec-label">${label}</div><div class="calc-seg">${btns}</div>`;
+}
+function calcTog(id) {
+  calcState[id] = !calcState[id];
+  const row = document.getElementById('row-'+id);
+  row.classList.toggle('on', calcState[id]);
+  row.setAttribute('aria-checked', String(calcState[id]));
+  document.getElementById('cb-'+id).checked = calcState[id];
+  refreshCalc();
+}
+function calcNum(id, v) { calcState[id] = v === '' ? null : parseFloat(v); refreshCalc(); }
+function calcSeg(id, v) {
+  calcState[id] = v;
+  document.querySelectorAll(`[id^="seg-${id}-"]`).forEach(b => b.classList.remove('sel'));
+  const el = document.getElementById(`seg-${id}-${v}`);
+  if (el) el.classList.add('sel');
+  refreshCalc();
+}
+const CALC_ANCHORS = {};
+function slider(id, label, max, anchors) {
+  CALC_ANCHORS[id] = anchors;
+  calcState[id] = 0;
+  return `<div class="calc-slide">
+    <div class="calc-slide-top"><span class="calc-slide-label">${label}</span><span class="calc-slide-val" id="sv-${id}">0</span></div>
+    <input type="range" min="0" max="${max}" value="0" step="1" aria-label="${label}" oninput="calcSlide('${id}', this.value)">
+    <div class="calc-slide-anchor" id="sa-${id}">${anchors[0]}</div>
+  </div>`;
+}
+function calcSlide(id, v) {
+  v = parseInt(v, 10);
+  calcState[id] = v;
+  document.getElementById('sv-'+id).textContent = v;
+  const a = CALC_ANCHORS[id];
+  document.getElementById('sa-'+id).textContent = a[Math.min(v, a.length-1)];
+  refreshCalc();
+}
+const S = id => !!calcState[id];
+const N = id => (calcState[id] === null || calcState[id] === undefined || isNaN(calcState[id])) ? null : calcState[id];
+
+const CALCS = {
+  /* ── CURB-65 ── */
+  curb65: {
+    ico:'🫁', title:'CURB-65', sub:'Pneumonia severity — disposition',
+    mdcalc:'https://www.mdcalc.com/curb-65-score-pneumonia-severity',
+    build: () =>
+      chk('c-conf','Confusion (new disorientation)',1) +
+      chk('c-bun','BUN >18 mg/dL (>7 mmol/L)',1) +
+      chk('c-rr','Respiratory rate ≥30',1) +
+      chk('c-bp','SBP <90 or DBP ≤60 mmHg',1) +
+      chk('c-age','Age ≥65',1),
+    compute: () => {
+      const sc = ['c-conf','c-bun','c-rr','c-bp','c-age'].filter(S).length;
+      let main, sub, cls;
+      if (sc >= 3)      { main='Meets inpatient criterion (CURB-65 ≥3)'; sub='Severe — inpatient admission. Consider ICU if 4–5.'; cls='v-ip'; }
+      else if (sc === 2){ main='Consider observation / short stay';      sub='Intermediate risk (~9% 30-day mortality).'; cls='v-obs'; }
+      else              { main='Low risk — outpatient often appropriate'; sub='Mortality <3%. Use clinical judgment + PSI.'; cls='v-neut'; }
+      return { score: sc + '<small>/5</small>', main, sub, cls };
+    }
+  },
+
+  /* ── PSI / PORT ── */
+  psi: {
+    ico:'🫁', title:'PSI / PORT Score', sub:'Pneumonia Severity Index',
+    mdcalc:'https://www.mdcalc.com/calc/33/psi-port-score-pneumonia-severity-index-cap',
+    build: () =>
+      `<div class="calc-sec-label">Demographics</div>
+       <div class="calc-num-grid">${num('p-age','Age (years)','e.g. 72')}</div>` +
+      segRow('p-sex','Sex',[{v:0,t:'Male'},{v:1,t:'Female (−10)'}]) +
+      chk('p-nh','Nursing home resident',10) +
+      `<div class="calc-sec-label">Comorbidities</div>` +
+      chk('p-neo','Neoplastic disease',30) +
+      chk('p-liver','Liver disease',20) +
+      chk('p-chf','Congestive heart failure',10) +
+      chk('p-cvd','Cerebrovascular disease',10) +
+      chk('p-renal','Renal disease',10) +
+      `<div class="calc-sec-label">Exam findings</div>` +
+      chk('p-ams','Altered mental status',20) +
+      chk('p-rr','Respiratory rate ≥30',20) +
+      chk('p-sbp','SBP <90 mmHg',20) +
+      chk('p-temp','Temp <35°C or ≥40°C',15) +
+      chk('p-hr','Pulse ≥125',10) +
+      `<div class="calc-sec-label">Labs & imaging</div>` +
+      chk('p-ph','Arterial pH <7.35',30) +
+      chk('p-bun','BUN ≥30 mg/dL',20) +
+      chk('p-na','Sodium <130 mEq/L',20) +
+      chk('p-glu','Glucose ≥250 mg/dL',10) +
+      chk('p-hct','Hematocrit <30%',10) +
+      chk('p-o2','PaO₂ <60 mmHg or SpO₂ <90%',10) +
+      chk('p-eff','Pleural effusion on imaging',10),
+    compute: () => {
+      const age = N('p-age');
+      if (age === null) return { score:'—', main:'Enter age to score', sub:'', cls:'v-neut' };
+      let sc = age + (calcState['p-sex'] === 1 ? -10 : 0);
+      const pts = { 'p-nh':10,'p-neo':30,'p-liver':20,'p-chf':10,'p-cvd':10,'p-renal':10,
+        'p-ams':20,'p-rr':20,'p-sbp':20,'p-temp':15,'p-hr':10,
+        'p-ph':30,'p-bun':20,'p-na':20,'p-glu':10,'p-hct':10,'p-o2':10,'p-eff':10 };
+      Object.keys(pts).forEach(k => { if (S(k)) sc += pts[k]; });
+      const anyRisk = Object.keys(pts).some(S);
+      let cl, main, sub, cls;
+      if (age < 50 && !anyRisk) { cl='I';  main='Class I — outpatient'; sub='0.1% mortality. Low risk.'; cls='v-neut'; }
+      else if (sc <= 70)  { cl='II';  main='Class II — outpatient'; sub='0.6% mortality.'; cls='v-neut'; }
+      else if (sc <= 90)  { cl='III'; main='Class III — observation appropriate'; sub='0.9% mortality. Obs / short stay.'; cls='v-obs'; }
+      else if (sc <= 130) { cl='IV';  main='Meets inpatient criterion (Class IV)'; sub='9.3% mortality — inpatient admission.'; cls='v-ip'; }
+      else                { cl='V';   main='Meets inpatient criterion (Class V)'; sub='27% mortality — inpatient, consider ICU.'; cls='v-ip'; }
+      return { score: sc + '<small> · ' + cl + '</small>', main, sub, cls };
+    }
+  },
+
+  /* ── PESI ── */
+  pesi: {
+    ico:'🫀', title:'PESI Score', sub:'Pulmonary Embolism Severity Index',
+    mdcalc:'https://www.mdcalc.com/calc/1304/pulmonary-embolism-severity-index-pesi',
+    build: () =>
+      `<div class="calc-sec-label">Demographics</div>
+       <div class="calc-num-grid">${num('e-age','Age (years)','e.g. 64')}</div>` +
+      segRow('e-sex','Sex',[{v:1,t:'Male (+10)'},{v:0,t:'Female'}]) +
+      `<div class="calc-sec-label">History</div>` +
+      chk('e-ca','History of cancer',30) +
+      chk('e-chf','History of heart failure',10) +
+      chk('e-lung','Chronic lung disease',10) +
+      `<div class="calc-sec-label">Exam</div>` +
+      chk('e-hr','Heart rate ≥110',20) +
+      chk('e-sbp','SBP <100 mmHg',30) +
+      chk('e-rr','Respiratory rate ≥30',20) +
+      chk('e-temp','Temperature <36°C',20) +
+      chk('e-ams','Altered mental status',60) +
+      chk('e-o2','SpO₂ <90%',20),
+    compute: () => {
+      const age = N('e-age');
+      if (age === null) return { score:'—', main:'Enter age to score', sub:'', cls:'v-neut' };
+      let sc = age + (calcState['e-sex'] === 1 ? 10 : 0);
+      const pts = {'e-ca':30,'e-chf':10,'e-lung':10,'e-hr':20,'e-sbp':30,'e-rr':20,'e-temp':20,'e-ams':60,'e-o2':20};
+      Object.keys(pts).forEach(k => { if (S(k)) sc += pts[k]; });
+      let cl, main, sub, cls;
+      if (sc <= 65)       { cl='I';   main='Class I — very low risk';  sub='0–1.6% mortality. Consider outpatient/obs.'; cls='v-neut'; }
+      else if (sc <= 85)  { cl='II';  main='Class II — low risk';      sub='1.7–3.5% mortality. Obs often appropriate.'; cls='v-obs'; }
+      else if (sc <= 105) { cl='III'; main='Meets inpatient criterion (Class III — moderate)'; sub='3.2–7.1% mortality.'; cls='v-ip'; }
+      else if (sc <= 125) { cl='IV';  main='Meets inpatient criterion (Class IV — high)'; sub='4–11.4% mortality.'; cls='v-ip'; }
+      else                { cl='V';   main='Meets inpatient criterion (Class V — very high)'; sub='10–24.5% mortality.'; cls='v-ip'; }
+      return { score: sc + '<small> · ' + cl + '</small>', main, sub, cls };
+    }
+  },
+
+  /* ── MELD / MELD-Na ── */
+  meld: {
+    ico:'🫀', title:'MELD-Na', sub:'Model for End-Stage Liver Disease',
+    mdcalc:'https://www.mdcalc.com/calc/78/meld-score-model-end-stage-liver-disease-12-older',
+    build: () =>
+      `<div class="calc-sec-label">Labs</div>
+       <div class="calc-num-grid">
+        ${num('m-cr','Creatinine (mg/dL)','e.g. 1.4')}
+        ${num('m-bili','Bilirubin (mg/dL)','e.g. 3.2')}
+        ${num('m-inr','INR','e.g. 1.6')}
+        ${num('m-na','Sodium (mEq/L)','e.g. 132')}
+       </div>` +
+      chk('m-hd','Dialysis ≥2× in past week (or 24h CVVHD)'),
+    compute: () => {
+      let cr = N('m-cr'), bili = N('m-bili'), inr = N('m-inr'), na = N('m-na');
+      if (cr === null || bili === null || inr === null)
+        return { score:'—', main:'Enter creatinine, bilirubin, INR', sub:'Sodium optional (enables MELD-Na).', cls:'v-neut' };
+      if (S('m-hd') || cr > 4) cr = 4;
+      cr = Math.max(cr, 1); bili = Math.max(bili, 1); inr = Math.max(inr, 1);
+      let meld = 9.57*Math.log(cr) + 3.78*Math.log(bili) + 11.2*Math.log(inr) + 6.43;
+      meld = Math.min(Math.round(meld), 40);
+      let final = meld, label = 'MELD';
+      if (na !== null && meld > 11) {
+        const naB = Math.min(Math.max(na, 125), 137);
+        final = Math.min(Math.round(meld + 1.32*(137-naB) - 0.033*meld*(137-naB)), 40);
+        label = 'MELD-Na';
+      }
+      let main, sub, cls;
+      if (final > 20) { main = 'Meets inpatient criterion (MELD >20)'; sub = 'Alcoholic hepatitis with MELD >20 = inpatient. 90-day mortality ~19–53%.'; cls='v-ip'; }
+      else            { main = label + ' ≤20 — does not meet this criterion alone'; sub = 'Assess remaining liver/cirrhosis criteria.'; cls='v-obs'; }
+      return { score: final + '<small> ' + label + '</small>', main, sub, cls };
+    }
+  },
+
+  /* ── GCS ── */
+  gcs: {
+    ico:'🧠', title:'Glasgow Coma Scale', sub:'Best response in each category',
+    mdcalc:'https://www.mdcalc.com/calc/64/glasgow-coma-scale-score-gcs',
+    build: () =>
+      segRow('g-e','Eye opening',[{v:4,t:'Spontaneous 4'},{v:3,t:'To voice 3'},{v:2,t:'To pain 2'},{v:1,t:'None 1'}]) +
+      segRow('g-v','Verbal response',[{v:5,t:'Oriented 5'},{v:4,t:'Confused 4'},{v:3,t:'Words 3'},{v:2,t:'Sounds 2'},{v:1,t:'None 1'}]) +
+      segRow('g-m','Motor response',[{v:6,t:'Obeys 6'},{v:5,t:'Localizes 5'},{v:4,t:'Withdraws 4'},{v:3,t:'Flexion 3'},{v:2,t:'Extension 2'},{v:1,t:'None 1'}]),
+    compute: () => {
+      const e = calcState['g-e'], v = calcState['g-v'], m = calcState['g-m'];
+      if (!e || !v || !m) return { score:'—', main:'Select all three components', sub:'', cls:'v-neut' };
+      const sc = e + v + m;
+      let main, sub, cls;
+      if (sc < 13) { main = 'Meets inpatient criterion (GCS <13)'; sub = sc <= 8 ? 'Severe TBI — secure airway, inpatient/ICU.' : 'Moderate TBI — inpatient admission.'; cls='v-ip'; }
+      else         { main = 'GCS ≥13 — does not meet this criterion'; sub = 'Mild TBI range. Assess remaining head injury criteria.'; cls='v-obs'; }
+      return { score: sc + '<small>/15 · E'+e+'V'+v+'M'+m+'</small>', main, sub, cls };
+    }
+  },
+
+  /* ── HEART ── */
+  heart: {
+    ico:'❤️', title:'HEART Score', sub:'Major adverse cardiac event risk',
+    mdcalc:'https://www.mdcalc.com/calc/1752/heart-score-major-cardiac-events',
+    build: () =>
+      segRow('h-hx','History',[{v:0,t:'Slightly suspicious 0'},{v:1,t:'Moderately 1'},{v:2,t:'Highly suspicious 2'}]) +
+      segRow('h-ecg','ECG',[{v:0,t:'Normal 0'},{v:1,t:'Nonspecific 1'},{v:2,t:'Significant ST dev 2'}]) +
+      segRow('h-age','Age',[{v:0,t:'<45 · 0'},{v:1,t:'45–64 · 1'},{v:2,t:'≥65 · 2'}]) +
+      segRow('h-rf','Risk factors*',[{v:0,t:'None 0'},{v:1,t:'1–2 · 1'},{v:2,t:'≥3 or known ASCVD 2'}]) +
+      segRow('h-trop','Troponin',[{v:0,t:'≤Normal 0'},{v:1,t:'1–3× limit 1'},{v:2,t:'>3× limit 2'}]) +
+      `<div class="calc-slide-anchor" style="margin-top:2px">*HTN, DM, smoking, hyperlipidemia, family history, obesity (BMI >30)</div>`,
+    compute: () => {
+      const keys = ['h-hx','h-ecg','h-age','h-rf','h-trop'];
+      if (keys.some(k => calcState[k] === undefined))
+        return { score:'—', main:'Select all five components', sub:'', cls:'v-neut' };
+      const sc = keys.reduce((t,k) => t + calcState[k], 0);
+      let main, sub, cls;
+      if (sc <= 3)      { main='Low risk (0–3)'; sub='MACE 0.9–1.7%. Consider discharge with follow-up.'; cls='v-neut'; }
+      else if (sc <= 6) { main='Moderate risk (4–6)'; sub='MACE 12–16.6%. Observation appropriate.'; cls='v-obs'; }
+      else              { main='High risk (≥7) — consult Cardiology'; sub='MACE 50–65%. May require transfer per BGMC pathway.'; cls='v-ip'; }
+      return { score: sc + '<small>/10</small>', main, sub, cls };
+    }
+  },
+
+  /* ── ABCD2 ── */
+  abcd2: {
+    ico:'🧠', title:'ABCD² Score', sub:'Stroke risk after TIA',
+    mdcalc:'https://www.mdcalc.com/calc/357/abcd2-score-tia',
+    build: () =>
+      chk('a-age','Age ≥60',1) +
+      chk('a-bp','BP ≥140/90 at initial evaluation',1) +
+      segRow('a-clin','Clinical features',[{v:2,t:'Unilateral weakness 2'},{v:1,t:'Speech disturbance w/o weakness 1'},{v:0,t:'Other 0'}]) +
+      segRow('a-dur','Duration',[{v:2,t:'≥60 min · 2'},{v:1,t:'10–59 min · 1'},{v:0,t:'<10 min · 0'}]) +
+      chk('a-dm','Diabetes',1),
+    compute: () => {
+      if (calcState['a-clin'] === undefined || calcState['a-dur'] === undefined)
+        return { score:'—', main:'Select clinical features and duration', sub:'', cls:'v-neut' };
+      const sc = (S('a-age')?1:0) + (S('a-bp')?1:0) + calcState['a-clin'] + calcState['a-dur'] + (S('a-dm')?1:0);
+      let main, sub, cls;
+      if (sc >= 6)      { main='High risk (6–7)'; sub='2-day stroke risk 8.1%. Supports inpatient workup.'; cls='v-ip'; }
+      else if (sc >= 4) { main='Meets criterion (ABCD² ≥4 — moderate risk)'; sub='2-day stroke risk 4.1%. Obs/inpatient workup supported.'; cls='v-ip'; }
+      else              { main='Low risk (0–3)'; sub='2-day stroke risk 1.0%. Expedited outpatient workup may be reasonable.'; cls='v-neut'; }
+      return { score: sc + '<small>/7</small>', main, sub, cls };
+    }
+  },
+
+  /* ── CIWA-Ar ── */
+  ciwa: {
+    ico:'🍺', title:'CIWA-Ar', sub:'Alcohol withdrawal severity — slide each item',
+    mdcalc:'https://www.mdcalc.com/calc/1736/ciwa-ar-alcohol-withdrawal',
+    build: () =>
+      slider('w-nv','Nausea / vomiting',7,['None','Mild nausea, no vomiting','Intermittent nausea','Intermittent nausea','Intermittent nausea with dry heaves','Near-constant nausea','Near-constant nausea','Constant nausea, frequent dry heaves & vomiting']) +
+      slider('w-tr','Tremor',7,['None','Not visible — felt at fingertips','Mild, felt','Mild, felt','Moderate with arms extended','Marked','Marked','Severe, even with arms not extended']) +
+      slider('w-sw','Paroxysmal sweats',7,['None','Barely perceptible — moist palms','Mild','Mild','Beads of sweat on forehead','Marked','Marked','Drenching sweats']) +
+      slider('w-anx','Anxiety',7,['At ease','Mildly anxious','Mild–moderate','Mild–moderate','Moderately anxious, guarded','Marked','Marked','Panic — equivalent to acute delirium']) +
+      slider('w-ag','Agitation',7,['Normal activity','Somewhat more than normal','Mildly restless','Mildly restless','Moderately fidgety and restless','Marked','Marked','Paces or thrashes constantly']) +
+      slider('w-tac','Tactile disturbances',7,['None','Very mild itching / pins & needles','Mild','Moderate','Moderately severe hallucinations','Severe hallucinations','Extremely severe hallucinations','Continuous hallucinations']) +
+      slider('w-aud','Auditory disturbances',7,['None','Very mild harshness / startle','Mild','Moderate','Moderately severe hallucinations','Severe hallucinations','Extremely severe hallucinations','Continuous hallucinations']) +
+      slider('w-vis','Visual disturbances',7,['None','Very mild light sensitivity','Mild','Moderate','Moderately severe hallucinations','Severe hallucinations','Extremely severe hallucinations','Continuous hallucinations']) +
+      slider('w-ha','Headache / head fullness',7,['None','Very mild','Mild','Moderate','Moderately severe','Severe','Very severe','Extremely severe']) +
+      slider('w-or','Orientation / clouding',4,['Oriented, can do serial additions','Cannot do serial additions or uncertain of date','Date disorientation ≤2 days','Date disorientation >2 days','Disoriented to place and/or person']),
+    compute: () => {
+      const keys = ['w-nv','w-tr','w-sw','w-anx','w-ag','w-tac','w-aud','w-vis','w-ha','w-or'];
+      const sc = keys.reduce((t,k) => t + (calcState[k] || 0), 0);
+      let main, sub, cls;
+      if (sc >= 15)     { main='Severe withdrawal (≥15)'; sub='No formal admission threshold, but ≥15 often warrants admission. Aggressive benzodiazepine or phenobarbital protocol.'; cls='v-ip'; }
+      else if (sc >= 8) { main='Moderate withdrawal (8–14)'; sub='Treat and reassess. NOT appropriate for OOU if significant withdrawal risk.'; cls='v-obs'; }
+      else              { main='Mild / minimal (<8)'; sub='Symptom-triggered monitoring. Reassess q1–2h.'; cls='v-neut'; }
+      return { score: sc + '<small>/67</small>', main, sub, cls };
+    }
+  },
+
+  /* ── SIRS ── */
+  sirs: {
+    ico:'🦠', title:'SIRS Criteria', sub:'Systemic Inflammatory Response Syndrome',
+    mdcalc:'https://www.mdcalc.com/calc/1096/sirs-sepsis-septic-shock-criteria',
+    build: () =>
+      chk('s-temp','Temp >38°C (100.4°F) or <36°C (96.8°F)',1) +
+      chk('s-hr','Heart rate >90',1) +
+      chk('s-rr','RR >20 or PaCO₂ <32 mmHg',1) +
+      chk('s-wbc','WBC >12k, <4k, or >10% bands',1),
+    compute: () => {
+      const sc = ['s-temp','s-hr','s-rr','s-wbc'].filter(S).length;
+      let main, sub, cls;
+      if (sc >= 2) { main = 'SIRS positive (≥2 criteria)'; sub = 'SIRS/sepsis alone ≠ inpatient. Admit only if a listed sepsis inpatient criterion is met.'; cls='v-obs'; }
+      else         { main = 'SIRS negative'; sub = 'Fewer than 2 criteria present.'; cls='v-neut'; }
+      return { score: sc + '<small>/4</small>', main, sub, cls };
+    }
+  }
+};
+
+function openCalc(id) {
+  const c = CALCS[id]; if (!c) return;
+  curCalc = id;
+  Object.keys(calcState).forEach(k => delete calcState[k]);
+  document.getElementById('calcIco').textContent = c.ico;
+  document.getElementById('calcTitle').textContent = c.title;
+  document.getElementById('calcSub').textContent = c.sub;
+  document.getElementById('calcMdcalc').href = c.mdcalc;
+  document.getElementById('calcBody').innerHTML = c.build();
+  document.getElementById('calcOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  refreshCalc();
+}
+function closeCalc() {
+  curCalc = null;
+  document.getElementById('calcOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function refreshCalc() {
+  if (!curCalc) return;
+  const r = CALCS[curCalc].compute();
+  document.getElementById('calcScore').innerHTML = r.score;
+  const v = document.getElementById('calcVerdict');
+  v.className = 'calc-verdict ' + r.cls;
+  document.getElementById('calcVMain').textContent = r.main;
+  document.getElementById('calcVSub').textContent = r.sub;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && curCalc) { e.preventDefault(); closeCalc(); }
+}, true);
 
 function escHTML(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
