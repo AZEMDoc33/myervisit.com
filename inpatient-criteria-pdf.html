@@ -136,6 +136,68 @@ body {
 .icon-teal { background: rgba(61,122,138,0.1); }
 .icon-gold { background: rgba(201,151,58,0.1); }
 .icon-green { background: rgba(34,197,94,0.1); }
+.icon-discord { background: rgba(88,101,242,0.1); }
+/* STAGGERED CARD ENTRANCE — quick, one-time */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.portal-grid .portal-card { animation: cardIn 0.35s ease both; }
+.portal-grid .portal-card:nth-child(1) { animation-delay: 0s; }
+.portal-grid .portal-card:nth-child(2) { animation-delay: 0.05s; }
+.portal-grid .portal-card:nth-child(3) { animation-delay: 0.1s; }
+.portal-grid .portal-card:nth-child(4) { animation-delay: 0.15s; }
+.portal-grid .portal-card:nth-child(5) { animation-delay: 0.2s; }
+.portal-grid .portal-card:nth-child(6) { animation-delay: 0.25s; }
+/* Priority card keeps its gold pulse — run it after entrance */
+.portal-card.priority { animation: cardIn 0.35s ease both, goldPulse 2s ease-in-out 0.4s 3; }
+/* ICON WIGGLE ON TAP */
+@keyframes iconWiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-7deg); }
+  55% { transform: rotate(6deg); }
+  80% { transform: rotate(-3deg); }
+  100% { transform: rotate(0deg); }
+}
+.portal-card.wiggling .card-icon-wrap { animation: iconWiggle 0.35s ease; }
+/* NEW DOT — pulsing gold indicator for fresh content */
+.new-dot {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: newDotPulse 2s ease-in-out infinite;
+}
+@keyframes newDotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,151,58,0.55); }
+  50% { box-shadow: 0 0 0 6px rgba(201,151,58,0); }
+}
+.portal-card { position: relative; }
+/* EKG TRACE DIVIDER */
+.ekg-divider {
+  margin-top: 14px;
+  height: 34px;
+  overflow: hidden;
+}
+.ekg-divider svg { display: block; width: 100%; height: 34px; }
+.ekg-trace {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 640;
+  stroke-dashoffset: 640;
+  animation: ekgSweep 4s linear infinite;
+  opacity: 0.85;
+}
+@keyframes ekgSweep {
+  0%   { stroke-dashoffset: 640; }
+  70%  { stroke-dashoffset: 0; opacity: 0.85; }
+  90%  { opacity: 0.15; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
 /* PRIORITY CARD */
 .portal-card.priority {
   position: relative;
@@ -353,9 +415,9 @@ body {
 }
 .vol-day.empty { background: transparent; min-height: 0; }
 .vol-day.future { background: rgba(30,58,95,0.04); }
-.vol-day.low  { background: #fee2e2; }
-.vol-day.med  { background: #dcfce7; }
-.vol-day.high { background: #16a34a; }
+.vol-day.low  { background: rgba(61,122,138,0.10); }
+.vol-day.med  { background: rgba(61,122,138,0.32); }
+.vol-day.high { background: var(--navy); }
 .vol-day.today {
   background: var(--warm-white);
   border: 2px solid var(--gold);
@@ -367,13 +429,13 @@ body {
 }
 .vol-day-num { font-size: 0.58rem; font-weight: 600; line-height: 1; }
 .vol-day.future .vol-day-num { color: rgba(30,58,95,0.28); }
-.vol-day.low  .vol-day-num { color: rgba(220,38,38,0.65); }
-.vol-day.med  .vol-day-num { color: rgba(22,101,52,0.65); }
+.vol-day.low  .vol-day-num { color: rgba(30,58,95,0.45); }
+.vol-day.med  .vol-day-num { color: rgba(30,58,95,0.6); }
 .vol-day.high .vol-day-num { color: rgba(255,255,255,0.7); }
 .vol-day.today .vol-day-num { color: var(--gold); font-weight: 700; }
 .vol-day-count { font-size: 0.8rem; font-weight: 700; margin-top: 4px; line-height: 1; }
-.vol-day.low  .vol-day-count { color: #dc2626; }
-.vol-day.med  .vol-day-count { color: #15803d; }
+.vol-day.low  .vol-day-count { color: var(--teal); }
+.vol-day.med  .vol-day-count { color: var(--navy); }
 .vol-day.high .vol-day-count { color: #fff; }
 .vol-today-label {
   font-size: 0.46rem; font-weight: 700; text-transform: uppercase;
@@ -387,9 +449,9 @@ body {
   font-size: 0.62rem; color: var(--muted); font-weight: 500;
 }
 .vol-leg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
-.vol-leg-dot.l { background: #fee2e2; border: 1px solid #fca5a5; }
-.vol-leg-dot.m { background: #dcfce7; border: 1px solid #86efac; }
-.vol-leg-dot.h { background: #16a34a; }
+.vol-leg-dot.l { background: rgba(61,122,138,0.12); border: 1px solid rgba(61,122,138,0.4); }
+.vol-leg-dot.m { background: rgba(61,122,138,0.35); border: 1px solid rgba(61,122,138,0.6); }
+.vol-leg-dot.h { background: var(--navy); }
 .vol-cal-divider {
   margin-top: 14px;
   border: none;
@@ -496,6 +558,7 @@ body {
 
     <!-- ED Metrics — live -->
     <a class="portal-card" href="/ed-metrics">
+      <span class="new-dot" aria-hidden="true"></span>
       <div class="card-icon-wrap icon-green">📊</div>
       <div class="card-copy">
         <div class="card-title">ED Metrics</div>
@@ -512,6 +575,20 @@ body {
       </div>
     </a>
 
+    <!-- Discord History — coming soon -->
+    <div class="portal-card coming-soon" aria-disabled="true">
+      <div class="coming-label" style="grid-row:1;">Coming Soon</div>
+      <div class="card-icon-wrap icon-discord">
+        <svg width="34" height="34" viewBox="0 0 127.14 96.36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill="#5865F2" d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
+        </svg>
+      </div>
+      <div class="card-copy">
+        <div class="card-title">Discord History</div>
+        <div class="card-subtitle">Searchable channel archive</div>
+      </div>
+    </div>
+
   </div>
 
   <!-- WHAT OUR PATIENTS ARE SAYING -->
@@ -521,8 +598,8 @@ body {
       <p class="testimonial-quote" id="testimonialQuote">I truly believe this ER doctor and staff are the best in the business when it comes to customer care.</p>
     </div>
     <div class="testimonial-nav">
-      <div class="testimonial-arrow" id="testimonialPrev">‹</div>
-      <div class="testimonial-arrow" id="testimonialNext">›</div>
+      <button type="button" class="testimonial-arrow" id="testimonialPrev" aria-label="Previous testimonial">‹</button>
+      <button type="button" class="testimonial-arrow" id="testimonialNext" aria-label="Next testimonial">›</button>
     </div>
   </div>
 
@@ -587,7 +664,11 @@ body {
       <span class="vol-leg-item"><span class="vol-leg-dot m"></span>131–155</span>
       <span class="vol-leg-item"><span class="vol-leg-dot h"></span>≥156</span>
     </div>
-    <hr class="vol-cal-divider" />
+    <div class="ekg-divider" aria-hidden="true">
+      <svg viewBox="0 0 640 34" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="ekg-trace" d="M0,17 L180,17 L196,17 L204,11 L212,17 L236,17 L244,20 L252,2 L260,30 L268,14 L276,17 L300,17 L316,13 L332,17 L640,17"/>
+      </svg>
+    </div>
   </div>
 
   <!-- ADD TO HOME SCREEN -->
@@ -664,7 +745,7 @@ body {
   var prevBtn = document.getElementById('testimonialPrev');
   var nextBtn = document.getElementById('testimonialNext');
   var current = 0;
-  var INTERVAL_MS = 75000; // 1-2 min cycle
+  var INTERVAL_MS = 8000; // 8-second cycle
   var timer = null;
 
   function render(index) {
@@ -720,6 +801,22 @@ body {
   }, { passive: true });
 
   startAutoCycle();
+})();
+
+// Icon wiggle on tap — brief rotation before navigation
+(function() {
+  var cards = document.querySelectorAll('.portal-card:not(.coming-soon)');
+  cards.forEach(function(card) {
+    card.addEventListener('pointerdown', function() {
+      card.classList.remove('wiggling');
+      // force reflow so the animation can restart
+      void card.offsetWidth;
+      card.classList.add('wiggling');
+    });
+    card.addEventListener('animationend', function(e) {
+      if (e.animationName === 'iconWiggle') card.classList.remove('wiggling');
+    });
+  });
 })();
 </script>
 
