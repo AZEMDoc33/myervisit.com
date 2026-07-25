@@ -1498,6 +1498,23 @@ html[data-theme="dark"] .prec-divider-not-ok {
 }
 .calc-slide-anchor { font-size: 11.5px; color: var(--text-3); line-height: 1.35; margin-top: 3px; min-height: 15px; }
 
+
+/* ── Contact precautions in-view organism filter ── */
+.prec-search-wrap{margin:0 0 14px}
+.prec-search{width:100%;padding:12px 14px;font:inherit;font-size:.95rem;
+  border:1.5px solid var(--line,#dfe3e8);border-radius:10px;background:#fff;color:inherit}
+.prec-search:focus{outline:none;border-color:var(--bgmc,#1B3A6B);
+  box-shadow:0 0 0 3px rgba(27,58,107,.13)}
+.prec-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.prec-chip{font:inherit;font-size:.76rem;font-weight:600;padding:6px 11px;border-radius:999px;
+  border:1.5px solid var(--line,#dfe3e8);background:#fff;color:#44505e;cursor:pointer;line-height:1.2}
+.prec-chip:hover{border-color:#98a4b2}
+.prec-chip:focus-visible{outline:2px solid var(--bgmc,#1B3A6B);outline-offset:2px}
+.prec-chip.on{background:var(--bgmc,#1B3A6B);border-color:var(--bgmc,#1B3A6B);color:#fff}
+.prec-hitcount{font-size:.76rem;color:#6b7986;margin-top:9px;font-variant-numeric:tabular-nums}
+.prec-grp.hide,.prec-row.hide,.prec-divider-not-ok.hide,.prec-legend.hide{display:none}
+.prec-nohit{padding:22px;text-align:center;color:#6b7986;font-size:.88rem;
+  border:1px dashed var(--line,#dfe3e8);border-radius:10px;margin-top:4px}
 </style>
 </head>
 <body>
@@ -2825,69 +2842,132 @@ document.addEventListener('keydown', e => {
 /* ═══════════════════════════════════════════════════════
    ID / CONTACT PRECAUTIONS VIEW
 ════════════════════════════════════════════════════════ */
-function showIDPrecautions() {
+
+/* Organism-level entries for the global home search. Typing "C diff", "VRE",
+   "ESBL" or "Acinetobacter" from the front page jumps straight into the
+   Contact Precautions view, pre-filtered to that organism. */
+const PREC_ORGANISMS = [
+  ['C. difficile (C. diff)',            'c diff cdiff clostridioides difficile clostridium toxin diarrhea', 'cdiff'],
+  ['MRSA (Methicillin-Resistant S. aureus)', 'mrsa methicillin resistant staphylococcus staph aureus',              'mrsa'],
+  ['VRE (Vancomycin-Resistant Enterococcus)','vre vancomycin resistant enterococcus enterococci',                   'vre'],
+  ['VISA / VRSA',                       'visa vrsa vancomycin intermediate resistant staph aureus',                 'vrsa'],
+  ['ESBL / Resistant E. coli',          'esbl extended spectrum beta lactamase escherichia e coli ecoli',           'esbl'],
+  ['CRE / CPO (Carbapenem-Resistant)',  'cre cpo carbapenem carbapenemase kpc ndm vim imp oxa-48 resistant',        'carbapenem'],
+  ['Acinetobacter baumannii',           'acinetobacter baumannii crab multidrug pan resistant',                     'acinetobacter'],
+  ['Pseudomonas aeruginosa',            'pseudomonas aeruginosa crpa multidrug pan resistant',                      'pseudomonas'],
+  ['Candida auris',                     'candida auris c auris yeast fungal candidemia',                            'auris'],
+  ['Klebsiella pneumoniae',             'klebsiella pneumoniae cephalosporin ceph resistant',                       'klebsiella'],
+  ['MDRO UTI',                          'mdro uti urine culture urinary tract infection resistant',                 'mdro uti'],
+  ['Blood Culture / Bacteremia',        'blood culture bcx bacteremia septicemia sepsis positive',                  'blood culture'],
+  ['COVID-19',                          'covid coronavirus sars-cov-2 sars cov 2',                                  'covid'],
+  ['RSV (Respiratory Syncytial Virus)', 'rsv respiratory syncytial virus bronchiolitis',                            'rsv'],
+  ['Influenza A/B',                     'flu influenza a b',                                                        'influenza'],
+];
+
+PREC_ORGANISMS.forEach(([label, alias, term]) => {
+  SPECIAL_SEARCH.push({
+    id: 'prec-' + term.replace(/[^a-z0-9]+/g, '-'),
+    name: label + ' \u2014 Contact Precautions',
+    cat: 'id',
+    badge: 'BGMC',
+    aliases: alias.split(/\s+/).filter(Boolean),
+    action: () => showIDPrecautions(term)
+  });
+});
+
+
+/* Normalize for search: strip punctuation so "C. diff", "c-diff" and "cdiff"
+   all reduce to comparable tokens. */
+function precNorm(s){ return String(s).toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim(); }
+
+function showIDPrecautions(preFilter) {
   state.stack.push({ type: 'id-precautions' });
 
-  /* ── OOU-APPROPRIATE (green section) ── */
+  /* Each row carries an `alias` string: acronyms AND spelled-out names,
+     so "cdiff", "clostridioides", "C. difficile" all find the same card. */
+
+  /* -- OOU-APPROPRIATE (green section) -- */
   const OOU_OK = [
-    { name:'Parainfluenza', type:'Standard', room:'no', roomLabel:'✗ Not Required',
+    { name:'Parainfluenza', type:'Standard', room:'no', roomLabel:'\u2717 Not Required',
+      alias:'piv parainfluenza virus',
       note:'Acceptable for OOU / semi-private room.' },
-    { name:'Cellulitis (Hx MRSA)', type:'Standard', room:'no', roomLabel:'✗ Not Required',
+    { name:'Cellulitis (Hx MRSA)', type:'Standard', room:'no', roomLabel:'\u2717 Not Required',
+      alias:'mrsa methicillin resistant staphylococcus staph aureus cellulitis skin soft tissue abscess',
       note:'Standard precautions if no active/draining wound or active infection. Acceptable for OOU.' },
-    { name:'Positive Blood Culture (non-MDRO)', type:'Standard', room:'no', roomLabel:'✗ Not Required',
-      note:'A positive blood culture is not itself a contact precautions trigger — precautions follow the organism, not the specimen. MSSA, pan-sensitive E. coli and Streptococcus species are standard precautions. Bed placement remains a separate clinical decision.' },
-    { name:'Pan-Sensitive UTI', type:'Standard', room:'no', roomLabel:'✗ Not Required',
+    { name:'Positive Blood Culture (non-MDRO)', type:'Standard', room:'no', roomLabel:'\u2717 Not Required',
+      alias:'blood culture bcx bacteremia septicemia mssa streptococcus strep contaminant sepsis',
+      note:'A positive blood culture is not itself a contact precautions trigger \u2014 precautions follow the organism, not the specimen. MSSA, pan-sensitive E. coli and Streptococcus species are standard precautions. Bed placement remains a separate clinical decision.' },
+    { name:'Pan-Sensitive UTI', type:'Standard', room:'no', roomLabel:'\u2717 Not Required',
+      alias:'uti urinary tract infection urine culture cystitis pyelonephritis pyelo escherichia coli e coli',
       note:'A susceptible urine culture is not a contact precautions trigger. Acceptable for OOU.' },
   ];
 
-  /* ── RESPIRATORY / CONTACT — requires private room ── */
+  /* -- RESPIRATORY / CONTACT -- requires private room -- */
   const RESP_PRIV = [
-    { name:'RSV', type:'Contact + Droplet', room:'rec', roomLabel:'⚠ Recommended*',
+    { name:'RSV', type:'Contact + Droplet', room:'rec', roomLabel:'\u26a0 Recommended*',
+      alias:'rsv respiratory syncytial virus bronchiolitis',
       note:'Standard precautions if immunocompetent adult. *Required if immunocompromised or young children.' },
-    { name:'Influenza A/B', type:'Droplet', room:'rec', roomLabel:'⚠ Recommended',
+    { name:'Influenza A/B', type:'Droplet', room:'rec', roomLabel:'\u26a0 Recommended',
+      alias:'flu influenza a b grippe',
       note:'Standard surgical mask for HCW within 6 ft.' },
-    { name:'COVID-19', type:'Enhanced', room:'req', roomLabel:'✓ Required',
+    { name:'COVID-19', type:'Enhanced', room:'req', roomLabel:'\u2713 Required',
+      alias:'covid covid-19 sars-cov-2 coronavirus',
       note:'Private room with door closed. Door required during aerosol-generating procedures (AGP).' },
-    { name:'Rhinovirus', type:'Droplet', room:'rec', roomLabel:'⚠ Recommended',
+    { name:'Rhinovirus', type:'Droplet', room:'rec', roomLabel:'\u26a0 Recommended',
+      alias:'rhinovirus enterovirus common cold',
       note:'Private room preferred when available.' },
-    { name:'C-diff (Confirmed)', type:'Contact', room:'rec', roomLabel:'⚠ Recommended',
+    { name:'C-diff (Confirmed)', type:'Contact', room:'rec', roomLabel:'\u26a0 Recommended',
+      alias:'c diff cdiff c. difficile clostridioides difficile clostridium difficile toxin diarrhea',
       note:'Discontinue after 48 hrs resolution of loose stool (after Tx initiated + resolution of s/s for positive toxin).' },
-    { name:'C-diff (Rule-Out)', type:'Contact', room:'rec', roomLabel:'⚠ Recommended',
+    { name:'C-diff (Rule-Out)', type:'Contact', room:'rec', roomLabel:'\u26a0 Recommended',
+      alias:'c diff cdiff c. difficile clostridioides difficile clostridium difficile toxin diarrhea rule out',
       note:'Maintain precautions until result returns negative.' },
-    { name:'Metapneumovirus', type:'Contact', room:'rec', roomLabel:'⚠ Recommended',
+    { name:'Metapneumovirus', type:'Contact', room:'rec', roomLabel:'\u26a0 Recommended',
+      alias:'hmpv human metapneumovirus',
       note:'Private room preferred when available.' },
   ];
 
-  /* ── MDROs — automatic 1-year carry-forward (Policy 118 v47, Appendix F) ── */
+  /* -- MDROs -- automatic 1-year carry-forward (Policy 118 v47, Appendix F) -- */
   const MDRO = [
-    { name:'C. auris', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+    { name:'C. auris', type:'Contact \u00d7 1 Year', room:'req', roomLabel:'\u2713 Required',
+      alias:'candida auris c auris yeast fungus fungal candidemia',
       note:'Contact precautions on every encounter until more than 1 year since the last positive culture. Colonization counts the same as infection. EVS terminal clean and high-level disinfection per protocol.' },
-    { name:'CRE / CPO', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
-      note:'Carbapenem-resistant Enterobacterales and carbapenemase producers — KPC, NDM, VIM, IMP, OXA-48, plus CRAB and CRPA. Precautions on readmission within 1 year of the initial culture; discontinue after more than 12 months since the last positive from the same area of concern. EVS terminal clean required.' },
-    { name:'MDR / Pan-R Acinetobacter baumannii', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+    { name:'CRE / CPO', type:'Contact \u00d7 1 Year', room:'req', roomLabel:'\u2713 Required',
+      alias:'cre cpo carbapenem resistant enterobacterales enterobacteriaceae carbapenemase kpc ndm vim imp oxa-48 oxa48 crab crpa klebsiella escherichia e coli enterobacter',
+      note:'Carbapenem-resistant Enterobacterales and carbapenemase producers \u2014 KPC, NDM, VIM, IMP, OXA-48, plus CRAB and CRPA. Precautions on readmission within 1 year of the initial culture; discontinue after more than 12 months since the last positive from the same area of concern. EVS terminal clean required.' },
+    { name:'MDR / Pan-R Acinetobacter baumannii', type:'Contact \u00d7 1 Year', room:'req', roomLabel:'\u2713 Required',
+      alias:'acinetobacter baumannii crab mdr pan resistant multidrug',
       note:'Precautions on each readmission within 1 year of the initial positive culture; discontinue after more than 12 months since the last positive in the area of original concern. EVS terminal clean required.' },
-    { name:'MDR / Pan-R Pseudomonas aeruginosa', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+    { name:'MDR / Pan-R Pseudomonas aeruginosa', type:'Contact \u00d7 1 Year', room:'req', roomLabel:'\u2713 Required',
+      alias:'pseudomonas aeruginosa crpa mdr pan resistant multidrug',
       note:'Precautions on each readmission within 1 year of the initial positive culture; discontinue after more than 1 year since the last positive. EVS terminal clean required.' },
-    { name:'VISA / VRSA', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
-      note:'Precautions on each readmission within 1 year of the initial positive culture. Policy 118 publishes no discontinuation criterion for VISA/VRSA — call Infection Prevention before de-isolating. EVS terminal clean required.' },
+    { name:'VISA / VRSA', type:'Contact \u00d7 1 Year', room:'req', roomLabel:'\u2713 Required',
+      alias:'visa vrsa vancomycin intermediate resistant staphylococcus staph aureus',
+      note:'Precautions on each readmission within 1 year of the initial positive culture. Policy 118 publishes no discontinuation criterion for VISA/VRSA \u2014 call Infection Prevention before de-isolating. EVS terminal clean required.' },
   ];
 
-  /* ── MDROs — NOT automatic 1-year; depend on active infection ── */
+  /* -- MDROs -- NOT automatic 1-year; depend on active infection -- */
   const MDRO_COND = [
-    { name:'MRSA', type:'Contact if active infection', room:'rec', roomLabel:'⚠ Depends',
+    { name:'MRSA', type:'Contact if active infection', room:'rec', roomLabel:'\u26a0 Depends',
+      alias:'mrsa methicillin resistant staphylococcus staph aureus',
       note:'A history of MRSA alone does NOT trigger precautions on readmission. Contact precautions apply only with signs or symptoms of active infection, such as a draining wound. Discontinue after 48 hrs off relevant antibiotics plus a negative culture from the original site, or provider documentation that the infection is resolved.' },
-    { name:'VRE', type:'Contact if active infection', room:'rec', roomLabel:'⚠ Depends',
+    { name:'VRE', type:'Contact if active infection', room:'rec', roomLabel:'\u26a0 Depends',
+      alias:'vre vancomycin resistant enterococcus enterococcal enterococci transplant',
       note:'Not a 1-year organism. No precautions on readmission unless there is active infection such as an open draining wound. Exception: solid organ transplant history plus a positive VRE culture within 1 year. Discontinue after 48 hrs off relevant antibiotics plus negative culture or provider documentation.' },
-    { name:'CephR Klebsiella pneumoniae', type:'Contact — index stay', room:'req', roomLabel:'✓ Required',
+    { name:'CephR Klebsiella pneumoniae', type:'Contact \u2014 index stay', room:'req', roomLabel:'\u2713 Required',
+      alias:'ceph cephr cephalosporin resistant klebsiella pneumoniae',
       note:'Contact precautions for the entire stay in which infection or colonization is first detected. No per-readmission 1-year rule. Discontinue only when all three are true: more than 12 months since the last positive from the original site, no clinical infection or suspicion of one, and no ongoing antibiotics.' },
-    { name:'ESBL / Resistant E. coli / Other MDROs', type:'Contact while active', room:'req', roomLabel:'✓ Required',
-      note:'Active infection requires contact precautions — an ESBL UTI is NOT OOU appropriate this visit. But there is no 1-year rule: a history of ESBL alone does not carry forward. Discontinue after 48 hrs off relevant antibiotics plus a negative culture from the original site if obtainable.' },
-    { name:'MDRO UTI', type:'Depends on organism', room:'req', roomLabel:'⚠ Depends',
-      note:'Not a single rule. Acinetobacter, Pseudomonas and CRE/CPO in urine carry the 1-year rule. ESBL and resistant E. coli do not. Any of these actively infected still needs a private room — the observation unit has a shared bathroom.' },
+    { name:'ESBL / Resistant E. coli / Other MDROs', type:'Contact while active', room:'req', roomLabel:'\u2713 Required',
+      alias:'esbl extended spectrum beta lactamase escherichia e coli ecoli resistant proteus enterobacter serratia mdro multidrug',
+      note:'Active infection requires contact precautions \u2014 an ESBL UTI is NOT OOU appropriate this visit. But there is no 1-year rule: a history of ESBL alone does not carry forward. Discontinue after 48 hrs off relevant antibiotics plus a negative culture from the original site if obtainable.' },
+    { name:'MDRO UTI', type:'Depends on organism', room:'req', roomLabel:'\u26a0 Depends',
+      alias:'mdro uti urine culture urinary tract infection resistant multidrug',
+      note:'Not a single rule. Acinetobacter, Pseudomonas and CRE/CPO in urine carry the 1-year rule. ESBL and resistant E. coli do not. Any of these actively infected still needs a private room \u2014 the observation unit has a shared bathroom.' },
   ];
 
   function makeRow(r) {
-    return `<div class="prec-row ${r.room === 'req' ? 'req-row' : r.room === 'rec' ? 'rec-row' : 'no-row'}">
+    const hay = ' ' + precNorm(r.name + ' ' + r.type + ' ' + r.note + ' ' + (r.alias || '')) + ' ';
+    return `<div class="prec-row ${r.room === 'req' ? 'req-row' : r.room === 'rec' ? 'rec-row' : 'no-row'}" data-hay="${escHTML(hay)}">
       <div class="prec-row-top">
         <div class="prec-row-name">${escHTML(r.name)}</div>
         <span class="prec-type-badge">${escHTML(r.type)}</span>
@@ -2897,71 +2977,152 @@ function showIDPrecautions() {
     </div>`;
   }
 
+  const CHIPS = ['C. diff','MRSA','VRE','ESBL','E. coli','CRE','Acinetobacter','Pseudomonas',
+                 'C. auris','Klebsiella','UTI','Blood culture','COVID','RSV','Influenza'];
+
   let html = `
-  <!-- Header -->
   <div class="oou-hero" style="border-color:var(--bgmc-border)">
-    <div class="oou-hero-ico" style="background:var(--bgmc-bg)">🦠</div>
+    <div class="oou-hero-ico" style="background:var(--bgmc-bg)">\u{1F9A0}</div>
     <div>
       <div class="oou-hero-label" style="color:var(--bgmc)">Infectious Disease</div>
       <div class="oou-hero-title">Contact Precautions</div>
-      <div class="oou-hero-sub">Gateway OOU · Isolation requirements and private room guidance</div>
+      <div class="oou-hero-sub">Gateway OOU \u00b7 Isolation requirements and private room guidance</div>
     </div>
   </div>
 
-  <!-- ══ GREEN BLOCK — OOU APPROPRIATE ══ -->
-  <div class="prec-oou-ok-wrap">
-    <div class="prec-oou-ok-label">
-      <span class="prec-oou-ok-pill">✓ OOU Appropriate</span>
-      <span class="prec-oou-ok-sub">Standard precautions — semi-private room acceptable</span>
+  <div class="prec-search-wrap">
+    <label for="precSearch" class="sr-only" style="position:absolute;left:-9999px">Search organisms</label>
+    <input id="precSearch" class="prec-search" type="search" autocomplete="off" enterkeyhint="search"
+      placeholder="Search organism \u2014 try &ldquo;cdiff&rdquo;, &ldquo;ESBL&rdquo;, &ldquo;E. coli&rdquo;, &ldquo;KPC&rdquo;\u2026"
+      oninput="precFilter(this.value)">
+    <div class="prec-chips">
+      ${CHIPS.map(c => `<button type="button" class="prec-chip" onclick="precChip(this,'${escHTML(c)}')">${escHTML(c)}</button>`).join('')}
     </div>
-    <div class="prec-rows">${OOU_OK.map(makeRow).join('')}</div>
+    <div class="prec-hitcount" id="precHitCount"></div>
   </div>
 
-  <!-- Divider -->
+  <div id="precNoHit" class="prec-nohit" hidden>
+    No organism matches that search. Try the acronym (ESBL, CRE, VRE) or the full name
+    (Clostridioides difficile, Acinetobacter baumannii), or clear the search to see all.
+  </div>
+
+  <div class="prec-grp">
+    <div class="prec-oou-ok-wrap">
+      <div class="prec-oou-ok-label">
+        <span class="prec-oou-ok-pill">\u2713 OOU Appropriate</span>
+        <span class="prec-oou-ok-sub">Standard precautions \u2014 semi-private room acceptable</span>
+      </div>
+      <div class="prec-rows">${OOU_OK.map(makeRow).join('')}</div>
+    </div>
+  </div>
+
   <div class="prec-divider-not-ok">
-    <span>⬇ Everything below requires a private room — <strong>not OOU appropriate</strong></span>
+    <span>\u2b07 Everything below requires a private room \u2014 <strong>not OOU appropriate</strong></span>
   </div>
 
-  <!-- Respiratory section -->
-  <div class="prec-section-hdr resp">🫁 &nbsp;Respiratory / Contact Conditions</div>
-  <div class="prec-rows">${RESP_PRIV.map(makeRow).join('')}</div>
+  <div class="prec-grp">
+    <div class="prec-section-hdr resp">\u{1FAC1} &nbsp;Respiratory / Contact Conditions</div>
+    <div class="prec-rows">${RESP_PRIV.map(makeRow).join('')}</div>
+  </div>
 
-  <!-- MDRO section -->
-  <div class="prec-section-hdr mdro">⚠ &nbsp;MDROs — Automatic Contact × 1 Year &nbsp;|&nbsp; Private Room + EVS Terminal Clean</div>
-  <div class="prec-rows">${MDRO.map(makeRow).join('')}</div>
+  <div class="prec-grp">
+    <div class="prec-section-hdr mdro">\u26a0 &nbsp;MDROs \u2014 Automatic Contact \u00d7 1 Year &nbsp;|&nbsp; Private Room + EVS Terminal Clean</div>
+    <div class="prec-rows">${MDRO.map(makeRow).join('')}</div>
+  </div>
 
-  <!-- MDRO conditional section -->
-  <div class="prec-section-hdr mdro">❓ &nbsp;MDROs — NOT Automatic 1 Year &nbsp;|&nbsp; Depends on Active Infection</div>
-  <div class="prec-rows">${MDRO_COND.map(makeRow).join('')}</div>
+  <div class="prec-grp">
+    <div class="prec-section-hdr mdro">\u2753 &nbsp;MDROs \u2014 NOT Automatic 1 Year &nbsp;|&nbsp; Depends on Active Infection</div>
+    <div class="prec-rows">${MDRO_COND.map(makeRow).join('')}</div>
+  </div>
 
   <button class="prec-link-btn" onclick="showMDROLookup()">
-    <div class="prec-link-ico">🔎</div>
+    <div class="prec-link-ico">\u{1F50E}</div>
     <div class="prec-link-txt">
       <div class="prec-link-title">Does a prior positive culture still count?</div>
-      <div class="prec-link-sub">The 1-year rule — which organisms carry forward and which do not</div>
+      <div class="prec-link-sub">The 1-year rule \u2014 which organisms carry forward and which do not</div>
     </div>
     <div class="prec-link-arrow">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </div>
   </button>
 
-  <!-- Legend (moved to bottom as reference) -->
   <div class="prec-legend" style="margin-top:4px">
-    <div class="prec-legend-item req">✓ <strong>Required</strong><br>Private Room (Closed Door)</div>
-    <div class="prec-legend-item rec">⚠ <strong>Recommended</strong><br>Private Room When Available</div>
-    <div class="prec-legend-item no">✓ <strong>OOU OK</strong><br>Semi-Private Acceptable</div>
+    <div class="prec-legend-item req">\u2713 <strong>Required</strong><br>Private Room (Closed Door)</div>
+    <div class="prec-legend-item rec">\u26a0 <strong>Recommended</strong><br>Private Room When Available</div>
+    <div class="prec-legend-item no">\u2713 <strong>OOU OK</strong><br>Semi-Private Acceptable</div>
     <div class="prec-legend-item def"><em>OOU = Observation Unit<br>MDRO = Multi-Drug-Resistant Organism</em></div>
   </div>
 
-  <!-- Footer -->
   <div class="prec-footer" style="margin-top:10px">
     <strong>Note:</strong> The MDRO contact precaution flag auto-populates for 1 year only for the five organisms in the
-    <em>Automatic Contact × 1 Year</em> section above. MRSA, VRE and ESBL do not carry forward on history alone — they require active infection.
+    <em>Automatic Contact \u00d7 1 Year</em> section above. MRSA, VRE and ESBL do not carry forward on history alone \u2014 they require active infection.
     Questions regarding isolation status: Infectious Disease <strong>480-543-2280</strong>.
   </div>`;
 
   document.getElementById('idPrecContent').innerHTML = html;
   showView('id-precautions');
+
+  if (preFilter) {
+    const inp = document.getElementById('precSearch');
+    inp.value = preFilter;
+    precFilter(preFilter);
+  } else {
+    precFilter('');
+  }
+}
+
+/* Live filter across every precautions row. Tokens are AND-matched against
+   name + type + note + alias, so "mdro uti" and "resistant coli" both work. */
+function precFilter(val) {
+  const q = precNorm(val || '');
+  // Drop 1-char tokens ("e" in "E. coli") — they match almost everything
+  const tokens = q ? q.split(' ').filter(t => t.length > 1) : [];
+  const rows = document.querySelectorAll('#idPrecContent .prec-row');
+  let shown = 0;
+
+  rows.forEach(row => {
+    const hay = row.dataset.hay || '';
+    // Word-prefix match: 'uti' must not match inside 'precautions'
+    const hit = !tokens.length || tokens.every(t => hay.includes(' ' + t));
+    row.classList.toggle('hide', !hit);
+    if (hit) shown++;
+  });
+
+  // Hide any group whose rows are all filtered out
+  document.querySelectorAll('#idPrecContent .prec-grp').forEach(grp => {
+    const any = grp.querySelector('.prec-row:not(.hide)');
+    grp.classList.toggle('hide', !any);
+  });
+
+  // Divider and legend only make sense in the unfiltered view
+  const div = document.querySelector('#idPrecContent .prec-divider-not-ok');
+  const leg = document.querySelector('#idPrecContent .prec-legend');
+  if (div) div.classList.toggle('hide', tokens.length > 0);
+  if (leg) leg.classList.toggle('hide', tokens.length > 0);
+
+  const noHit = document.getElementById('precNoHit');
+  if (noHit) noHit.hidden = !(tokens.length && shown === 0);
+
+  const count = document.getElementById('precHitCount');
+  if (count) count.textContent = tokens.length
+    ? shown + (shown === 1 ? ' organism matches' : ' organisms match')
+    : rows.length + ' organisms \u00b7 type to filter';
+
+  // Keep chip state in sync when the user types manually
+  const cur = document.getElementById('precSearch');
+  document.querySelectorAll('#idPrecContent .prec-chip').forEach(c => {
+    c.classList.toggle('on', cur && cur.value.toLowerCase() === c.textContent.toLowerCase());
+  });
+}
+
+/* Chip tap: apply, or toggle off if already active */
+function precChip(el, term) {
+  const inp = document.getElementById('precSearch');
+  if (!inp) return;
+  const already = inp.value.toLowerCase() === term.toLowerCase();
+  inp.value = already ? '' : term;
+  precFilter(inp.value);
+  document.getElementById('idPrecContent').scrollIntoView({ block:'start', behavior:'smooth' });
 }
 
 
