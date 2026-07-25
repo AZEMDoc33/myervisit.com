@@ -1499,6 +1499,10 @@ html[data-theme="dark"] .prec-divider-not-ok {
 .calc-slide-anchor { font-size: 11.5px; color: var(--text-3); line-height: 1.35; margin-top: 3px; min-height: 15px; }
 
 
+/* ── Pinned quick-reference cards in the category browse ── */
+.sr-item.pinned-item{border-left:3px solid var(--cat-color,#1B3A6B)}
+.sr-item.pinned-item .sr-name{font-weight:700}
+
 /* ── Contact precautions in-view organism filter ── */
 .prec-search-wrap{margin:0 0 14px}
 .prec-search{width:100%;padding:12px 14px;font:inherit;font-size:.95rem;
@@ -2536,6 +2540,26 @@ function renderCategory(catId, push=true) {
       <div class="cat-hero-count">${dxs.length} diagnoses</div>
     </div>
   </div>`;
+
+  // Pinned quick-reference cards for this category
+  const pinned = SPECIAL_SEARCH.filter(s => s.pinned && s.cat === catId);
+  if (pinned.length) {
+    html += `<div class="section-label" style="margin-top:14px">Quick Reference</div>`;
+    pinned.forEach(p => {
+      html += `<div class="sr-item pinned-item" style="--cat-color:${c.color}"
+        onclick="fromCategoryPinned('${p.id}')" role="button" tabindex="0"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();fromCategoryPinned('${p.id}')}">
+        <div class="sr-emoji">${c.emoji}</div>
+        <div class="sr-body">
+          <div class="sr-name">${escHTML(p.name)}</div>
+          <div class="sr-meta">${escHTML(p.sub || '')}${p.badge === 'BGMC' ? ' \u00b7 <span class="sr-badge bgmc">BGMC</span>' : ''}</div>
+        </div>
+        <div class="sr-arrow">${svg('chevR')}</div>
+      </div>`;
+    });
+    html += `<div class="section-label" style="margin-top:16px">Diagnoses</div>`;
+  }
+
   dxs.forEach(d => {
     const badges = [];
     if (d.alwaysIP) badges.push('<span class="sr-badge ip">Always IP</span>');
@@ -2842,6 +2866,24 @@ document.addEventListener('keydown', e => {
 /* ═══════════════════════════════════════════════════════
    ID / CONTACT PRECAUTIONS VIEW
 ════════════════════════════════════════════════════════ */
+
+/* Cards pinned to the top of their category's browse page. The organism
+   entries below are deliberately NOT pinned — they are search-only, or they
+   would bury the diagnosis list. */
+const PINNED_SUBS = {
+  'oou-exclusions':  'Criteria that rule out the observation unit',
+  'id-precautions':  'Which organisms need a private room — searchable',
+  'mdro-lookup':     'Does a prior positive culture still count?'
+};
+Object.keys(PINNED_SUBS).forEach(id => {
+  const it = SPECIAL_SEARCH.find(x => x.id === id);
+  if (it) { it.pinned = true; it.sub = PINNED_SUBS[id]; }
+});
+
+function fromCategoryPinned(id) {
+  const it = SPECIAL_SEARCH.find(x => x.id === id);
+  if (it) it.action();
+}
 
 /* Organism-level entries for the global home search. Typing "C diff", "VRE",
    "ESBL" or "Acinetobacter" from the front page jumps straight into the
