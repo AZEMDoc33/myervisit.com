@@ -1681,6 +1681,11 @@ html[data-theme="dark"] .prec-divider-not-ok {
     <div id="idPrecContent"></div>
   </div>
 
+  <!-- ══ MDRO 1-YEAR RULE LOOKUP ══ -->
+  <div class="view" id="view-mdro-lookup">
+    <div id="mdroLookupContent"></div>
+  </div>
+
   <!-- ══ OOU ══ -->
   <div class="view" id="view-oou">
     <div id="oouContent"></div>
@@ -2321,6 +2326,17 @@ const dxById  = id => DX.find(d => d.id === id);
 
 const SPECIAL_SEARCH = [
   {
+    id: 'mdro-lookup',
+    name: 'MDRO 1-Year Rule — Does a Prior Positive Still Count?',
+    cat: 'id',
+    badge: 'BGMC',
+    aliases: ['1 year', 'one year', 'mdro', 'esbl', 'resistant e coli', 'e coli', 'mdr uti', 'urine culture',
+              'blood culture', 'bacteremia', 'prior positive', 'history of mrsa', 'vre', 'cre', 'cpo', 'kpc',
+              'ndm', 'oxa-48', 'carbapenem', 'acinetobacter', 'crab', 'pseudomonas', 'crpa', 'c auris',
+              'visa', 'vrsa', 'klebsiella', 'ceph', 'discontinue', 'de-isolate', 'off isolation'],
+    action: showMDROLookup
+  },
+  {
     id: 'id-precautions',
     name: 'Contact Precautions / Isolation',
     cat: 'id',
@@ -2818,6 +2834,10 @@ function showIDPrecautions() {
       note:'Acceptable for OOU / semi-private room.' },
     { name:'Cellulitis (Hx MRSA)', type:'Standard', room:'no', roomLabel:'✗ Not Required',
       note:'Standard precautions if no active/draining wound or active infection. Acceptable for OOU.' },
+    { name:'Positive Blood Culture (non-MDRO)', type:'Standard', room:'no', roomLabel:'✗ Not Required',
+      note:'A positive blood culture is not itself a contact precautions trigger — precautions follow the organism, not the specimen. MSSA, pan-sensitive E. coli and Streptococcus species are standard precautions. Bed placement remains a separate clinical decision.' },
+    { name:'Pan-Sensitive UTI', type:'Standard', room:'no', roomLabel:'✗ Not Required',
+      note:'A susceptible urine culture is not a contact precautions trigger. Acceptable for OOU.' },
   ];
 
   /* ── RESPIRATORY / CONTACT — requires private room ── */
@@ -2838,24 +2858,32 @@ function showIDPrecautions() {
       note:'Private room preferred when available.' },
   ];
 
-  /* ── MDROs — all require private room ── */
+  /* ── MDROs — automatic 1-year carry-forward (Policy 118 v47, Appendix F) ── */
   const MDRO = [
-    { name:'VRE', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
-      note:'EVS terminal clean required at discharge.' },
-    { name:'VISA / VRSA', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
-      note:'Vancomycin-resistant S. aureus. EVS terminal clean required.' },
-    { name:'CRE', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
-      note:'Carbapenem-resistant Enterobacteriaceae. EVS terminal clean required.' },
-    { name:'MDRO Enterics', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
-      note:'Resistant to ≥1 agent in each of 3 drug classes. EVS terminal clean required.' },
-    { name:'MDR/Pan-R Pseudomonas', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
-      note:'Multi-drug or pan-resistant P. aeruginosa. EVS terminal clean required.' },
-    { name:'CephR Klebsiella', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
-      note:'Cephalosporin-resistant Klebsiella. EVS terminal clean required.' },
     { name:'C. auris', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
-      note:'High colonization risk. EVS terminal clean required. High-level disinfection per protocol.' },
-    { name:'MDRO UTI', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
-      note:'NOT appropriate for OOU — shared bathroom in the observation unit creates cross-contamination risk. Requires inpatient room with dedicated bathroom. EVS terminal clean required.' },
+      note:'Contact precautions on every encounter until more than 1 year since the last positive culture. Colonization counts the same as infection. EVS terminal clean and high-level disinfection per protocol.' },
+    { name:'CRE / CPO', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'Carbapenem-resistant Enterobacterales and carbapenemase producers — KPC, NDM, VIM, IMP, OXA-48, plus CRAB and CRPA. Precautions on readmission within 1 year of the initial culture; discontinue after more than 12 months since the last positive from the same area of concern. EVS terminal clean required.' },
+    { name:'MDR / Pan-R Acinetobacter baumannii', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'Precautions on each readmission within 1 year of the initial positive culture; discontinue after more than 12 months since the last positive in the area of original concern. EVS terminal clean required.' },
+    { name:'MDR / Pan-R Pseudomonas aeruginosa', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'Precautions on each readmission within 1 year of the initial positive culture; discontinue after more than 1 year since the last positive. EVS terminal clean required.' },
+    { name:'VISA / VRSA', type:'Contact × 1 Year', room:'req', roomLabel:'✓ Required',
+      note:'Precautions on each readmission within 1 year of the initial positive culture. Policy 118 publishes no discontinuation criterion for VISA/VRSA — call Infection Prevention before de-isolating. EVS terminal clean required.' },
+  ];
+
+  /* ── MDROs — NOT automatic 1-year; depend on active infection ── */
+  const MDRO_COND = [
+    { name:'MRSA', type:'Contact if active infection', room:'rec', roomLabel:'⚠ Depends',
+      note:'A history of MRSA alone does NOT trigger precautions on readmission. Contact precautions apply only with signs or symptoms of active infection, such as a draining wound. Discontinue after 48 hrs off relevant antibiotics plus a negative culture from the original site, or provider documentation that the infection is resolved.' },
+    { name:'VRE', type:'Contact if active infection', room:'rec', roomLabel:'⚠ Depends',
+      note:'Not a 1-year organism. No precautions on readmission unless there is active infection such as an open draining wound. Exception: solid organ transplant history plus a positive VRE culture within 1 year. Discontinue after 48 hrs off relevant antibiotics plus negative culture or provider documentation.' },
+    { name:'CephR Klebsiella pneumoniae', type:'Contact — index stay', room:'req', roomLabel:'✓ Required',
+      note:'Contact precautions for the entire stay in which infection or colonization is first detected. No per-readmission 1-year rule. Discontinue only when all three are true: more than 12 months since the last positive from the original site, no clinical infection or suspicion of one, and no ongoing antibiotics.' },
+    { name:'ESBL / Resistant E. coli / Other MDROs', type:'Contact while active', room:'req', roomLabel:'✓ Required',
+      note:'Active infection requires contact precautions — an ESBL UTI is NOT OOU appropriate this visit. But there is no 1-year rule: a history of ESBL alone does not carry forward. Discontinue after 48 hrs off relevant antibiotics plus a negative culture from the original site if obtainable.' },
+    { name:'MDRO UTI', type:'Depends on organism', room:'req', roomLabel:'⚠ Depends',
+      note:'Not a single rule. Acinetobacter, Pseudomonas and CRE/CPO in urine carry the 1-year rule. ESBL and resistant E. coli do not. Any of these actively infected still needs a private room — the observation unit has a shared bathroom.' },
   ];
 
   function makeRow(r) {
@@ -2899,8 +2927,23 @@ function showIDPrecautions() {
   <div class="prec-rows">${RESP_PRIV.map(makeRow).join('')}</div>
 
   <!-- MDRO section -->
-  <div class="prec-section-hdr mdro">⚠ &nbsp;MDROs — Mandatory Contact × 1 Year &nbsp;|&nbsp; Private Room + EVS Terminal Clean</div>
+  <div class="prec-section-hdr mdro">⚠ &nbsp;MDROs — Automatic Contact × 1 Year &nbsp;|&nbsp; Private Room + EVS Terminal Clean</div>
   <div class="prec-rows">${MDRO.map(makeRow).join('')}</div>
+
+  <!-- MDRO conditional section -->
+  <div class="prec-section-hdr mdro">❓ &nbsp;MDROs — NOT Automatic 1 Year &nbsp;|&nbsp; Depends on Active Infection</div>
+  <div class="prec-rows">${MDRO_COND.map(makeRow).join('')}</div>
+
+  <button class="prec-link-btn" onclick="showMDROLookup()">
+    <div class="prec-link-ico">🔎</div>
+    <div class="prec-link-txt">
+      <div class="prec-link-title">Does a prior positive culture still count?</div>
+      <div class="prec-link-sub">The 1-year rule — which organisms carry forward and which do not</div>
+    </div>
+    <div class="prec-link-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </button>
 
   <!-- Legend (moved to bottom as reference) -->
   <div class="prec-legend" style="margin-top:4px">
@@ -2912,7 +2955,8 @@ function showIDPrecautions() {
 
   <!-- Footer -->
   <div class="prec-footer" style="margin-top:10px">
-    <strong>Note:</strong> MDRO contact precaution flag should automatically populate for 1 year from the positive culture date.
+    <strong>Note:</strong> The MDRO contact precaution flag auto-populates for 1 year only for the five organisms in the
+    <em>Automatic Contact × 1 Year</em> section above. MRSA, VRE and ESBL do not carry forward on history alone — they require active infection.
     Questions regarding isolation status: Infectious Disease <strong>480-543-2280</strong>.
   </div>`;
 
@@ -2921,7 +2965,62 @@ function showIDPrecautions() {
 }
 
 
-/* ═══════════════════════════════════════════════════════
+/* ═════════════════════════════════════════════════════
+   MDRO 1-YEAR RULE LOOKUP
+══════════════════════════════════════════════════════ */
+function showMDROLookup() {
+  state.stack.push({ type: 'mdro-lookup' });
+
+  const html = `
+  <div class="oou-hero" style="border-color:var(--bgmc-border)">
+    <div class="oou-hero-ico" style="background:var(--bgmc-bg)">🔎</div>
+    <div>
+      <div class="oou-hero-label" style="color:var(--bgmc)">Infectious Disease</div>
+      <div class="oou-hero-title">Does a prior positive still count?</div>
+      <div class="oou-hero-sub">The 1-year rule · Policy 118 v47, Appendix F</div>
+    </div>
+  </div>
+
+  <div class="prec-section-hdr resp">① &nbsp;Is there a positive culture from THIS encounter?</div>
+  <div class="oou-note"><strong>Yes —</strong> precautions follow the organism, not the source. A positive blood culture is not automatically a trigger, and neither is a resistant urine culture. Check the organism in the full precautions table.</div>
+  <div class="oou-note"><strong>No —</strong> go to question 2.</div>
+
+  <div class="prec-section-hdr mdro">② &nbsp;Is there a prior positive in the last 12 months?</div>
+  <div class="oou-note">Only <strong>five</strong> organisms carry forward automatically with no active infection: <strong>C. auris, CRE/CPO, MDR Acinetobacter, MDR Pseudomonas, and VISA/VRSA.</strong></div>
+  <div class="oou-note">A history of <strong>MRSA, VRE or ESBL alone does not put a patient back into contact precautions.</strong> Those require signs or symptoms of active infection. An ESBL UTI that is actively infected still needs a private room — but a resolved one from eight months ago does not.</div>
+
+  <details style="margin-top:14px;border:1px solid var(--line,#e2e5ea);border-radius:10px;padding:0 14px">
+    <summary style="cursor:pointer;padding:12px 0;font-weight:600;font-size:.92rem">Has the patient stayed overnight at a skilled nursing facility in the last 12 months?</summary>
+    <div style="padding:0 0 14px;font-size:.88rem;line-height:1.55;opacity:.85">
+      An overnight stay in a skilled nursing facility or LTACH, or an overnight stay or invasive procedure in a non-US hospital,
+      raises the likelihood the patient is carrying C. auris or a carbapenemase-producing organism — frequently with no culture on file.
+      Policy 118 directs colonization screening for this exposure history. Worth weighing before a semi-private OOU bed.
+    </div>
+  </details>
+
+  <button class="prec-link-btn" onclick="showIDPrecautions()">
+    <div class="prec-link-ico">🦠</div>
+    <div class="prec-link-txt">
+      <div class="prec-link-title">Full contact precautions table</div>
+      <div class="prec-link-sub">Every organism, private room requirement and discontinuation criteria</div>
+    </div>
+    <div class="prec-link-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </button>
+
+  <div class="prec-footer" style="margin-top:10px">
+    <strong>Source:</strong> Banner Policy 118, Standard and Transmission Based Precautions, v47, effective 01/12/2026 · Appendix F.
+    A physician order is not required to start or stop transmission-based precautions.
+    Questions regarding isolation status: Infectious Disease <strong>480-543-2280</strong>.
+  </div>`;
+
+  document.getElementById('mdroLookupContent').innerHTML = html;
+  showView('mdro-lookup');
+}
+
+
+/* ═════════════════════════════════════════════════════
    IN-SITE CLINICAL CALCULATORS
 ════════════════════════════════════════════════════════ */
 const calcState = {};
