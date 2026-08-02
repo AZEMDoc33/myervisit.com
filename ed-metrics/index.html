@@ -473,16 +473,16 @@
       </a>
 
       <a href="/ed-metrics/2026/june" class="month-card live">
-        <div class="new-badge">NEW</div>
         <div class="month-emoji" aria-hidden="true">🏖️</div>
         <div class="month-name">June</div>
         <div class="month-tag tag-live">Published</div>
       </a>
 
-      <a href="/ed-metrics/2026/july" class="month-card coming-soon" tabindex="-1" aria-disabled="true">
+      <a href="/ed-metrics/2026/july" class="month-card live">
+        <div class="new-badge">NEW</div>
         <div class="month-emoji" aria-hidden="true">🎆</div>
         <div class="month-name">July</div>
-        <div class="month-tag tag-soon">Coming Soon</div>
+        <div class="month-tag tag-live">Published</div>
       </a>
 
       <a href="/ed-metrics/2026/august" class="month-card coming-soon" tabindex="-1" aria-disabled="true">
@@ -522,10 +522,10 @@
     <div class="ticker-col">
       <div class="ticker-section">
         <div class="ticker-label-top">2026 Year-to-Date</div>
-        <div class="ticker-number" id="tickerNum">25,988</div>
+        <div class="ticker-number" id="tickerNum">30,296</div>
         <div class="ticker-text">
           <div class="ticker-label-bottom">Sophias Served<br>at BGMC ED</div>
-          <div class="ticker-sub">Total patient visits · Through June 2026</div>
+          <div class="ticker-sub">Total patient visits · Through July 2026</div>
         </div>
         <div class="ticker-divider"></div>
         <div class="ticker-months">
@@ -535,6 +535,7 @@
           <div class="ticker-month-pill"><span>🌸 Apr</span><span>4,311</span></div>
           <div class="ticker-month-pill"><span>☀️ May</span><span>4,330</span></div>
           <div class="ticker-month-pill"><span>🏖️ Jun</span><span>4,064</span></div>
+          <div class="ticker-month-pill"><span>🎆 Jul</span><span>4,308</span></div>
         </div>
       </div>
     </div><!-- /.ticker-col -->
@@ -551,7 +552,7 @@
 // Animated ticker: counts up to TARGET. HTML holds the static value as a
 // no-JS / slow-connection fallback; the script resets to 0 only when it runs.
 (function() {
-  const TARGET = 25988;
+  const TARGET = 30296;
   const DURATION = 2200; // ms
   const el = document.getElementById('tickerNum');
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
