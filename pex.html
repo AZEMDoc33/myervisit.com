@@ -176,6 +176,79 @@
     .pex-donut circle,.pex-seg{transition:none}
     .pex-theme{animation:none;opacity:1;transform:none}
   }
+
+  /* ---------- shoutout ticker ---------- */
+  .pex-shoutout{
+    position:relative;
+    margin-top:14px;
+    padding:26px 22px 20px;
+    background:linear-gradient(135deg,#fff8ec 0%,#eefaf7 100%);
+    border:2px dashed #e7c25a;
+    border-radius:18px;
+    overflow:hidden;
+    text-align:center;
+  }
+  .pex-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .pex-confetti i{
+    position:absolute;display:block;border-radius:2px;opacity:.85;
+    animation:pex-confetti-float 5.5s ease-in-out infinite;
+  }
+  .pex-confetti i:nth-child(1){top:8%;left:6%;width:9px;height:9px;background:var(--pex-pos);transform:rotate(15deg);animation-delay:0s}
+  .pex-confetti i:nth-child(2){top:18%;left:88%;width:7px;height:7px;background:#f2994a;border-radius:50%;animation-delay:.6s}
+  .pex-confetti i:nth-child(3){top:70%;left:4%;width:8px;height:8px;background:var(--pex-accent);transform:rotate(40deg);animation-delay:1.1s}
+  .pex-confetti i:nth-child(4){top:78%;left:92%;width:10px;height:6px;background:#f5c344;transform:rotate(-20deg);animation-delay:1.6s}
+  .pex-confetti i:nth-child(5){top:6%;left:48%;width:6px;height:6px;background:#f2994a;border-radius:50%;animation-delay:2s}
+  .pex-confetti i:nth-child(6){top:85%;left:52%;width:8px;height:8px;background:var(--pex-pos);transform:rotate(-10deg);animation-delay:2.4s}
+  .pex-confetti i:nth-child(7){top:40%;left:2%;width:6px;height:6px;background:#f5c344;border-radius:50%;animation-delay:.3s}
+  .pex-confetti i:nth-child(8){top:34%;left:95%;width:8px;height:8px;background:var(--pex-accent);transform:rotate(25deg);animation-delay:1.8s}
+  @keyframes pex-confetti-float{
+    0%,100%{transform:translateY(0) rotate(0deg);opacity:.7}
+    50%{transform:translateY(-10px) rotate(18deg);opacity:1}
+  }
+
+  .pex-shoutout-label{
+    font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--pex-accent);margin-bottom:14px;position:relative;z-index:1;
+  }
+  .pex-shoutout-row{
+    display:flex;align-items:flex-start;justify-content:center;gap:14px;
+    position:relative;z-index:1;max-width:640px;margin:0 auto;
+  }
+  .pex-megaphone{
+    flex:0 0 auto;width:44px;height:44px;border-radius:50%;
+    background:var(--pex-card);box-shadow:var(--pex-shadow);
+    display:flex;align-items:center;justify-content:center;font-size:1.35rem;
+    animation:pex-megaphone-pulse 2.4s ease-in-out infinite;
+    transform:rotate(-8deg);
+  }
+  @keyframes pex-megaphone-pulse{
+    0%,100%{transform:rotate(-8deg) scale(1)}
+    50%{transform:rotate(-8deg) scale(1.08)}
+  }
+  .pex-shoutout-bubble{
+    position:relative;background:var(--pex-card);border-radius:16px;
+    padding:16px 20px;box-shadow:var(--pex-shadow);text-align:left;flex:1;
+    transition:opacity .35s ease, transform .35s ease;
+  }
+  .pex-shoutout-bubble::before{
+    content:"";position:absolute;left:-8px;top:18px;width:16px;height:16px;
+    background:var(--pex-card);transform:rotate(45deg);
+    box-shadow:-2px 2px 3px rgba(22,35,46,.05);
+  }
+  .pex-shoutout-bubble.pex-fade{opacity:0;transform:translateY(4px)}
+  .pex-shoutout-text{
+    font-size:.95rem;line-height:1.5;color:var(--pex-ink);margin:0 0 8px;font-style:italic;
+  }
+  .pex-shoutout-meta{font-size:.72rem;font-weight:600;color:var(--pex-muted)}
+  @media(max-width:600px){
+    .pex-shoutout{padding:20px 14px 16px}
+    .pex-shoutout-row{gap:10px}
+    .pex-megaphone{width:36px;height:36px;font-size:1.1rem}
+  }
+  @media(prefers-reduced-motion: reduce){
+    .pex-confetti i,.pex-megaphone{animation:none}
+    .pex-shoutout-bubble{transition:none}
+  }
 </style>
 </head>
 <body>
@@ -277,9 +350,21 @@
     </div>
   </div>
 
+  <div class="pex-shoutout">
+    <div class="pex-confetti" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="pex-shoutout-label">📣 Straight from our patients</div>
+    <div class="pex-shoutout-row">
+      <div class="pex-megaphone" aria-hidden="true">📣</div>
+      <div class="pex-shoutout-bubble" id="pexShoutBubble" aria-live="polite">
+        <p class="pex-shoutout-text" id="pexShoutText">Loading a patient shout-out…</p>
+        <div class="pex-shoutout-meta" id="pexShoutMeta"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="pex-foot">
     Aggregate, de-identified provider feedback only. Excludes nursing, registration, facility, and billing comments.
-    Source: 2026 BGMC ED survey comments, Doctors section (n=424). Mixed ratings grouped with Neutral. Provider names shown in positive comments only; neutral and negative comments are de-identified.
+    Source: 2026 BGMC ED survey comments, Doctors section (n=481). Mixed ratings grouped with Neutral. Provider names shown in positive comments only; neutral and negative comments are de-identified.
   </div>
 </div>
 
@@ -304,14 +389,15 @@ const PEX_DATA = {
     { label:"Mar", pos:37, neu:12, det:26, note:"Highest detractor count of H1. Workup and diagnosis concerns were the dominant driver, followed by communication of the plan." },
     { label:"Apr", pos:39, neu:10, det:28, note:"Detractor peak for 2026 so far. Comments clustered on not feeling heard and discharge or follow-up clarity." },
     { label:"May", pos:39, neu:13, det:19, note:"Meaningful improvement. Detractors dropped to a 2026 low while positive mentions of listening and bedside manner held steady." },
-    { label:"Jun", pos:22, neu:13, det:19, note:"Positive volume appears lower, but June surveys are still arriving due to survey lag. Interpret with caution until data matures." }
+    { label:"Jun", pos:22, neu:13, det:19, note:"Positive volume appears lower, but June surveys are still arriving due to survey lag. Interpret with caution until data matures." },
+    { label:"Jul", pos:35, neu:7, det:15, note:"Positive comments continued to center on compassion and feeling heard. Workup and diagnosis concerns remained the leading detractor theme, with feeling dismissed or rushed close behind." }
   ],
 
   positiveThemes: [
   {
     "title": "Compassion and kindness",
     "detail": "Felt genuinely cared for by their provider",
-    "count": 60,
+    "count": 68,
     "comments": [
       {
         "m": "Jun",
@@ -552,13 +638,45 @@ const PEX_DATA = {
       {
         "m": "Jan",
         "c": "She was very nice and helpful"
+      },
+      {
+        "m": "Jul",
+        "c": "Dr Cummins was great! Nurse Dylan and Radiology nurse Josh were very kind and nice to me and my family who were there with me.."
+      },
+      {
+        "m": "Jul",
+        "c": "Dr. Demonstrated kindness and empathy.  I appreciated her kindness and information and recommendations for post ER care."
+      },
+      {
+        "m": "Jul",
+        "c": "The Dr was beyond amazing!  Compassionate knowledgeable and understood what was happening before I could and guided me along the passing of my Mothercalled my daughter and explained it to her and she was also beyond grateful he helped us so much in particular me being sleep deprived and alone as she was in New York and unable to help"
+      },
+      {
+        "m": "Jul",
+        "c": "Dr Cummins was really apologetic in which it wasn't needed but he took the time and patience to overlook and express his concerns about my injury. I again am grateful for the support and help from this hospital."
+      },
+      {
+        "m": "Jul",
+        "c": "They were very compassionate about my needs and recent cancer diagnosis and my fear."
+      },
+      {
+        "m": "Jul",
+        "c": "My whole team was very caring"
+      },
+      {
+        "m": "Jul",
+        "c": "Dr Hamlin was so knowledgeable and kind."
+      },
+      {
+        "m": "Jul",
+        "c": "Felt very well cared for."
       }
     ]
   },
   {
     "title": "Clear explanations",
     "detail": "Understood the workup, results, and plan",
-    "count": 46,
+    "count": 50,
     "comments": [
       {
         "m": "Jun",
@@ -743,13 +861,29 @@ const PEX_DATA = {
       {
         "m": "Jan",
         "c": "Great Bedside Manner. Easy to Talk with, Great Accurate Listener. Thoroughl Satisfaction."
+      },
+      {
+        "m": "Jul",
+        "c": "Dr. Berman was straightforward and I was happy with the diagnosis and treatment he prescribed."
+      },
+      {
+        "m": "Jul",
+        "c": "When I say Dr.Justin Andes was phenomenal I mean he was phenomenal. He should have been casted as Dr.Derek Shepard aka Dr.Mcdreamy from Grey's Anatomy becsuse the way he carried himself with my son was way better than you would see on TV. He apologized having to step away for a more intense emergency (which was not needed I understanding but it was a kind gesture), he stayed calm and connected with my 4 year old making sure he knew what was going on (in little kid terms of course) as well as made sure dad and I were aware of every step."
+      },
+      {
+        "m": "Jul",
+        "c": "The ER Dr. Was extremely knowledgeable and VERY helpful.  I left feeling I knew what was wrong and what I could do at home to mediate the problem."
+      },
+      {
+        "m": "Jul",
+        "c": "Doctor was a caring person and gave me all the information I needed to take care of my ankle."
       }
     ]
   },
   {
     "title": "Professionalism and bedside manner",
     "detail": "Provider sat down, engaged, and was thorough",
-    "count": 39,
+    "count": 45,
     "comments": [
       {
         "m": "Jun",
@@ -906,13 +1040,37 @@ const PEX_DATA = {
       {
         "m": "Jan",
         "c": "Excellent Services!"
+      },
+      {
+        "m": "Jul",
+        "c": "I have been here before and that is why, when I need to, I come back here. I have never had a bad experience with anyone that works here."
+      },
+      {
+        "m": "Jul",
+        "c": "Provider was very knowledgeable, caring, thorough and kind. I did something dumb to end up in the ER but she reassured me that things happen and many others have done similar things."
+      },
+      {
+        "m": "Jul",
+        "c": "He was fantastic."
+      },
+      {
+        "m": "Jul",
+        "c": "I was impressed by my dr"
+      },
+      {
+        "m": "Jul",
+        "c": "PA Daniel McCullough was thoughtful and thorough with his treatment of my ailment. I appreciate him very much."
+      },
+      {
+        "m": "Jul",
+        "c": "Staff was amazing, my favorite provider Ever while at a ED"
       }
     ]
   },
   {
     "title": "Attentiveness and efficiency",
     "detail": "Seen and worked up promptly",
-    "count": 20,
+    "count": 22,
     "comments": [
       {
         "m": "May",
@@ -993,13 +1151,21 @@ const PEX_DATA = {
       {
         "m": "Jan",
         "c": "I appreciated the courtesy and attentiveness."
+      },
+      {
+        "m": "Jul",
+        "c": "Doctor was quick to come to my room and was also very kind, I was still very short of breathe and he was kind of like.. Sorry .. Nothing crazy is going on so you'll need to go to your pcp.. But he did what he could I guess"
+      },
+      {
+        "m": "Jul",
+        "c": "More than competent, helpful and informative Dr. Hunter was so naturally nice and thorough. Got me all the tests I needed to confirm my broken back, UTI was a surprise and my GP was able to pull up the final culture results in his office. And my kidney stones and their location is very helpful to my urologist. I can give those results to my spinal surgeon tomorrow. Very helpful appt. All within a short amount of time Dr. Hunter was able to deliver labs, and CT scans. As well as very revealing urinalysis. He had me on a drip for all my needs of hydration, pain recovery, and antibiotic. I'm 77 and alone, and my parents would be very happy with him and his sweet care of me. I felt like he was my private physician."
       }
     ]
   },
   {
     "title": "Listening and feeling heard",
     "detail": "Provider heard the full story before deciding",
-    "count": 19,
+    "count": 23,
     "comments": [
       {
         "m": "Jun",
@@ -1076,6 +1242,22 @@ const PEX_DATA = {
       {
         "m": "Jan",
         "c": "Great Bedside Manner. Easy to Talk with, Great Accurate Listener. Thoroughl Satisfaction."
+      },
+      {
+        "m": "Jul",
+        "c": "This Dr was the best ER doctor I have ever seen he was caring he listened not rushed and concerned went out of his way to address my concerns even did a test I felt would give us more answers and I was so happy he did because what he did helped. I normally don't take drugs of any kind but he assured me they would help and I got instant results from what he prescribed. He knew exactly what would help me and gave me some immediately there as well so I could tolerate the intense pain. I am so grateful for his care. He also referred me to a spine specialist. Couldn't ask for better and didn't make me wait 7 hours like most Ears do."
+      },
+      {
+        "m": "Jul",
+        "c": "Care provider was caring and concerned about my pain and comfort. She l listened to me and took the steps necessary to find a solution."
+      },
+      {
+        "m": "Jul",
+        "c": "Drcwas very thorough and listen to and answered my questions."
+      },
+      {
+        "m": "Jul",
+        "c": "The PA was kind, he listened to what I was telling him and was thorough in his care of my situation"
       }
     ]
   }
@@ -1085,7 +1267,7 @@ const PEX_DATA = {
   {
     "title": "Workup and diagnosis concerns",
     "detail": "Disagreement with testing decisions or perceived missed findings",
-    "count": 71,
+    "count": 78,
     "comments": [
       {
         "m": "Jun",
@@ -1370,13 +1552,41 @@ const PEX_DATA = {
       {
         "m": "Jan",
         "c": "This was my second visit to the emergency room and was quite different than my first. I had wounds underneath the splint and they were replacing the splint and they were hesitant to treat the wounds. I had to ask them to put medication and bandage on the wounds and they seem to not want toso they agreed to bandage but they the Dr. ___ Provider ___'t think it needed medication. I work with Wound Care all the time and I know it needed medication so I demanded some sort of an anti-Septic before they covered it with a splint.So they agreed to bandage but they the Dr. ___ Provider ___'t think it needed medication. I work with Wound Care all the time and I know it needed medication so I demanded some sort of a septic before they covered it with The slant. So they agreed to do it, but the Provider ___ with me as she did it saying it did not need It, the wounds were healed Althoughthey were actively bleeding. I don't think emergency room nurses know as much about treating active Wounds, as Wound Care. This is the second time I've been an emergency room in this hospital over the years that even doctors don't seem to understand how wounds work. I'm really very surprised given that it's the emergency room plus I asked the Dr. ___ I left if he was sure the bones were still in place before he put the splint back on and he said it didn't matter I was going to the ortho and he would do it that his job was just to temporarily patch me up and send me out, very dismissive very cold. Just wanted to get me out and get me gone no need for x-ray. No need just to make sure the other splint which fell off the one they put on and was replaced . He didn't care if my bones had displaced. He just wanted me gone. Not a good feeling."
+      },
+      {
+        "m": "Jul",
+        "c": "See previous page about asking for a UTI test and not getting one. Very upset."
+      },
+      {
+        "m": "Jul",
+        "c": "Unfortunately they diagnosed me with nothing.  I had been throwing up for 3 weeks and they sent me home and told me 'sip on ginger ale and take a nap' I had to return the next day because my symptoms became worse and I was diagnosed with serotonin syndrome."
+      },
+      {
+        "m": "Jul",
+        "c": "The provider sent me home immediately after tests without finishing my IV. Very ill and was unable to keep food or liquids down for 2 weeks. Left unwell and with a painful abdomen."
+      },
+      {
+        "m": "Jul",
+        "c": "No correct plan"
+      },
+      {
+        "m": "Jul",
+        "c": "Refused MRI for hip, dismissed EDS, and gave incorrect medical information"
+      },
+      {
+        "m": "Jul",
+        "c": "I came in with a head issue and wasn't treated for a head issue"
+      },
+      {
+        "m": "Jul",
+        "c": "Doctor discharged me saying I had no emergency after being told I had to go to the hospital with the symptoms I was experiencing. They didn't check my gallbladder or pancreas, which I've had issues with in the past, but the doctor there was certain it is heartburn. Will not be returning to this hospital, I feel like they didn't answer me correctly."
       }
     ]
   },
   {
     "title": "Feeling dismissed or rushed",
     "detail": "Not listened to, brusque, or hurried encounters",
-    "count": 33,
+    "count": 39,
     "comments": [
       {
         "m": "Jun",
@@ -1509,13 +1719,37 @@ const PEX_DATA = {
       {
         "m": "Jan",
         "c": "This was my second visit to the emergency room and was quite different than my first. I had wounds underneath the splint and they were replacing the splint and they were hesitant to treat the wounds. I had to ask them to put medication and bandage on the wounds and they seem to not want toso they agreed to bandage but they the Dr. ___ Provider ___'t think it needed medication. I work with Wound Care all the time and I know it needed medication so I demanded some sort of an anti-Septic before they covered it with a splint.So they agreed to bandage but they the Dr. ___ Provider ___'t think it needed medication. I work with Wound Care all the time and I know it needed medication so I demanded some sort of a septic before they covered it with The slant. So they agreed to do it, but the Provider ___ with me as she did it saying it did not need It, the wounds were healed Althoughthey were actively bleeding. I don't think emergency room nurses know as much about treating active Wounds, as Wound Care. This is the second time I've been an emergency room in this hospital over the years that even doctors don't seem to understand how wounds work. I'm really very surprised given that it's the emergency room plus I asked the Dr. ___ I left if he was sure the bones were still in place before he put the splint back on and he said it didn't matter I was going to the ortho and he would do it that his job was just to temporarily patch me up and send me out, very dismissive very cold. Just wanted to get me out and get me gone no need for x-ray. No need just to make sure the other splint which fell off the one they put on and was replaced . He didn't care if my bones had displaced. He just wanted me gone. Not a good feeling."
+      },
+      {
+        "m": "Jul",
+        "c": "I thought the doctor was very short with me. Poor bedside manner."
+      },
+      {
+        "m": "Jul",
+        "c": "The doctor was obviously in a hurry to leave, he would speak to me standing at the door with just his head peaking in. Only talking to me instead of trying to make the actual patient feel comfortable with them."
+      },
+      {
+        "m": "Jul",
+        "c": "A medical student initially came in and they weren't very patient with me."
+      },
+      {
+        "m": "Jul",
+        "c": "I feel he could have done more stuff. He just seems like he wasn't concerned about anything"
+      },
+      {
+        "m": "Jul",
+        "c": "I am a chronically ill patient and was brushed off."
+      },
+      {
+        "m": "Jul",
+        "c": "He did nothing for me, simply came in with an attitude that he already knew I was fine. A day or so later, it was not the case"
       }
     ]
   },
   {
     "title": "Discharge and follow-up clarity",
     "detail": "Confusing instructions or unclear next steps",
-    "count": 23,
+    "count": 26,
     "comments": [
       {
         "m": "Jun",
@@ -1608,13 +1842,25 @@ const PEX_DATA = {
       {
         "m": "Jan",
         "c": "I came to the ER due to an episode of A-Fib Heart rate about 140-170 at home. By the time I got to a room I had converted back to a normal rate around 60-70. I think the Dr. ___ questions to determine any extenuating health issues that may have altered or contributed to the A-fib. I dont recall that he even got close enough to listen to my heart. The past 6 months I have been having issues with my Thyroid and A1c after my cardiologist altered my Levothyroxin dose. He did not mention if blood tests were done for either of these diagnosis. I feel like because my rate converted before he even got in the room that it wasnt a big deal and was discharged."
+      },
+      {
+        "m": "Jul",
+        "c": "While they answered my questions, I did not feel that information was provided. I had questions on my medication and was not advised I had been given an opioid"
+      },
+      {
+        "m": "Jul",
+        "c": "I would first like to express my sincere appreciation for the care I received during my recent visit to the Emergency Department, including the prompt evaluation, lab testing, and the CT scan performed to rule out serious conditions. Before I was discharged, I directly asked the physician assistant whether my CT scan showed a hiatal hernia and was told that it did not. After arriving home, I reviewed my CT report and discovered the radiologist had clearly documented a small hiatal hernia. Had I not requested a copy of my report before leaving, I would never have known. I understand not every finding requires emergency treatment, but I would have appreciated being told the scan showed a small hiatal hernia with uncertain significance, rather than being told I did not have one."
+      },
+      {
+        "m": "Jul",
+        "c": "I wish I could have taken a copy of my lab done with me that eve."
       }
     ]
   },
   {
     "title": "Pain plan communication",
     "detail": "Expectations for pain control not set or met",
-    "count": 11,
+    "count": 14,
     "comments": [
       {
         "m": "Jun",
@@ -1659,13 +1905,25 @@ const PEX_DATA = {
       {
         "m": "Jan",
         "c": "Dr. ___'t do really anything just came in came out I asked them for something for pain almost got given ibuprofen something I'm highly allergic to got what already take for a messed up back and shoulder percacet and Tylenol after telling them I can't have ibuprofen and the other meds they tried to give Dr. ___'t really show much care ! And I told the Dr. ___ I can have something other than the ghetto used splint both wrong size they tried second one Dr. ___'s all I. Have Im not going to do anything else cause he got mad Provider ___ a second time the Provider ___ she didn't even know how to put on the arm brace/ splint her 1st time using something like that eventually was posted very uncomfortable eventually registration Provider ___ to get my insurance card I asked her if I can at least get some gos to level out so my hand can rest little bit more comfortable she gave me some gos splint slash arm brace didn't even fit I had to push the finger rest area down myself cause it was all poor service and Dr. ___'s didn't really want to help much! When I went home I had to make my own concert for the wrist brace I used fabric material to level out for comfort and ace wrap to post the cotton material and my girlfriend had to stich a extra strap from some other material cause it kept falling off from the swelling and the size of the brace just all together a poor visit if I would have known treatment was going to be that lazy and uncomfortable I could have just went to Walgreens and got the same thing but something more comfortable that fit!"
+      },
+      {
+        "m": "Jul",
+        "c": "The doctor was very nice, but forgetful. We had discussed certain tests, and medication to relieve pain and nausea. He said he would give me Tylenol and Zofran. After my rib and knees X-rays they said there was not ct scan for my head which he said would be done. After I received my X-rays I asked the nurse for my Tylenol and Zofran and she said it wasn't ordered. I asked about the ct scan also not ordered. Then she came back with the medication and then the ct scan also came through."
+      },
+      {
+        "m": "Jul",
+        "c": "I came in due to excessive pain, and difficulty breathing. Where they did check my heart and ran a blood test, they offered me absolutely nothing for the pain or shortness of breath. I left the hospital with the same exact symptoms I came in with, plus, zero relief."
+      },
+      {
+        "m": "Jul",
+        "c": "This provider was awful, and was going to refuse me treatment. My release paperwork addressed dangers for tooth infection to return to ER, which is why I came to the ER in the first place because my tooth infection was so bad. The provider did treat me, but no one monitored me with a blood pressure cuff once pain meds were administered. Fortunately, I had an oxygen meter on my finger that alerted me my oxygen was dropping and I had to call the nurse because no one was listening to the machine sound the alarm."
       }
     ]
   },
   {
     "title": "Updates during the visit",
     "detail": "Long gaps without provider communication",
-    "count": 8,
+    "count": 10,
     "comments": [
       {
         "m": "Jun",
@@ -1698,6 +1956,14 @@ const PEX_DATA = {
       {
         "m": "Feb",
         "c": "Throughout the 22 hour stay there seemed to be no one in charge but with a lot of 'buck' passing. At least 6 hours were simply waiting because there WAS ONLY ONE PERSON reading the test results who then passed them on to ??? Who finally got someone to advice??? Andtook me to the next strp. The whole department seemed to be without someone to guide the patient through treatments and then to discharge. A tremendous amount of time just waiting for test results and then finding someone who would actually DO something. A 'Sargent Major' type is sorely needed."
+      },
+      {
+        "m": "Jul",
+        "c": "It felt like we were forgotten about until they moved us to observation (which is not private to get test results) and then we were discharged"
+      },
+      {
+        "m": "Jul",
+        "c": "The initial provider interaction was good in that they readily ordered the needed lab work and imaging as well as offered nausea and pain meds. While waiting on results, registration informed me of a request for me to get dressed, which caused a lot of confusion since I was still hooked up to fluids and had barely finished the ultrasound. No one had talked to me about results, reassessed my pain, or knew my fluids were still running. While in the results pending area, I got a call from pharmacy about prescriptions for pain and nausea, but still had not heard anything on results despite my call light being on for 20 minutes. The next interaction was discouraging; the provider was discharging me despite being tachycardic, with no medication for pain. Once I raised continued concerns, the provider agreed to add a CT and see about observation. Once the CT, cultures, and consult were completed, another provider had taken over care, updated me on the results, and let me know I could go home."
       }
     ]
   }
@@ -1914,6 +2180,43 @@ const PEX_DATA = {
     });
   });
 
+  /* ----- shout-out ticker (cycles positive comments, all themes/months) ----- */
+  function initShoutout(){
+    const bubble = $("pexShoutBubble"), textEl = $("pexShoutText"), metaEl = $("pexShoutMeta");
+    if(!bubble) return;
+    const pool = [];
+    PEX_DATA.positiveThemes.forEach(t=>{
+      (t.comments||[]).forEach(c=>pool.push(c));
+    });
+    if(!pool.length){ textEl.textContent = "Patient shout-outs will appear here once comments are available."; return; }
+
+    let current = -1;
+    function pick(){
+      if(pool.length === 1) return 0;
+      let n;
+      do { n = Math.floor(Math.random()*pool.length); } while(n === current);
+      return n;
+    }
+    function render(i){
+      const item = pool[i];
+      let txt = item.c.trim();
+      if(txt.length > 260) txt = txt.slice(0,257).trim() + "\u2026";
+      textEl.textContent = "\u201C" + txt + "\u201D";
+      metaEl.textContent = "Patient feedback \u2014 " + item.m + " 2026";
+    }
+    function next(){
+      current = pick();
+      if(reduceMotion){ render(current); return; }
+      bubble.classList.add("pex-fade");
+      setTimeout(()=>{
+        render(current);
+        bubble.classList.remove("pex-fade");
+      }, 320);
+    }
+    next();
+    setInterval(next, 6800);
+  }
+
   /* ----- init ----- */
   buildMonthBar();
   renderDonut();
@@ -1921,6 +2224,7 @@ const PEX_DATA = {
   renderNote();
   renderCallouts();
   renderThemes();
+  initShoutout();
 })();
 </script>
 </body>
