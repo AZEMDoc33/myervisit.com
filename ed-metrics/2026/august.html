@@ -390,7 +390,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
         <span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 1.97 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span>
       </div>
       <div class="chart-scroll-outer"><div class="chart-container" style="height:720px"><canvas id="providerPPHChart"></canvas></div></div>
-      <div style="font-size:11px;color:var(--text-light);margin-top:10px;">† August individual Pt/Hr is computed directly from Excel encounter volume ÷ provider work hours (scheduling system work-hour report). Providers with very low monthly hours (single shifts) will show wider swings in either direction.</div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:10px;">† August individual Pt/Hr is computed directly from Excel encounter volume ÷ provider work hours (scheduling system work-hour report). Providers with very low monthly hours (single shifts) will show wider swings in either direction. One APC who covered a single 6-hour ED shift is included in the department Pt/Hr and aPPH totals but is not charted individually, since a single short shift is not a meaningful individual rate.</div>
     </div>
     <!-- Mobile leaderboard -->
     <div class="mobile-leader" id="mobilePPH">
@@ -438,13 +438,13 @@ html, body { overflow-x: hidden; max-width: 100%; }
       <div class="prod-grid">
         <div>
           <div class="prod-label">Eligible Volume</div>
-          <div class="prod-val">4,500</div>
-          <div class="prod-sub">4,558 total − 46 LWOT − 12 non-ED</div>
+          <div class="prod-val">4,512</div>
+          <div class="prod-sub">4,558 total − 46 LWOT</div>
         </div>
         <div>
           <div class="prod-label">Total Provider Hours</div>
-          <div class="prod-val">2,267.75</div>
-          <div class="prod-sub">MD 1,278.00 + APC 989.75</div>
+          <div class="prod-val">2,273.75</div>
+          <div class="prod-sub">MD 1,278.00 + APC 995.75</div>
         </div>
         <div>
           <div class="prod-label">Pt / Hr</div>
@@ -466,7 +466,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
       <div class="prod-note">
         📐 <strong>Pt/Hr</strong> = Eligible Volume ÷ (MD + APC Hours) &nbsp;|&nbsp;
         <strong>aPPH</strong> = Eligible Volume ÷ (MD Hours + 0.5 × APC Hours) &nbsp;|&nbsp;
-        Adj Hours = 1,278.00 + (0.5 × 989.75) = 1,772.88 &nbsp;|&nbsp;
+        Adj Hours = 1,278.00 + (0.5 × 995.75) = 1,775.88 &nbsp;|&nbsp;
         <span style="color:rgba(255,255,255,0.55)">Goals: Pt/Hr ≥ 1.85 &nbsp;·&nbsp; aPPH ≥ 2.45</span>
       </div>
     </div>
