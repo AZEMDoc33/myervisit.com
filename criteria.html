@@ -1526,6 +1526,56 @@ html[data-theme="dark"] .prec-divider-not-ok {
 .prec-grp.hide,.prec-row.hide,.prec-divider-not-ok.hide,.prec-legend.hide{display:none}
 .prec-nohit{padding:22px;text-align:center;color:#6b7986;font-size:.88rem;
   border:1px dashed var(--line,#dfe3e8);border-radius:10px;margin-top:4px}
+
+/* -- Specimen-type corollary notice -- */
+.prec-spec-note{border:1.5px solid var(--bgmc-border);border-left:4px solid var(--bgmc);
+  background:var(--bgmc-bg);border-radius:12px;padding:14px 16px;margin:0 0 14px}
+.prec-spec-note.hide{display:none}
+.prec-spec-title{font-weight:700;font-size:.95rem;color:var(--bgmc);margin-bottom:7px;line-height:1.3}
+.prec-spec-body{font-size:.86rem;line-height:1.55;color:var(--text-2)}
+.prec-spec-body strong{color:var(--text)}
+
+/* -- Decision tree -- */
+.dtree{display:flex;flex-direction:column;gap:0;margin:4px 0 18px}
+.dtree-start{border:1.5px solid var(--border-2);background:var(--surface-2);border-radius:12px;
+  padding:13px 16px;font-size:.9rem;font-weight:600;color:var(--text);line-height:1.45}
+.dtree-arrow{width:2px;height:16px;background:var(--border-2);margin:0 0 0 26px}
+.dtree-step{border:1.5px solid var(--border-2);background:var(--surface);border-radius:12px;
+  padding:14px 16px;box-shadow:var(--shadow-sm)}
+.dtree-q{display:flex;gap:11px;align-items:flex-start;margin-bottom:11px}
+.dtree-num{flex:0 0 26px;height:26px;border-radius:50%;background:var(--bgmc);color:#fff;
+  font-size:.82rem;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1}
+.dtree-qtxt{font-size:.94rem;font-weight:700;color:var(--text);line-height:1.38;padding-top:3px}
+.dtree-sub{font-size:.83rem;color:var(--text-2);line-height:1.5;margin:-5px 0 11px 37px}
+.dtree-branches{display:flex;flex-direction:column;gap:7px;margin-left:37px}
+.dtree-b{border-left:4px solid var(--text-3);background:var(--surface-2);border-radius:8px;
+  padding:9px 12px;font-size:.855rem;line-height:1.5;color:var(--text-2)}
+.dtree-b strong{color:var(--text)}
+.dtree-b.ip{border-left-color:var(--ip);background:var(--ip-bg)}
+.dtree-b.ip strong{color:var(--ip-dim)}
+.dtree-b.ok{border-left-color:#2E7D52;background:rgba(46,125,82,.09)}
+.dtree-b.ok strong{color:#2E7D52}
+.dtree-b.warn{border-left-color:var(--obs);background:var(--obs-bg)}
+.dtree-b.warn strong{color:var(--obs-dim)}
+.dtree-result{border:1.5px solid #2E7D52;background:rgba(46,125,82,.10);border-radius:12px;
+  padding:14px 16px;font-size:.9rem;line-height:1.5;color:var(--text-2)}
+.dtree-result strong{color:#2E7D52}
+
+/* -- UTI organism quick tables -- */
+.uti-tbl{display:flex;flex-direction:column;gap:6px;margin:0 0 16px}
+.uti-r{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--border);
+  background:var(--surface);border-radius:9px;padding:10px 13px}
+.uti-r.stop{border-left:4px solid var(--ip)}
+.uti-r.go{border-left:4px solid #2E7D52}
+.uti-org{flex:1;font-size:.885rem;font-weight:650;color:var(--text);line-height:1.38}
+.uti-note{font-size:.82rem;color:var(--text-2);line-height:1.5;margin-top:3px;font-weight:400}
+.uti-case{border:1px solid var(--border-2);border-radius:10px;padding:12px 14px;margin-bottom:8px;
+  background:var(--surface);font-size:.86rem;line-height:1.55;color:var(--text-2)}
+.uti-case-q{font-weight:650;color:var(--text);display:block;margin-bottom:5px}
+.uti-case-a{display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.03em;
+  padding:3px 9px;border-radius:999px;margin-bottom:6px}
+.uti-case-a.ok{background:rgba(46,125,82,.14);color:#2E7D52}
+.uti-case-a.ip{background:var(--ip-bg);color:var(--ip-dim)}
 </style>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -1716,6 +1766,11 @@ html[data-theme="dark"] .prec-divider-not-ok {
   <!-- ══ MDRO 1-YEAR RULE LOOKUP ══ -->
   <div class="view" id="view-mdro-lookup">
     <div id="mdroLookupContent"></div>
+  </div>
+
+  <!-- ══ PRESUMED INFECTION → OOU DECISION TREE ══ -->
+  <div class="view" id="view-infection-tree">
+    <div id="infTreeContent"></div>
   </div>
 
   <!-- ══ OOU ══ -->
@@ -2382,6 +2437,17 @@ const SPECIAL_SEARCH = [
     action: showMDROLookup
   },
   {
+    id: 'infection-tree',
+    name: 'Presumed Infection \u2014 OOU or Inpatient? (incl. UTI)',
+    cat: 'id',
+    badge: 'BGMC',
+    aliases: ['uti', 'urinary tract infection', 'urine culture', 'pyelonephritis', 'pyelo', 'cystitis',
+              'urosepsis', 'infection', 'presumed infection', 'sepsis', 'admit', 'admission', 'algorithm',
+              'decision tree', 'flow sheet', 'flowchart', 'oou or inpatient', 'esbl uti', 'mdro uti',
+              'blood culture', 'bacteremia', 'cellulitis', 'pneumonia admission'],
+    action: showInfectionTree
+  },
+  {
     id: 'id-precautions',
     name: 'Contact Precautions / Isolation',
     cat: 'id',
@@ -2891,7 +2957,8 @@ document.addEventListener('keydown', e => {
    entries below are deliberately NOT pinned — they are search-only, or they
    would bury the diagnosis list. */
 const PINNED_SUBS = {
-  'id-precautions': 'Which organisms need isolation — searchable by name or acronym'
+  'id-precautions': 'Which organisms need isolation — searchable by name or acronym',
+  'infection-tree': 'Step-by-step: can this infected patient go to the OOU? Plus UTI quick reference'
 };
 Object.keys(PINNED_SUBS).forEach(id => {
   const it = SPECIAL_SEARCH.find(x => x.id === id);
@@ -2922,6 +2989,7 @@ const PREC_ORGANISMS = [
   ['COVID-19',                          'covid coronavirus sars-cov-2 sars cov 2',                                  'covid'],
   ['RSV (Respiratory Syncytial Virus)', 'rsv respiratory syncytial virus bronchiolitis',                            'rsv'],
   ['Influenza A/B',                     'flu influenza a b',                                                        'influenza'],
+  ['Group A Strep (S. pyogenes)',       'group a strep streptococcus pyogenes gas pharyngitis strep throat scarlet fever gabhs', 'group a strep'],
 ];
 
 PREC_ORGANISMS.forEach(([label, alias, term]) => {
@@ -2956,7 +3024,7 @@ function showIDPrecautions(preFilter) {
       note:'Standard precautions if no active/draining wound or active infection. Acceptable for OOU.' },
     { name:'Prior Positive Blood Culture (previous encounter)', type:'Standard', room:'no', roomLabel:'',
       alias:'blood culture bcx bacteremia septicemia prior previous history past old mssa streptococcus strep contaminant',
-      note:'A blood culture that was positive on a PREVIOUS visit does not by itself require precautions and does not block the OOU. Only the five automatic 1-year organisms below carry forward — a prior MSSA, pan-sensitive E. coli or Streptococcus bacteremia does not.' },
+      note:'A blood culture that was positive on a PREVIOUS visit does not by itself require precautions and does not block the OOU. Only the six automatic 1-year organisms below carry forward — a prior MSSA, pan-sensitive E. coli or Streptococcus bacteremia does not.' },
     { name:'Pan-Sensitive UTI', type:'Standard', room:'no', roomLabel:'\u2717 Not Required',
       alias:'uti urinary tract infection urine culture cystitis pyelonephritis pyelo escherichia coli e coli',
       note:'A susceptible urine culture is not a contact precautions trigger. Acceptable for OOU.' },
@@ -2985,6 +3053,9 @@ function showIDPrecautions(preFilter) {
     { name:'Metapneumovirus', type:'Contact', room:'rec', roomLabel:'\u26a0 Recommended',
       alias:'hmpv human metapneumovirus',
       note:'Private room preferred when available.' },
+    { name:'Group A Strep (S. pyogenes)', type:'Droplet', room:'req', roomLabel:'\u2713 Required',
+      alias:'group a strep streptococcus pyogenes gas strep throat pharyngitis tonsillitis scarlet fever invasive necrotizing peritonsillar gabhs',
+      note:'Active Group A strep pharyngitis, pneumonia or scarlet fever requires droplet precautions and is NOT OOU appropriate. Discontinue after 24 hrs of effective antibiotic therapy. Add contact precautions if there is an abscess or draining wound that cannot be covered or contained.' },
   ];
 
   /* -- MDROs -- automatic 1-year carry-forward (Policy 118 v47, Appendix F) -- */
@@ -3004,6 +3075,9 @@ function showIDPrecautions(preFilter) {
     { name:'VISA / VRSA', type:'Contact \u00d7 1 Year', room:'req', roomLabel:'\u2713 Required',
       alias:'visa vrsa vancomycin intermediate resistant staphylococcus staph aureus',
       note:'Precautions on each readmission within 1 year of the initial positive culture. Policy 118 publishes no discontinuation criterion for VISA/VRSA \u2014 call Infection Prevention before de-isolating. EVS terminal clean required.' },
+    { name:'CephR Klebsiella pneumoniae', type:'Contact \u00d7 1 Year +', room:'req', roomLabel:'\u2713 Required',
+      alias:'ceph cephr cephalosporin resistant klebsiella pneumoniae escre cephalosporin-resistant enterobacterales',
+      note:'No OOU for 12 months after a positive culture. Contact precautions for the entire index stay when infection or colonization is first detected, and the patient cannot be cleared until ALL THREE are true: more than 12 months since the last positive from the original site, no clinical infection or suspicion of one, and no ongoing antibiotics. Stricter than the other five \u2014 12 months is the floor, not the finish line. EVS terminal clean required.' },
   ];
 
   /* -- MDROs -- NOT automatic 1-year; depend on active infection -- */
@@ -3014,15 +3088,12 @@ function showIDPrecautions(preFilter) {
     { name:'VRE', type:'Contact if active infection', room:'rec', roomLabel:'\u26a0 Depends',
       alias:'vre vancomycin resistant enterococcus enterococcal enterococci transplant',
       note:'Not a 1-year organism. No precautions on readmission unless there is active infection such as an open draining wound. Exception: solid organ transplant history plus a positive VRE culture within 1 year. Discontinue after 48 hrs off relevant antibiotics plus negative culture or provider documentation.' },
-    { name:'CephR Klebsiella pneumoniae', type:'Contact \u2014 index stay', room:'req', roomLabel:'\u2713 Required',
-      alias:'ceph cephr cephalosporin resistant klebsiella pneumoniae',
-      note:'Contact precautions for the entire stay in which infection or colonization is first detected. No per-readmission 1-year rule. Discontinue only when all three are true: more than 12 months since the last positive from the original site, no clinical infection or suspicion of one, and no ongoing antibiotics.' },
     { name:'ESBL / Resistant E. coli / Other MDROs', type:'Contact while active', room:'req', roomLabel:'\u2713 Required',
       alias:'esbl extended spectrum beta lactamase escherichia e coli ecoli resistant proteus enterobacter serratia mdro multidrug',
       note:'Active infection requires contact precautions \u2014 an ESBL UTI is NOT OOU appropriate this visit. But there is no 1-year rule: a history of ESBL alone does not carry forward. Discontinue after 48 hrs off relevant antibiotics plus a negative culture from the original site if obtainable.' },
     { name:'MDRO UTI', type:'Depends on organism', room:'req', roomLabel:'\u26a0 Depends',
       alias:'mdro uti urine culture urinary tract infection resistant multidrug',
-      note:'Not a single rule. Acinetobacter, Pseudomonas and CRE/CPO in urine carry the 1-year rule. ESBL and resistant E. coli do not. Any of these actively infected still needs a private room \u2014 the observation unit has a shared bathroom.' },
+      note:'Not a single rule. Acinetobacter, Pseudomonas, CRE/CPO and CephR Klebsiella in urine carry the 1-year rule. ESBL and resistant E. coli do not. Any of these actively infected still needs a private room \u2014 the observation unit has a shared bathroom.' },
   ];
 
   function makeRow(r) {
@@ -3037,7 +3108,7 @@ function showIDPrecautions(preFilter) {
   }
 
   const CHIPS = ['C. diff','MRSA','VRE','ESBL','E. coli','CRE','Acinetobacter','Pseudomonas',
-                 'C. auris','Klebsiella','UTI','Blood culture','COVID','RSV','Influenza'];
+                 'C. auris','Klebsiella','UTI','Blood culture','Group A Strep','COVID','RSV','Influenza'];
 
   let html = `
   <div class="oou-hero" style="border-color:var(--bgmc-border)">
@@ -3067,7 +3138,20 @@ function showIDPrecautions(preFilter) {
       not an observation case. That holds for every organism, including pan-sensitive ones, and is true whether or not isolation is required.
       <br><br>
       A blood culture positive on a <strong>previous</strong> encounter is a different question. It does not automatically block the OOU
-      — only the five automatic 1-year organisms carry forward.
+      — only the six automatic 1-year organisms carry forward.
+    </div>
+  </div>
+
+  <div class="prec-spec-note" id="precSpecNote">
+    <div class="prec-spec-title">\u{1F9EB} &nbsp;The 1-year rule follows the ORGANISM, not the specimen</div>
+    <div class="prec-spec-body">
+      Urine, wound, blood, sputum or a screening swab \u2014 Policy 118 counts them <strong>exactly the same</strong>.
+      A CRE that grew from a urine culture carries the same 12 months as a CRE from a blood culture, and
+      <strong>colonization counts the same as infection</strong>. The clock is anchored to the body site the organism
+      came from, not to the type of specimen. There is no &ldquo;it was only urine&rdquo; exception anywhere in the policy.
+      <br><br>
+      It runs the other way too: a prior <strong>positive blood culture carries nothing forward</strong> unless the
+      organism is one of the six below.
     </div>
   </div>
 
@@ -3105,6 +3189,17 @@ function showIDPrecautions(preFilter) {
     <div class="prec-rows">${MDRO_COND.map(makeRow).join('')}</div>
   </div>
 
+  <button class="prec-link-btn" onclick="showInfectionTree()">
+    <div class="prec-link-ico">\u{1F9ED}</div>
+    <div class="prec-link-txt">
+      <div class="prec-link-title">Presumed infection \u2014 OOU or inpatient?</div>
+      <div class="prec-link-sub">Step-by-step decision tree \u00b7 plus the UTI quick reference</div>
+    </div>
+    <div class="prec-link-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </button>
+
   <button class="prec-link-btn" onclick="showMDROLookup()">
     <div class="prec-link-ico">\u{1F50E}</div>
     <div class="prec-link-txt">
@@ -3121,7 +3216,7 @@ function showIDPrecautions(preFilter) {
   </div>
 
   <div class="prec-footer" style="margin-top:10px">
-    <strong>Note:</strong> The MDRO contact precaution flag auto-populates for 1 year only for the five organisms in the
+    <strong>Note:</strong> The MDRO contact precaution indicator auto-populates for 1 year only for the six organisms in the
     <em>Automatic Contact \u00d7 1 Year</em> section above. MRSA, VRE and ESBL do not carry forward on history alone \u2014 they require active infection.
     Questions regarding isolation status: Infectious Disease <strong>480-543-2280</strong>.
   </div>`;
@@ -3217,9 +3312,9 @@ function showMDROLookup() {
   <div class="oou-note"><strong>No —</strong> go to question 2.</div>
 
   <div class="prec-section-hdr mdro">② &nbsp;Is there a prior positive in the last 12 months?</div>
-  <div class="oou-note">Only <strong>five</strong> organisms carry forward automatically with no active infection: <strong>C. auris, CRE/CPO, MDR Acinetobacter, MDR Pseudomonas, and VISA/VRSA.</strong></div>
+  <div class="oou-note">Only <strong>six</strong> organisms carry forward automatically with no active infection: <strong>C. auris, CRE/CPO, MDR Acinetobacter, MDR Pseudomonas, VISA/VRSA, and CephR Klebsiella pneumoniae.</strong> CephR Klebsiella is the strictest of the six \u2014 12 months is a floor, and the patient also has to be free of any suspected infection and off antibiotics before precautions come off.</div>
   <div class="oou-note">A history of <strong>MRSA, VRE or ESBL alone does not put a patient back into contact precautions.</strong> Those require signs or symptoms of active infection. An ESBL UTI that is actively infected still needs a private room — but a resolved one from eight months ago does not.</div>
-  <div class="oou-note">The same applies to blood cultures. <strong>A blood culture that was positive last year does not block the OOU today.</strong> Only the five organisms above carry forward, and only for a year.</div>
+  <div class="oou-note">The same applies to blood cultures. <strong>A blood culture that was positive last year does not block the OOU today.</strong> Only the six organisms above carry forward, and only for a year.</div>
 
   <details style="margin-top:14px;border:1px solid var(--line,#e2e5ea);border-radius:10px;padding:0 14px">
     <summary style="cursor:pointer;padding:12px 0;font-weight:600;font-size:.92rem">Has the patient stayed overnight at a skilled nursing facility in the last 12 months?</summary>
@@ -3249,6 +3344,207 @@ function showMDROLookup() {
 
   document.getElementById('mdroLookupContent').innerHTML = html;
   showView('mdro-lookup');
+}
+
+
+/* ═════════════════════════════════════════
+   PRESUMED INFECTION → OOU OR INPATIENT (decision tree + UTI)
+═══════════════════════════════════════════ */
+
+/* Urine organisms that carry the automatic 12-month precautions rule.
+   Site of origin does not matter \u2014 a urine isolate starts the same clock
+   as a blood isolate. Kept as data so the list stays in one place. */
+const SIX = 'C. auris \u00b7 CRE/CPO \u00b7 MDR Acinetobacter \u00b7 MDR Pseudomonas \u00b7 VISA/VRSA \u00b7 CephR Klebsiella';
+
+const UTI_STOP = [
+  ['CRE / CPO', 'Carbapenem-resistant Enterobacterales and carbapenemase producers \u2014 KPC, NDM, VIM, IMP, OXA-48. Includes carbapenem-resistant Klebsiella, E. coli and Enterobacter in urine. 12 months from the last positive in the same area of concern.'],
+  ['CephR Klebsiella pneumoniae', 'Cephalosporin-resistant Klebsiella. 12 months is the floor, not the finish line \u2014 also requires no suspected infection and no ongoing antibiotics before clearing.'],
+  ['MDR / Pan-R Pseudomonas aeruginosa', '12 months from the last positive culture, urine included.'],
+  ['MDR / Pan-R Acinetobacter baumannii', '12 months from the last positive in the area of original concern.'],
+  ['Candida auris', '12 months from the last positive. Colonization counts the same as infection.'],
+  ['VISA / VRSA', 'Precautions on every readmission within 1 year. Policy 118 publishes no discontinuation criterion \u2014 call Infection Prevention before de-isolating.'],
+];
+
+/* Urine organisms with NO carry-forward rule. Precautions depend entirely
+   on whether there is an active infection on THIS encounter. */
+const UTI_GO = [
+  ['ESBL E. coli / Klebsiella / Proteus', 'No 1-year rule at any interval. An ESBL UTI growing right now needs a private room and is not OOU appropriate this visit. A resolved ESBL from 3 months ago or 13 months ago carries nothing forward.'],
+  ['VRE in urine', 'No precautions on history alone. Requires active infection such as an open draining wound. Exception: solid organ transplant plus a positive VRE culture within 1 year.'],
+  ['MRSA in urine', 'No precautions on history alone. Requires signs or symptoms of active infection.'],
+  ['Pan-sensitive E. coli, Klebsiella, Proteus, Enterococcus', 'Standard precautions. A susceptible urine culture is not a contact precautions trigger at all.'],
+];
+
+function utiRow(cls) {
+  return ([org, note]) => `<div class="uti-r ${cls}">
+    <div class="uti-org">${escHTML(org)}<div class="uti-note">${escHTML(note)}</div></div>
+  </div>`;
+}
+
+function showInfectionTree() {
+  state.stack.push({ type: 'infection-tree' });
+
+  const html = `
+  <div class="oou-hero" style="border-color:var(--bgmc-border)">
+    <div class="oou-hero-ico" style="background:var(--bgmc-bg)">\u{1F9ED}</div>
+    <div>
+      <div class="oou-hero-label" style="color:var(--bgmc)">Infectious Disease</div>
+      <div class="oou-hero-title">Presumed infection \u2014 OOU or inpatient?</div>
+      <div class="oou-hero-sub">Decision tree \u00b7 UTI quick reference \u00b7 Policy 118 v47</div>
+    </div>
+  </div>
+
+  <div class="prec-spec-note">
+    <div class="prec-spec-title">\u{1F9EB} &nbsp;Before you start: the rule follows the ORGANISM, not the specimen</div>
+    <div class="prec-spec-body">
+      Urine, wound, blood, sputum or a screening swab all count the same, and
+      <strong>colonization counts the same as infection</strong>. There is no &ldquo;it was only a urine culture&rdquo;
+      exception in Policy 118. Equally, a prior positive blood culture carries nothing forward unless the organism
+      is one of the six.
+    </div>
+  </div>
+
+  <div class="dtree">
+    <div class="dtree-start">\u{1F3E5} &nbsp;Starting point: I am admitting a patient with a presumed or confirmed infection.</div>
+    <div class="dtree-arrow"></div>
+
+    <div class="dtree-step">
+      <div class="dtree-q"><div class="dtree-num">1</div>
+        <div class="dtree-qtxt">Is a blood culture from THIS encounter positive?</div></div>
+      <div class="dtree-branches">
+        <div class="dtree-b ip"><strong>YES \u2192 INPATIENT.</strong> A positive blood culture on the current encounter is
+          bacteremia and is an inpatient admission. True for every organism, including pan-sensitive ones, and true whether
+          or not isolation is required. Stop here for disposition; precautions are a separate question.</div>
+        <div class="dtree-b"><strong>NO or still pending \u2192</strong> go to question 2.</div>
+      </div>
+    </div>
+    <div class="dtree-arrow"></div>
+
+    <div class="dtree-step">
+      <div class="dtree-q"><div class="dtree-num">2</div>
+        <div class="dtree-qtxt">Is there an active infection right now that requires transmission-based precautions?</div></div>
+      <div class="dtree-sub">Go by the organism on this encounter&rsquo;s culture, or by the syndrome if cultures are still cooking.</div>
+      <div class="dtree-branches">
+        <div class="dtree-b ip"><strong>YES \u2192 private room required, NOT OOU.</strong> The OOU is semi-private with a
+          shared bathroom, so any active precautions requirement is a hard eligibility gate. Common ones: ESBL UTI growing now,
+          active C. diff, an abscess or wound that cannot be contained, untreated Group A strep pharyngitis, COVID, RSV in an
+          immunocompromised adult.</div>
+        <div class="dtree-b warn"><strong>CULTURES PENDING \u2192</strong> a pending culture is not itself a policy trigger.
+          Move to question 3, then sanity-check the empiric target: if you are deliberately covering for a carry-forward
+          organism, plan on a private room until the culture resolves.</div>
+        <div class="dtree-b"><strong>NO \u2192</strong> go to question 3.</div>
+      </div>
+    </div>
+    <div class="dtree-arrow"></div>
+
+    <div class="dtree-step">
+      <div class="dtree-q"><div class="dtree-num">3</div>
+        <div class="dtree-qtxt">Any positive culture or colonization screen in the last 12 months \u2014 from ANY site?</div></div>
+      <div class="dtree-sub">Six organisms carry forward on history alone: <strong>${SIX}</strong></div>
+      <div class="dtree-branches">
+        <div class="dtree-b ip"><strong>YES, one of the six, within 12 months \u2192 NOT OOU.</strong> Contact precautions
+          apply automatically with no active infection needed. Urine, wound, blood, sputum or a screening swab all start the
+          same clock.</div>
+        <div class="dtree-b ok"><strong>YES, but it was MRSA, VRE, ESBL or a pan-sensitive organism \u2192 does not carry
+          forward.</strong> History alone never re-triggers precautions for these. Go to question 4.</div>
+        <div class="dtree-b"><strong>NO \u2192</strong> go to question 4.</div>
+      </div>
+    </div>
+    <div class="dtree-arrow"></div>
+
+    <div class="dtree-step">
+      <div class="dtree-q"><div class="dtree-num">4</div>
+        <div class="dtree-qtxt">Any high-risk exposure history in the last 12 months?</div></div>
+      <div class="dtree-sub">Overnight stay in a skilled nursing facility or LTACH, or an overnight stay or invasive procedure
+        in a non-US hospital.</div>
+      <div class="dtree-branches">
+        <div class="dtree-b warn"><strong>YES \u2192 judgment call, not a hard block.</strong> Policy 118 Appendix H directs
+          C. auris and CPO colonization screening for this exposure history, which means these patients often carry a
+          carry-forward organism with no culture on file. Worth weighing before a semi-private bed.</div>
+        <div class="dtree-b"><strong>NO \u2192</strong> proceed.</div>
+      </div>
+    </div>
+    <div class="dtree-arrow"></div>
+
+    <div class="dtree-result"><strong>\u2713 OOU eligible</strong> on infectious disease grounds, assuming the patient
+      otherwise meets observation criteria. A physician order is not required to start or stop transmission-based precautions.</div>
+  </div>
+
+  <div class="prec-section-hdr mdro">\u{1F9EA} &nbsp;UTI quick reference \u2014 urine organisms that BLOCK the OOU for 12 months</div>
+  <div class="uti-tbl">${UTI_STOP.map(utiRow('stop')).join('')}</div>
+
+  <div class="prec-section-hdr resp">\u2705 &nbsp;UTI quick reference \u2014 urine organisms with NO 1-year rule</div>
+  <div class="uti-tbl">${UTI_GO.map(utiRow('go')).join('')}</div>
+
+  <div class="prec-bcx-alert">
+    <div class="prec-bcx-title">\u26a0 &nbsp;Watch the Klebsiella overlap</div>
+    <div class="prec-bcx-body">
+      A Klebsiella pneumoniae resistant to third-generation cephalosporins can be read two ways in Policy 118: as
+      <strong>ESBL</strong> (no 1-year rule) or as <strong>CephR Klebsiella</strong> (12 months plus two extra conditions).
+      They are the same phenotype on most lab reports. Default to the stricter CephR rule and confirm with Infection
+      Prevention if the disposition turns on it.
+    </div>
+  </div>
+
+  <div class="prec-section-hdr resp">\u{1F4CB} &nbsp;Worked examples</div>
+
+  <div class="uti-case">
+    <span class="uti-case-q">ESBL bacteremia 13 months ago, fully treated. Now a UTI, cultures pending.</span>
+    <span class="uti-case-a ok">OOU ELIGIBLE</span><br>
+    The 13 months is a red herring \u2014 ESBL has no 1-year rule at any interval. Recurrence risk is real and should
+    broaden your empiric coverage, but that is an antibiotic decision, not an isolation one. If the urine returns ESBL
+    during the stay, the patient moves and the disposition gets revisited.
+  </div>
+
+  <div class="uti-case">
+    <span class="uti-case-q">ESBL urine culture 10 months ago, negative urine culture 7 months ago, new UTI today.</span>
+    <span class="uti-case-a ok">OOU ELIGIBLE</span><br>
+    Cleaner still: this patient already satisfies the formal ESBL discontinuation criterion \u2014 a negative culture from
+    the original site with the patient off relevant antibiotics. Nothing carries forward.
+  </div>
+
+  <div class="uti-case">
+    <span class="uti-case-q">CRE grew from a urine culture 8 months ago. Today&rsquo;s UTI is pan-sensitive E. coli.</span>
+    <span class="uti-case-a ip">NOT OOU</span><br>
+    The CRE carries a full 12 months regardless of what is growing today, and regardless of the fact that it came from urine
+    rather than blood. Contact precautions and a private room.
+  </div>
+
+  <div class="uti-case">
+    <span class="uti-case-q">Pan-sensitive E. coli bacteremia on this encounter.</span>
+    <span class="uti-case-a ip">INPATIENT</span><br>
+    Bacteremia on the current visit is an inpatient admission whatever the susceptibility pattern. No isolation is required
+    \u2014 the two questions have different answers, which is normal.
+  </div>
+
+  <button class="prec-link-btn" onclick="showIDPrecautions()">
+    <div class="prec-link-ico">\u{1F9A0}</div>
+    <div class="prec-link-txt">
+      <div class="prec-link-title">Full contact precautions table</div>
+      <div class="prec-link-sub">Every organism, private room requirement and discontinuation criteria</div>
+    </div>
+    <div class="prec-link-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </button>
+
+  <button class="prec-link-btn" onclick="showMDROLookup()">
+    <div class="prec-link-ico">\u{1F50E}</div>
+    <div class="prec-link-txt">
+      <div class="prec-link-title">Does a prior positive culture still count?</div>
+      <div class="prec-link-sub">The 1-year rule \u2014 which organisms carry forward and which do not</div>
+    </div>
+    <div class="prec-link-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </button>
+
+  <div class="prec-footer" style="margin-top:10px">
+    <strong>Source:</strong> Banner Policy 118, Standard and Transmission Based Precautions, v47, effective 01/12/2026 \u00b7
+    Appendix F and Appendix H. Questions regarding isolation status: Infectious Disease <strong>480-543-2280</strong>.
+  </div>`;
+
+  document.getElementById('infTreeContent').innerHTML = html;
+  showView('infection-tree');
 }
 
 
