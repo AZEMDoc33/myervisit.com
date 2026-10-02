@@ -386,12 +386,12 @@ html, body { overflow-x: hidden; max-width: 100%; }
     </div>
     <div class="chart-card chart-card-pph">
       <div class="chart-title">Patients per Hour by Provider — September 2026 &nbsp;·&nbsp; Goal: ≥1.85 pt/hr</div>
-      <div class="chart-subtitle">⬛ ≥1.88 pt/hr (⭐) &nbsp;·&nbsp; 🔷 &lt;1.88 pt/hr &nbsp;·&nbsp; Sorted highest → lowest &nbsp;·&nbsp; Dashed = dept cohort avg (1.88 pt/hr)</div>
+      <div class="chart-subtitle">⬛ ≥1.88 pt/hr (⭐) &nbsp;·&nbsp; 🔷 &lt;1.88 pt/hr &nbsp;·&nbsp; Sorted highest → lowest &nbsp;·&nbsp; Dashed = dept cohort avg (1.89 pt/hr)</div>
       <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-        <span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 1.88 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span>
+        <span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 1.89 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span>
       </div>
       <div class="chart-scroll-outer"><div class="chart-container" style="height:720px"><canvas id="providerPPHChart"></canvas></div></div>
-      <div style="font-size:11px;color:var(--text-light);margin-top:10px;">† September individual Pt/Hr is computed directly from Excel encounter volume ÷ provider work hours (scheduling system work-hour report). Providers with very low monthly hours (single shifts) will show wider swings in either direction. One APC listed on the September APC schedule did not work at BGMC this month; those hours are excluded from both the individual chart and the department Pt/Hr and aPPH totals.</div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:10px;">† September individual Pt/Hr is computed directly from Excel encounter volume ÷ provider work hours (scheduling system work-hour report). Providers with very low monthly hours (single shifts) will show wider swings in either direction. One APC listed on the September APC schedule did not work at BGMC this month; those hours are excluded from both the individual chart and the department Pt/Hr and aPPH totals. Individual counts include 14 downtime encounters not captured in the Excel extract, credited to the treating physician.</div>
     </div>
     <!-- Mobile leaderboard -->
     <div class="mobile-leader" id="mobilePPH">
@@ -774,9 +774,9 @@ new Chart(document.getElementById('esi2D2DChart'),{
 
 // ── PPH CHART ──
 // sorted lowest → highest for horizontal bar (displays highest at top)
-const pphNames=["LOGGINS B", "WEIDENBACH K", "ANDONYAN A", "PAVLUE B", "FIGUEROA A", "LOMBARDI K", "FAKLER R", "SUTTON R", "MCCULLOUGH D", "MCKELVY A", "BERMAN D", "HAPEMAN B", "BOESCH D", "CUMMINS E ⭐", "RIGBY D ⭐", "HUNTER J ⭐", "BATIZY L ⭐", "JIMENEZ A ⭐", "ANDES J ⭐", "JONES S ⭐", "MCDOWELL M ⭐", "HAMBLIN L ⭐", "EGBERT J ⭐", "WINTER A ⭐", "WALLBRECHT J ⭐", "BUNKER C ⭐", "WRIGHT E ⭐"];
-const pphVals=[1.30,1.33,1.38,1.65,1.70,1.70,1.71,1.75,1.79,1.79,1.83,1.83,1.84,1.90,1.91,1.93,1.94,1.97,1.99,2.00,2.01,2.06,2.08,2.19,2.21,2.38,3.06];
-const DEPT_AVG=1.88;
+const pphNames=["LOGGINS B", "WEIDENBACH K", "ANDONYAN A", "PAVLUE B", "FIGUEROA A", "LOMBARDI K", "FAKLER R", "SUTTON R", "MCCULLOUGH D", "MCKELVY A", "BERMAN D", "HAPEMAN B", "BOESCH D", "RIGBY D ⭐", "HUNTER J ⭐", "BATIZY L ⭐", "JIMENEZ A ⭐", "ANDES J ⭐", "JONES S ⭐", "MCDOWELL M ⭐", "CUMMINS E ⭐", "HAMBLIN L ⭐", "EGBERT J ⭐", "WINTER A ⭐", "WALLBRECHT J ⭐", "BUNKER C ⭐", "WRIGHT E ⭐"];
+const pphVals=[1.30,1.33,1.38,1.65,1.70,1.70,1.71,1.75,1.79,1.79,1.83,1.83,1.84,1.91,1.93,1.94,1.97,1.99,2.00,2.01,2.05,2.06,2.08,2.19,2.21,2.38,3.06];
+const DEPT_AVG=1.89;
 const PPH_STAR=1.88;
 const pphBg=pphVals.map(v=>v>=PPH_STAR?'rgba(36,59,85,0.88)':'rgba(100,130,170,0.38)');
 const pphBdr=pphVals.map(v=>v>=PPH_STAR?'rgba(36,59,85,1)':'rgba(100,130,170,0.6)');
