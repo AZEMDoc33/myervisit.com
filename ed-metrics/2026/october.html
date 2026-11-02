@@ -391,8 +391,8 @@ html, body { overflow-x: hidden; max-width: 100%; }
       <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
         <span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 1.88 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span>
       </div>
-      <div class="chart-scroll-outer"><div class="chart-container" style="height:730px"><canvas id="providerPPHChart"></canvas></div></div>
-      <div style="font-size:11px;color:var(--text-light);margin-top:10px;">† October individual Pt/Hr is computed directly from Excel encounter volume (LWOT excluded) ÷ provider scheduled hours from the October ShiftAdmin schedule, including posted shift time adjustments. Providers must work at least 11 scheduled hours (two or more ED shifts) in the month to appear on this chart; their hours and patients still count in the department totals. IR training shifts are not ED clinical time and are excluded from both the individual chart and the department Pt/Hr and aPPH totals.</div>
+      <div class="chart-scroll-outer"><div class="chart-container" style="height:750px"><canvas id="providerPPHChart"></canvas></div></div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:10px;">† October individual Pt/Hr is computed directly from Excel encounter volume (LWOT excluded) ÷ provider scheduled hours from the October ShiftAdmin schedule, including posted shift time adjustments. Providers must work at least 11 scheduled hours (two or more ED shifts) in the month to appear on this chart, except providers who qualify for the Discharge LOS chart below (15+ discharges); everyone's hours and patients still count in the department totals. IR training shifts are not ED clinical time and are excluded from both the individual chart and the department Pt/Hr and aPPH totals.</div>
     </div>
     <!-- Mobile leaderboard -->
     <div class="mobile-leader" id="mobilePPH">
@@ -780,8 +780,8 @@ new Chart(document.getElementById('esi2D2DChart'),{
 
 // ── PPH CHART ──
 // sorted lowest → highest for horizontal bar (displays highest at top)
-const pphNames=["SUTHERLAND K", "DWIGGINS C", "BERMAN D", "FIGUEROA A", "JIMENEZ A", "RIGBY D", "FAKLER R", "SUTTON R", "PAVLUE B", "MCKELVY A", "LOMBARDI K", "BOESCH D", "MCCULLOUGH D", "HAPEMAN B", "LOGGINS B", "ANDONYAN A ⭐", "ANDES J ⭐", "BATIZY L ⭐", "CUMMINS E ⭐", "HUNTER J ⭐", "MCDOWELL M ⭐", "WALLBRECHT J ⭐", "WINTER A ⭐", "HAMBLIN L ⭐", "BUNKER C ⭐", "EGBERT J ⭐", "WRIGHT E ⭐"];
-const pphVals=[1.38,1.50,1.53,1.56,1.61,1.63,1.64,1.64,1.69,1.75,1.77,1.78,1.83,1.84,1.85,1.93,2.02,2.06,2.06,2.06,2.08,2.14,2.17,2.21,2.44,2.54,2.62];
+const pphNames=["SUTHERLAND K", "DWIGGINS C", "BERMAN D", "FIGUEROA A", "JIMENEZ A", "RIGBY D", "FAKLER R", "SUTTON R", "PAVLUE B", "BOOTY N", "MCKELVY A", "LOMBARDI K", "BOESCH D", "MCCULLOUGH D", "HAPEMAN B", "LOGGINS B", "ANDONYAN A ⭐", "ANDES J ⭐", "BATIZY L ⭐", "CUMMINS E ⭐", "HUNTER J ⭐", "MCDOWELL M ⭐", "WALLBRECHT J ⭐", "WINTER A ⭐", "HAMBLIN L ⭐", "BUNKER C ⭐", "EGBERT J ⭐", "WRIGHT E ⭐"];
+const pphVals=[1.38,1.50,1.53,1.56,1.61,1.63,1.64,1.64,1.69,1.70,1.75,1.77,1.78,1.83,1.84,1.85,1.93,2.02,2.06,2.06,2.06,2.08,2.14,2.17,2.21,2.44,2.54,2.62];
 const DEPT_AVG=1.88;
 const PPH_STAR=1.88;
 const pphBg=pphVals.map(v=>v>=PPH_STAR?'rgba(36,59,85,0.88)':'rgba(100,130,170,0.38)');
