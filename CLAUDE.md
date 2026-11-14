@@ -598,3 +598,20 @@ If edits to existing months are needed, use targeted `str_replace` on specific l
 ## File-editing reminder
 - `str_replace` on exact known strings only; Python plain `str.replace` on exact literals is acceptable. Never regex with DOTALL on these files.
 - Integrity check before every push: `new Chart(` count ≥6 per month page, `</body>` and `</html>` present exactly once, `node --check` every inline script.
+
+
+---
+
+# 🩺 CRITERIA APP (myervisit.com/criteria) — NOV 2026 MOTION + SPEED PASS (STANDING RULES)
+
+- **One file:** `criteria.html` (plus `sw.js`, `manifest.json`, `/fonts`, `/icons`). New features are still built as views inside `criteria.html`.
+- **"Last update" date:** change the single constant `LAST_UPDATE` in `criteria.html`. It fills the pill under the hero and the footer. Bump it on every content change.
+- **Routing:** every screen has a hash route (`#cat/<id>`, `#dx/<id>`, `#oou`, `#precautions[/term]`, `#mdro`, `#infection`, `#calculators`). Every render function calls `commitRoute('<route>')` before `showView()`. A new view needs both that call and a branch in `renderRoute()`, or the phone back swipe will skip it.
+- **Service worker (`sw.js` v2):** `/criteria` opens from the saved copy, then refreshes in the background and posts `gw-update` (page auto reloads if untouched, otherwise shows a tap to refresh toast). Any new static file the app needs offline must be added to `PRECACHE` and live under `/fonts/`, `/icons/`, or be handled in `isStatic()`. Bump `CACHE_NAME` only when the precache list changes.
+- **Fonts are self hosted** (`/fonts/inter-latin-var.woff2`, `/fonts/lora-latin-600.woff2`). Do not add Google Fonts links back.
+- **Icons are PNG** (`/icons/icon-180|192|512.png`). iOS ignores SVG touch icons.
+- **Motion lives in the appended CSS block** marked `NOV 2026 — MOTION + PERFORMANCE PASS`. Looping animations use finite iteration counts on purpose (battery). Lists use `stagger(el, html)` instead of `el.innerHTML = html`.
+- **Search:** `SEARCH_INDEX` is built once on first keystroke. Exact matching is unchanged; typo tolerance (`fuzzyHits`) only runs when nothing matches. Calculators are registered in `SPECIAL_SEARCH` from `CALCS` + `CALC_META`; a new calculator needs a `CALC_META` entry (category + aliases).
+- **Infection tree stepper:** each `.dtree-b` branch carries `data-go` = next question number, `result`, or `end`. Keep that attribute when editing branch wording.
+- **Blog images are WebP** (`images/*.webp`). Convert new artwork before adding it.
+- **Integrity check before every push:** `node --check` each inline script, `</body>` and `</html>` exactly once.
