@@ -1656,39 +1656,9 @@ body .prec-link-btn:active, body .dx-breadcrumb:active, body .calc-row:active, b
   transform: scale(0.965); transition-duration: 0.08s;
 }
 
-/* 4 ─ Entrances: staggered rows + the verdict lands like a stamp */
-@keyframes gwRise  { from { opacity: 0; transform: translateY(10px); } }
-@keyframes gwStamp { 0% { opacity: 0; transform: scale(0.93); } 62% { opacity: 1; transform: scale(1.018); } 100% { opacity: 1; transform: scale(1); } }
-@keyframes gwPop   { 0% { transform: scale(0.35); } 68% { transform: scale(1.14); } 100% { transform: scale(1); } }
-.stagger > * {
-  animation: gwRise 0.34s var(--ease-out) backwards;
-  animation-delay: calc(min(var(--i, 0), 12) * 30ms + 70ms);
-}
-.stagger > .verdict { animation: gwStamp 0.44s var(--ease-out) 0.16s backwards; }
-.verdict-ico        { animation: gwPop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.25) 0.26s backwards; }
-
-/* 5 ─ Screen changes: forward slides left, back slides right,
-       and the tapped icon / title glides into the next screen */
-.vt .view { animation: none; }
-.site-header   { view-transition-name: gw-header; }
-.sticky-banner { view-transition-name: gw-banner; }
-.sr-name, .dx-name { width: fit-content; max-width: 100%; }
-@keyframes gwOutL { to   { opacity: 0; transform: translateX(-16%); } }
-@keyframes gwInR  { from { opacity: 0; transform: translateX(16%);  } }
-@keyframes gwOutR { to   { opacity: 0; transform: translateX(16%);  } }
-@keyframes gwInL  { from { opacity: 0; transform: translateX(-16%); } }
-::view-transition-old(root), ::view-transition-new(root) {
-  animation-duration: 0.26s; animation-timing-function: cubic-bezier(0.3, 0.7, 0.2, 1);
-}
-html[data-nav="fwd"]::view-transition-old(root)  { animation-name: gwOutL; }
-html[data-nav="fwd"]::view-transition-new(root)  { animation-name: gwInR;  }
-html[data-nav="back"]::view-transition-old(root) { animation-name: gwOutR; }
-html[data-nav="back"]::view-transition-new(root) { animation-name: gwInL;  }
-::view-transition-group(gw-ico), ::view-transition-group(gw-title) {
-  animation-duration: 0.34s; animation-timing-function: cubic-bezier(0.3, 0.8, 0.2, 1);
-}
-::view-transition-old(gw-title), ::view-transition-new(gw-title) { height: 100%; width: auto; }
-::view-transition-group(gw-header), ::view-transition-group(gw-banner) { animation-duration: 0.2s; }
+/* 4 ─ Screens open plainly (original soft fade only). No slides, glides or
+       cascading rows: they were distracting when moving quickly between cards. */
+@keyframes gwPop { 0% { transform: scale(0.35); } 68% { transform: scale(1.14); } 100% { transform: scale(1); } }
 
 /* 6 ─ Calculator: a real bottom sheet */
 @keyframes gwFade      { from { opacity: 0; } }
@@ -1747,8 +1717,6 @@ html[data-nav="back"]::view-transition-new(root) { animation-name: gwInL;  }
 .fav-btn.on { color: #D4A030; border-color: rgba(212,160,48,0.45); }
 .fav-btn.on svg { fill: currentColor; }
 .fav-btn.pop svg { animation: gwPop 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.25); }
-.oou-access.calc-access { border-color: var(--bgmc-border); }
-.oou-access.calc-access:hover { background: var(--bgmc-bg); }
 .sr-badge.calc { color: var(--bgmc); background: var(--bgmc-bg); border-color: var(--bgmc-border); }
 .toast { white-space: nowrap; max-width: 92vw; }
 .toast.action { pointer-events: auto; cursor: pointer; }
@@ -1767,8 +1735,6 @@ html[data-theme="dark"] .search-input { background: var(--surface); animation: n
 }
 .dtree-mode button.sel { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
 .dtree.stepmode .is-hidden { display: none; }
-.dtree.stepmode .dtree-step:not(.is-hidden),
-.dtree.stepmode .dtree-result:not(.is-hidden) { animation: gwRise 0.3s var(--ease-out) backwards; }
 .dtree.stepmode .dtree-step.is-current { border-color: var(--bgmc); box-shadow: 0 0 0 3px var(--bgmc-bg); }
 .dtree.stepmode .dtree-step.is-current .dtree-branches::before {
   content: 'Tap the answer that fits'; font-size: 11px; font-weight: 700;
@@ -1891,19 +1857,6 @@ html[data-theme="dark"] .search-input { background: var(--surface); animation: n
         <div class="section-label">Browse by category</div>
         <div class="cat-grid" id="catGrid"></div>
       </section>
-
-      <button class="oou-access calc-access" onclick="showCalcs()">
-        <div class="oou-access-ico">🧮</div>
-        <div class="oou-access-txt">
-          <div class="oou-access-title">Calculators</div>
-          <div class="oou-access-sub" id="calcAccessSub">Scoring tools — also searchable above</div>
-        </div>
-        <div class="oou-access-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </div>
-      </button>
 
       <button class="oou-access" onclick="showOOU()">
         <div class="oou-access-ico">⚠️</div>
@@ -2833,24 +2786,14 @@ function renderRecent() {
    to the browser history. That is what makes the phone's back swipe / back
    button move up one level instead of leaving the app, and what makes a link
    to a single card shareable. */
-const VT_OK = typeof document.startViewTransition === 'function' &&
-  !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
-if (VT_OK) document.documentElement.classList.add('vt');
-
 let curRoute = '';        // route currently on screen ('' = home)
 let lastDepth = 0;        // history depth of the screen on screen
 let navSilent = false;    // true while re-drawing a screen for back/forward
-let navDir = 'fwd';       // slide direction of the next screen change
-let navSrc = null;        // element that was tapped (for the glide effect)
 let pendingScroll = 0;    // scroll position to restore on back
 let homeClear = false;    // clear the search box when landing on home
-let booting = true;       // no animation for the very first screen
 const scrollMemo = {};    // history depth -> scroll position
 const routeMemo = {};     // history depth -> route
 
-document.addEventListener('click', e => {
-  navSrc = (e.target && e.target.closest) ? e.target.closest('.cat-tile, .sr-item') : null;
-}, true);
 // iOS only shows :active press states once a touch listener exists
 document.addEventListener('touchstart', () => {}, { passive: true });
 
@@ -2866,7 +2809,6 @@ function commitRoute(route) {
   const d = hDepth() + 1;
   try { history.pushState({ gw:1, d }, '', '#' + route); } catch(e) {}
   curRoute = route; lastDepth = d; routeMemo[d] = route;
-  navDir = 'fwd';
 }
 /* Draw the screen for a route without adding history (back, forward, deep link). */
 function renderRoute(route) {
@@ -2906,32 +2848,7 @@ function showView(id) {
     pendingScroll = 0;
     updateNav();
   };
-  const src = navSrc; navSrc = null;
-  const dir = navDir; navDir = 'fwd';
-  const current = document.querySelector('.view.active');
-  if (!VT_OK || booting || current === target || document.visibilityState !== 'visible') { apply(); return; }
-
-  document.documentElement.dataset.nav = dir;
-  // Glide the tapped icon / title into its place on the next screen
-  let srcEl = null, name = '', destSel = '';
-  if (dir === 'fwd' && src && src.isConnected) {
-    if (id === 'category' && src.classList.contains('cat-tile')) {
-      srcEl = src.querySelector('.cat-emoji-wrap'); name = 'gw-ico'; destSel = '.cat-hero-emoji';
-    } else if (id === 'diagnosis' && src.classList.contains('sr-item')) {
-      srcEl = src.querySelector('.sr-name'); name = 'gw-title'; destSel = '.dx-name';
-    }
-  }
-  if (srcEl) srcEl.style.viewTransitionName = name;
-  let destEl = null;
-  try {
-    const t = document.startViewTransition(() => {
-      if (srcEl) srcEl.style.viewTransitionName = '';
-      apply();
-      if (srcEl) { destEl = target.querySelector(destSel); if (destEl) destEl.style.viewTransitionName = name; }
-    });
-    const done = () => { if (destEl) destEl.style.viewTransitionName = ''; };
-    t.finished.then(done, done);
-  } catch(e) { if (srcEl) srcEl.style.viewTransitionName = ''; apply(); }
+  apply();
 }
 function updateNav() {
   const onHome = document.getElementById('view-home').classList.contains('active');
@@ -2945,7 +2862,6 @@ function goHome() {
   if (d > 0) { history.go(-d); return; }       // popstate draws home
   // Opened straight on a card from a link: nothing behind us in history
   try { history.replaceState({ gw:1, d:0 }, '', location.pathname + location.search); } catch(e) {}
-  navDir = 'back';
   showHome();
 }
 function goBack() {
@@ -2976,7 +2892,6 @@ window.addEventListener('popstate', e => {
     return;
   }
   scrollMemo[wasDepth] = window.scrollY;
-  navDir = st.d < wasDepth ? 'back' : 'fwd';
   pendingScroll = scrollMemo[st.d] || 0;
   renderRoute(route);
 });
@@ -4289,11 +4204,6 @@ Object.keys(CALCS).forEach(id => {
     action: () => openCalc(id)
   });
 });
-(function labelCalcAccess() {
-  const el = document.getElementById('calcAccessSub');
-  if (el) el.textContent = Object.keys(CALCS).length + ' scoring tools — also searchable above';
-})();
-
 function showCalcs() {
   commitRoute('calculators');
   const ids = Object.keys(CALCS).sort((a,b) => CALCS[a].title.localeCompare(CALCS[b].title));
@@ -4302,7 +4212,7 @@ function showCalcs() {
     <div>
       <div class="oou-hero-label" style="color:var(--bgmc)">Tools</div>
       <div class="oou-hero-title">Calculators</div>
-      <div class="oou-hero-sub">${ids.length} scoring tools used in the admission criteria. Each one can also be found from the home search.</div>
+      <div class="oou-hero-sub">${ids.length} scoring tools used in the admission criteria. Each one opens from the home search or from its diagnosis card.</div>
     </div>
   </div>`;
   ids.forEach(id => {
@@ -4429,11 +4339,9 @@ function toast(msg, opts) {
   if (!opts.sticky) toast.t = setTimeout(() => el.classList.remove('show'), opts.ms || 1800);
 }
 
-/* ── List entrance: rows cascade in ── */
+/* ── List render (kept as one helper so every list is drawn the same way) ── */
 function stagger(el, html) {
   el.innerHTML = html;
-  el.classList.add('stagger');
-  Array.prototype.forEach.call(el.children, (c, i) => c.style.setProperty('--i', i));
 }
 
 /* ── Favorites (saved on this device, no limit) ── */
@@ -4641,7 +4549,6 @@ function treeDraw() {
   renderFavs();
   if (r) renderRoute(r);
   if (history.state && history.state.calc && CALCS[history.state.calc]) openCalcUI(history.state.calc);
-  booting = false;
 })();
 
 function escHTML(s) {
