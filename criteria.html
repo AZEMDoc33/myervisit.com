@@ -10,11 +10,43 @@
 <title>Gateway · Obs or Inpatient?</title>
 <link rel="manifest" href="/manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='38' fill='%231B3A6B'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='120' fill='white'%3EG%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<link rel="preload" href="/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/lora-latin-600.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+/* Theme is set before first paint so dark mode never flashes light.
+   Saved choice wins; otherwise follow the phone's system setting. */
+(function () {
+  var t = null;
+  var chosen = false;
+  try { t = localStorage.getItem('gw-theme'); chosen = localStorage.getItem('gw-theme-set') === '1'; } catch (e) {}
+  if (t !== 'dark' && !(t === 'light' && chosen)) {
+    t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+  document.documentElement.setAttribute('data-theme', t);
+  var m = document.querySelector('meta[name=theme-color]');
+  if (m) m.setAttribute('content', t === 'dark' ? '#1A1815' : '#F5F2EE');
+})();
+</script>
 <style>
+/* Fonts are served from this site (no Google request) and saved for offline use */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-latin-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/lora-latin-600.woff2') format('woff2');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
 /* ═══════════════════════════════════════════════════════
    ROOT TOKENS — warm, tactile, medically professional
 ════════════════════════════════════════════════════════ */
@@ -1576,6 +1608,161 @@ html[data-theme="dark"] .prec-divider-not-ok {
   padding:3px 9px;border-radius:999px;margin-bottom:6px}
 .uti-case-a.ok{background:rgba(46,125,82,.14);color:#2E7D52}
 .uti-case-a.ip{background:var(--ip-bg);color:var(--ip-dim)}
+
+/* ═══════════════════════════════════════════════════════
+   NOV 2026 — MOTION + PERFORMANCE PASS
+   Appended overrides. Everything below is phone-first.
+════════════════════════════════════════════════════════ */
+
+/* 1 ─ Looping animations play for a few seconds, then rest.
+       They replay briefly each time a screen opens. */
+.cat-emoji               { animation-iteration-count: 3; }
+.cat-hero-emoji          { animation-iteration-count: 2; }
+.search-wrap::before     { animation-iteration-count: 2; animation-fill-mode: forwards; }
+.search-input            { animation-iteration-count: 2; }
+.section-label .live-dot { animation-iteration-count: 3; }
+
+/* 2 ─ Accordions open with grid rows (no max-height layout thrash) */
+.expand-body, .install-body {
+  max-height: none; display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.34s var(--ease);
+}
+.expand-card.open .expand-body,
+.install-card.open .install-body { max-height: none; grid-template-rows: 1fr; }
+.expand-body > *, .install-body > * {
+  min-height: 0; overflow: hidden; visibility: hidden;
+  padding-top: 0; padding-bottom: 0;
+  transition: padding 0.34s var(--ease), visibility 0s linear 0.34s;
+}
+.expand-body-inner { border-top-width: 0; }
+.expand-card.open .expand-body > *,
+.install-card.open .install-body > * {
+  visibility: visible; padding-top: 14px; padding-bottom: 16px;
+  transition: padding 0.34s var(--ease), visibility 0s;
+}
+.expand-card.open .expand-body-inner { border-top-width: 1px; }
+
+/* 3 ─ Touch: no sticky hover lift, real press feedback instead */
+@media (hover: none) {
+  .cat-tile:hover, .chip:hover, .oou-access:hover,
+  .prec-link-btn:hover, .credit-email:hover { transform: none; }
+  .cat-tile:hover { box-shadow: var(--shadow-sm), var(--highlight); }
+  .sr-item:hover { transform: none; background: var(--surface); box-shadow: var(--shadow-sm), var(--highlight); }
+  .sr-item.focused { background: var(--surface-2); box-shadow: var(--shadow-md), var(--highlight); }
+}
+.cat-tile, .sr-item, .chip, .oou-access, .prec-link-btn, .dx-breadcrumb, .calc-row, .fav-btn { touch-action: manipulation; }
+body .cat-tile:active, body .sr-item:active, body .chip:active, body .oou-access:active,
+body .prec-link-btn:active, body .dx-breadcrumb:active, body .calc-row:active, body .fav-btn:active {
+  transform: scale(0.965); transition-duration: 0.08s;
+}
+
+/* 4 ─ Screens open plainly (original soft fade only). No slides, glides or
+       cascading rows: they were distracting when moving quickly between cards. */
+@keyframes gwPop { 0% { transform: scale(0.35); } 68% { transform: scale(1.14); } 100% { transform: scale(1); } }
+
+/* 6 ─ Calculator: a real bottom sheet */
+@keyframes gwFade      { from { opacity: 0; } }
+@keyframes gwFadeOut   { to   { opacity: 0; } }
+@keyframes gwSheetUp   { from { transform: translateY(100%); } }
+@keyframes gwSheetDown { to   { transform: translateY(100%); } }
+@keyframes gwBump      { 0% { transform: translateY(6px); opacity: 0.3; } 100% { transform: none; opacity: 1; } }
+.calc-overlay.open { animation: gwFade 0.2s ease-out backwards; }
+.calc-overlay.open .calc-sheet { animation: gwSheetUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.calc-overlay.closing { animation: gwFadeOut 0.2s ease-in forwards; }
+.calc-overlay.closing .calc-sheet { animation: gwSheetDown 0.2s ease-in forwards; }
+.calc-sheet { will-change: transform; }
+.calc-head { position: relative; touch-action: none; }
+.calc-score-num.bump { animation: gwBump 0.24s var(--ease-out); }
+.calc-verdict-main { transition: color 0.2s; }
+.calc-row { transition: border-color 0.15s, background 0.15s, transform 0.12s; }
+@media (max-width: 559px) {
+  .calc-head { padding-top: 20px; }
+  .calc-head::before {
+    content: ''; position: absolute; top: 7px; left: 50%;
+    width: 38px; height: 4px; margin-left: -19px;
+    border-radius: 2px; background: var(--border-2);
+  }
+}
+@media (min-width: 560px) {
+  .calc-overlay.open .calc-sheet { animation-name: fadeUp; animation-duration: 0.24s; }
+  .calc-overlay.closing .calc-sheet { animation-name: gwFadeOut; }
+}
+
+/* 7 ─ New pieces: last update, favorites, calculators, toast action */
+.hero-updated {
+  display: inline-flex; align-items: center; gap: 7px;
+  margin-top: 9px; padding: 4px 11px 4px 9px;
+  border: 1px solid var(--border); border-radius: var(--r-full);
+  background: var(--surface);
+  font-size: 11px; font-weight: 600; color: var(--text-2); letter-spacing: 0.01em;
+  box-shadow: var(--shadow-sm), var(--highlight);
+}
+.hero-updated::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; background: #4CAF50; flex-shrink: 0;
+}
+.fav-lbl-star { color: #D4A030; font-size: 12px; line-height: 1; }
+.chip.fav-chip .chip-star { color: #D4A030; font-size: 12px; }
+.dx-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+.dx-top .dx-breadcrumb { margin-bottom: 0; }
+.fav-btn {
+  width: 40px; height: 40px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text-3); cursor: pointer;
+  box-shadow: var(--shadow-sm), var(--highlight);
+  transition: transform 0.18s var(--ease), color 0.18s, border-color 0.18s;
+  -webkit-tap-highlight-color: transparent;
+}
+.fav-btn svg { width: 19px; height: 19px; }
+.fav-btn.on { color: #D4A030; border-color: rgba(212,160,48,0.45); }
+.fav-btn.on svg { fill: currentColor; }
+.fav-btn.pop svg { animation: gwPop 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.25); }
+.sr-badge.calc { color: var(--bgmc); background: var(--bgmc-bg); border-color: var(--bgmc-border); }
+.toast { white-space: nowrap; max-width: 92vw; }
+.toast.action { pointer-events: auto; cursor: pointer; }
+/* Dark mode now follows the phone, so the search box gets a true dark surface */
+html[data-theme="dark"] .search-input { background: var(--surface); animation: none; }
+
+/* 8 ─ Presumed infection: step through mode */
+.dtree-mode {
+  display: flex; gap: 4px; margin: 0 0 12px; padding: 4px;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px;
+}
+.dtree-mode button {
+  flex: 1; padding: 9px 6px; border: none; background: transparent; border-radius: 9px;
+  font-family: inherit; font-size: 12.5px; font-weight: 700; color: var(--text-2); cursor: pointer;
+  -webkit-tap-highlight-color: transparent; transition: background 0.18s, color 0.18s;
+}
+.dtree-mode button.sel { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
+.dtree.stepmode .is-hidden { display: none; }
+.dtree.stepmode .dtree-step.is-current { border-color: var(--bgmc); box-shadow: 0 0 0 3px var(--bgmc-bg); }
+.dtree.stepmode .dtree-step.is-current .dtree-branches::before {
+  content: 'Tap the answer that fits'; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3);
+}
+.dtree.stepmode .dtree-step.is-current .dtree-b {
+  cursor: pointer; position: relative; padding-right: 32px;
+  transition: transform 0.12s var(--ease); -webkit-tap-highlight-color: transparent;
+}
+.dtree.stepmode .dtree-step.is-current .dtree-b::after {
+  content: '\203A'; position: absolute; right: 12px; top: 50%; transform: translateY(-52%);
+  font-size: 22px; line-height: 1; color: var(--text-3);
+}
+.dtree.stepmode .dtree-step.is-current .dtree-b:active { transform: scale(0.98); }
+.dtree.stepmode .dtree-step.is-answered { cursor: pointer; }
+.dtree.stepmode .dtree-step.is-answered .dtree-b:not(.picked) { display: none; }
+.dtree.stepmode .dtree-step.is-answered .dtree-q::after {
+  content: 'Change'; margin-left: auto; padding: 4px 0 0 8px;
+  font-size: 11.5px; font-weight: 700; color: var(--bgmc); white-space: nowrap;
+}
+.dtree-reset {
+  display: none; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; margin: -6px 0 18px; padding: 11px 14px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md);
+  font-family: inherit; font-size: 13px; font-weight: 700; color: var(--text-2); cursor: pointer;
+  box-shadow: var(--shadow-sm), var(--highlight); -webkit-tap-highlight-color: transparent;
+}
+.dtree.stepmode.has-ans + .dtree-reset { display: flex; }
 </style>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -1621,6 +1808,7 @@ html[data-theme="dark"] .prec-divider-not-ok {
     <section class="hero">
       <h1 id="heroTitle"><span class="cursor"></span></h1>
       <p>Instant admission criteria for the busy physician.</p>
+      <div class="hero-updated">Last update <span data-last-update></span></div>
     </section>
 
     <div class="search-wrap" id="searchWrap">
@@ -1649,6 +1837,14 @@ html[data-theme="dark"] .prec-divider-not-ok {
     <div id="searchPanel" hidden></div>
 
     <div id="browseArea">
+      <section class="recent-section" id="favSection" hidden>
+        <div class="section-label">
+          <span class="fav-lbl-star">★</span>
+          <span>Favorites</span>
+        </div>
+        <div class="chip-row" id="favChips"></div>
+      </section>
+
       <section class="recent-section" id="recentSection" hidden>
         <div class="section-label">
           <span class="live-dot"></span>
@@ -1724,7 +1920,7 @@ html[data-theme="dark"] .prec-divider-not-ok {
 
       <div class="credit">
         Eric Cummins, MD · Facility Medical Director, BGMC ED<br>
-        Version 2.0 · Updated 11.08.2026 · <a href="https://myervisit.com">myervisit.com</a><br>
+        Version 2.1 · Last update <span data-last-update></span> · <a href="https://myervisit.com">myervisit.com</a><br>
         <a class="credit-email" href="mailto:eric.cummins33@gmail.com?subject=Feedback%20for%20Observation%20or%20Inpatient%20Website">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-1px;margin-right:4px"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>Contact me for recommendations
         </a>
@@ -1776,6 +1972,11 @@ html[data-theme="dark"] .prec-divider-not-ok {
   <!-- ══ OOU ══ -->
   <div class="view" id="view-oou">
     <div id="oouContent"></div>
+  </div>
+
+  <!-- ══ CALCULATORS ══ -->
+  <div class="view" id="view-calcs">
+    <div id="calcsContent"></div>
   </div>
 
 </main>
@@ -2498,20 +2699,29 @@ function searchTextForSpecial(item) {
 /* ═══════════════════════════════════════════════════════
    THEME
 ════════════════════════════════════════════════════════ */
-function setTheme(t) {
+function setTheme(t, persist) {
   document.documentElement.setAttribute('data-theme', t);
-  try { localStorage.setItem('gw-theme', t); } catch(e) {}
+  if (persist) { try { localStorage.setItem('gw-theme', t); localStorage.setItem('gw-theme-set', '1'); } catch(e) {} }
   document.getElementById('themeIco').innerHTML = SVGS[t === 'dark' ? 'sun' : 'moon'];
   document.querySelector('meta[name=theme-color]')
     .setAttribute('content', t === 'dark' ? '#1A1815' : '#F5F2EE');
 }
 function toggleTheme() {
-  setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true);
 }
 (function initTheme() {
-  let s = 'light';
-  try { s = localStorage.getItem('gw-theme') || 'light'; } catch(e) {}
-  setTheme(s);
+  // The head script already chose the theme before first paint; sync the icon.
+  setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light', false);
+  // No saved choice: follow the phone if it switches between light and dark.
+  if (window.matchMedia) {
+    const mq = matchMedia('(prefers-color-scheme: dark)');
+    const onChange = e => {
+      let saved = null, chosen = false;
+      try { saved = localStorage.getItem('gw-theme'); chosen = localStorage.getItem('gw-theme-set') === '1'; } catch(err) {}
+      if (saved !== 'dark' && !(saved === 'light' && chosen)) setTheme(e.matches ? 'dark' : 'light', false);
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+  }
 })();
 
 /* ═══════════════════════════════════════════════════════
@@ -2572,29 +2782,119 @@ function renderRecent() {
 /* ═══════════════════════════════════════════════════════
    NAVIGATION
 ════════════════════════════════════════════════════════ */
+/* Every screen has a route (#dx/pneumonia, #cat/gi, #oou ...) that is written
+   to the browser history. That is what makes the phone's back swipe / back
+   button move up one level instead of leaving the app, and what makes a link
+   to a single card shareable. */
+let curRoute = '';        // route currently on screen ('' = home)
+let lastDepth = 0;        // history depth of the screen on screen
+let navSilent = false;    // true while re-drawing a screen for back/forward
+let pendingScroll = 0;    // scroll position to restore on back
+let homeClear = false;    // clear the search box when landing on home
+const scrollMemo = {};    // history depth -> scroll position
+const routeMemo = {};     // history depth -> route
+
+// iOS only shows :active press states once a touch listener exists
+document.addEventListener('touchstart', () => {}, { passive: true });
+
+const hDepth = () => (history.state && typeof history.state.d === 'number') ? history.state.d : 0;
+function hashRoute() {
+  try { return decodeURIComponent(location.hash.replace(/^#\/?/, '')); } catch(e) { return ''; }
+}
+/* Called by every render function. Adds a history entry for a new screen. */
+function commitRoute(route) {
+  if (navSilent) { curRoute = route; return; }
+  if (route === curRoute) return;
+  scrollMemo[lastDepth] = window.scrollY;
+  const d = hDepth() + 1;
+  try { history.pushState({ gw:1, d }, '', '#' + route); } catch(e) {}
+  curRoute = route; lastDepth = d; routeMemo[d] = route;
+}
+/* Draw the screen for a route without adding history (back, forward, deep link). */
+function renderRoute(route) {
+  const cut = route.indexOf('/');
+  const kind = cut < 0 ? route : route.slice(0, cut);
+  const arg  = cut < 0 ? '' : route.slice(cut + 1);
+  navSilent = true;
+  try {
+    if      (kind === 'cat' && catById(arg)) renderCategory(arg, false);
+    else if (kind === 'dx'  && dxById(arg))  renderDx(arg, false);
+    else if (kind === 'oou')                 showOOU();
+    else if (kind === 'precautions')         showIDPrecautions(arg || undefined);
+    else if (kind === 'mdro')                showMDROLookup();
+    else if (kind === 'infection')           showInfectionTree();
+    else if (kind === 'calculators')         showCalcs();
+    else {
+      // Unknown or outdated link: land on home with a clean address
+      if (route) { try { history.replaceState(history.state, '', location.pathname + location.search); } catch(e) {} }
+      showHome();
+    }
+  } finally { navSilent = false; }
+}
+function showHome() {
+  state.stack = []; state.curCat = null;
+  if (homeClear) { clearSearch(); homeClear = false; }
+  renderFavs(); renderRecent();
+  curRoute = '';
+  showView('home');
+}
+
 function showView(id) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-'+id).classList.add('active');
-  window.scrollTo({top:0, behavior:'instant'});
-  updateNav();
+  const target = document.getElementById('view-'+id);
+  const apply = () => {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    target.classList.add('active');
+    window.scrollTo({top:pendingScroll, behavior:'instant'});
+    pendingScroll = 0;
+    updateNav();
+  };
+  apply();
 }
 function updateNav() {
-  const onHome = !state.stack.length;
+  const onHome = document.getElementById('view-home').classList.contains('active');
   document.getElementById('backBtn').hidden = onHome;
   document.getElementById('homeBtn').hidden = onHome;
 }
 function goHome() {
-  state.stack = []; state.curCat = null;
-  clearSearch(); renderRecent(); showView('home');
+  homeClear = true;
+  if (curRoute === '') { showHome(); return; }
+  const d = hDepth();
+  if (d > 0) { history.go(-d); return; }       // popstate draws home
+  // Opened straight on a card from a link: nothing behind us in history
+  try { history.replaceState({ gw:1, d:0 }, '', location.pathname + location.search); } catch(e) {}
+  showHome();
 }
 function goBack() {
-  if (!state.stack.length) return;
-  state.stack.pop();
-  if (!state.stack.length) { goHome(); return; }
-  const top = state.stack[state.stack.length-1];
-  if (top.type === 'category') renderCategory(top.id, false);
-  else goHome();
+  if (curRoute === '') return;
+  if (hDepth() > 0) { history.back(); return; }
+  goHome();
 }
+/* Breadcrumb on a card: if the category is the previous screen, just go back. */
+function upToCategory(catId) {
+  if (routeMemo[hDepth() - 1] === 'cat/' + catId) { goBack(); return; }
+  renderCategory(catId);
+}
+window.addEventListener('popstate', e => {
+  let st = e.state;
+  if (!st || typeof st.d !== 'number') {          // hash typed or pasted by hand
+    st = { gw:1, d: lastDepth + 1 };
+    try { history.replaceState(st, '', location.href); } catch(err) {}
+  }
+  // The calculator sheet is its own history step, so back closes it
+  if (curCalc && !st.calc) closeCalcUI();
+  else if (!curCalc && st.calc && CALCS[st.calc]) openCalcUI(st.calc);
+
+  const route = hashRoute();
+  const wasDepth = lastDepth;
+  lastDepth = st.d; routeMemo[st.d] = route;
+  if (route === curRoute) {
+    if (route === '' && homeClear) showHome();
+    return;
+  }
+  scrollMemo[wasDepth] = window.scrollY;
+  pendingScroll = scrollMemo[st.d] || 0;
+  renderRoute(route);
+});
 
 /* ═══════════════════════════════════════════════════════
    HOME GRID — emoji tiles with staggered float
@@ -2623,6 +2923,7 @@ function goBack() {
 function renderCategory(catId, push=true) {
   state.curCat = catId;
   if (push) state.stack.push({type:'category', id:catId});
+  commitRoute('cat/' + catId);
   const c   = catById(catId);
   const dxs = DX.filter(d => d.cat === catId).sort((a,b)=>a.name.localeCompare(b.name));
   let html = `<div class="cat-hero">
@@ -2663,7 +2964,7 @@ function renderCategory(catId, push=true) {
       </div>`;
   });
 
-  document.getElementById('catList').innerHTML = html;
+  stagger(document.getElementById('catList'), html);
   showView('category');
 }
 
@@ -2674,6 +2975,7 @@ function renderDx(dxId, push=true) {
   const d = dxById(dxId); if (!d) return;
   pushRecent(dxId);
   if (push) state.stack.push({type:'diagnosis', id:dxId});
+  commitRoute('dx/' + dxId);
   state.curCat = d.cat;
   const c = catById(d.cat);
 
@@ -2695,9 +2997,12 @@ function renderDx(dxId, push=true) {
   }
 
   let html = `<div class="dx-head">
-    <div class="dx-breadcrumb" onclick="renderCategory('${c.id}', false)">
-      <span class="b-emoji">${c.emoji}</span>
-      <span>${escHTML(c.label)}</span>
+    <div class="dx-top">
+      <div class="dx-breadcrumb" onclick="upToCategory('${c.id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();upToCategory('${c.id}')}">
+        <span class="b-emoji">${c.emoji}</span>
+        <span>${escHTML(c.label)}</span>
+      </div>
+      ${favBtnHTML(dxId)}
     </div>
     <h1 class="dx-name">${escHTML(d.name)}</h1>
   </div>
@@ -2756,7 +3061,7 @@ function renderDx(dxId, push=true) {
     </div>`;
   }
 
-  document.getElementById('dxContent').innerHTML = html;
+  stagger(document.getElementById('dxContent'), html);
   showView('diagnosis');
 }
 
@@ -2777,6 +3082,7 @@ function markThresholds(text) {
 ════════════════════════════════════════════════════════ */
 function showOOU() {
   state.stack.push({type:'oou'});
+  commitRoute('oou');
   let html = `<div class="oou-hero">
     <div class="oou-hero-ico">⚠️</div>
     <div>
@@ -2852,10 +3158,8 @@ function onSearch(val) {
   browse.hidden = true; panel.hidden = false;
 
   const q = val.toLowerCase().trim();
-  const hits = [
-    ...DX.filter(d => searchTextForDx(d).includes(q)),
-    ...SPECIAL_SEARCH.filter(item => searchTextForSpecial(item).includes(q)).map(item => ({...item, special:true}))
-  ].sort((a,b) => {
+  if (!SEARCH_INDEX) buildSearchIndex();
+  let hits = SEARCH_INDEX.filter(e => e.text.includes(q)).map(e => e.item).sort((a,b) => {
     const as=a.name.toLowerCase().startsWith(q), bs=b.name.toLowerCase().startsWith(q);
     if (as&&!bs) return -1; if (!as&&bs) return 1;
     const aa = (SEARCH_ALIASES[a.id] || a.aliases || []).some(term => cleanSearchText(term).startsWith(q));
@@ -2863,6 +3167,10 @@ function onSearch(val) {
     if (aa&&!ba) return -1; if (!aa&&ba) return 1;
     return a.name.localeCompare(b.name);
   });
+
+  // Nothing matched exactly: fall back to closest spellings (typo tolerance)
+  let fuzzy = false;
+  if (!hits.length) { hits = fuzzyHits(q); fuzzy = hits.length > 0; }
 
   state.results = hits; state.focusIdx = hits.length?0:-1;
 
@@ -2874,16 +3182,19 @@ function onSearch(val) {
     </div>`; return;
   }
 
-  let html = `<div class="sr-count">${hits.length} match${hits.length===1?'':'es'}</div>`;
+  let html = fuzzy
+    ? `<div class="sr-count">No exact match · closest result${hits.length===1?'':'s'}</div>`
+    : `<div class="sr-count">${hits.length} match${hits.length===1?'':'es'}</div>`;
   hits.forEach((d,i) => {
     const c = catById(d.cat);
     const badges = [];
     if (d.alwaysIP) badges.push('<span class="sr-badge ip">Always IP</span>');
     if ((d.flags&&d.flags.length) || d.badge === 'BGMC') badges.push('<span class="sr-badge bgmc">BGMC</span>');
+    if (d.badge === 'CALC') badges.push('<span class="sr-badge calc">Calculator</span>');
     const meta = `<span>${escHTML(c.label)}</span>${badges.length?' · '+badges.join(' '):''}`;
     html += `<div class="sr-item ${i===0?'focused':''}" style="--cat-color:${c.color}"
       data-idx="${i}" onclick="fromSearch('${d.id}', ${d.special ? 'true' : 'false'})" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();fromSearch('${d.id}', ${d.special ? 'true' : 'false'})}">
-      <div class="sr-emoji">${c.emoji}</div>
+      <div class="sr-emoji">${d.emoji || c.emoji}</div>
       <div class="sr-body">
         <div class="sr-name">${escHTML(d.name)}</div>
         <div class="sr-meta">${meta}</div>
@@ -2940,15 +3251,15 @@ document.addEventListener('keydown', e => {
     e.preventDefault();
     const inp = document.getElementById('searchInput');
     if (document.getElementById('view-home').classList.contains('active')) inp.focus();
-    else { goHome(); setTimeout(()=>inp.focus(),120); }
+    else { goHome(); setTimeout(()=>inp.focus(),380); }
   }
   if ((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='k') {
     e.preventDefault();
     const inp = document.getElementById('searchInput');
     if (document.getElementById('view-home').classList.contains('active')) inp.focus();
-    else { goHome(); setTimeout(()=>inp.focus(),120); }
+    else { goHome(); setTimeout(()=>inp.focus(),380); }
   }
-  if (e.key==='Escape' && !isInput && state.stack.length) { e.preventDefault(); goBack(); }
+  if (e.key==='Escape' && !isInput && curRoute !== '') { e.preventDefault(); goBack(); }
 });
 
 
@@ -3013,6 +3324,7 @@ function precNorm(s){ return String(s).toLowerCase().replace(/[^a-z0-9]+/g,' ').
 
 function showIDPrecautions(preFilter) {
   state.stack.push({ type: 'id-precautions' });
+  commitRoute('precautions' + (preFilter ? '/' + preFilter : ''));
 
   /* Each row carries an `alias` string: acronyms AND spelled-out names,
      so "cdiff", "clostridioides", "C. difficile" all find the same card. */
@@ -3299,6 +3611,7 @@ function precChip(el, term) {
 ══════════════════════════════════════════════════════ */
 function showMDROLookup() {
   state.stack.push({ type: 'mdro-lookup' });
+  commitRoute('mdro');
 
   const html = `
   <div class="oou-hero" style="border-color:var(--bgmc-border)">
@@ -3385,6 +3698,7 @@ function utiRow(cls) {
 
 function showInfectionTree() {
   state.stack.push({ type: 'infection-tree' });
+  commitRoute('infection');
 
   const html = `
   <div class="oou-hero" style="border-color:var(--bgmc-border)">
@@ -3406,7 +3720,12 @@ function showInfectionTree() {
     </div>
   </div>
 
-  <div class="dtree">
+  <div class="dtree-mode" role="tablist" aria-label="How to view the decision tree">
+    <button type="button" id="dtreeModeStep" onclick="treeSetMode('step')">Step through</button>
+    <button type="button" id="dtreeModeFull" onclick="treeSetMode('full')">Full tree</button>
+  </div>
+
+  <div class="dtree" id="dtree">
     <div class="dtree-start">\u{1F3E5} &nbsp;Starting point: I am admitting a patient with a presumed or confirmed infection.</div>
     <div class="dtree-arrow"></div>
 
@@ -3414,10 +3733,10 @@ function showInfectionTree() {
       <div class="dtree-q"><div class="dtree-num">1</div>
         <div class="dtree-qtxt">Is a blood culture from THIS encounter positive?</div></div>
       <div class="dtree-branches">
-        <div class="dtree-b ip"><strong>YES \u2192 INPATIENT.</strong> A positive blood culture on the current encounter is
+        <div class="dtree-b ip" data-go="end"><strong>YES \u2192 INPATIENT.</strong> A positive blood culture on the current encounter is
           bacteremia and is an inpatient admission. True for every organism, including pan-sensitive ones, and true whether
           or not isolation is required. Stop here for disposition; precautions are a separate question.</div>
-        <div class="dtree-b"><strong>NO or still pending \u2192</strong> go to question 2.</div>
+        <div class="dtree-b" data-go="2"><strong>NO or still pending \u2192</strong> go to question 2.</div>
       </div>
     </div>
     <div class="dtree-arrow"></div>
@@ -3427,14 +3746,14 @@ function showInfectionTree() {
         <div class="dtree-qtxt">Is there an active infection right now that requires transmission-based precautions?</div></div>
       <div class="dtree-sub">Go by the organism on this encounter&rsquo;s culture, or by the syndrome if cultures are still cooking.</div>
       <div class="dtree-branches">
-        <div class="dtree-b ip"><strong>YES \u2192 private room required, NOT OOU.</strong> The OOU is semi-private with a
+        <div class="dtree-b ip" data-go="end"><strong>YES \u2192 private room required, NOT OOU.</strong> The OOU is semi-private with a
           shared bathroom, so any active precautions requirement is a hard eligibility gate. Common ones: ESBL UTI growing now,
           active C. diff, an abscess or wound that cannot be contained, untreated Group A strep pharyngitis, COVID, RSV in an
           immunocompromised adult.</div>
-        <div class="dtree-b warn"><strong>CULTURES PENDING \u2192</strong> a pending culture is not itself a policy trigger.
+        <div class="dtree-b warn" data-go="3"><strong>CULTURES PENDING \u2192</strong> a pending culture is not itself a policy trigger.
           Move to question 3, then sanity-check the empiric target: if you are deliberately covering for a carry-forward
           organism, plan on a private room until the culture resolves.</div>
-        <div class="dtree-b"><strong>NO \u2192</strong> go to question 3.</div>
+        <div class="dtree-b" data-go="3"><strong>NO \u2192</strong> go to question 3.</div>
       </div>
     </div>
     <div class="dtree-arrow"></div>
@@ -3444,12 +3763,12 @@ function showInfectionTree() {
         <div class="dtree-qtxt">Any positive culture or colonization screen in the last 12 months \u2014 from ANY site?</div></div>
       <div class="dtree-sub">Six organisms carry forward on history alone: <strong>${SIX}</strong></div>
       <div class="dtree-branches">
-        <div class="dtree-b ip"><strong>YES, one of the six, within 12 months \u2192 NOT OOU.</strong> Contact precautions
+        <div class="dtree-b ip" data-go="end"><strong>YES, one of the six, within 12 months \u2192 NOT OOU.</strong> Contact precautions
           apply automatically with no active infection needed. Urine, wound, blood, sputum or a screening swab all start the
           same clock.</div>
-        <div class="dtree-b ok"><strong>YES, but it was MRSA, VRE, ESBL or a pan-sensitive organism \u2192 does not carry
+        <div class="dtree-b ok" data-go="4"><strong>YES, but it was MRSA, VRE, ESBL or a pan-sensitive organism \u2192 does not carry
           forward.</strong> History alone never re-triggers precautions for these. Go to question 4.</div>
-        <div class="dtree-b"><strong>NO \u2192</strong> go to question 4.</div>
+        <div class="dtree-b" data-go="4"><strong>NO \u2192</strong> go to question 4.</div>
       </div>
     </div>
     <div class="dtree-arrow"></div>
@@ -3460,10 +3779,10 @@ function showInfectionTree() {
       <div class="dtree-sub">Overnight stay in a skilled nursing facility or LTACH, or an overnight stay or invasive procedure
         in a non-US hospital.</div>
       <div class="dtree-branches">
-        <div class="dtree-b warn"><strong>YES \u2192 judgment call, not a hard block.</strong> Policy 118 Appendix H directs
+        <div class="dtree-b warn" data-go="result"><strong>YES \u2192 judgment call, not a hard block.</strong> Policy 118 Appendix H directs
           C. auris and CPO colonization screening for this exposure history, which means these patients often carry a
           carry-forward organism with no culture on file. Worth weighing before a semi-private bed.</div>
-        <div class="dtree-b"><strong>NO \u2192</strong> proceed.</div>
+        <div class="dtree-b" data-go="result"><strong>NO \u2192</strong> proceed.</div>
       </div>
     </div>
     <div class="dtree-arrow"></div>
@@ -3471,6 +3790,7 @@ function showInfectionTree() {
     <div class="dtree-result"><strong>\u2713 OOU eligible</strong> on infectious disease grounds, assuming the patient
       otherwise meets observation criteria. A physician order is not required to start or stop transmission-based precautions.</div>
   </div>
+  <button type="button" class="dtree-reset" onclick="treeReset(true)">\u21BA &nbsp;Start over</button>
 
   <div class="prec-section-hdr mdro">\u{1F9EA} &nbsp;UTI quick reference \u2014 urine organisms that BLOCK the OOU for 12 months</div>
   <div class="uti-tbl">${UTI_STOP.map(utiRow('stop')).join('')}</div>
@@ -3547,6 +3867,7 @@ function showInfectionTree() {
   </div>`;
 
   document.getElementById('infTreeContent').innerHTML = html;
+  treeInit();
   showView('infection-tree');
 }
 
@@ -3859,9 +4180,74 @@ const CALCS = {
   }
 };
 
+/* Calculators are searchable from the home screen and listed on their own page */
+const CALC_META = {
+  curb65: { cat:'pulm',   aliases:['curb', 'curb65', 'curb 65', 'pneumonia severity', 'pneumonia score'] },
+  psi:    { cat:'pulm',   aliases:['psi', 'port', 'port score', 'pneumonia severity index'] },
+  pesi:   { cat:'pulm',   aliases:['pesi', 'pe severity', 'pulmonary embolism score', 'pe score'] },
+  meld:   { cat:'gi',     aliases:['meld', 'meld na', 'meldna', 'liver score', 'cirrhosis score', 'alcoholic hepatitis'] },
+  gcs:    { cat:'trauma', aliases:['gcs', 'glasgow', 'coma scale', 'coma score'] },
+  heart:  { cat:'cardio', aliases:['heart', 'heart score', 'chest pain score', 'mace'] },
+  abcd2:  { cat:'neuro',  aliases:['abcd2', 'abcd 2', 'abcd', 'tia score', 'stroke risk'] },
+  ciwa:   { cat:'neuro',  aliases:['ciwa', 'ciwa ar', 'ciwaar', 'alcohol withdrawal score'] },
+  sirs:   { cat:'id',     aliases:['sirs', 'sirs criteria', 'sepsis score'] }
+};
+Object.keys(CALCS).forEach(id => {
+  const meta = CALC_META[id] || { cat:'id', aliases:[] };
+  SPECIAL_SEARCH.push({
+    id: 'calc-' + id,
+    name: CALCS[id].title,
+    cat: meta.cat,
+    badge: 'CALC',
+    emoji: CALCS[id].ico,
+    aliases: [...meta.aliases, 'calculator', 'calculators', 'calc', 'score', 'scoring'],
+    action: () => openCalc(id)
+  });
+});
+function showCalcs() {
+  commitRoute('calculators');
+  const ids = Object.keys(CALCS).sort((a,b) => CALCS[a].title.localeCompare(CALCS[b].title));
+  let html = `<div class="oou-hero" style="border-color:var(--bgmc-border)">
+    <div class="oou-hero-ico" style="background:var(--bgmc-bg)">\u{1F9EE}</div>
+    <div>
+      <div class="oou-hero-label" style="color:var(--bgmc)">Tools</div>
+      <div class="oou-hero-title">Calculators</div>
+      <div class="oou-hero-sub">${ids.length} scoring tools used in the admission criteria. Each one opens from the home search or from its diagnosis card.</div>
+    </div>
+  </div>`;
+  ids.forEach(id => {
+    const c = CALCS[id];
+    const cat = catById((CALC_META[id] || {}).cat) || CATS[0];
+    html += `<div class="sr-item" style="--cat-color:${cat.color}" onclick="openCalc('${id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCalc('${id}')}">
+      <div class="sr-emoji">${c.ico}</div>
+      <div class="sr-body">
+        <div class="sr-name">${escHTML(c.title)}</div>
+        <div class="sr-meta"><span>${escHTML(c.sub)}</span></div>
+      </div>
+      <div class="sr-arrow">${svg('chevR')}</div>
+    </div>`;
+  });
+  stagger(document.getElementById('calcsContent'), html);
+  showView('calcs');
+}
+
+/* Opening a calculator adds a history step so the back swipe closes it */
 function openCalc(id) {
+  if (!CALCS[id]) return;
+  openCalcUI(id);
+  const d = hDepth() + 1;
+  try { history.pushState({ gw:1, d, calc:id }, '', location.href); lastDepth = d; routeMemo[d] = curRoute; } catch(e) {}
+}
+function closeCalc() {
+  if (history.state && history.state.calc) history.back();
+  else closeCalcUI();
+}
+function openCalcUI(id) {
   const c = CALCS[id]; if (!c) return;
-  curCalc = id;
+  const ov = document.getElementById('calcOverlay');
+  ov.classList.remove('closing');
+  clearTimeout(openCalcUI.t);
+  curCalc = id; lastCalcScore = null;
   Object.keys(calcState).forEach(k => delete calcState[k]);
   document.getElementById('calcIco').textContent = c.ico;
   document.getElementById('calcTitle').textContent = c.title;
@@ -3872,23 +4258,298 @@ function openCalc(id) {
   document.body.style.overflow = 'hidden';
   refreshCalc();
 }
-function closeCalc() {
+function closeCalcUI() {
   curCalc = null;
-  document.getElementById('calcOverlay').classList.remove('open');
+  const ov = document.getElementById('calcOverlay');
+  const sheet = ov.querySelector('.calc-sheet');
   document.body.style.overflow = '';
+  if (!ov.classList.contains('open')) return;
+  ov.classList.add('closing');
+  clearTimeout(openCalcUI.t);
+  openCalcUI.t = setTimeout(() => {
+    ov.classList.remove('open', 'closing');
+    sheet.style.transform = ''; sheet.style.transition = '';
+  }, 200);
 }
+let lastCalcScore = null;
+/* Drag the sheet down by its header to dismiss (touch only) */
+(function calcDrag() {
+  const ov = document.getElementById('calcOverlay');
+  const sheet = ov.querySelector('.calc-sheet');
+  const head = ov.querySelector('.calc-head');
+  let y0 = null, dy = 0, t0 = 0;
+  head.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse' || (e.target.closest && e.target.closest('.calc-close'))) return;
+    y0 = e.clientY; dy = 0; t0 = Date.now();
+    sheet.style.transition = 'none';
+    try { head.setPointerCapture(e.pointerId); } catch(err) {}
+  });
+  head.addEventListener('pointermove', e => {
+    if (y0 === null) return;
+    dy = Math.max(0, e.clientY - y0);
+    sheet.style.transform = dy ? `translateY(${dy}px)` : '';
+  });
+  const end = () => {
+    if (y0 === null) return;
+    const fast = dy > 36 && (dy / Math.max(1, Date.now() - t0)) > 0.55;
+    y0 = null;
+    if (dy > 110 || fast) { sheet.style.transition = ''; closeCalc(); return; }
+    sheet.style.transition = 'transform 0.24s cubic-bezier(0.22, 1, 0.36, 1)';
+    sheet.style.transform = '';
+  };
+  head.addEventListener('pointerup', end);
+  head.addEventListener('pointercancel', end);
+})();
 function refreshCalc() {
   if (!curCalc) return;
   const r = CALCS[curCalc].compute();
-  document.getElementById('calcScore').innerHTML = r.score;
+  const scoreEl = document.getElementById('calcScore');
+  scoreEl.innerHTML = r.score;
+  if (lastCalcScore !== null && lastCalcScore !== r.score) {      // roll the number when it changes
+    scoreEl.classList.remove('bump'); void scoreEl.offsetWidth; scoreEl.classList.add('bump');
+  }
+  lastCalcScore = r.score;
   const v = document.getElementById('calcVerdict');
   v.className = 'calc-verdict ' + r.cls;
   document.getElementById('calcVMain').textContent = r.main;
   document.getElementById('calcVSub').textContent = r.sub;
 }
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && curCalc) { e.preventDefault(); closeCalc(); }
+  if (e.key === 'Escape' && curCalc) { e.preventDefault(); e.stopPropagation(); closeCalc(); }
 }, true);
+
+/* ═══════════════════════════════════════════════════════
+   NOV 2026 ADDITIONS — toast, favorites, list entrance,
+   typo tolerant search, step through tree, router start
+════════════════════════════════════════════════════════ */
+
+/* Single place to change the "Last update" date shown on the home screen */
+const LAST_UPDATE = '11.14.2026';
+document.querySelectorAll('[data-last-update]').forEach(el => { el.textContent = LAST_UPDATE; });
+
+/* ── Toast ── */
+function toast(msg, opts) {
+  const el = document.getElementById('toast');
+  opts = opts || {};
+  clearTimeout(toast.t);
+  el.textContent = msg;
+  el.classList.toggle('action', !!opts.action);
+  el.onclick = opts.action || null;
+  el.classList.add('show');
+  if (!opts.sticky) toast.t = setTimeout(() => el.classList.remove('show'), opts.ms || 1800);
+}
+
+/* ── List render (kept as one helper so every list is drawn the same way) ── */
+function stagger(el, html) {
+  el.innerHTML = html;
+}
+
+/* ── Favorites (saved on this device, no limit) ── */
+const STAR_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+function getFavs() {
+  try { const r = JSON.parse(localStorage.getItem('gw-favs')||'[]'); return Array.isArray(r) ? r.filter(id => dxById(id)) : []; }
+  catch(e) { return []; }
+}
+function favBtnHTML(id) {
+  const on = getFavs().includes(id);
+  return `<button type="button" class="fav-btn${on?' on':''}" id="favBtn" onclick="toggleFav('${id}')" aria-pressed="${on}" aria-label="${on?'Remove from favorites':'Add to favorites'}" title="Favorite">${STAR_SVG}</button>`;
+}
+function toggleFav(id) {
+  let f = getFavs();
+  const on = !f.includes(id);
+  f = on ? [...f, id] : f.filter(x => x !== id);
+  try { localStorage.setItem('gw-favs', JSON.stringify(f)); } catch(e) {}
+  const b = document.getElementById('favBtn');
+  if (b) {
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', String(on));
+    b.setAttribute('aria-label', on ? 'Remove from favorites' : 'Add to favorites');
+    b.classList.remove('pop'); void b.offsetWidth; if (on) b.classList.add('pop');
+  }
+  toast(on ? 'Added to favorites' : 'Removed from favorites');
+}
+function renderFavs() {
+  const sec  = document.getElementById('favSection');
+  const wrap = document.getElementById('favChips');
+  const list = getFavs().map(dxById).sort((a,b) => a.name.localeCompare(b.name));
+  if (!list.length) { sec.hidden = true; return; }
+  sec.hidden = false;
+  wrap.innerHTML = list.map(d => {
+    const c = catById(d.cat);
+    return `<div class="chip fav-chip" onclick="renderDx('${d.id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();renderDx('${d.id}')}">
+      <span class="chip-em">${c.emoji}</span>
+      <span>${escHTML(d.name)}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ── Search index (built once, on the first keystroke) + typo tolerance ──
+   Exact matching is unchanged. Only when NOTHING matches do we look for the
+   closest spelling among diagnosis names and aliases, so normal searches do
+   no extra work. */
+let SEARCH_INDEX = null;
+function searchWords(list) {
+  const out = new Set();
+  cleanSearchText(list.filter(Boolean).join(' ')).replace(/[^a-z0-9]+/g, ' ').split(' ')
+    .forEach(w => { if (w.length >= 3) out.add(w); });
+  return [...out];
+}
+function buildSearchIndex() {
+  SEARCH_INDEX = [
+    ...DX.map(d => ({
+      item: d, text: searchTextForDx(d),
+      vocab: searchWords([d.name, d.id.replace(/-/g, ' '), ...(SEARCH_ALIASES[d.id] || [])])
+    })),
+    ...SPECIAL_SEARCH.map(s => ({
+      item: {...s, special:true}, text: searchTextForSpecial(s),
+      vocab: searchWords([s.name, ...(s.aliases || [])])
+    }))
+  ];
+}
+/* Edit distance that counts a swapped pair of letters as one typo */
+function editDist(a, b) {
+  const m = a.length, n = b.length;
+  let prev2 = null, prev = [], cur = [];
+  for (let j = 0; j <= n; j++) prev[j] = j;
+  for (let i = 1; i <= m; i++) {
+    cur = [i];
+    for (let j = 1; j <= n; j++) {
+      const cost = a[i-1] === b[j-1] ? 0 : 1;
+      let v = Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + cost);
+      if (prev2 && i > 1 && j > 1 && a[i-1] === b[j-2] && a[i-2] === b[j-1]) v = Math.min(v, prev2[j-2] + 1);
+      cur[j] = v;
+    }
+    prev2 = prev; prev = cur;
+  }
+  return prev[n];
+}
+function fuzzyHits(q) {
+  const toks = q.replace(/[^a-z0-9]+/g, ' ').split(' ').filter(Boolean);
+  if (!toks.some(t => t.length >= 4)) return [];
+  const found = [];
+  for (const e of SEARCH_INDEX) {
+    let total = 0, ok = true;
+    for (const t of toks) {
+      if (e.text.includes(t)) continue;
+      if (t.length < 4) { ok = false; break; }
+      const max = t.length >= 8 ? 2 : 1;
+      let best = 99;
+      for (const w of e.vocab) {
+        if (w[0] !== t[0] || w.length < t.length - max) continue;   // typos rarely hit the first letter
+        const d = Math.min(editDist(t, w), w.length > t.length ? editDist(t, w.slice(0, t.length)) : 99);
+        if (d < best) best = d;
+        if (best <= 1) break;
+      }
+      if (best > max) { ok = false; break; }
+      total += best;
+    }
+    if (ok) found.push({ item: e.item, d: total });
+  }
+  if (!found.length) return [];
+  const min = Math.min(...found.map(f => f.d));
+  return found.filter(f => f.d === min).map(f => f.item).sort((a,b) => a.name.localeCompare(b.name));
+}
+
+/* ── Presumed infection tree: step through mode ──
+   Same questions and wording as the full tree. Each branch carries data-go:
+   a question number, "result" (OOU eligible) or "end" (disposition reached). */
+let treeMode = 'step';
+try { if (localStorage.getItem('gw-tree-mode') === 'full') treeMode = 'full'; } catch(e) {}
+let treeAns = {};   // question number -> picked branch element
+function treeInit() {
+  const t = document.getElementById('dtree'); if (!t) return;
+  treeAns = {};
+  t.querySelectorAll('.dtree-step').forEach((s, i) => {
+    const q = String(i + 1);
+    s.dataset.q = q;
+    s.addEventListener('click', e => {
+      if (treeMode !== 'step') return;
+      const b = e.target.closest('.dtree-b');
+      if (s.classList.contains('is-current') && b) treePick(q, b);
+      else if (s.classList.contains('is-answered')) treeReopen(q);
+    });
+    s.querySelectorAll('.dtree-b').forEach(b => {
+      b.addEventListener('keydown', e => {
+        if ((e.key === 'Enter' || e.key === ' ') && treeMode === 'step' && s.classList.contains('is-current')) { e.preventDefault(); treePick(q, b); }
+      });
+    });
+  });
+  treeDraw();
+}
+function treeSetMode(m) {
+  treeMode = m === 'full' ? 'full' : 'step';
+  try { localStorage.setItem('gw-tree-mode', treeMode); } catch(e) {}
+  treeDraw();
+}
+function treePick(q, branch) {
+  treeAns[q] = branch;
+  treeDraw();
+  const t = document.getElementById('dtree');
+  const go = branch.dataset.go;
+  const next = go === 'result' ? t.querySelector('.dtree-result')
+             : go === 'end'    ? branch.closest('.dtree-step')
+             : t.querySelector('.dtree-step[data-q="' + go + '"]');
+  if (next) setTimeout(() => next.scrollIntoView({ block:'center', behavior:'smooth' }), 60);
+}
+function treeReopen(q) {
+  Object.keys(treeAns).forEach(k => { if (Number(k) >= Number(q)) delete treeAns[k]; });
+  treeDraw();
+}
+function treeReset(scroll) {
+  treeAns = {};
+  treeDraw();
+  if (scroll) { const t = document.getElementById('dtree'); if (t) t.scrollIntoView({ block:'start', behavior:'smooth' }); }
+}
+function treeDraw() {
+  const t = document.getElementById('dtree'); if (!t) return;
+  const step = treeMode === 'step';
+  t.classList.toggle('stepmode', step);
+  const bs = document.getElementById('dtreeModeStep'), bf = document.getElementById('dtreeModeFull');
+  if (bs) { bs.classList.toggle('sel', step);  bs.setAttribute('aria-selected', String(step)); }
+  if (bf) { bf.classList.toggle('sel', !step); bf.setAttribute('aria-selected', String(!step)); }
+
+  // Walk the answers from question 1 to find what is reached
+  const reached = new Set(['1']);
+  let cur = '1', showResult = false;
+  while (cur && treeAns[cur]) {
+    const go = treeAns[cur].dataset.go;
+    if (go === 'result') { showResult = true; cur = null; }
+    else if (go === 'end') { cur = null; }
+    else { reached.add(go); cur = go; }
+  }
+  t.classList.toggle('has-ans', Object.keys(treeAns).length > 0);
+
+  t.querySelectorAll('.dtree-step').forEach(s => {
+    const q = s.dataset.q, picked = treeAns[q];
+    s.classList.toggle('is-hidden', !reached.has(q));
+    s.classList.toggle('is-answered', !!picked);
+    s.classList.toggle('is-current', reached.has(q) && !picked);
+    s.querySelectorAll('.dtree-b').forEach(b => {
+      b.classList.toggle('picked', b === picked);
+      if (step && reached.has(q) && !picked) { b.setAttribute('role', 'button'); b.tabIndex = 0; }
+      else { b.removeAttribute('role'); b.removeAttribute('tabindex'); }
+    });
+  });
+  const res = t.querySelector('.dtree-result');
+  if (res) res.classList.toggle('is-hidden', !showResult);
+  // A connector line shows only when the block after it is visible
+  t.querySelectorAll('.dtree-arrow').forEach(a => {
+    const nx = a.nextElementSibling;
+    a.classList.toggle('is-hidden', !nx || nx.classList.contains('is-hidden'));
+  });
+}
+
+/* ── Router start: open the screen named in the link, if any ── */
+(function initRouter() {
+  const d = hDepth();
+  try { history.replaceState(Object.assign({}, history.state || {}, { gw:1, d }), '', location.href); } catch(e) {}
+  lastDepth = d;
+  const r = hashRoute();
+  routeMemo[d] = r;
+  renderFavs();
+  if (r) renderRoute(r);
+  if (history.state && history.state.calc && CALCS[history.state.calc]) openCalcUI(history.state.calc);
+})();
 
 function escHTML(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -3900,11 +4561,31 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js', { scope: '/criteria' })
       .then(reg => {
-        console.log('[Gateway] Service Worker registered, scope:', reg.scope);
         // Check for updates on each load
         reg.update();
       })
       .catch(err => console.log('[Gateway] SW registration failed:', err));
+  });
+
+  /* The app opens instantly from the copy saved on the phone while the newest
+     version downloads in the background. When a newer version arrives:
+       - if the physician has not touched anything yet, quietly reload to it
+       - otherwise offer a tap-to-refresh toast so their place is not lost */
+  const pageT0 = Date.now();
+  let touched = false;
+  ['pointerdown', 'keydown'].forEach(ev =>
+    window.addEventListener(ev, () => { touched = true; }, { once: true, capture: true, passive: true }));
+  navigator.serviceWorker.addEventListener('message', e => {
+    if (!e.data || e.data.type !== 'gw-update') return;
+    let recent = false;
+    try { recent = Date.now() - Number(sessionStorage.getItem('gw-reloaded') || 0) < 30000; } catch(err) {}
+    const idle = !touched && curRoute === '' && !curCalc && Date.now() - pageT0 < 10000;
+    if (idle && !recent) {
+      try { sessionStorage.setItem('gw-reloaded', String(Date.now())); } catch(err) {}
+      location.reload();
+    } else {
+      toast('Updated criteria ready · Tap to refresh', { sticky: true, action: () => location.reload() });
+    }
   });
 }
 </script>

@@ -1,103 +1,110 @@
 /**
  * Gateway — BGMC Obs vs Inpatient Criteria
- * Service Worker v1.0
- * Caches the app shell for fully offline use after first load.
+ * Service Worker v2.0
+ *
+ * Strategy
+ *  - The app page (/criteria) opens INSTANTLY from the saved copy, then a
+ *    fresh copy is fetched in the background. If the fresh copy is different,
+ *    it is saved and the page is told ("gw-update") so it can refresh.
+ *  - Fonts, icons and the manifest are saved once and served from the device.
+ *  - Everything else goes straight to the network, untouched.
  */
 
-const CACHE_NAME  = 'gateway-criteria-v1';
-const FONT_CACHE  = 'gateway-fonts-v1';
+const CACHE_NAME = 'gateway-criteria-v2';
+const APP_URL    = '/criteria';
 
-// Core app files to cache immediately on install
-const APP_SHELL = [
-  '/criteria',
-  '/criteria.html',
+// Saved on install so the app works offline after the first visit
+const PRECACHE = [
+  APP_URL,
+  '/manifest.json',
+  '/fonts/inter-latin-var.woff2',
+  '/fonts/lora-latin-600.woff2',
+  '/icons/icon-180.png',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
 ];
 
-// Google Fonts domains — cached separately with longer TTL
-const FONT_ORIGINS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
+const isStatic = p => p.startsWith('/fonts/') || p.startsWith('/icons/') || p === '/manifest.json';
+const isApp    = p => p === '/criteria' || p === '/criteria.html' || p === '/criteria/';
 
-// ── Install: pre-cache app shell ─────────────────────────────────────────────
+// ── Install: save the app shell ──────────────────────────────────────────────
 self.addEventListener('install', event => {
-  console.log('[GW-SW] Installing...');
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(APP_SHELL).then(() => {
-        console.log('[GW-SW] App shell cached');
-        return self.skipWaiting(); // Activate immediately
-      });
-    }).catch(err => {
-      console.log('[GW-SW] Install cache error (non-fatal):', err);
-      return self.skipWaiting();
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => Promise.all(
+        // Save each file on its own so one failure does not block the rest
+        PRECACHE.map(url =>
+          fetch(url, { cache: 'reload' })
+            .then(res => { if (res.ok && !res.redirected) return cache.put(url, res); })
+            .catch(() => {})
+        )
+      ))
+      .then(() => self.skipWaiting())
   );
 });
 
-// ── Activate: clean up old caches ────────────────────────────────────────────
+// ── Activate: remove old caches, take control ────────────────────────────────
 self.addEventListener('activate', event => {
-  console.log('[GW-SW] Activating...');
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames
-          .filter(name => name !== CACHE_NAME && name !== FONT_CACHE)
-          .map(name => {
-            console.log('[GW-SW] Deleting old cache:', name);
-            return caches.delete(name);
-          })
-      );
-    }).then(() => self.clients.claim()) // Take control of all pages
+    caches.keys()
+      .then(names => Promise.all(names.filter(n => n !== CACHE_NAME).map(n => caches.delete(n))))
+      .then(() => self.clients.claim())
   );
 });
 
-// ── Fetch: serve from cache, fall back to network ────────────────────────────
+// Fetch a fresh copy of the app page; if it changed, save it and notify pages
+async function refreshApp() {
+  const cache = await caches.open(CACHE_NAME);
+  const fresh = await fetch(APP_URL, { cache: 'no-store' });
+  if (!fresh.ok || fresh.redirected) return fresh;
+
+  const cached   = await cache.match(APP_URL);
+  const freshTxt = await fresh.clone().text();
+  const oldTxt   = cached ? await cached.text() : null;
+
+  if (freshTxt !== oldTxt) {
+    await cache.put(APP_URL, fresh.clone());
+    if (oldTxt !== null) {
+      const pages = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      pages.forEach(p => p.postMessage({ type: 'gw-update' }));
+    }
+  }
+  return fresh;
+}
+
+// ── Fetch ────────────────────────────────────────────────────────────────────
 self.addEventListener('fetch', event => {
-  const url = new URL(event.request.url);
+  const req = event.request;
+  if (req.method !== 'GET') return;
 
-  // Skip non-GET requests and cross-origin requests (except fonts)
-  if (event.request.method !== 'GET') return;
+  const url = new URL(req.url);
+  if (url.origin !== self.location.origin) return;
 
-  // ── Font requests: cache-first with long TTL ─────────────────────────────
-  if (FONT_ORIGINS.some(origin => url.hostname.includes(origin))) {
-    event.respondWith(
-      caches.open(FONT_CACHE).then(cache => {
-        return cache.match(event.request).then(cached => {
-          if (cached) return cached;
-          return fetch(event.request).then(response => {
-            if (response.ok) cache.put(event.request, response.clone());
-            return response;
-          }).catch(() => cached); // If network fails, return whatever we have
-        });
-      })
-    );
+  // App page: saved copy first, refresh in the background
+  if (isApp(url.pathname)) {
+    event.respondWith((async () => {
+      const cache  = await caches.open(CACHE_NAME);
+      const cached = await cache.match(APP_URL);
+      if (cached) {
+        event.waitUntil(refreshApp().catch(() => {}));
+        return cached;
+      }
+      // Nothing saved yet — go to the network
+      try { return await refreshApp(); }
+      catch (e) { return fetch(req); }
+    })());
     return;
   }
 
-  // ── App requests: network-first with cache fallback ──────────────────────
-  // Try network first (gets updates), fall back to cache if offline
-  if (url.pathname.startsWith('/criteria') || url.pathname === '/') {
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          // Cache the fresh response for next time
-          if (response.ok) {
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, response.clone());
-            });
-          }
-          return response;
-        })
-        .catch(() => {
-          // Offline — serve from cache
-          return caches.match(event.request).then(cached => {
-            if (cached) {
-              console.log('[GW-SW] Offline — serving from cache:', url.pathname);
-              return cached;
-            }
-            // Last resort: try the root criteria page
-            return caches.match('/criteria.html') ||
-                   caches.match('/criteria');
-          });
-        })
-    );
+  // Fonts, icons, manifest: device copy first, network if missing
+  if (isStatic(url.pathname)) {
+    event.respondWith((async () => {
+      const cache  = await caches.open(CACHE_NAME);
+      const cached = await cache.match(url.pathname);
+      if (cached) return cached;
+      const res = await fetch(req);
+      if (res.ok) cache.put(url.pathname, res.clone());
+      return res;
+    })());
   }
 });
