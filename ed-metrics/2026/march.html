@@ -241,6 +241,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) { #viewToggleBtn { transition: none; } }
 </style>
 
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#243b55">
+<link rel="stylesheet" href="/ed-metrics/assets/mor-enhance.css">
 </head>
 <body>
 <!-- HEADER -->
@@ -325,7 +328,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
       <div class="chart-title">Patients per Hour by Provider — March 2026</div>
       <div class="chart-subtitle">⬛ ≥1.88 pt/hr (⭐) &nbsp;·&nbsp; 🔷 &lt;1.88 pt/hr &nbsp;·&nbsp; Sorted highest → lowest &nbsp;·&nbsp; Dashed = dept cohort avg (1.98 pt/hr)</div>
       <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;"><span style="background:rgba(36,59,85,0.08);color:#243b55;font-size:11px;font-weight:700;padding:4px 14px;border-radius:999px;border:1px solid rgba(36,59,85,0.15);">📊 Dept Cohort Avg: 1.98 pt/hr &nbsp;·&nbsp; ⭐ = ≥1.88 pt/hr</span></div>
-      <div class="chart-scroll-outer"><div class="chart-container" style="height:700px"><canvas id="providerPPHChart"></canvas></div></div></div>
+      <div class="chart-scroll-outer"><div class="chart-container" style="height:700px"><canvas id="providerPPHChart"></canvas></div></div>
     </div>
   </div>
 
@@ -335,7 +338,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
     <div class="chart-card">
       <div class="chart-title">Mean Discharge LOS by Provider (ESI 3/4/5, Discharged Only) &nbsp;·&nbsp; 🎯 Goal: &lt;200 min</div>
       <div class="chart-subtitle">Sorted lowest → highest · Min 15 ESI 3/4/5 discharges · Minutes · 🟢 ≤200 min · 🔵 >200 min · 200-min reference line</div>
-      <div class="chart-container" style="height:600px"><canvas id="providerLOSChart"></canvas></div>
+      <div class="chart-scroll-outer"><div class="chart-container" style="height:600px"><canvas id="providerLOSChart"></canvas></div></div>
     </div>
   </div>
 
@@ -378,7 +381,6 @@ html, body { overflow-x: hidden; max-width: 100%; }
         <span style="color:rgba(255,255,255,0.55)">Goals: Pt/Hr ≥ 1.85 · aPPH ≥ 2.45</span>
       </div>
     </div>
-    </div>
   </div>
 
   <!-- SECTION 3: ADMISSIONS -->
@@ -416,7 +418,6 @@ html, body { overflow-x: hidden; max-width: 100%; }
         <div class="chart-title">Average Daily Arrivals by Weekday &nbsp;·&nbsp; ★ = Busiest Day</div>
         <div class="chart-subtitle">Sunday–Saturday · Bars = avg · Lines = daily high / low range</div>
         <div class="chart-scroll-outer"><div class="chart-container" style="height:260px"><canvas id="dowChart"></canvas></div></div>
-      </div>
     </div>
   </div>
 
@@ -609,6 +610,10 @@ new Chart(document.getElementById('esi2D2DChart'),{
   }, { passive: true });
 })();
 </script>
+
+<!-- Shared MOR enhancements: My Stats, highlights, leaderboards, phone layout, first-open reveal -->
+<script src="/ed-metrics/assets/mor-data.js"></script>
+<script src="/ed-metrics/assets/mor-enhance.js"></script>
 
 </body>
 </html>

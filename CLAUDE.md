@@ -616,3 +616,56 @@ If edits to existing months are needed, use targeted `str_replace` on specific l
 - **Infection tree stepper:** each `.dtree-b` branch carries `data-go` = next question number, `result`, or `end`. Keep that attribute when editing branch wording.
 - **Blog images are WebP** (`images/*.webp`). Convert new artwork before adding it.
 - **Integrity check before every push:** `node --check` each inline script, `</body>` and `</html>` exactly once.
+
+
+---
+
+# 📱 NOV 2026 MOR UX PASS — SHARED ASSETS (STANDING RULES)
+
+> Every month page now loads three shared files. They add My Stats, the highlights card, the leaderboards, the phone layout, dark mode, and the first-open reveal. A month page with these tags needs no per-page code for any of that.
+
+## The three files (in `ed-metrics/assets/`)
+- `mor-data.js` — **GENERATED. Never edit by hand.** Per-month clinician Pt/Hr, discharge LOS (+n), department averages and header KPIs for every published month. Built by `node tools/build-mor-data.js`, which reads the month pages (`pphNames`, `pphVals`, `DEPT_AVG`, `PPH_STAR`, `provNames`, `provLOS`, `provN`, `LOS_STAR`, the `.hkpi` tiles and the productivity card).
+- `mor-enhance.css` — shared styles. Loaded in `<head>` AFTER the page's inline `<style>` blocks so it wins.
+- `mor-enhance.js` — shared behavior. Loaded last, before `</body>`, after `mor-data.js`.
+
+## Tags every month page must carry (they copy forward when a month is built from the prior month)
+```html
+<!-- before </head> -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#243b55">
+<link rel="stylesheet" href="/ed-metrics/assets/mor-enhance.css">
+<!-- before </body>, after the page's own scripts -->
+<script src="/ed-metrics/assets/mor-data.js"></script>
+<script src="/ed-metrics/assets/mor-enhance.js"></script>
+```
+
+## New month checklist additions
+- [ ] After the month page is final (and after ANY correction to a published month's provider arrays or header KPIs): run `node tools/build-mor-data.js` and commit the regenerated `mor-data.js`. Skipping this leaves My Stats, YTD averages, trend chips, highlights and the month nav out of date.
+- [ ] Do NOT edit the month nav by hand in older pages any more — `mor-enhance.js` rebuilds it on every page from `mor-data.js` (published months + the next one dimmed). The static nav in the HTML is only the no-JS fallback.
+- [ ] Add a theme for the month in `THEMES` in `mor-enhance.js` only if it is missing (all 12 exist).
+
+## What the shared script does (so it is not rebuilt per page)
+- **My Stats** (in the header, above the KPI tiles): clinician picks their name once; saved in `localStorage` key `mor.me` on that device only. Shows Pt/Hr and discharge LOS for the month and YTD against the department. **No rank is shown** (Eric's call). Favorable deltas are green; unfavorable ones stay neutral white — no red/amber.
+  - Dept Pt/Hr = the page's `DEPT_AVG`. Dept LOS = discharge-weighted average of the clinician values on that month's chart.
+  - YTD = average of the clinician's monthly values through the page's month (LOS weighted by n); dept YTD is computed the same way over the same months.
+  - YTD LOS only combines months that use the same statistic. **Jan–Apr 2026 provider LOS are MEANS** (pages are labeled Mean); May onward are medians. When Jan–Apr are recomputed as medians from the Excel, update those pages' `provLOS` + labels, rerun the generator, and YTD LOS will start in January automatically.
+- **Highlights card**: up to 3 department-level wins chosen from the numbers (best-of-year, improved vs prior month, above goal, count of ⭐ clinicians). Never names an individual.
+- **Leaderboards**: one renderer for all months (creates the containers + List/Chart toggle on pages that lack them). Shows the first 10 rows with a "Show all" button (`SHOW` constant), the saved clinician's row always visible and highlighted, a gold tick at the department average.
+- **Header KPI tiles**: ▲▼ change vs the prior month (from `mor-data.js`), green only when the change is an improvement. On phones the duplicate "Avg Daily Volume" tile folds into the Total Visits tile.
+- **Charts on phones**: charts fit the screen width (no sideways scroll); hour axes label every 3 hours; weekday chart starts at 0; Pt/Hr chart always draws highest at the top; bars animate when scrolled into view. Any wrapper that still overflows (the YTD table) gets ‹ › arrow buttons and a "Swipe for more" tag automatically — do not add `.scroll-hint` text hints any more (the class is hidden).
+- **Dark mode**: follows the phone setting (`prefers-color-scheme`). Chart colours are swapped in JS.
+- **First-open reveal**: seasonal overlay animation + toast, once per month per device (`localStorage` key `mor.seen.<year>-<month>`); afterwards a plain 0.3s fade. Overlay is `position:fixed` and uses transforms only, so layout never shifts. Footer has a "Replay this month's intro" button. Respects reduced-motion.
+
+## Hub (`ed-metrics/index.html`)
+- The Sophias ticker is now an **odometer**: digits roll inside fixed-size windows (transform only — the page cannot shift). Monthly update is unchanged: change `TARGET`, the static number in `#tickerNum`, and the month pills.
+- The ticker column must be a sibling of `.months-col` inside `.content-layout` (a missing `</div>` once nested it and broke the phone order).
+
+## noindex
+- `vercel.json` sends `X-Robots-Tag: noindex, nofollow` for `/ed-metrics` and everything under it; each page also carries the robots meta tag. This keeps the pages out of search results only — it is not access control.
+
+## Integrity check before every push (adds to the earlier list)
+- `node --check ed-metrics/assets/mor-enhance.js` and `node tools/build-mor-data.js` both succeed.
+- Every `<div class="section">` in a month page is balanced (Jan–Apr once had stray `</div>`s that pushed sections outside `.report-body`).
+- `tools/` is excluded from deploys by `.vercelignore`.
+

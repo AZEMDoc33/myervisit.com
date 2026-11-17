@@ -182,6 +182,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) { #viewToggleBtn { transition: none; } }
 </style>
 
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#243b55">
+<link rel="stylesheet" href="/ed-metrics/assets/mor-enhance.css">
 </head>
 <body>
 
@@ -266,19 +269,13 @@ html, body { overflow-x: hidden; max-width: 100%; }
       <div class="chart-scroll-outer"><div class="chart-container" style="height:722px"><canvas id="providerPPHChart"></canvas></div></div>
     </div>
   </div>
-      </div>
-      <div class="chart-title" style="opacity:0.3;">Patients per Hour by Provider — January 2026</div>
-      <div class="chart-subtitle" style="opacity:0.3;">Sorted highest → lowest · Goal line at 1.85 pt/hr</div>
-      <div style="height:460px;opacity:0.15;padding-top:8px;"><canvas id="providerPPHPlaceholder"></canvas></div>
-    </div>
-  </div>
 <!-- SECTION 9: PROVIDER LOS -->
   <div class="section">
     <div class="section-header"><div class="section-emoji" aria-hidden="true">👨‍⚕️</div><div class="section-title">Provider Discharge LOS — ESI 3, 4 &amp; 5 Patients</div><div class="section-line"></div></div>
     <div class="chart-card">
       <div class="chart-title">Mean Discharge LOS by Provider (ESI 3/4/5, Discharged Only) &nbsp;·&nbsp; 🎯 Goal: &lt;200 min</div>
       <div class="chart-subtitle">Sorted lowest → highest · Min 15 ESI 3/4/5 discharges · 🟢 ≤200 min · 🔵 >200 min · 200-min reference line</div>
-      <div class="chart-container" style="height:620px"><canvas id="providerLOSChart"></canvas></div>
+      <div class="chart-scroll-outer"><div class="chart-container" style="height:620px"><canvas id="providerLOSChart"></canvas></div></div>
     </div>
   </div>
 
@@ -321,7 +318,6 @@ html, body { overflow-x: hidden; max-width: 100%; }
         <span style="color:rgba(255,255,255,0.55)">Goals: Pt/Hr ≥ 1.85 · aPPH ≥ 2.45</span>
       </div>
     </div>
-    </div>
   </div>
 
   <!-- SECTION 4: ADMISSIONS -->
@@ -359,7 +355,6 @@ html, body { overflow-x: hidden; max-width: 100%; }
         <div class="chart-title">Average Daily Arrivals by Weekday &nbsp;·&nbsp; ★ = Busiest Day</div>
         <div class="chart-subtitle">Sunday–Saturday · Bars = avg · Lines = daily high / low range</div>
         <div class="chart-scroll-outer"><div class="chart-container" style="height:260px"><canvas id="dowChart"></canvas></div></div>
-      </div>
     </div>
   </div>
 
@@ -528,21 +523,12 @@ new Chart(document.getElementById('esi2D2DChart'), {
     y:{beginAtZero:true,title:{display:true,text:'Mean D2D (minutes)',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}}}}
 });
 
-// GHOST PPH
-const ghostPPH = provNames.map(() => +(1.2+Math.random()*1.4).toFixed(2));
-new Chart(document.getElementById('providerPPHPlaceholder'), {
-  type:'bar', data:{labels:provNames,datasets:[{data:ghostPPH,
-    backgroundColor:'rgba(90,143,160,0.5)',borderColor:'rgba(42,100,120,0.6)',borderWidth:1,borderRadius:4}]},
-  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false},tooltip:{enabled:false}},
-    scales:{x:{display:false},y:{grid:{display:false},ticks:{font:{size:11}}}},animation:false}
-});
-
 // ── PROVIDER PPH CHART ─────────────────────────────────────────────────────
 const pphNames=["COATES C","SUTHERLAND K","FIGUEROA A","FAKLER R","JIMENEZ A","LOMBARDI K","BUNKER C","PAVLUE B","MCKELVY A","BERMAN D ⭐","CUMMINS E ⭐","JONES S ⭐","ANDES J ⭐","BOESCH D ⭐","HAPEMAN B ⭐","CLARK J ⭐","HUNTER J ⭐","MCDOWELL M ⭐","BATIZY L ⭐","ANDONYAN A ⭐","RIGBY D ⭐","HAMBLIN L ⭐","WALLBRECHT J ⭐","EGBERT J ⭐","WINTER A ⭐","WRIGHT E ⭐"];
 const pphVals=[1.28,1.29,1.68,1.72,1.75,1.80,1.81,1.83,1.86,1.93,1.95,2.04,2.05,2.06,2.09,2.24,2.25,2.27,2.31,2.38,2.38,2.46,2.47,2.48,2.69,3.13];
-const pphBg=['rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(36,59,85,0.88)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)','rgba(100,130,170,0.38)'];
-const pphBdr=['rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(36,59,85,1)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)','rgba(100,130,170,0.6)'];
+const PPH_STAR=1.88;
+const pphBg=pphVals.map(v=>v>=PPH_STAR?'rgba(36,59,85,0.88)':'rgba(100,130,170,0.38)');
+const pphBdr=pphVals.map(v=>v>=PPH_STAR?'rgba(36,59,85,1)':'rgba(100,130,170,0.6)');
 const DEPT_AVG=2.08;
 const PPH_GOAL=1.85;
 const pphGoalPlugin={id:'pphGoalLines',afterDraw(chart){
@@ -584,6 +570,10 @@ new Chart(document.getElementById('providerPPHChart'),{
   }, { passive: true });
 })();
 </script>
+
+<!-- Shared MOR enhancements: My Stats, highlights, leaderboards, phone layout, first-open reveal -->
+<script src="/ed-metrics/assets/mor-data.js"></script>
+<script src="/ed-metrics/assets/mor-enhance.js"></script>
 
 </body>
 </html>

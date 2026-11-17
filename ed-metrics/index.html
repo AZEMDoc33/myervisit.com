@@ -9,6 +9,8 @@
 <meta property="og:description" content="Monthly Operating Reports · Banner Gateway Emergency Department">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://myervisit.com/ed-metrics">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#243b55">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -300,11 +302,20 @@
     font-size: 46px;
     font-weight: 700;
     color: var(--gold);
-    line-height: 1;
-    letter-spacing: -1px;
+    line-height: 1.15;
     font-variant-numeric: tabular-nums;
     text-shadow: 0 0 30px rgba(201,169,75,0.28);
   }
+  /* Odometer: each digit is a fixed-size window; only the strip inside it moves (transform only) */
+  .ticker-number.odo { display: inline-flex; height: 1.15em; overflow: hidden; contain: layout paint; white-space: nowrap;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 78%, transparent 100%);
+            mask-image: linear-gradient(180deg, transparent 0, #000 22%, #000 78%, transparent 100%); }
+  .odo-d { display: block; flex: 0 0 0.62em; width: 0.62em; height: 1.15em; overflow: hidden; text-align: center; }
+  .odo-s { display: block; flex: 0 0 0.3em; width: 0.3em; height: 1.15em; text-align: center; }
+  .odo-strip { display: block; will-change: transform; transform: translateY(0); }
+  .odo-strip i { display: block; height: 1.15em; font-style: normal; }
+  .ticker-number.odo.landed { animation: odoGlow 1.4s ease-out 1; }
+  @keyframes odoGlow { 0% { text-shadow: 0 0 0 rgba(232,200,112,0); } 35% { text-shadow: 0 0 26px rgba(232,200,112,0.85); } 100% { text-shadow: 0 0 30px rgba(201,169,75,0.28); } }
   .ticker-text {
     grid-area: text;
     justify-self: end;
@@ -394,19 +405,15 @@
   @media (max-width: 600px) {
     main { padding: 20px 14px 48px; }
     .content-layout { display: flex; flex-direction: column-reverse; gap: 12px; }
-    .ticker-col { width: 100%; position: static; }
+    .ticker-col { width: 100%; position: static; margin: 0; }
+    .year-section { margin-bottom: 0; }
+    .ticker-label-top { display: none; }
     /* Mobile ticker: horizontal compact strip */
     .ticker-section { padding: 14px 18px; display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; max-width: 100%; }
     .ticker-section::before { display: none; }
-    .ticker-number {
-      flex: 0 0 108px;
-      width: 108px;
-      max-width: 108px;
-      font-size: 34px;
-      letter-spacing: 0;
-      text-align: right;
-    }
-    .ticker-label-bottom { font-size: 11px; margin-top: 2px; }
+    .ticker-number { flex: 0 0 auto; font-size: 34px; }
+    .ticker-label-bottom { font-size: 13px; margin-top: 0; }
+    .ticker-label-bottom br { display: none; }
     .ticker-label-top { margin-bottom: 2px; font-size: 8.5px; }
     .ticker-sub { margin-top: 2px; }
     .ticker-divider, .ticker-months { display: none; }
@@ -419,6 +426,12 @@
     .month-tag { font-size: 10px; padding: 2px 6px; }
     header { padding: 18px 18px 16px; }
     header h1 { font-size: 20px; }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root { --cream: #0f1a26; --card: #18283a; --card-hover: #1d3044; --border: #2c4258; --text: #e9eff5; --text-mid: #b4c2cf; --text-light: #8ea2b5; --teal: #7ab5c7; --header: #16283b; --shadow: 0 2px 14px rgba(0,0,0,0.35); --shadow-lg: 0 6px 28px rgba(0,0,0,0.45); }
+    .tag-live { background: rgba(201,169,75,0.2); color: #e8c870; }
+    .ticker-section { background: linear-gradient(160deg, #1b3048 0%, #132335 100%); border: 1px solid #2c4258; }
   }
 </style>
 </head>
@@ -516,7 +529,8 @@
         <div class="month-tag tag-soon">Coming Soon</div>
       </a>
 
-    </div><!-- /.year-section -->
+    </div><!-- /.month-grid -->
+      </div><!-- /.year-section -->
     </div><!-- /.months-col -->
 
     <!-- TICKER COLUMN -->
@@ -525,7 +539,7 @@
         <div class="ticker-label-top">2026 Year-to-Date</div>
         <div class="ticker-number" id="tickerNum">43,884</div>
         <div class="ticker-text">
-          <div class="ticker-label-bottom">Sophias Served<br>at BGMC ED</div>
+          <div class="ticker-label-bottom">Sophias Served <br>at BGMC ED</div>
           <div class="ticker-sub">Total patient visits · Through October 2026</div>
         </div>
         <div class="ticker-divider"></div>
@@ -553,32 +567,48 @@
 </footer>
 
 <script>
-// Animated ticker: counts up to TARGET. HTML holds the static value as a
-// no-JS / slow-connection fallback; the script resets to 0 only when it runs.
+// Sophias Served odometer. The HTML holds the plain number as the no-JS fallback.
+// Digits roll inside fixed-size windows using transforms only, so the page never shifts.
+// Monthly update: change TARGET (and the static number + month pills in the HTML above).
 (function() {
   const TARGET = 43884;
-  const DURATION = 2200; // ms
   const el = document.getElementById('tickerNum');
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  let start = null;
-  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-  function step(ts) {
-    if (!start) start = ts;
-    const elapsed = ts - start;
-    const progress = Math.min(elapsed / DURATION, 1);
-    const val = Math.round(easeOut(progress) * TARGET);
-    el.textContent = val.toLocaleString();
-    if (progress < 1) requestAnimationFrame(step);
-    else el.textContent = TARGET.toLocaleString();
+  if (!el) return;
+  const text = TARGET.toLocaleString('en-US');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const CELL = 1.15; // em — must match the .odo-d height in the CSS
+  const strips = [];
+  el.textContent = '';
+  el.classList.add('odo');
+  el.setAttribute('role', 'img');
+  el.setAttribute('aria-label', text + ' patient visits year to date');
+  let n = 0;
+  for (const ch of text) {
+    if (ch < '0' || ch > '9') { const s = document.createElement('span'); s.className = 'odo-s'; s.textContent = ch; el.appendChild(s); continue; }
+    const d = +ch, w = document.createElement('span'), strip = document.createElement('span');
+    w.className = 'odo-d'; strip.className = 'odo-strip';
+    // two full turns then on to the digit: 0..9, 0..9, 0..d
+    const cells = []; for (let k = 0; k < 20 + d + 1; k++) cells.push('<i>' + (k % 10) + '</i>');
+    strip.innerHTML = cells.join('');
+    const end = -(20 + d) * CELL;
+    strip.style.transform = 'translateY(' + end + 'em)';        // resting on the real number
+    w.appendChild(strip); el.appendChild(w);
+    strips.push({ strip, end, i: n++ });
   }
-  // Start when element scrolls into view
+  if (reduce || !('IntersectionObserver' in window)) return;
   const obs = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-      el.textContent = '0';
-      requestAnimationFrame(step);
-      obs.disconnect();
-    }
-  }, { threshold: 0.3 });
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+    strips.forEach(s => { s.strip.style.transition = 'none'; s.strip.style.transform = 'translateY(0)'; });
+    void el.offsetHeight;                                        // commit the start position
+    requestAnimationFrame(() => {
+      strips.forEach(s => {
+        s.strip.style.transition = 'transform ' + (1500 + s.i * 260) + 'ms cubic-bezier(0.16, 1, 0.3, 1)';
+        s.strip.style.transform = 'translateY(' + s.end + 'em)';
+      });
+      setTimeout(() => el.classList.add('landed'), 1500 + strips.length * 260);
+    });
+  }, { threshold: 0.6 });
   obs.observe(el);
 })();
 </script>

@@ -327,6 +327,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) { #viewToggleBtn { transition: none; } }
 </style>
 
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#243b55">
+<link rel="stylesheet" href="/ed-metrics/assets/mor-enhance.css">
 </head>
 <body>
 <!-- HEADER -->
@@ -494,7 +497,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
           <tr><td>🚶 LWOT / Eloped</td><td>60</td><td>1.4%</td></tr>
           <tr><td>📝 AMA / Behavioral / Other</td><td>118</td><td>2.7%</td></tr>
         </tbody>
-      </table></div></div>
+      </table></div>
     </div>
   </div>
 
@@ -527,7 +530,6 @@ html, body { overflow-x: hidden; max-width: 100%; }
         <div class="chart-scroll-outer"><div class="chart-container" style="height:260px">
           <canvas id="dowChart"></canvas>
         </div></div>
-      </div>
     </div>
   </div>
 
@@ -744,6 +746,10 @@ new Chart(document.getElementById('providerPPHChart'),{
   }, { passive: true });
 })();
 </script>
+
+<!-- Shared MOR enhancements: My Stats, highlights, leaderboards, phone layout, first-open reveal -->
+<script src="/ed-metrics/assets/mor-data.js"></script>
+<script src="/ed-metrics/assets/mor-enhance.js"></script>
 
 </body>
 </html>
