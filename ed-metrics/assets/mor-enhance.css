@@ -251,32 +251,33 @@ body.mor-return .header-kpis, body.mor-return .mor-me, body.mor-return .mor-hl {
   .mor-me-val { font-size: 20px; }
 }
 
-/* ── Dark mode (follows the phone's setting) ─────────────────────── */
+/* ── Dark mode (follows the phone's setting) ───────────────────────
+   Page and header go dark navy; the content cards are a light heather gray with dark
+   text so each section stands off the background. Charts keep their normal colours. */
 @media (prefers-color-scheme: dark) {
   :root {
     --cream: #0f1a26; --cream-dark: #0b141d; --card: #18283a; --card-alt: #1d3044; --border: #2c4258;
     --text: #e9eff5; --text-mid: #b4c2cf; --text-light: #8ea2b5;
     --teal: #7ab5c7; --teal-pale: #1f3a47; --green: #6fd19c; --green-pale: #173a2a;
-    --red: #f08a80; --red-pale: #43201d; --amber: #f0b35a; --amber-pale: #40300f;
-    --blue: #7fb8e6; --blue-pale: #17324a; --purple-pale: #2a2545;
     --header: #1b3048; --header-mid: #24405e;
     --shadow: 0 2px 12px rgba(0,0,0,0.35); --shadow-lg: 0 4px 24px rgba(0,0,0,0.45);
   }
   .report-header { background: #16283b; }
   .month-nav.mor-nav a.active { background: var(--gold); border-color: var(--gold); color: #14212e; }
-  .tbl-total td { background: rgba(255,255,255,0.07) !important; }
-  .ytd-table .current-month td { background: rgba(201,169,75,0.16) !important; }
-  .banner-init-note { background: rgba(255,255,255,0.06); border-left-color: var(--teal); }
-  .chart-card span[style*="#243b55"] { color: var(--text) !important; background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.16) !important; }
-  .ml-bar-bg { background: rgba(255,255,255,0.1); }
-  .ml-bar-fill.pph.star { background: #7ab5c7; }
-  .ml-bar-fill.pph { background: rgba(122,181,199,0.38); }
-  .ml-bar-fill.los.star { background: #6fd19c; }
-  .ml-bar-fill.los { background: rgba(111,209,156,0.34); }
-  .ml-dot.pph.star { background: #7ab5c7 !important; } .ml-dot.pph { background: rgba(122,181,199,0.38) !important; }
-  .ml-dot.los.star { background: #6fd19c !important; } .ml-dot.los { background: rgba(111,209,156,0.34) !important; }
-  .mor-sx-btn, .mor-sx-label { background: rgba(232,200,112,0.95); color: #14212e; }
+  .prod-card { border: 1px solid rgba(255,255,255,0.14); }
   .mor-me select { background: #f4f1ea; }
+
+  /* Heather-gray cards: re-point the colour variables inside each card so everything in it reads dark-on-light */
+  .chart-card, .card, .mobile-leader, .mor-hl, .metric-card {
+    --card: #d9dce1; --card-alt: #ccd0d7; --border: #b5bbc5;
+    --text: #1f2d3d; --text-mid: #44546a; --text-light: #586779;
+    --teal: #2c6b7e; --teal-pale: #c3d8df; --green: #2c7549; --green-pale: #c9e3d4;
+    --red: #b3372b; --red-pale: #f0d1cd; --amber: #a25a05; --amber-pale: #efdcbc;
+    --blue: #226aa0; --blue-pale: #cfe0ed; --purple-pale: #dcd6ee;
+    --header: #243b55; --header-mid: #2e4e6e;
+    background: var(--card); color: var(--text); border-color: var(--border);
+  }
+  .mor-hl { border-color: var(--gold); }
 }
 
 @media print { .mor-me-btn, .mor-sx-btn, .mor-sx-label, .mor-replay, #morFx, .mor-toast { display: none !important; } }

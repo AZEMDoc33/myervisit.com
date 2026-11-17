@@ -300,11 +300,11 @@
 
   /* ── 6. Charts: fit the phone, honest axes, dark-mode colours ───── */
   function chart(id) { return window.Chart && Chart.getChart ? Chart.getChart(id) : null; }
-  var origColors = {};
   function tuneCharts() {
     if (!window.Chart) return;
     var phone = mqPhone.matches, dark = mqDark.matches;
-    var ink = dark ? '#b4c2cf' : '#5a6a7a', grid = dark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.05)';
+    // In dark mode the cards are light heather gray, so charts keep their normal colours; only the ink gets a touch darker.
+    var ink = dark ? '#3f4e61' : '#5a6a7a', grid = dark ? 'rgba(0,0,0,0.08)' : 'rgba(0,0,0,0.05)';
     ['hourlyArrivalsChart', 'lwotChart', 'esi2D2DChart'].forEach(function (id) {
       var c = chart(id); if (!c) return;
       var t = c.options.scales.x.ticks;
@@ -321,16 +321,6 @@
       var dd = pph.data.datasets[0].data;
       pph.options.scales.y.reverse = dd.length > 1 && dd[0] < dd[dd.length - 1];
     }
-    var bar = function (c, fn) {
-      if (!c) return; var ds = c.data.datasets[0], id = c.canvas.id;
-      if (!origColors[id]) origColors[id] = { bg: ds.backgroundColor, bd: ds.borderColor };
-      if (dark) { var r = fn(ds.data); ds.backgroundColor = r[0]; ds.borderColor = r[1]; }
-      else { ds.backgroundColor = origColors[id].bg; ds.borderColor = origColors[id].bd; }
-    };
-    bar(pph, function (d) { return [d.map(function (v) { return v >= M.pphStar ? 'rgba(122,181,199,0.92)' : 'rgba(122,181,199,0.36)'; }), d.map(function (v) { return v >= M.pphStar ? '#9fd0df' : 'rgba(122,181,199,0.55)'; })]; });
-    bar(chart('providerLOSChart'), function (d) { return [d.map(function (v) { return v <= M.losStar ? 'rgba(111,209,156,0.85)' : 'rgba(111,209,156,0.32)'; }), d.map(function (v) { return v <= M.losStar ? '#8be0b4' : 'rgba(111,209,156,0.5)'; })]; });
-    bar(chart('hourlyArrivalsChart'), function () { return ['rgba(122,181,199,0.62)', 'rgba(159,208,223,0.95)']; });
-    bar(chart('esi2D2DChart'), function (d) { return [d.map(function (v) { return v > 25 ? 'rgba(240,138,128,0.85)' : 'rgba(122,181,199,0.7)'; }), d.map(function (v) { return v > 25 ? '#f08a80' : 'rgba(159,208,223,0.95)'; })]; });
     Object.keys(Chart.instances || {}).forEach(function (k) {
       var c = Chart.instances[k], sc = c.options.scales || {};
       ['x', 'y'].forEach(function (a) {
