@@ -3,12 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dr. Eric Cummins, MD — Anyone. Anything. Anytime.</title>
+  <title>Dr. Eric Cummins, MD | Your emergency physician</title>
   <meta name="description" content="Emergency medicine physician Dr. Eric Cummins helps patients navigate the emergency department with clarity, confidence, and a little less stress. Free resources, ED insights, and honest answers." />
-  <link rel="preconnect" href="https://unpkg.com" crossorigin />
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/images/favicon-48.png" sizes="48x48" type="image/png" />
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+  <meta name="theme-color" content="#1E3A5F" />
+  <link rel="canonical" href="https://myervisit.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Eric Cummins, MD" />
+  <meta property="og:title" content="Dr. Eric Cummins, MD — Anyone. Anything. Anytime." />
+  <meta property="og:description" content="Emergency medicine physician Dr. Eric Cummins helps patients navigate the emergency department with clarity, confidence, and a little less stress. Free resources, ED insights, and honest answers." />
+  <meta property="og:url" content="https://myervisit.com/" />
+  <meta property="og:image" content="https://myervisit.com/images/og/default.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preload" href="/fonts/fraunces-latin-var.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <script>document.documentElement.classList.add('js');</script>
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
@@ -24,7 +35,7 @@
     <div class="container">
       <div class="navbar-inner">
         <a href="index.html" class="navbar-brand">
-          <span class="brand-name" aria-label="Eric Cummins, MD"><span id="navTyped" aria-hidden="true"></span><span class="typed-cursor nav-cursor" aria-hidden="true"></span></span>
+          <span class="brand-name">Eric Cummins, MD</span>
           <span class="brand-tagline">Anyone. Anything. Anytime.</span>
         </a>
         <ul class="navbar-links">
@@ -34,16 +45,14 @@
           <li><a href="resources.html">Resources</a></li>
           <li><a href="#reviews" class="navbar-cta">Share Your Experience</a></li>
         </ul>
-        <div class="hamburger" id="hamburger">
-          <span></span><span></span><span></span>
-        </div>
+        <button type="button" class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
       </div>
     </div>
   </nav>
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" id="mobileClose">✕</button>
+    <button type="button" class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="blog.html">ED Insights</a>
@@ -51,221 +60,116 @@
     <a href="#reviews">Share Your Experience</a>
   </div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg-shape"></div>
-    <div class="hero-dots"></div>
-    <div class="hero-inner">
-      <div class="hero-content">
-        <span class="section-tag hero-rise hr-1">Banner Gateway Medical Center</span>
-        <h1 class="hero-rise hr-2">No One Should Feel <em>Lost</em> in the Emergency Department.</h1>
-        <div class="hero-accent hero-rise hr-3"></div>
-        <p class="hero-rise hr-4">I've spent 15+ years in emergency medicine. This site exists to make your visit a little clearer, a little less stressful, and a whole lot more human.</p>
-        <div class="hero-buttons hero-rise hr-5">
-          <a href="about.html" class="btn btn-gold">Meet Dr. Cummins</a>
-          <a href="blog.html" class="btn btn-outline-white">ED Insights</a>
-          <a href="resources.html" class="btn btn-outline-white btn-resource-glow">Get Free Resources</a>
+  <!-- HELLO -->
+  <section class="hello">
+    <div class="hello-inner">
+      <figure class="hello-photo">
+        <!-- PHOTO: swap this file for the scrub-top photo (portrait, at least 900px wide) -->
+        <img src="images/cummins-professional-photo.jpg" alt="Dr. Eric Cummins, emergency physician" width="768" height="960" fetchpriority="high" />
+      </figure>
+      <div class="hello-text">
+        <h1>Hi, I'm Dr. Cummins.</h1>
+        <p class="hello-lead">If we just met in the emergency department, I'm glad you're here.</p>
+        <p class="hello-note">Nobody plans to spend their day with me. The ED is loud, fast, and confusing, so I built this site to give you something useful while you wait: plain answers, a few tools for your phone, and a chance to know who is taking care of you.</p>
+        <p class="hello-sig"><b>Eric Cummins, MD</b><span>Emergency physician, Banner Gateway Medical Center</span></p>
+        <div class="hello-actions">
+          <a href="#where" class="btn btn-gold">What should I expect?</a>
+          <a href="about.html" class="btn btn-outline-white">Get to know me</a>
         </div>
       </div>
-      <div class="hero-image hero-rise hr-6">
-        <div class="hero-image-frame">
-          <a href="about.html" class="hero-photo-link" aria-label="Read about Dr. Eric Cummins">
-            <img
-              src="images/cummins-professional-photo.jpg"
-              alt="Dr. Eric Cummins, MD — Emergency Medicine Physician"
-              width="768" height="960" fetchpriority="high"
-              onerror="this.parentElement.innerHTML='<div class=\'hero-image-placeholder\'><span>👨‍⚕️</span><p>Dr. Eric Cummins, MD</p></div>'"
-            />
-          </a>
-          <div class="hero-badge">
-            <div class="badge-num" id="badgeCount" data-target="15">15+</div>
-            <div class="badge-label">Years in Emergency Medicine</div>
+    </div>
+  </section>
+
+  <!-- WHERE ARE YOU RIGHT NOW -->
+  <section class="home-sec" id="where">
+    <div class="home-wrap">
+      <h2>Where are you right now?</h2>
+      <p class="sub">Tap one and I'll point you to what helps most.</p>
+      <div class="where-opts" role="group" aria-label="Where are you right now?">
+        <button type="button" class="where-opt" data-where="waiting" aria-pressed="false"><b>In the waiting room</b><span>Not seen yet</span></button>
+        <button type="button" class="where-opt" data-where="room" aria-pressed="false"><b>In a room</b><span>Waiting on tests or results</span></button>
+        <button type="button" class="where-opt" data-where="home" aria-pressed="false"><b>Heading home</b><span>Discharged, or about to be</span></button>
+        <button type="button" class="where-opt" data-where="family" aria-pressed="false"><b>Here with someone</b><span>Family or a friend</span></button>
+      </div>
+      <div id="wherePanels" aria-live="polite">
+        <div class="where-panel" data-panel="waiting">
+          <h3>In the waiting room</h3>
+          <p>Waiting is the hardest part. Here is what is happening behind those doors, and how to be ready when your name is called.</p>
+          <div class="link-list">
+            <a href="how-long-is-this-going-to-take.html">How long is this going to take? <small>2 min</small></a>
+            <a href="what-matters-and-what-doesnt-in-your-ed-story.html">What matters in your ED story <small>2 min</small></a>
+            <a href="why-do-you-keep-asking-the-same-questions.html">Why do we keep asking the same questions? <small>4 min</small></a>
+            <a class="tool" href="medication-list.html">Start your medication list while you wait <small>Tool</small></a>
+          </div>
+        </div>
+        <div class="where-panel" data-panel="room">
+          <h3>In a room, waiting</h3>
+          <p>You have told your story a few times by now. I promise somebody wrote it down. Here is what the quiet stretches usually mean.</p>
+          <div class="link-list">
+            <a href="how-long-is-this-going-to-take.html">What takes so long with labs and scans <small>2 min</small></a>
+            <a href="when-should-you-hit-the-call-light.html">When should you hit the call light? <small>5 min</small></a>
+            <a href="six-simple-ways-we-build-trust-during-your-er-visit.html">Six ways we try to earn your trust <small>4 min</small></a>
+            <a class="tool" href="ed-visit-companion.html">Write down your questions before I walk back in <small>Tool</small></a>
+          </div>
+        </div>
+        <div class="where-panel" data-panel="home">
+          <h3>Heading home</h3>
+          <p>Before you go, make sure you know what to watch for and who to follow up with. If anything is fuzzy, ask us. That is what we are here for.</p>
+          <div class="link-list">
+            <a href="your-discharge-instructions-actually-matter.html">The parts of your discharge paperwork that matter <small>3 min</small></a>
+            <a href="your-lab-results-just-got-a-translator.html">Making sense of your lab results later <small>3 min</small></a>
+            <a class="tool" href="ed-visit-companion.html">Save your follow-up plan on your phone <small>Tool</small></a>
+            <a href="#reviews">Tell the next patient how it went <small>1 min</small></a>
+          </div>
+        </div>
+        <div class="where-panel" data-panel="family">
+          <h3>Here with someone</h3>
+          <p>You are part of the care team, whether anyone has said it out loud or not. Here is how to help.</p>
+          <div class="link-list">
+            <a href="how-family-members-can-help.html">How family members can help in the ED <small>4 min</small></a>
+            <a href="when-should-you-hit-the-call-light.html">When to press the call light for them <small>5 min</small></a>
+            <a class="tool" href="medical-history.html">Help them fill in their medical history <small>Tool</small></a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- WHAT YOU'LL FIND HERE -->
-  <section class="features">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">What You'll Find Here</span>
-        <h2>Made for Patients. Built with Honesty.</h2>
-        <p>Everything on this site is designed to help you feel more prepared, more informed, and less alone during one of the most stressful experiences of your life.</p>
+  <!-- TOOLS -->
+  <section class="home-sec alt" id="tools">
+    <div class="home-wrap">
+      <h2>Three tools for your phone</h2>
+      <p class="sub">Free, and they save as you type.</p>
+      <div class="row-list">
+        <a class="row-card plain" href="ed-visit-companion.html"><b>ED Visit Companion</b><span>Your symptoms, your questions for us, and your follow-up plan in one place.</span></a>
+        <a class="row-card plain" href="medication-list.html"><b>Medication List</b><span>No more guessing the name of the little white pill.</span></a>
+        <a class="row-card plain" href="medical-history.html"><b>Medical History</b><span>Diagnoses and surgeries, ready the next time someone asks.</span></a>
       </div>
-      <div class="features-grid">
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
-          <span class="feature-icon">📝</span>
-          <h3>ED Insights</h3>
-          <p>Honest answers to the questions patients ask most — written in plain language, not medical jargon.</p>
-          <br/>
-          <a href="blog.html" class="btn btn-outline" style="margin-top:auto;">Read Articles →</a>
-        </div>
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-          <span class="feature-icon">📄</span>
-          <h3>Free Resources</h3>
-          <p>Customizable tools to help you prepare for your visit, medication lists, visit checklists, and more.</p>
-          <br/>
-          <a href="resources.html" class="btn btn-outline" style="margin-top:auto;">Explore Toolkit →</a>
-        </div>
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-          <span class="feature-icon">🩺</span>
-          <h3>About Dr. Cummins</h3>
-          <p>15+ years in emergency medicine, and still learning from every patient who walks through the door.</p>
-          <br/>
-          <a href="about.html" class="btn btn-outline" style="margin-top:auto;">Learn More →</a>
-        </div>
-      </div>
+      <p class="fine">Nothing you type is sent to me or stored on a server. It stays on your phone.</p>
     </div>
   </section>
 
-  <!-- FEATURED BLOG POSTS -->
-  <section class="blog-section">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">Start Here</span>
-        <h2>Featured ED Insights</h2>
-        <p>Pull back the curtain on what actually happens in the emergency department.</p>
+  <!-- POSTS -->
+  <section class="home-sec">
+    <div class="home-wrap">
+      <h2>A few I'd start with</h2>
+      <p class="sub">Straight answers from the ED, with a few jokes I could not help.</p>
+      <div class="row-list">
+        <a class="row-card" href="false-prophets-and-filter-bubbles.html"><img src="images/thumbs/false-prophets-filter-bubbles.webp" alt="" width="168" height="168" loading="lazy" decoding="async" /><div><b>Dr. TikTok doesn't have malpractice insurance, but I do.</b><span>3 min read</span></div></a>
+        <a class="row-card" href="no-mri-no-problem-why-most-back-pain-doesnt-need-an-emergency-mri.html"><img src="images/thumbs/back-pain-mri-ed.webp" alt="" width="168" height="168" loading="lazy" decoding="async" /><div><b>No MRI today? Here's why that can still be good care</b><span>6 min read</span></div></a>
+        <a class="row-card" href="er-or-urgent-care-your-guide-to-making-the-right-call.html"><img src="images/thumbs/ed-or-urgent-care-signpost.webp" alt="" width="168" height="168" loading="lazy" decoding="async" /><div><b>ED or urgent care?</b><span>5 min read</span></div></a>
       </div>
-      <div class="blog-grid">
-
-        <a href="your-lab-results-just-got-a-translator.html" class="blog-card blog-card-clickable" data-category="after" data-aos="fade-up" data-aos-delay="0">
-          <div class="blog-card-image thumb-after"><img src="images/ai-health-tools.webp" alt="Illustration of a woman reviewing AI health tools like ChatGPT and Perplexity on her laptop" width="1536" height="1024" loading="lazy" decoding="async" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">After Your Visit</span>
-              <span class="read-time">3 min read</span>
-            </div>
-            <h3>Your Lab Results Just Got a Translator</h3>
-            <p>AI tools can help translate confusing labs and imaging reports into plain language so you can ask better questions about your care.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="six-simple-ways-we-build-trust-during-your-er-visit.html" class="blog-card blog-card-clickable" data-category="during" data-aos="fade-up" data-aos-delay="0">
-          <div class="blog-card-image thumb-during"><img src="images/compassion-building-trust.webp" alt="Illustration representing trust between a doctor and patient" width="1536" height="1024" loading="lazy" decoding="async" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">During Your Visit</span>
-              <span class="read-time">4 min read</span>
-            </div>
-            <h3>Six Simple Ways We Build Trust During Your Emergency Department (ED) Visit</h3>
-            <p>Trust between patients and doctors doesn't take years to build — it takes seconds. Find out how simple words and actions help from the moment you arrive.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="your-ai-chatbot-isnt-a-doctor-it-just-plays-one-on-the-internet.html" class="blog-card blog-card-clickable" data-category="before" data-aos="fade-up" data-aos-delay="100">
-          <div class="blog-card-image thumb-before"><img src="images/chatbot-ai-not-doctor.webp" alt="Cartoon of a patient in an ED bed with an AI chatbot avatar on a screen next to a real doctor" width="1536" height="1024" loading="lazy" decoding="async" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">Before Your Visit</span>
-              <span class="read-time">6 min read</span>
-            </div>
-            <h3>Your AI Chatbot Isn't a Doctor</h3>
-            <p>AI can explain medical words, but it cannot examine you. Here's what is useful, what is risky, and when to call a real human.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="er-or-urgent-care-your-guide-to-making-the-right-call.html" class="blog-card blog-card-clickable" data-category="before" data-aos="fade-up" data-aos-delay="200">
-          <div class="blog-card-image thumb-before"><img src="images/ed-or-urgent-care-signpost.webp" alt="Illustration of a signpost with arrows pointing to Urgent Care and Emergency Department" width="1248" height="832" loading="lazy" decoding="async" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">Before Your Visit</span>
-              <span class="read-time">5 min read</span>
-            </div>
-            <h3>ED or Urgent Care?</h3>
-            <p>An emergency physician explains when to come straight to the emergency department and when urgent care is the better fit.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-      </div>
-      <div class="text-center mt-8" data-aos="fade-up">
-        <a href="blog.html" class="btn btn-primary">View All Insights</a>
-      </div>
+      <a class="more-link" href="blog.html">See all ED Insights</a>
     </div>
   </section>
 
-  <!-- SHARE YOUR EXPERIENCE (after ED Insights, before PDF band) -->
-  <section class="review-section" id="reviews">
-    <div class="container">
-      <div class="review-inner">
-
-        <div class="review-text" data-aos="fade-right">
-          <span class="section-tag">Share Your Experience</span>
-          <h2>Help Others Know What to Expect</h2>
-          <div class="accent-line"></div>
-          <p>Hearing about your experience can help others know what to expect when they come to the emergency department. If you choose, you are welcome to leave a public review. We know most people do not plan an ED visit the way they plan a vacation — but your feedback can still be incredibly helpful.</p>
-          <p class="review-footer-note">This button opens Google directly. This website does not collect or store personal health information.</p>
-        </div>
-
-        <div class="review-cta-wrap" data-aos="fade-left">
-          <div class="review-illustration">
-            <img src="images/review-illustration.jpg" alt="A patient leaving a review on their phone" class="review-figure" width="640" height="640" loading="lazy" decoding="async" />
-          </div>
-          <p class="review-cta-label">Your experience matters — to the next patient too.</p>
-          <div class="review-btn-wrap">
-            <div class="review-sparkles" aria-hidden="true">
-              <span class="sparkle s1">✦</span>
-              <span class="sparkle s2">✦</span>
-              <span class="sparkle s3">★</span>
-              <span class="sparkle s4">✦</span>
-              <span class="sparkle s5">★</span>
-            </div>
-            <a
-              href="https://search.google.com/local/writereview?placeid=ChIJr92bJQKvkIARtMefOm4u32A"
-              target="_blank"
-              rel="noopener"
-              class="btn-google-review"
-              id="googleReviewBtn"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-              Leave a Google Review
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- FREE PDF RESOURCES BAND -->
-  <section class="resources-band">
-    <div class="container">
-      <div class="resources-band-inner" data-aos="fade-up">
-        <span class="section-tag" style="color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);">Free Downloads</span>
-        <h2>Customizable ED Prep Tools</h2>
-        <p>Because nobody plans to visit the emergency department, but a little preparation makes a big difference.</p>
-        <p style="margin-top:6px;">They autosave as you go too, so there's no need to keep the page open. Come back anytime.</p>
-        <div class="pdf-grid">
-          <div class="pdf-card" data-aos="fade-up" data-aos-delay="0">
-            <span class="pdf-icon">📋</span>
-            <h4>ED Visit Companion</h4>
-            <p>This customizable, private note taker helps you capture your symptoms, questions for your care team, and follow up instructions.</p>
-            <a href="https://myervisit.com/ed-visit-companion" target="_blank" class="btn btn-outline-white btn-block">Open My Visit Companion →</a>
-          </div>
-          <div class="pdf-card" data-aos="fade-up" data-aos-delay="100">
-            <span class="pdf-icon">💊</span>
-            <h4>Medication List</h4>
-            <p>Never play guessing games about your medications in the ED again. This customizable, private tracker lives right on your phone.</p>
-            <a href="https://myervisit.com/medication-list" target="_blank" class="btn btn-outline-white btn-block">Open My Medication List →</a>
-          </div>
-          <div class="pdf-card" data-aos="fade-up" data-aos-delay="200">
-            <span class="pdf-icon">📁</span>
-            <h4>Past Medical History</h4>
-            <p>Your history matters, especially in emergencies. This customizable, private organizer helps you document diagnoses and surgeries.</p>
-            <a href="https://myervisit.com/medical-history" target="_blank" class="btn btn-outline-white btn-block">Open My Medical History →</a>
-          </div>
-        </div>
-      </div>
+  <!-- SHARE YOUR EXPERIENCE -->
+  <section class="home-sec alt home-review" id="reviews">
+    <div class="home-wrap">
+      <h2>Tell the next patient how it went</h2>
+      <p>Most people do not plan an ED visit the way they plan a vacation, so an honest review helps the next person know what to expect. It is completely optional.</p>
+      <a href="https://search.google.com/local/writereview?placeid=ChIJr92bJQKvkIARtMefOm4u32A" target="_blank" rel="noopener" class="btn btn-primary">Leave a Google review</a>
+      <p class="fine">This opens Google. This website does not collect or store personal health information.</p>
     </div>
   </section>
 
@@ -304,45 +208,6 @@
     </div>
   </footer>
 
-  <a
-    href="https://search.google.com/local/writereview?placeid=ChIJr92bJQKvkIARtMefOm4u32A"
-    target="_blank"
-    rel="noopener"
-    class="mobile-review-banner"
-    id="reviewBanner"
-    aria-label="Your feedback helps. Leave a Google review."
-  >
-    <span class="mobile-review-icon" aria-hidden="true">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-      </svg>
-    </span>
-    <span class="mobile-review-copy">
-      <strong>Your feedback helps.</strong>
-      <span>Leave a Google review</span>
-    </span>
-  </a>
-  <button type="button" class="mobile-banner-close" id="reviewBannerClose" aria-label="Dismiss">✕</button>
-
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
   <script src="script.js" defer></script>
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-    const reviewBtn = document.getElementById('googleReviewBtn');
-    if (reviewBtn) {
-      reviewBtn.addEventListener('click', () => {
-        if (typeof confetti === 'function') {
-          confetti({ particleCount: 180, spread: 90, origin: { y: 0.6 }, colors: ['#C9973A','#E0B35A','#1E3A5F','#3D7A8A','#FEFCF9','#ffffff'], scalar: 1.1, ticks: 220 });
-          confetti({ particleCount: 60, angle: 60, spread: 55, origin: { x: 0, y: 0.65 }, colors: ['#C9973A','#E0B35A','#3D7A8A'] });
-          confetti({ particleCount: 60, angle: 120, spread: 55, origin: { x: 1, y: 0.65 }, colors: ['#C9973A','#E0B35A','#1E3A5F'] });
-        }
-      });
-    }
-    });
-  </script>
 </body>
 </html>

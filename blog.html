@@ -5,8 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ED Insights — Dr. Eric Cummins, MD | Emergency Medicine</title>
   <meta name="description" content="Honest answers, plain language, and a little humor — Dr. Eric Cummins breaks down what you need to know about emergency medicine and your ED visit." />
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/images/favicon-48.png" sizes="48x48" type="image/png" />
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+  <meta name="theme-color" content="#1E3A5F" />
+  <link rel="canonical" href="https://myervisit.com/blog" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Eric Cummins, MD" />
+  <meta property="og:title" content="ED Insights — Dr. Eric Cummins, MD" />
+  <meta property="og:description" content="Honest answers, plain language, and a little humor — Dr. Eric Cummins breaks down what you need to know about emergency medicine and your ED visit." />
+  <meta property="og:url" content="https://myervisit.com/blog" />
+  <meta property="og:image" content="https://myervisit.com/images/og/default.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 </head>
 <body>
 
@@ -25,16 +36,14 @@
           <li><a href="resources.html">Resources</a></li>
           <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
         </ul>
-        <div class="hamburger" id="hamburger">
-          <span></span><span></span><span></span>
-        </div>
+        <button type="button" class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
       </div>
     </div>
   </nav>
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" id="mobileClose">✕</button>
+    <button type="button" class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="blog.html">ED Insights</a>
@@ -57,7 +66,7 @@
     <div class="container">
 
       <!-- Filter Bar -->
-      <div class="filter-bar" data-aos="fade-up">
+      <div class="filter-bar">
         <button class="filter-btn active" data-filter="all">All Articles</button>
         <button class="filter-btn" data-filter="when-go">When to Go</button>
         <button class="filter-btn" data-filter="what-expect">What to Expect</button>
@@ -69,163 +78,7 @@
       <!-- ED Insights Grid -->
       <div class="blog-grid">
 
-        <a href="your-lab-results-just-got-a-translator.html" class="blog-card blog-card-clickable" data-category="after-visit" data-aos="fade-up" data-aos-delay="0">
-          <div class="blog-card-image thumb-after"><img src="images/ai-health-tools.webp" alt="Illustration of a woman reviewing AI health tools like ChatGPT and Perplexity on her laptop" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">After the Visit</span>
-              <span class="read-time">3 min read</span>
-            </div>
-            <h3>Your Lab Results Just Got a Translator</h3>
-            <p>AI tools can help translate confusing labs and imaging reports into plain language so you can ask better questions about your care.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="false-prophets-and-filter-bubbles.html" class="blog-card blog-card-clickable" data-category="common-concerns" data-aos="fade-up" data-aos-delay="0">
-          <div class="blog-card-image thumb-conditions"><img src="images/false-prophets-filter-bubbles.webp" alt="Illustration representing health misinformation and social media filter bubbles" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">Common Concerns</span>
-              <span class="read-time">3 min read</span>
-            </div>
-            <h3>Dr. TikTok doesn't have malpractice insurance, but I do.</h3>
-            <p>Your algorithm has opinions about your health. So does your doctor. Only one of us went to medical school.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="your-ai-chatbot-isnt-a-doctor-it-just-plays-one-on-the-internet.html" class="blog-card blog-card-clickable" data-category="when-go" data-aos="fade-up" data-aos-delay="0">
-          <div class="blog-card-image thumb-before"><img src="images/chatbot-ai-not-doctor.webp" alt="Cartoon of a patient in an ED bed with an AI chatbot avatar on a screen next to a real doctor" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">When to Go</span>
-              <span class="read-time">6 min read</span>
-            </div>
-            <h3>Your AI Chatbot Isn't a Doctor</h3>
-            <p>AI can explain medical words, but it cannot examine you. An emergency physician breaks down what is useful, what is risky, and when to call a real human.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="er-or-urgent-care-your-guide-to-making-the-right-call.html" class="blog-card blog-card-clickable" data-category="when-go" data-aos="fade-up" data-aos-delay="80">
-          <div class="blog-card-image thumb-before"><img src="images/ed-or-urgent-care-signpost.webp" alt="Illustration of a signpost with arrows pointing to Urgent Care and Emergency Department" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">When to Go</span>
-              <span class="read-time">5 min read</span>
-            </div>
-            <h3>ED or Urgent Care?</h3>
-            <p>Chest pain, belly pain, cough, sprain, or something in between? An emergency physician explains where to go when you are sick or hurt.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="is-it-safe-to-take-acetaminophen-tylenol-during-pregnancy.html" class="blog-card blog-card-clickable" data-category="common-concerns" data-aos="fade-up" data-aos-delay="120">
-          <div class="blog-card-image thumb-conditions"><img src="images/acetaminophen-pregnancy-bottle.webp" alt="Illustration of an acetaminophen medication bottle" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">Common Concerns</span>
-              <span class="read-time">2 min read</span>
-            </div>
-            <h3>Is Tylenol Safe During Pregnancy?</h3>
-            <p>Scary headlines can make simple medication decisions stressful. Here is what major medical organizations say about acetaminophen, fever, and pregnancy.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="from-burnout-to-breakthrough-how-one-conversation-changed-how-i-see-patient-care.html" class="blog-card blog-card-clickable" data-category="communication" data-aos="fade-up" data-aos-delay="160">
-          <div class="blog-card-image thumb-during"><img src="images/burnout-breakthrough-lecture.webp" alt="Photo from a lecture on physician burnout and compassionate patient care" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">Better Communication</span>
-              <span class="read-time">5 min read</span>
-            </div>
-            <h3>From Burnout to Breakthrough</h3>
-            <p>How one conversation with a grieving family changed the way I think about compassion, burnout, and patient care.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="six-simple-ways-we-build-trust-during-your-er-visit.html" class="blog-card blog-card-clickable" data-category="communication" data-aos="fade-up" data-aos-delay="0">
-          <div class="blog-card-image thumb-during"><img src="images/compassion-building-trust.webp" alt="Illustration representing trust between a doctor and patient" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">Better Communication</span>
-              <span class="read-time">4 min read</span>
-            </div>
-            <h3>Six Simple Ways We Build Trust During Your Emergency Department (ED) Visit</h3>
-            <p>Trust between patients and doctors doesn't take years to build — it takes seconds. Find out how simple words and actions help from the moment you arrive.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="why-do-you-keep-asking-the-same-questions.html" class="blog-card blog-card-clickable" data-category="what-expect" data-aos="fade-up" data-aos-delay="40">
-          <div class="blog-card-image thumb-during"><img src="images/asking-doctor-same-questions.webp" alt="Illustration of a doctor asking a patient questions during an exam" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">What to Expect</span>
-              <span class="read-time">4 min read</span>
-            </div>
-            <h3>Why Do We Keep Asking the Same Questions?</h3>
-            <p>It can feel repetitive, but each person is listening for something different. Here is the method behind the medical madness.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="how-long-is-this-going-to-take.html" class="blog-card blog-card-clickable" data-category="what-expect" data-aos="fade-up" data-aos-delay="60">
-          <div class="blog-card-image thumb-during"><img src="images/how-long-will-this-take.webp" alt="Illustration of a clock representing ED wait times" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">What to Expect</span>
-              <span class="read-time">2 min read</span>
-            </div>
-            <h3>How Long Is This Going to Take?</h3>
-            <p>A behind-the-scenes look at labs, scans, consultations, and the plot twists that keep the clock ticking.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="what-matters-and-what-doesnt-in-your-ed-story.html" class="blog-card blog-card-clickable" data-category="communication" data-aos="fade-up" data-aos-delay="80">
-          <div class="blog-card-image thumb-before"><img src="images/what-matters-ed-story-cartoon.webp?v=2" alt="Cartoon of a patient explaining symptoms to a doctor" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">Better Communication</span>
-              <span class="read-time">2 min read</span>
-            </div>
-            <h3>What Matters in Your ED Story</h3>
-            <p>A short, focused story can help your care team understand the problem faster. Think movie trailer, not director's cut.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="five-subtle-signs-of-sepsis-you-shouldnt-ignore-.html" class="blog-card blog-card-clickable" data-category="common-concerns" data-aos="fade-up" data-aos-delay="80">
-          <div class="blog-card-image thumb-conditions"><img src="images/sepsis-doctor-sick.webp" alt="Illustration of a doctor checking a patient who appears seriously ill" /></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">Common Concerns</span>
-              <span class="read-time">5 min read</span>
-            </div>
-            <h3>Five Subtle Signs of Sepsis You Shouldn't Ignore</h3>
-            <p>Sepsis doesn't always knock loudly at your door — sometimes it just rings the doorbell and hides. Discover the 5 sneaky signs that could save your life.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="https://myervisit.com/what-patients-really-remember-the-swedish-bus-crash-that-changed-how-i-think-about-healthcare" target="_blank" rel="noopener" class="blog-card blog-card-clickable" data-category="communication" data-aos="fade-up" data-aos-delay="160">
-          <div class="blog-card-image thumb-after"><span class="thumb-fallback">💭</span></div>
-          <div class="blog-card-body">
-            <div class="blog-card-meta">
-              <span class="category-tag">Better Communication</span>
-              <span class="read-time">5 min read</span>
-            </div>
-            <h3>What Patients Really Remember About Their Care</h3>
-            <p>Five years after a devastating bus crash, survivors remembered two things most. One wasn't what you'd expect — and it changed how I think about healthcare.</p>
-            <span class="blog-card-link">Open Article →</span>
-          </div>
-        </a>
-
-        <a href="your-discharge-instructions-actually-matter.html" class="blog-card blog-card-clickable" data-category="after-visit" data-aos="fade-up" data-aos-delay="0">
+        <a href="your-discharge-instructions-actually-matter.html" class="blog-card blog-card-clickable" data-category="after-visit">
           <div class="blog-card-image thumb-after"><span class="thumb-fallback">📋</span></div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
@@ -238,7 +91,7 @@
           </div>
         </a>
 
-        <a href="how-family-members-can-help.html" class="blog-card blog-card-clickable" data-category="communication" data-aos="fade-up" data-aos-delay="40">
+        <a href="how-family-members-can-help.html" class="blog-card blog-card-clickable" data-category="communication">
           <div class="blog-card-image thumb-during"><span class="thumb-fallback">🤝</span></div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
@@ -251,7 +104,7 @@
           </div>
         </a>
 
-        <a href="when-should-you-hit-the-call-light.html" class="blog-card blog-card-clickable" data-category="communication" data-aos="fade-up" data-aos-delay="80">
+        <a href="when-should-you-hit-the-call-light.html" class="blog-card blog-card-clickable" data-category="communication">
           <div class="blog-card-image thumb-during"><span class="thumb-fallback">🔔</span></div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
@@ -264,20 +117,98 @@
           </div>
         </a>
 
-        <div class="blog-card" data-category="when-go" data-aos="fade-up" data-aos-delay="0">
-          <div class="blog-card-image thumb-before"><span class="thumb-fallback">💊</span></div>
+        <a href="your-lab-results-just-got-a-translator.html" class="blog-card blog-card-clickable" data-category="after-visit">
+          <div class="blog-card-image thumb-after"><img src="images/ai-health-tools.webp" alt="Illustration of a woman reviewing AI health tools like ChatGPT and Perplexity on her laptop" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">After the Visit</span>
+              <span class="read-time">3 min read</span>
+            </div>
+            <h3>Your Lab Results Just Got a Translator</h3>
+            <p>AI tools can help translate confusing labs and imaging reports into plain language so you can ask better questions about your care.</p>
+            <span class="blog-card-link">Open Article →</span>
+          </div>
+        </a>
+
+        <a href="false-prophets-and-filter-bubbles.html" class="blog-card blog-card-clickable" data-category="common-concerns">
+          <div class="blog-card-image thumb-conditions"><img src="images/false-prophets-filter-bubbles.webp" alt="Illustration representing health misinformation and social media filter bubbles" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">Common Concerns</span>
+              <span class="read-time">3 min read</span>
+            </div>
+            <h3>Dr. TikTok doesn't have malpractice insurance, but I do.</h3>
+            <p>Your algorithm has opinions about your health. So does your doctor. Only one of us went to medical school.</p>
+            <span class="blog-card-link">Open Article →</span>
+          </div>
+        </a>
+
+        <a href="er-or-urgent-care-your-guide-to-making-the-right-call.html" class="blog-card blog-card-clickable" data-category="when-go">
+          <div class="blog-card-image thumb-before"><img src="images/ed-or-urgent-care-signpost.webp" alt="Illustration of a signpost with arrows pointing to Urgent Care and Emergency Department" /></div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
               <span class="category-tag">When to Go</span>
-              <span class="read-time">3 min read</span>
+              <span class="read-time">5 min read</span>
             </div>
-            <h3>The One Thing You Should Always Bring to the ED</h3>
-            <p>No, it's not your phone charger — though that's not a bad idea either. This one item could speed up your care significantly.</p>
-            <span class="blog-card-link" style="cursor:default;opacity:0.6;">Coming Soon</span>
+            <h3>ED or Urgent Care?</h3>
+            <p>Chest pain, belly pain, cough, sprain, or something in between? An emergency physician explains where to go when you are sick or hurt.</p>
+            <span class="blog-card-link">Open Article →</span>
           </div>
-        </div>
+        </a>
 
-        <a href="no-mri-no-problem-why-most-back-pain-doesnt-need-an-emergency-mri.html" class="blog-card blog-card-clickable" data-category="common-concerns" data-aos="fade-up" data-aos-delay="160">
+        <a href="is-it-safe-to-take-acetaminophen-tylenol-during-pregnancy.html" class="blog-card blog-card-clickable" data-category="common-concerns">
+          <div class="blog-card-image thumb-conditions"><img src="images/acetaminophen-pregnancy-bottle.webp" alt="Illustration of an acetaminophen medication bottle" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">Common Concerns</span>
+              <span class="read-time">2 min read</span>
+            </div>
+            <h3>Is Tylenol Safe During Pregnancy?</h3>
+            <p>Scary headlines can make simple medication decisions stressful. Here is what major medical organizations say about acetaminophen, fever, and pregnancy.</p>
+            <span class="blog-card-link">Open Article →</span>
+          </div>
+        </a>
+
+        <a href="from-burnout-to-breakthrough-how-one-conversation-changed-how-i-see-patient-care.html" class="blog-card blog-card-clickable" data-category="communication">
+          <div class="blog-card-image thumb-during"><img src="images/burnout-breakthrough-lecture.webp" alt="Photo from a lecture on physician burnout and compassionate patient care" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">Better Communication</span>
+              <span class="read-time">5 min read</span>
+            </div>
+            <h3>From Burnout to Breakthrough</h3>
+            <p>How one conversation with a grieving family changed the way I think about compassion, burnout, and patient care.</p>
+            <span class="blog-card-link">Open Article →</span>
+          </div>
+        </a>
+
+        <a href="five-subtle-signs-of-sepsis-you-shouldnt-ignore-.html" class="blog-card blog-card-clickable" data-category="common-concerns">
+          <div class="blog-card-image thumb-conditions"><img src="images/sepsis-doctor-sick.webp" alt="Illustration of a doctor checking a patient who appears seriously ill" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">Common Concerns</span>
+              <span class="read-time">5 min read</span>
+            </div>
+            <h3>Five Subtle Signs of Sepsis You Shouldn't Ignore</h3>
+            <p>Sepsis doesn't always knock loudly at your door — sometimes it just rings the doorbell and hides. Discover the 5 sneaky signs that could save your life.</p>
+            <span class="blog-card-link">Open Article →</span>
+          </div>
+        </a>
+
+        <a href="six-simple-ways-we-build-trust-during-your-er-visit.html" class="blog-card blog-card-clickable" data-category="communication">
+          <div class="blog-card-image thumb-during"><img src="images/compassion-building-trust.webp" alt="Illustration representing trust between a doctor and patient" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">Better Communication</span>
+              <span class="read-time">4 min read</span>
+            </div>
+            <h3>Six Simple Ways We Build Trust During Your Emergency Department (ED) Visit</h3>
+            <p>Trust between patients and doctors doesn't take years to build — it takes seconds. Find out how simple words and actions help from the moment you arrive.</p>
+            <span class="blog-card-link">Open Article →</span>
+          </div>
+        </a>
+
+        <a href="no-mri-no-problem-why-most-back-pain-doesnt-need-an-emergency-mri.html" class="blog-card blog-card-clickable" data-category="common-concerns">
           <div class="blog-card-image thumb-conditions"><img src="images/back-pain-mri-ed.webp" alt="Illustration of a patient with back pain next to an MRI machine" /></div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
@@ -290,7 +221,7 @@
           </div>
         </a>
 
-        <a href="sky-high-blood-pressure-why-we-dont-panic.html" class="blog-card blog-card-clickable" data-category="common-concerns" data-aos="fade-up" data-aos-delay="0">
+        <a href="sky-high-blood-pressure-why-we-dont-panic.html" class="blog-card blog-card-clickable" data-category="common-concerns">
           <div class="blog-card-image thumb-conditions"><img src="images/sky-high-blood-pressure.webp" alt="Illustration of a blood pressure monitor showing a high reading" /></div>
           <div class="blog-card-body">
             <div class="blog-card-meta">
@@ -303,12 +234,64 @@
           </div>
         </a>
 
+        <a href="why-do-you-keep-asking-the-same-questions.html" class="blog-card blog-card-clickable" data-category="what-expect">
+          <div class="blog-card-image thumb-during"><img src="images/asking-doctor-same-questions.webp" alt="Illustration of a doctor asking a patient questions during an exam" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">What to Expect</span>
+              <span class="read-time">4 min read</span>
+            </div>
+            <h3>Why Do We Keep Asking the Same Questions?</h3>
+            <p>It can feel repetitive, but each person is listening for something different. Here is the method behind the medical madness.</p>
+            <span class="blog-card-link">Open Article →</span>
+          </div>
+        </a>
+
+        <a href="your-ai-chatbot-isnt-a-doctor-it-just-plays-one-on-the-internet.html" class="blog-card blog-card-clickable" data-category="when-go">
+          <div class="blog-card-image thumb-before"><img src="images/chatbot-ai-not-doctor.webp" alt="Cartoon of a patient in an ED bed with an AI chatbot avatar on a screen next to a real doctor" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">When to Go</span>
+              <span class="read-time">6 min read</span>
+            </div>
+            <h3>Your AI Chatbot Isn't a Doctor</h3>
+            <p>AI can explain medical words, but it cannot examine you. An emergency physician breaks down what is useful, what is risky, and when to call a real human.</p>
+            <span class="blog-card-link">Open Article →</span>
+          </div>
+        </a>
+
+        <a href="what-matters-and-what-doesnt-in-your-ed-story.html" class="blog-card blog-card-clickable" data-category="communication">
+          <div class="blog-card-image thumb-before"><img src="images/what-matters-ed-story-cartoon.webp?v=2" alt="Cartoon of a patient explaining symptoms to a doctor" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">Better Communication</span>
+              <span class="read-time">2 min read</span>
+            </div>
+            <h3>What Matters in Your ED Story</h3>
+            <p>A short, focused story can help your care team understand the problem faster. Think movie trailer, not director's cut.</p>
+            <span class="blog-card-link">Open Article →</span>
+          </div>
+        </a>
+
+        <a href="how-long-is-this-going-to-take.html" class="blog-card blog-card-clickable" data-category="what-expect">
+          <div class="blog-card-image thumb-during"><img src="images/how-long-will-this-take.webp" alt="Illustration of a clock representing ED wait times" /></div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span class="category-tag">What to Expect</span>
+              <span class="read-time">2 min read</span>
+            </div>
+            <h3>How Long Is This Going to Take?</h3>
+            <p>A behind-the-scenes look at labs, scans, consultations, and the plot twists that keep the clock ticking.</p>
+            <span class="blog-card-link">Open Article →</span>
+          </div>
+        </a>
+
       </div>
     </div>
   </section>
 
   <!-- NEWSLETTER/NOTIFY CTA -->
-  <section class="cta-section" style="background:var(--warm-white);" data-aos="fade-up">
+  <section class="cta-section" style="background:var(--warm-white);">
     <div class="container">
       <span class="section-tag">Stay in the Loop</span>
       <h2>New Posts Are on the Way</h2>
@@ -352,7 +335,6 @@
     </div>
   </footer>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

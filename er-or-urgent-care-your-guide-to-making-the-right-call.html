@@ -5,8 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ED or Urgent Care? | Eric Cummins, MD</title>
   <meta name="description" content="An emergency physician explains when to go to the emergency department, when urgent care is a good fit, and how to make the right call when you are sick or hurt." />
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/images/favicon-48.png" sizes="48x48" type="image/png" />
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+  <meta name="theme-color" content="#1E3A5F" />
+  <link rel="canonical" href="https://myervisit.com/er-or-urgent-care-your-guide-to-making-the-right-call" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Eric Cummins, MD" />
+  <meta property="og:title" content="ED or Urgent Care?" />
+  <meta property="og:description" content="An emergency physician explains when to go to the emergency department, when urgent care is a good fit, and how to make the right call when you are sick or hurt." />
+  <meta property="og:url" content="https://myervisit.com/er-or-urgent-care-your-guide-to-making-the-right-call" />
+  <meta property="og:image" content="https://myervisit.com/images/og/ed-or-urgent-care-signpost.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
   <style>
     .post-hero { background: var(--navy); padding: 150px 0 80px; position: relative; overflow: hidden; }
     .post-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 48px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
@@ -18,7 +29,7 @@
     .post-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
     .post-body { max-width: 760px; margin: 0 auto; padding: 60px 28px 80px; }
     .post-body p { color: var(--charcoal); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; }
-    .post-body h2 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
+    .post-body h2 { color: var(--navy); font-family: 'Fraunces', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
     .post-body strong { color: var(--navy); }
     .back-to-blog { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-bottom: 36px; }
     .back-to-blog:hover { gap: 12px; }
@@ -33,7 +44,7 @@
     .closing-box p { color: rgba(255,255,255,0.82); margin-bottom: 0; font-size: 1.05rem; line-height: 1.75; }
     .closing-box .closing-sig { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 16px !important; }
     .post-footer-note { font-size: 0.82rem; color: var(--muted); font-style: italic; border-top: 1px solid var(--cream-dark); padding-top: 20px; margin-top: 40px; }
-    .post-cta-band { background: linear-gradient(135deg, var(--gold), #A87A20); padding: 60px 0; text-align: center; }
+    .post-cta-band { background: linear-gradient(135deg, #94691B, #7A5614); padding: 60px 0; text-align: center; }
     .post-cta-band h2 { color: white; }
     .post-cta-band p { color: rgba(255,255,255,0.85); max-width: 480px; margin: 12px auto 28px; }
   </style>
@@ -54,13 +65,13 @@
           <li><a href="resources.html">Resources</a></li>
           <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
         </ul>
-        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        <button type="button" class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
       </div>
     </div>
   </nav>
 
   <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" id="mobileClose">✕</button>
+    <button type="button" class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
     <a href="index.html">Home</a><a href="about.html">About</a>
     <a href="blog.html">ED Insights</a><a href="resources.html">Resources</a>
     <a href="index.html#reviews">Share Your Experience</a>
@@ -73,9 +84,9 @@
       <h1>ED or Urgent Care?</h1>
       <p class="post-subtitle">Your guide to making the right call when you are sick or hurt.</p>
       <div class="post-meta">
-        <span class="post-meta-item">📅 September 30, 2025</span>
-        <span class="post-meta-item">⏱ 5 min read</span>
-        <span class="post-meta-item">✍️ Dr. Eric Cummins, MD</span>
+        <span class="post-meta-item">September 30, 2025</span>
+        <span class="post-meta-item">5 min read</span>
+        <span class="post-meta-item">Dr. Eric Cummins, MD</span>
       </div>
     </div>
   </section>
@@ -102,12 +113,12 @@
 
     <p>Think of the emergency department as your destination for anything that could be life-threatening or limb-threatening. If you're experiencing any of these symptoms, don't mess around. Call 911 or get to the emergency department right away.</p>
 
-    <div class="decision-box" data-aos="fade-up">
+    <div class="decision-box">
       <div class="decision-item"><span class="decision-icon">❤️</span><p><strong>Chest pain or pressure.</strong> This is not the time to be brave or hope it goes away. Even if you think it is just heartburn from that extra-spicy burrito, let us check it out. We'd much rather see you for heartburn than miss a heart attack.</p></div>
       <div class="decision-item"><span class="decision-icon">🫁</span><p><strong>Shortness of breath.</strong> If you're struggling to breathe or feel like you can't catch your breath, that's an ED situation. Your lungs are kind of important.</p></div>
       <div class="decision-item"><span class="decision-icon">🧠</span><p><strong>Stroke symptoms.</strong> If you notice weakness on one side of your body or face, difficulty speaking, or your face looks droopy on one side, time matters. Remember: Face drooping, Arm weakness, Speech difficulty = Time to call 911.</p></div>
       <div class="decision-item"><span class="decision-icon">🩹</span><p><strong>Severe injuries.</strong> Major cuts, deep wounds, injuries from car accidents, or anything where you're thinking, "Wow, that's a lot of blood" belongs in the ED.</p></div>
-      <div class="decision-item"><span class="decision-icon">🦴</span><p><strong>Broken bones.</strong> If you think you broke something, especially an ankle, wrist, or other bone, head to the ED. Many urgent cares do not have X-ray machines or CT scanners, so they may send you to us anyway.</p></div>
+      <div class="decision-item"><span class="decision-icon">🦴</span><p><strong>Broken bones.</strong> If you think you broke something, especially an ankle, wrist, or other bone, head to the ED. Most urgent cares can take an X-ray, but they do not have CT scanners and usually cannot set a bone that is out of place, so they may send you to us anyway.</p></div>
       <div class="decision-item"><span class="decision-icon">🤕</span><p><strong>Severe abdominal pain.</strong> Mild stomach upset? Probably not an emergency. But if your belly hurts so badly you can't stand up straight, or if it is tender when you press on it, come see us.</p></div>
     </div>
 
@@ -115,7 +126,7 @@
 
     <p>Urgent care centers are fantastic for those "I need help today, but I'm not dying" situations. They're usually cheaper than the ED, faster, and well equipped to handle common illnesses and minor injuries.</p>
 
-    <div class="decision-box" data-aos="fade-up">
+    <div class="decision-box">
       <div class="decision-item"><span class="decision-icon">✂️</span><p><strong>Minor cuts and scrapes.</strong> If your cut is small, not gushing blood, and does not involve a major injury, urgent care can usually clean it up and maybe place a few stitches.</p></div>
       <div class="decision-item"><span class="decision-icon">🤧</span><p><strong>Mild fevers, coughs, and congestion.</strong> Urgent care can test for strep throat, COVID-19, influenza, and sometimes RSV with quick point-of-care tests.</p></div>
       <div class="decision-item"><span class="decision-icon">🏀</span><p><strong>Minor sprains and strains.</strong> Twisted your ankle playing weekend warrior basketball? If you can still walk on it, even if it hurts, urgent care is often a reasonable first stop.</p></div>
@@ -129,7 +140,7 @@
 
     <p><strong>Head injuries</strong> are a common source of confusion. Most head injuries do not actually need a CT scan. Concussions are usually diagnosed by symptoms and exam, not fancy imaging. However, you should head to the emergency department if you hit your head and any of these apply to you:</p>
 
-    <div class="warning-callout" data-aos="fade-up">
+    <div class="warning-callout">
       <p>You take blood thinners like warfarin, Eliquis, Plavix, Xarelto, or even daily aspirin; you are over 65; you lost consciousness after the injury; or you are vomiting after hitting your head.</p>
     </div>
 
@@ -143,7 +154,7 @@
 
     <p><strong>Don't wait until 2 AM unless it's urgent.</strong> I get it. Life gets busy. But if you've had a cough for three weeks, maybe don't wait until the middle of the night to seek care. Your future self, and the night shift staff, will thank you.</p>
 
-    <p><strong>When in doubt, call.</strong> Most ERs and urgent cares have nurse lines you can call to ask whether you should come in. Use them. That's what they're there for.</p>
+    <p><strong>When in doubt, call.</strong> Many insurance plans and health systems have a nurse advice line, often open 24 hours, and the number is usually on the back of your insurance card. Use it. That's what it's there for.</p>
 
     <h2>What You Really Need to Know</h2>
 
@@ -153,7 +164,7 @@
 
     <p>At the end of the day, I'd rather see you come to the ED with something minor than stay home with something serious. We're trained to handle both, and we'll never make you feel bad for seeking care. Your health matters, and figuring out where to go is part of taking good care of yourself.</p>
 
-    <div class="closing-box" data-aos="fade-up">
+    <div class="closing-box">
       <p>When something feels really wrong, trust that feeling. Your body usually knows when it needs help.</p>
       <p class="closing-sig">— Dr. Eric Cummins, MD</p>
     </div>
@@ -189,7 +200,6 @@
     </div>
   </footer>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

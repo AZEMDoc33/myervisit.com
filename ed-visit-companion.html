@@ -5,9 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ED Visit Companion — Eric Cummins, MD</title>
 <meta name="description" content="A private, on-your-phone note-taking tool for your emergency department visit. Nothing you type is sent anywhere.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 <style>
+@font-face { font-family: 'Fraunces'; font-style: normal; font-weight: 100 900; font-display: swap; src: url('/fonts/fraunces-latin-var.woff2') format('woff2'); }
+@font-face { font-family: 'Fraunces'; font-style: italic; font-weight: 100 900; font-display: swap; src: url('/fonts/fraunces-latin-var-italic.woff2') format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 100 1000; font-display: swap; src: url('/fonts/dm-sans-latin-var.woff2') format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-style: italic; font-weight: 100 1000; font-display: swap; src: url('/fonts/dm-sans-latin-var-italic.woff2') format('woff2'); }
+
   :root{
     --navy:#1E3A5F;
     --navy-light:#2A4E7A;
@@ -38,7 +41,7 @@
     line-height:1.5;
     padding-bottom:96px; /* space for sticky action bar */
   }
-  h1,h2,h3{font-family:'Playfair Display', Georgia, serif; margin:0;}
+  h1,h2,h3{font-family:'Fraunces', Georgia, serif; margin:0;}
 
   a{color:var(--teal); text-decoration:none;}
 
@@ -167,7 +170,7 @@
     margin-bottom:10px;
   }
   .section-num{
-    font-family:'Playfair Display', serif;
+    font-family:'Fraunces', serif;
     font-weight:700;
     font-size:1rem;
     color:var(--gold);
@@ -345,12 +348,24 @@
     input[type="checkbox"]{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
     .print-footer{
       display:block; margin-top:22px; padding-top:16px; border-top:1px solid #ccc;
-      text-align:center; font-family:'Playfair Display', serif; font-style:italic;
+      text-align:center; font-family:'Fraunces', serif; font-style:italic;
       color:var(--navy); font-size:0.95rem; line-height:1.6;
     }
   }
   .print-footer{display:none;}
 </style>
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/images/favicon-48.png" sizes="48x48" type="image/png" />
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+  <meta name="theme-color" content="#1E3A5F" />
+  <link rel="canonical" href="https://myervisit.com/ed-visit-companion" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Eric Cummins, MD" />
+  <meta property="og:title" content="ED Visit Companion — Eric Cummins, MD" />
+  <meta property="og:description" content="A private, on-your-phone note-taking tool for your emergency department visit. Nothing you type is sent anywhere." />
+  <meta property="og:url" content="https://myervisit.com/ed-visit-companion" />
+  <meta property="og:image" content="https://myervisit.com/images/og/default.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
 </head>
 <body>
 
@@ -618,7 +633,7 @@
   loadState();
   if(dateField && !dateField.value){
     const d = new Date();
-    dateField.value = d.toISOString().slice(0,10);
+    dateField.value = new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10);
   }
 
   // ----- Summary builder -----
@@ -734,7 +749,7 @@
     try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
     if(dateField){
       const d = new Date();
-      dateField.value = d.toISOString().slice(0,10);
+      dateField.value = new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10);
     }
     overlay.classList.remove('show');
     showToast('All notes cleared.');

@@ -5,8 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Why Do You Keep Asking the Same Questions? | Eric Cummins, MD</title>
   <meta name="description" content="An emergency physician explains why patients hear the same questions from registration, triage, nurses, techs, and clinicians during an emergency department visit." />
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/images/favicon-48.png" sizes="48x48" type="image/png" />
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+  <meta name="theme-color" content="#1E3A5F" />
+  <link rel="canonical" href="https://myervisit.com/why-do-you-keep-asking-the-same-questions" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Eric Cummins, MD" />
+  <meta property="og:title" content="Why Do You Keep Asking the Same Questions?" />
+  <meta property="og:description" content="An emergency physician explains why patients hear the same questions from registration, triage, nurses, techs, and clinicians during an emergency department visit." />
+  <meta property="og:url" content="https://myervisit.com/why-do-you-keep-asking-the-same-questions" />
+  <meta property="og:image" content="https://myervisit.com/images/og/asking-doctor-same-questions.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
   <style>
     .post-hero { background: var(--navy); padding: 150px 0 80px; position: relative; overflow: hidden; }
     .post-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 48px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
@@ -18,7 +29,7 @@
     .post-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
     .post-body { max-width: 760px; margin: 0 auto; padding: 60px 28px 80px; }
     .post-body p { color: var(--charcoal); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; }
-    .post-body h2 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
+    .post-body h2 { color: var(--navy); font-family: 'Fraunces', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
     .post-body strong { color: var(--navy); }
     .back-to-blog { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-bottom: 36px; }
     .back-to-blog:hover { gap: 12px; }
@@ -32,7 +43,7 @@
     .closing-box p { color: rgba(255,255,255,0.82); margin-bottom: 0; font-size: 1.05rem; line-height: 1.75; }
     .closing-box .closing-sig { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 16px !important; }
     .post-footer-note { font-size: 0.82rem; color: var(--muted); font-style: italic; border-top: 1px solid var(--cream-dark); padding-top: 20px; margin-top: 40px; }
-    .post-cta-band { background: linear-gradient(135deg, var(--gold), #A87A20); padding: 60px 0; text-align: center; }
+    .post-cta-band { background: linear-gradient(135deg, #94691B, #7A5614); padding: 60px 0; text-align: center; }
     .post-cta-band h2 { color: white; }
     .post-cta-band p { color: rgba(255,255,255,0.85); max-width: 480px; margin: 12px auto 28px; }
   </style>
@@ -53,13 +64,13 @@
           <li><a href="resources.html">Resources</a></li>
           <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
         </ul>
-        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        <button type="button" class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
       </div>
     </div>
   </nav>
 
   <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" id="mobileClose">✕</button>
+    <button type="button" class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
     <a href="index.html">Home</a><a href="about.html">About</a>
     <a href="blog.html">ED Insights</a><a href="resources.html">Resources</a>
     <a href="index.html#reviews">Share Your Experience</a>
@@ -72,9 +83,9 @@
       <h1>Why Do You Keep Asking the Same Questions?</h1>
       <p class="post-subtitle">The method behind our medical madness, and why your story may need to be told more than once.</p>
       <div class="post-meta">
-        <span class="post-meta-item">📅 September 4, 2025</span>
-        <span class="post-meta-item">⏱ 4 min read</span>
-        <span class="post-meta-item">✍️ Dr. Eric Cummins, MD</span>
+        <span class="post-meta-item">September 4, 2025</span>
+        <span class="post-meta-item">4 min read</span>
+        <span class="post-meta-item">Dr. Eric Cummins, MD</span>
       </div>
     </div>
   </section>
@@ -105,7 +116,7 @@
 
     <p>Each person you meet has a different job. We are all listening for different things, and we need different levels of detail.</p>
 
-    <div class="question-card-grid" data-aos="fade-up">
+    <div class="question-card-grid">
       <div class="question-card">
         <p><strong>Registration</strong>Registration needs the short version: chest pain, cough, ankle injury, medication problem. They are getting you into the system quickly and making sure you are in the right place.</p>
       </div>
@@ -126,7 +137,7 @@
 
     <p>But emergency medicine moves fast. Details can get lost in translation. Symptoms can change. A patient may remember something important the third time they tell the story. And sometimes the way you tell it directly to the clinician gives us clues that do not fit neatly into a checkbox.</p>
 
-    <div class="reassurance-box" data-aos="fade-up">
+    <div class="reassurance-box">
       <p>Repetition is not meant to frustrate you. It is one of the safety nets we use to make sure important details do not fall through the cracks.</p>
     </div>
 
@@ -144,7 +155,7 @@
 
     <p>If you want to make the process smoother, these small things help:</p>
 
-    <div class="question-card-grid" data-aos="fade-up">
+    <div class="question-card-grid">
       <div class="question-card"><p><strong>Start with the headline</strong>"Chest pain since 8 AM," "right-sided belly pain for two days," or "fell and hurt my wrist" helps us orient quickly.</p></div>
       <div class="question-card"><p><strong>Tell us what changed</strong>Worse, better, new symptom, new medicine, new injury, recent surgery, or something that feels different from usual.</p></div>
       <div class="question-card"><p><strong>Bring a medication list</strong>Your medications, doses, allergies, and major medical history save time and reduce errors.</p></div>
@@ -159,7 +170,7 @@
 
     <p>We are trying to make sure you get the right care at the right time, with the right information in front of the right person.</p>
 
-    <div class="closing-box" data-aos="fade-up">
+    <div class="closing-box">
       <p>We promise we are taking notes. We may just need to hear it one more time, directly from you, to make sure we got it right.</p>
       <p class="closing-sig">— Dr. Eric Cummins, MD</p>
     </div>
@@ -193,7 +204,6 @@
     </div>
   </footer>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

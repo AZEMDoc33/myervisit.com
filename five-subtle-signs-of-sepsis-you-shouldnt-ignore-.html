@@ -5,8 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Five Subtle Signs of Sepsis | Eric Cummins, MD</title>
   <meta name="description" content="An emergency physician explains subtle warning signs of sepsis, including fast heart rate, confusion, weakness, chills, and feeling unusually ill." />
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/images/favicon-48.png" sizes="48x48" type="image/png" />
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+  <meta name="theme-color" content="#1E3A5F" />
+  <link rel="canonical" href="https://myervisit.com/five-subtle-signs-of-sepsis-you-shouldnt-ignore-" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Eric Cummins, MD" />
+  <meta property="og:title" content="Five Subtle Signs of Sepsis" />
+  <meta property="og:description" content="An emergency physician explains subtle warning signs of sepsis, including fast heart rate, confusion, weakness, chills, and feeling unusually ill." />
+  <meta property="og:url" content="https://myervisit.com/five-subtle-signs-of-sepsis-you-shouldnt-ignore-" />
+  <meta property="og:image" content="https://myervisit.com/images/og/sepsis-doctor-sick.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
   <style>
     .post-hero { background: var(--navy); padding: 150px 0 80px; position: relative; overflow: hidden; }
     .post-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 48px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
@@ -18,12 +29,12 @@
     .post-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
     .post-body { max-width: 760px; margin: 0 auto; padding: 60px 28px 80px; }
     .post-body p { color: var(--charcoal); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; }
-    .post-body h2 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
+    .post-body h2 { color: var(--navy); font-family: 'Fraunces', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
     .post-body strong { color: var(--navy); }
     .back-to-blog { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-bottom: 36px; }
     .back-to-blog:hover { gap: 12px; }
     .sign-card { background: var(--warm-white); border-radius: var(--radius); padding: 26px 28px; margin: 24px 0; border-left: 4px solid var(--gold); box-shadow: var(--shadow-sm); }
-    .sign-card h3 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.18rem; margin-bottom: 10px; }
+    .sign-card h3 { color: var(--navy); font-family: 'Fraunces', serif; font-size: 1.18rem; margin-bottom: 10px; }
     .sign-card p { margin-bottom: 0; font-size: 0.98rem; }
     .warning-callout { background: #FFF3CD; border: 1px solid #FFCA28; border-left: 4px solid #F59E0B; border-radius: var(--radius); padding: 24px 28px; margin: 30px 0; }
     .warning-callout p { color: #78350F; margin: 0; font-size: 0.98rem; }
@@ -34,7 +45,7 @@
     .closing-box p { color: rgba(255,255,255,0.82); margin-bottom: 0; font-size: 1.05rem; line-height: 1.75; }
     .closing-box .closing-sig { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 16px !important; }
     .post-footer-note { font-size: 0.82rem; color: var(--muted); font-style: italic; border-top: 1px solid var(--cream-dark); padding-top: 20px; margin-top: 40px; }
-    .post-cta-band { background: linear-gradient(135deg, var(--gold), #A87A20); padding: 60px 0; text-align: center; }
+    .post-cta-band { background: linear-gradient(135deg, #94691B, #7A5614); padding: 60px 0; text-align: center; }
     .post-cta-band h2 { color: white; }
     .post-cta-band p { color: rgba(255,255,255,0.85); max-width: 480px; margin: 12px auto 28px; }
   </style>
@@ -55,13 +66,13 @@
           <li><a href="resources.html">Resources</a></li>
           <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
         </ul>
-        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        <button type="button" class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
       </div>
     </div>
   </nav>
 
   <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" id="mobileClose">✕</button>
+    <button type="button" class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
     <a href="index.html">Home</a><a href="about.html">About</a>
     <a href="blog.html">ED Insights</a><a href="resources.html">Resources</a>
     <a href="index.html#reviews">Share Your Experience</a>
@@ -74,9 +85,9 @@
       <h1>Five Subtle Signs of Sepsis</h1>
       <p class="post-subtitle">Sepsis does not always announce itself with a dramatic fever. Sometimes the early signs are quieter.</p>
       <div class="post-meta">
-        <span class="post-meta-item">📅 September 12, 2025</span>
-        <span class="post-meta-item">⏱ 3 min read</span>
-        <span class="post-meta-item">✍️ Dr. Eric Cummins, MD</span>
+        <span class="post-meta-item">September 12, 2025</span>
+        <span class="post-meta-item">3 min read</span>
+        <span class="post-meta-item">Dr. Eric Cummins, MD</span>
       </div>
     </div>
   </section>
@@ -99,33 +110,33 @@
 
     <p>As healthcare professionals, we have learned a lot about sepsis care over the last 20 years, and early recognition can truly save lives. At Banner Gateway Medical Center, our team has worked hard to improve sepsis care because we know how important it is to catch these signs early.</p>
 
-    <div class="source-box" data-aos="fade-up">
+    <div class="source-box">
       <p>The CDC describes sepsis as a life-threatening medical emergency. Signs can include confusion, shivering or feeling very cold, high heart rate, shortness of breath, extreme pain or discomfort, and clammy or sweaty skin. Learn more from the <a href="https://www.cdc.gov/sepsis/about/index.html" target="_blank" rel="noopener">CDC sepsis page</a>.</p>
     </div>
 
     <p>Here are five subtle signs everyone should know.</p>
 
-    <div class="sign-card" data-aos="fade-up">
+    <div class="sign-card">
       <h3>1. Abnormal Vital Signs, Especially a Fast Heart Rate</h3>
       <p>Most people think of fever first when it comes to infection. But fever is not always present. A fast heart rate can be one of the clues that your body is working hard in response to infection, especially when there is no obvious reason like exercise or stress.</p>
     </div>
 
-    <div class="sign-card" data-aos="fade-up">
+    <div class="sign-card">
       <h3>2. Confusion or Not Acting Right</h3>
       <p>This is one of the most important signs, especially in older adults. If someone suddenly seems confused, disoriented, unusually sleepy, or just "off," infection and sepsis need to be considered. Sometimes an older adult with a urinary tract infection or pneumonia may not have classic symptoms at all.</p>
     </div>
 
-    <div class="sign-card" data-aos="fade-up">
+    <div class="sign-card">
       <h3>3. Unusual Weakness and Fatigue</h3>
       <p>We all get tired, but sepsis-related fatigue is different. It can come on suddenly or feel much worse than normal tiredness. Think of it like your body's battery suddenly draining because it is working overtime to fight infection.</p>
     </div>
 
-    <div class="sign-card" data-aos="fade-up">
+    <div class="sign-card">
       <h3>4. Chills and Shaking</h3>
       <p>Chills that make you shake uncontrollably, sometimes called rigors, are never something to ignore. Even if you do not have a measured fever, shaking chills can be an important warning sign of a serious infection.</p>
     </div>
 
-    <div class="sign-card" data-aos="fade-up">
+    <div class="sign-card">
       <h3>5. Just Not Feeling Right</h3>
       <p>Sometimes the most subtle sign is that gut feeling that something is wrong. Your body is like a smoke detector; it often knows there is a problem before the symptoms fit neatly into a checklist. If you feel significantly worse than usual, especially with any combination of the signs above, get checked.</p>
     </div>
@@ -136,7 +147,7 @@
 
     <h2>When to Seek Help</h2>
 
-    <div class="warning-callout" data-aos="fade-up">
+    <div class="warning-callout">
       <p>If you notice a combination of these symptoms, especially in older adults, babies, people with chronic medical conditions, or anyone with a weakened immune system, do not wait. Call your doctor, go to the emergency department, or call 911 if symptoms are severe.</p>
     </div>
 
@@ -146,7 +157,7 @@
 
     <p>Sepsis does not always announce itself with an obvious high fever. By knowing the subtle signs, you can be an advocate for yourself and your loved ones.</p>
 
-    <div class="closing-box" data-aos="fade-up">
+    <div class="closing-box">
       <p>Trust your instincts, know the warning signs, and never hesitate to seek medical care when something does not feel right. Early recognition and treatment save lives.</p>
       <p class="closing-sig">— Dr. Eric Cummins, MD</p>
     </div>
@@ -180,7 +191,6 @@
     </div>
   </footer>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
