@@ -6,5 +6,19 @@
       "source": "/portal",
       "destination": "/inpatient-criteria-pdf"
     }
+  ],
+  "headers": [
+    {
+      "source": "/ed-metrics",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
+      "source": "/ed-metrics/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    }
   ]
 }

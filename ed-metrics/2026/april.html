@@ -327,6 +327,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) { #viewToggleBtn { transition: none; } }
 </style>
 
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#243b55">
+<link rel="stylesheet" href="/ed-metrics/assets/mor-enhance.css">
 </head>
 <body>
 <!-- HEADER -->
@@ -422,7 +425,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
       <div class="section-line"></div>
     </div>
     <div class="chart-card">
-      <div class="chart-title">Mean Discharge LOS by Provider (ESI 3/4/5, Discharged Only) &nbsp;·&nbsp; 🎯 Goal: &lt;200 min</div>
+      <div class="chart-title">Median Discharge LOS by Provider (ESI 3/4/5, Discharged Only) &nbsp;·&nbsp; 🎯 Goal: &lt;200 min</div>
       <div class="chart-subtitle">Sorted lowest → highest · Min 15 ESI 3/4/5 discharges · Minutes · 🟢 ≤200 min · 🔵 >200 min · 200-min reference line</div>
       <div class="chart-scroll-outer"><div class="chart-container" style="height:580px"><canvas id="providerLOSChart"></canvas></div></div>
     </div>
@@ -494,7 +497,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
           <tr><td>🚶 LWOT / Eloped</td><td>60</td><td>1.4%</td></tr>
           <tr><td>📝 AMA / Behavioral / Other</td><td>118</td><td>2.7%</td></tr>
         </tbody>
-      </table></div></div>
+      </table></div>
     </div>
   </div>
 
@@ -527,7 +530,6 @@ html, body { overflow-x: hidden; max-width: 100%; }
         <div class="chart-scroll-outer"><div class="chart-container" style="height:260px">
           <canvas id="dowChart"></canvas>
         </div></div>
-      </div>
     </div>
   </div>
 
@@ -556,8 +558,8 @@ html, body { overflow-x: hidden; max-width: 100%; }
     </div>
     <div class="grid-chart-side">
       <div class="chart-card">
-        <div class="chart-title">Mean Door-to-Doc (ESI 2) by Hour of Arrival</div>
-        <div class="chart-subtitle">Red dashed = 25-min target · 🔴 Bars above target · Hours 0–23 · Minutes</div>
+        <div class="chart-title">Median Door-to-Doc (ESI 2) by Hour of Arrival</div>
+        <div class="chart-subtitle">Red dashed = 25-min target · All hourly medians within target · Hours 0–23 · Minutes</div>
         <div class="chart-scroll-outer"><div class="chart-container" style="height:255px">
           <canvas id="esi2D2DChart"></canvas>
         </div></div>
@@ -578,10 +580,10 @@ html, body { overflow-x: hidden; max-width: 100%; }
             <div><span class="mc-badge badge-success">✅ Strong</span></div>
           </div>
           <div style="margin-bottom:14px">
-            <div class="mc-label">⚠️ Peak Delay Hour</div>
-            <div class="mc-val" style="font-size:20px">14:00</div>
-            <div class="mc-sub">35.8 min mean · 3× normal</div>
-            <div><span class="mc-badge badge-warn">Opportunity</span></div>
+            <div class="mc-label">Peak Hour</div>
+            <div class="mc-val" style="font-size:20px">10:00 &amp; 15:00</div>
+            <div class="mc-sub">16.0 min median · All hourly medians ≤25 min</div>
+            <div><span class="mc-badge badge-success">All Clear</span></div>
           </div>
         </div>
       </div>
@@ -651,9 +653,9 @@ new Chart(document.getElementById('lwotChart'),{
 });
 
 // PROVIDER LOS — April ESI 3/4/5
-const provNames=['RIGBY D','BUNKER C','WINTER A','LOGGINS B','EGBERT J','WALLBRECHT J','LOMBARDI K','ANDES J','PAVLUE B','WRIGHT E','FAKLER R','FREEMAN H','BERMAN D','JONES S','BOESCH D','WOLSEY C','HUNTER J','FIGUEROA A','MCKELVY A','CUMMINS E','BATIZY L','JIMENEZ A','HAPEMAN B','MCDOWELL M','HAMBLIN L'];
-const provLOS=[155.7,186.6,191.8,202.1,202.2,204.3,208.0,218.7,220.5,221.1,231.8,234.3,238.0,240.0,244.7,252.1,252.4,253.0,253.9,256.4,257.6,260.6,261.1,261.7,268.7];
-const provN=[22,27,173,37,218,39,176,185,201,46,248,19,104,125,134,24,144,197,166,132,25,193,147,113,178];
+const provNames=['RIGBY D','BUNKER C','EGBERT J','WINTER A','LOGGINS B','LOMBARDI K','WRIGHT E','WALLBRECHT J','PAVLUE B','ANDES J','BERMAN D','FAKLER R','JONES S','MCDOWELL M','BOESCH D','FREEMAN H','HUNTER J','CUMMINS E','HAMBLIN L','WOLSEY C','HAPEMAN B','FIGUEROA A','MCKELVY A','JIMENEZ A','BATIZY L'];
+const provLOS=[137.5,170.0,173.0,173.0,177.0,179.5,190.0,196.0,203.0,204.0,207.5,217.5,225.0,236.5,237.0,237.0,238.0,239.0,240.0,241.5,242.0,242.5,246.0,260.0,295.0];
+const provN=[22,27,219,173,37,176,46,39,201,185,104,250,125,114,136,19,144,132,178,24,147,198,167,193,25];
 const LOS_STAR=200;
 const provBg=provLOS.map(v=>v<=LOS_STAR?'rgba(45,106,79,0.82)':'rgba(45,106,79,0.35)');
 const provBorder=provLOS.map(v=>v<=LOS_STAR?'rgba(27,76,56,1)':'rgba(45,106,79,0.6)');
@@ -666,25 +668,25 @@ const goalPlugin={id:'goalLine',afterDraw(chart){
   ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText('🎯 Goal: <200 min',xPos+5,top+4);ctx.restore();
 }};
 new Chart(document.getElementById('providerLOSChart'),{
-  type:'bar',data:{labels:provNames,datasets:[{label:'Mean DC LOS (min)',data:provLOS,backgroundColor:provBg,borderColor:provBorder,borderWidth:1.5,borderRadius:4}]},
+  type:'bar',data:{labels:provNames,datasets:[{label:'Median DC LOS (min)',data:provLOS,backgroundColor:provBg,borderColor:provBorder,borderWidth:1.5,borderRadius:4}]},
   plugins:[goalPlugin],
   options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.x.toFixed(1)} min  (n=${provN[ctx.dataIndex]})`}}},
-    scales:{x:{min:120,max:320,title:{display:true,text:'Mean Discharge LOS (minutes)',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}},
+    scales:{x:{min:110,max:320,title:{display:true,text:'Median Discharge LOS (minutes)',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}},
     y:{grid:{display:false},ticks:{font:{size:11.5},autoSkip:false,maxTicksLimit:999}}}}
 });
 
 // ESI 2 D2D
-const esi2D2D=[10.0,14.1,16.1,11.9,7.4,14.4,11.0,6.9,8.3,13.0,18.2,17.9,14.8,17.4,35.8,14.8,11.4,14.4,18.8,12.9,13.7,11.1,10.2,9.0];
+const esi2D2D=[10.5,7.5,7.0,10.0,3.0,13.0,13.0,4.0,6.0,10.0,16.0,13.0,12.0,11.0,15.0,16.0,9.5,11.0,15.5,10.0,14.0,8.5,8.0,9.0];
 new Chart(document.getElementById('esi2D2DChart'),{
   type:'bar',
   data:{labels:hourLabels,datasets:[
-    {label:'Mean D2D (min)',data:esi2D2D,backgroundColor:esi2D2D.map(v=>v>25?'rgba(192,57,43,0.75)':'rgba(90,143,160,0.7)'),borderColor:esi2D2D.map(v=>v>25?'rgba(155,44,44,1)':'rgba(42,100,120,0.9)'),borderWidth:1.5,borderRadius:4,order:2},
+    {label:'Median D2D (min)',data:esi2D2D,backgroundColor:esi2D2D.map(v=>v>25?'rgba(192,57,43,0.75)':'rgba(90,143,160,0.7)'),borderColor:esi2D2D.map(v=>v>25?'rgba(155,44,44,1)':'rgba(42,100,120,0.9)'),borderWidth:1.5,borderRadius:4,order:2},
     {label:'25-min Target',data:Array(24).fill(25),type:'line',borderColor:'rgba(192,57,43,0.85)',borderWidth:2,borderDash:[6,4],pointRadius:0,fill:false,order:1}
   ]},
   options:{responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:true,position:'top',labels:{boxWidth:14,font:{size:11}}},tooltip:{callbacks:{label:ctx=>ctx.dataset.label==='25-min Target'?null:` ${ctx.parsed.y.toFixed(1)} min`}}},
-    scales:{x:{grid:{display:false},ticks:{maxRotation:45,font:{size:10}}},y:{beginAtZero:true,title:{display:true,text:'Mean D2D (minutes)',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}}}}
+    scales:{x:{grid:{display:false},ticks:{maxRotation:45,font:{size:10}}},y:{beginAtZero:true,title:{display:true,text:'Median D2D (minutes)',font:{size:11,weight:'600'}},grid:{color:'rgba(0,0,0,0.05)'}}}}
 });
 
 // PPH CHART — April
@@ -744,6 +746,10 @@ new Chart(document.getElementById('providerPPHChart'),{
   }, { passive: true });
 })();
 </script>
+
+<!-- Shared MOR enhancements: My Stats, highlights, leaderboards, phone layout, first-open reveal -->
+<script src="/ed-metrics/assets/mor-data.js"></script>
+<script src="/ed-metrics/assets/mor-enhance.js"></script>
 
 </body>
 </html>
