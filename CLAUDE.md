@@ -670,3 +670,20 @@ If edits to existing months are needed, use targeted `str_replace` on specific l
 - Every `<div class="section">` in a month page is balanced (Jan–Apr once had stray `</div>`s that pushed sections outside `.report-body`).
 - `tools/` is excluded from deploys by `.vercelignore`.
 
+
+
+---
+
+# 👋 NOV 2026 PATIENT SITE REFRESH (STANDING RULES — supersedes section 1 "Design Patterns to Preserve" and the Fonts block where they differ)
+
+- **Homepage is a hello page.** Order: `.hello` (photo + "Hi, I'm Dr. Cummins." + signature) → `#where` chooser → `#tools` → three starter posts → `#reviews` → footer. Keep it short; do not add back the 3 feature cards, the gold resources band, the count-up badge, the typewriter name, sparkles or confetti.
+- **Hero photo:** one `<img>` inside `.hello-photo` in `index.html` and `about.html`. Portrait, cropped with `object-fit: cover`. After changing the photo, regenerate `images/og/default.jpg` (1200×630).
+- **"Where are you right now?"** panels live in the HTML (`.where-panel[data-panel]`), shown and hidden by `script.js`. Nothing is stored or sent. A new post that fits a situation gets a line in the matching panel.
+- **Fonts are self hosted:** Fraunces (headings, `font-variation-settings: 'SOFT' 100`) and DM Sans (body) from `/fonts/`. No Google Fonts links. The three phone tools carry their own inline `@font-face` because they do not load `styles.css`.
+- **No emoji as icons** in headings, meta rows, cards or banners. No pill label above headings on new sections, no "→" on new buttons, no AOS / scroll-in animation (AOS was removed site wide).
+- **ED Insights index is newest first.** New post = new card at the top of `.blog-grid`. Posts without artwork use `<span class="thumb-fallback">` and the image area hides itself.
+- **Every patient page head carries:** favicon links (`/images/favicon.svg`, `favicon-48.png`, `apple-touch-icon.png`), canonical, and Open Graph tags. New post: copy the block and add a 1200×630 JPG in `images/og/`.
+- **Floating banners:** the toolkit banner shows on `blog` and post pages only. The homepage has no floating banner.
+- **Tap targets** are at least 44px; white text never sits on the light gold (`--gold`). Bands that need white text use the bronze gradient `#94691B → #7A5614`.
+- **Voice (patient copy):** first person, warm, plain. Never "love", never "flag", avoid "genuinely" / "honestly", go easy on em dashes. Use years instead of "about seven years ago".
+- `contact.html` and the bus-crash placeholder were removed; `vercel.json` redirects both.

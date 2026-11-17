@@ -23,12 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('active');
       mobileMenu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', mobileMenu.classList.contains('open') ? 'true' : 'false');
       document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
     });
   }
   if (mobileClose) {
     mobileClose.addEventListener('click', () => {
       hamburger && hamburger.classList.remove('active');
+      hamburger && hamburger.setAttribute('aria-expanded', 'false');
       mobileMenu && mobileMenu.classList.remove('open');
       document.body.style.overflow = '';
     });
@@ -151,6 +153,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================
+  //  Homepage: "Where are you right now?" chooser
+  //  Nothing is stored or sent; it only shows and hides panels.
+  // ============================================
+  const whereOpts = document.querySelectorAll('.where-opt');
+  const wherePanels = document.querySelectorAll('.where-panel');
+  if (whereOpts.length && wherePanels.length) {
+    wherePanels.forEach(p => { p.hidden = true; });
+    whereOpts.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.where;
+        const wasOn = btn.getAttribute('aria-pressed') === 'true';
+        whereOpts.forEach(b => b.setAttribute('aria-pressed', 'false'));
+        wherePanels.forEach(p => { p.hidden = true; });
+        if (wasOn) return;
+        btn.setAttribute('aria-pressed', 'true');
+        const panel = document.querySelector('.where-panel[data-panel="' + key + '"]');
+        if (panel) {
+          panel.hidden = false;
+          const r = panel.getBoundingClientRect();
+          if (r.bottom > window.innerHeight) {
+            panel.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
+          }
+        }
+      });
+    });
+  }
+
+  // ============================================
   //  Footer: auto year + "About this site" disclosure
   // ============================================
   document.querySelectorAll('.footer-copy').forEach(el => {
@@ -194,20 +224,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ============================================
   //  ED Prep Toolkit floating banner
-  //  Auto-injected on the blog index and every post page.
-  //  Skipped on the homepage (has the review banner) and
-  //  resources.html (the toolkit already lives there).
+  //  Auto-injected on the blog index and every post page only.
+  //  Never on the homepage or resources page.
   // ============================================
-  const isBlogPage = document.querySelector('.blog-grid') || document.querySelector('.post-hero');
-  const currentFile = window.location.pathname.split('/').pop();
-  if (isBlogPage && currentFile !== 'resources.html') {
+  const currentFile = window.location.pathname.split('/').pop().replace(/\.html$/, '');
+  const isBlogPage = currentFile === 'blog' || !!document.querySelector('.post-hero');
+  if (isBlogPage) {
     const KEY = 'toolkitBannerDismissed';
     if (!localStorage.getItem(KEY)) {
       const banner = document.createElement('a');
       banner.href = 'resources.html';
       banner.className = 'toolkit-banner';
       banner.setAttribute('aria-label', 'Get the free ED Prep Toolkit');
-      banner.innerHTML = '<strong>📋 Get the ED Prep Toolkit</strong><span>Organize your thoughts with these free customizable checklists</span>';
+      banner.innerHTML = '<strong>Get the ED Prep Toolkit</strong><span>Organize your thoughts with these free customizable checklists</span>';
 
       const closeBtn = document.createElement('button');
       closeBtn.type = 'button';

@@ -5,8 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>From Burnout to Breakthrough | Eric Cummins, MD</title>
   <meta name="description" content="How one conversation with a grieving family changed the way an emergency physician thinks about compassion, burnout, and patient care." />
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/images/favicon-48.png" sizes="48x48" type="image/png" />
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+  <meta name="theme-color" content="#1E3A5F" />
+  <link rel="canonical" href="https://myervisit.com/from-burnout-to-breakthrough-how-one-conversation-changed-how-i-see-patient-care" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Eric Cummins, MD" />
+  <meta property="og:title" content="From Burnout to Breakthrough" />
+  <meta property="og:description" content="How one conversation with a grieving family changed the way an emergency physician thinks about compassion, burnout, and patient care." />
+  <meta property="og:url" content="https://myervisit.com/from-burnout-to-breakthrough-how-one-conversation-changed-how-i-see-patient-care" />
+  <meta property="og:image" content="https://myervisit.com/images/og/burnout-breakthrough-lecture.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
   <style>
     .post-hero { background: var(--navy); padding: 150px 0 80px; position: relative; overflow: hidden; }
     .post-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 48px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
@@ -18,12 +29,12 @@
     .post-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
     .post-body { max-width: 760px; margin: 0 auto; padding: 60px 28px 80px; }
     .post-body p { color: var(--charcoal); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; }
-    .post-body h2 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
+    .post-body h2 { color: var(--navy); font-family: 'Fraunces', serif; font-size: 1.55rem; margin: 2.6rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
     .post-body strong { color: var(--navy); }
     .back-to-blog { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-bottom: 36px; }
     .back-to-blog:hover { gap: 12px; }
     .quote-box { background: var(--warm-white); border-left: 4px solid var(--gold); border-radius: var(--radius); padding: 28px 32px; margin: 30px 0; box-shadow: var(--shadow-sm); }
-    .quote-box p { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.25rem; line-height: 1.55; margin: 0; }
+    .quote-box p { color: var(--navy); font-family: 'Fraunces', serif; font-size: 1.25rem; line-height: 1.55; margin: 0; }
     .evidence-box { background: rgba(61,122,138,0.08); border: 1px solid rgba(61,122,138,0.18); border-radius: var(--radius); padding: 26px 28px; margin: 30px 0; }
     .evidence-box p { margin: 0; color: var(--navy); font-size: 0.98rem; }
     .rule-box { background: #FFF3CD; border: 1px solid #FFCA28; border-left: 4px solid #F59E0B; border-radius: var(--radius); padding: 24px 28px; margin: 30px 0; }
@@ -32,7 +43,7 @@
     .closing-box p { color: rgba(255,255,255,0.82); margin-bottom: 0; font-size: 1.05rem; line-height: 1.75; }
     .closing-box .closing-sig { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 16px !important; }
     .post-footer-note { font-size: 0.82rem; color: var(--muted); font-style: italic; border-top: 1px solid var(--cream-dark); padding-top: 20px; margin-top: 40px; }
-    .post-cta-band { background: linear-gradient(135deg, var(--gold), #A87A20); padding: 60px 0; text-align: center; }
+    .post-cta-band { background: linear-gradient(135deg, #94691B, #7A5614); padding: 60px 0; text-align: center; }
     .post-cta-band h2 { color: white; }
     .post-cta-band p { color: rgba(255,255,255,0.85); max-width: 480px; margin: 12px auto 28px; }
   </style>
@@ -53,13 +64,13 @@
           <li><a href="resources.html">Resources</a></li>
           <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
         </ul>
-        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        <button type="button" class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
       </div>
     </div>
   </nav>
 
   <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" id="mobileClose">✕</button>
+    <button type="button" class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
     <a href="index.html">Home</a><a href="about.html">About</a>
     <a href="blog.html">ED Insights</a><a href="resources.html">Resources</a>
     <a href="index.html#reviews">Share Your Experience</a>
@@ -72,9 +83,9 @@
       <h1>From Burnout to Breakthrough</h1>
       <p class="post-subtitle">How one conversation changed how I see compassion, burnout, and patient care.</p>
       <div class="post-meta">
-        <span class="post-meta-item">📅 September 19, 2025</span>
-        <span class="post-meta-item">⏱ 5 min read</span>
-        <span class="post-meta-item">✍️ Dr. Eric Cummins, MD</span>
+        <span class="post-meta-item">September 19, 2025</span>
+        <span class="post-meta-item">5 min read</span>
+        <span class="post-meta-item">Dr. Eric Cummins, MD</span>
       </div>
     </div>
   </section>
@@ -93,7 +104,9 @@
       </figcaption>
     </figure>
 
-    <p>I recently had to do something that felt a little uncomfortable. I gathered our Emergency Department nursing staff for a talk about compassion.</p>
+    <p>This one is a little different. It started as a talk I gave to our own emergency department team, and I am sharing it with you because I think patients deserve to know what we ask of ourselves.</p>
+
+    <p>I gathered our nursing staff for a talk about compassion, which felt a little uncomfortable.</p>
 
     <p>Now, before you roll your eyes and think, "Great, another touchy-feely lecture from the doc," hear me out. Because what I witnessed over the past few months made me realize we are facing a real problem.</p>
 
@@ -105,7 +118,7 @@
 
     <p>But something made me pause and sit with the family instead of rushing off.</p>
 
-    <div class="quote-box" data-aos="fade-up">
+    <div class="quote-box">
       <p>"We're actually thankful you were on call tonight."</p>
     </div>
 
@@ -131,11 +144,11 @@
 
     <p>No. Compassion is evidence-based medicine. It is a clinical intervention with measurable outcomes.</p>
 
-    <div class="evidence-box" data-aos="fade-up">
-      <p>A Harvard study showed that just 40 seconds of genuine compassion from a doctor during a cancer diagnosis meeting significantly reduced patient anxiety. Forty seconds. That is barely enough time to microwave leftover pizza, but it produces real, measurable results.</p>
+    <div class="evidence-box">
+      <p>A Johns Hopkins study found that just 40 seconds of compassion from a doctor, added to a conversation about a breast cancer diagnosis, measurably lowered anxiety in the women watching it. Forty seconds. That is barely enough time to microwave leftover pizza, but it produces real, measurable results.</p>
     </div>
 
-    <p>The data is powerful. Another Harvard study looked at patients taking HAART medication for HIV. When patients felt their doctor showed genuine interest in them as individuals, they were more likely to take their medication properly and had better clinical outcomes.</p>
+    <p>The data is powerful. Another Johns Hopkins study looked at patients being treated for HIV. When patients felt their doctor knew them as a person, they were more likely to take their medication properly and had better clinical outcomes.</p>
 
     <p>Compassionate care improves medication adherence, reduces physical symptoms, and can speed healing. Studies show it can lower blood pressure, reduce inflammation markers, and even support immune function.</p>
 
@@ -145,15 +158,15 @@
 
     <p>Healthcare has become incredibly demanding. We are understaffed, overworked, and dealing with sicker patients than ever. It is easy to become numb to suffering when you see it every single day.</p>
 
-    <p>And yes, some patients are difficult. The patient who argues about every single thing you do. The patient who keeps coming back. The patient who is scared but expresses it as anger. It is tempting to put up walls and just get through the shift.</p>
+    <p>And yes, some conversations are hard. Fear does not always look like fear. Sometimes it looks like frustration, or anger, or a lot of questions. On a long shift it is tempting for us to put up walls and just get through it.</p>
 
-    <p>But that is precisely when compassion matters most. Even difficult patients are often scared, in pain, or feeling powerless. Sometimes a little understanding can turn your worst interaction into your most meaningful one.</p>
+    <p>But that is precisely when compassion matters most. The person in front of us is usually scared, in pain, or feeling powerless. A little understanding can turn the hardest conversation of the day into the most meaningful one.</p>
 
     <h2>The 40-Second Rule</h2>
 
     <p>I challenged our team to try what I call the 40-Second Rule. In every patient interaction, find 40 seconds to be genuinely present. Make eye contact. Use their name. Validate their pain or concern. Go over the plan in detail.</p>
 
-    <div class="rule-box" data-aos="fade-up">
+    <div class="rule-box">
       <p>It can be as simple as saying, "I know this is scary, but we are going to take good care of you," or "I can see you are in pain. Let's work on making you more comfortable."</p>
     </div>
 
@@ -169,7 +182,7 @@
 
     <p>At the end of the day, the most potent medicine we can offer is not always found in a syringe or a pill bottle. Sometimes it is simply showing up as one human being caring for another.</p>
 
-    <div class="closing-box" data-aos="fade-up">
+    <div class="closing-box">
       <p>If we cannot find 40 seconds to be kind in the ED, where healing is literally our job, where can we?</p>
       <p class="closing-sig">— Dr. Eric Cummins, MD</p>
     </div>
@@ -203,7 +216,6 @@
     </div>
   </footer>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

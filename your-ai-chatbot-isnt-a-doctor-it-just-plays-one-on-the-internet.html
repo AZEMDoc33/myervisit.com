@@ -5,8 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your AI Chatbot Isn't a Doctor | Eric Cummins, MD</title>
   <meta name="description" content="Where does ChatGPT actually get its medical information? An emergency physician breaks down what's safe, what's dangerous, and what you should never ask an AI chatbot." />
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/images/favicon-48.png" sizes="48x48" type="image/png" />
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+  <meta name="theme-color" content="#1E3A5F" />
+  <link rel="canonical" href="https://myervisit.com/your-ai-chatbot-isnt-a-doctor-it-just-plays-one-on-the-internet" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Eric Cummins, MD" />
+  <meta property="og:title" content="Your AI Chatbot Isn&#x27;t a Doctor" />
+  <meta property="og:description" content="Where does ChatGPT actually get its medical information? An emergency physician breaks down what's safe, what's dangerous, and what you should never ask an AI chatbot." />
+  <meta property="og:url" content="https://myervisit.com/your-ai-chatbot-isnt-a-doctor-it-just-plays-one-on-the-internet" />
+  <meta property="og:image" content="https://myervisit.com/images/og/chatbot-ai-not-doctor.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
   <style>
     .post-hero { background: var(--navy); padding: 150px 0 80px; position: relative; overflow: hidden; }
     .post-hero::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 48px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
@@ -19,14 +30,14 @@
 
     .post-body { max-width: 760px; margin: 0 auto; padding: 60px 28px 80px; }
     .post-body p { color: var(--charcoal); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.4rem; }
-    .post-body h2 { color: var(--navy); font-family: 'Playfair Display', serif; font-size: 1.55rem; margin: 2.8rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
+    .post-body h2 { color: var(--navy); font-family: 'Fraunces', serif; font-size: 1.55rem; margin: 2.8rem 0 0.9rem; border-left: 4px solid var(--gold); padding-left: 16px; }
 
     .back-to-blog { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 600; font-size: 0.9rem; transition: var(--transition); margin-bottom: 36px; }
     .back-to-blog:hover { gap: 12px; }
 
     /* Source breakdown chart */
     .source-breakdown { background: var(--warm-white); border-radius: var(--radius); padding: 32px; margin: 28px 0; border: 1px solid rgba(30,58,95,0.08); }
-    .source-breakdown h3 { color: var(--navy); font-size: 1.1rem; margin-bottom: 20px; font-family: 'Playfair Display', serif; }
+    .source-breakdown h3 { color: var(--navy); font-size: 1.1rem; margin-bottom: 20px; font-family: 'Fraunces', serif; }
     .source-item { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
     .source-bar-wrap { flex: 1; background: var(--cream-dark); border-radius: 4px; height: 10px; overflow: hidden; }
     .source-bar { height: 100%; border-radius: 4px; background: var(--teal); transition: width 1s ease; }
@@ -44,8 +55,8 @@
     .do-box, .dont-box { border-radius: var(--radius); padding: 24px; }
     .do-box { background: rgba(61,122,138,0.08); border: 1px solid rgba(61,122,138,0.2); }
     .dont-box { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.18); }
-    .do-box h4 { color: var(--teal); font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 14px; }
-    .dont-box h4 { color: #DC2626; font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 14px; }
+    .do-box h4 { color: var(--teal); font-family: 'Fraunces', serif; font-size: 1rem; margin-bottom: 14px; }
+    .dont-box h4 { color: #DC2626; font-family: 'Fraunces', serif; font-size: 1rem; margin-bottom: 14px; }
     .do-dont-item { display: flex; gap: 10px; font-size: 0.9rem; color: var(--charcoal); line-height: 1.5; margin-bottom: 10px; }
     .do-dont-item:last-child { margin-bottom: 0; }
     .do-icon { color: var(--teal); font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
@@ -53,7 +64,7 @@
 
     /* Trusted sources */
     .trusted-sources { background: var(--navy); border-radius: var(--radius); padding: 32px; margin: 28px 0; }
-    .trusted-sources h3 { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 20px; }
+    .trusted-sources h3 { color: var(--gold); font-family: 'Fraunces', serif; font-size: 1.15rem; margin-bottom: 20px; }
     .source-link-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; color: white; font-size: 0.93rem; line-height: 1.5; }
     .source-link-item:last-child { margin-bottom: 0; }
     .source-check { color: var(--gold); flex-shrink: 0; }
@@ -65,7 +76,7 @@
 
     .post-footer-note { font-size: 0.82rem; color: var(--muted); font-style: italic; border-top: 1px solid var(--cream-dark); padding-top: 20px; margin-top: 40px; }
 
-    .post-cta-band { background: linear-gradient(135deg, var(--gold), #A87A20); padding: 60px 0; text-align: center; }
+    .post-cta-band { background: linear-gradient(135deg, #94691B, #7A5614); padding: 60px 0; text-align: center; }
     .post-cta-band h2 { color: white; }
     .post-cta-band p { color: rgba(255,255,255,0.85); max-width: 480px; margin: 12px auto 28px; }
 
@@ -91,13 +102,13 @@
           <li><a href="resources.html">Resources</a></li>
           <li><a href="index.html#reviews" class="navbar-cta">Share Your Experience</a></li>
         </ul>
-        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        <button type="button" class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
       </div>
     </div>
   </nav>
 
   <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" id="mobileClose">✕</button>
+    <button type="button" class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
     <a href="index.html">Home</a><a href="about.html">About</a>
     <a href="blog.html">ED Insights</a><a href="resources.html">Resources</a>
     <a href="index.html#reviews">Share Your Experience</a>
@@ -110,8 +121,8 @@
       <h1>Your AI Chatbot Isn't a Doctor</h1>
       <p class="post-subtitle">Where does ChatGPT get its information? Sure, it's fast — but is it actually accurate?</p>
       <div class="post-meta">
-        <span class="post-meta-item">⏱ 6 min read</span>
-        <span class="post-meta-item">✍️ Dr. Eric Cummins, MD</span>
+        <span class="post-meta-item">6 min read</span>
+        <span class="post-meta-item">Dr. Eric Cummins, MD</span>
       </div>
     </div>
   </section>
@@ -134,7 +145,7 @@
 
     <p>But here's the thing: not all online health information is created equal. And with AI chatbots like ChatGPT, Gemini, Grok, and Claude becoming popular sources for medical advice, we need to talk about what's actually safe — and what might land you in the ED.</p>
 
-    <h2>The Rise of Dr. ChatGPT 🤖</h2>
+    <h2>The Rise of Dr. ChatGPT</h2>
 
     <p>AI chatbots have become surprisingly popular for health questions. A recent survey found that one in six adults uses AI chatbots for medical information at least once a month. That's a lot of people asking their phones about their symptoms!</p>
 
@@ -142,71 +153,24 @@
 
     <p>But here's where things get scary.</p>
 
-    <h2>Where AI Learned "Medicine" (Hint: It's Not Med School) 📚</h2>
+    <h2>Where AI Learned "Medicine" (Hint: It's Not Med School)</h2>
 
-    <p>AI chatbots learn by reading enormous amounts of content and answering questions based on what they've "read." Sounds great, right? Here's the problem — AI doesn't just learn from medical textbooks and peer-reviewed journals. Look at where ChatGPT actually gets its information:</p>
+    <p>AI chatbots learn by reading enormous amounts of content and answering questions based on what they've "read." Sounds great, right? Here's the problem: AI doesn't just learn from medical textbooks and peer-reviewed journals.</p>
 
-    <div class="source-breakdown" data-aos="fade-up">
-      <h3>ChatGPT's Information Sources</h3>
+    <p>It reads the open internet: blogs, forums, product pages, news stories, and encyclopedia entries anyone can edit. Some of that is excellent. Some of it is a stranger with strong opinions and a keyboard. The chatbot does not always tell you which one it is quoting.</p>
 
-      <div class="source-item">
-        <span class="source-label">Third-Party Blogs &amp; Expert Reviews <span class="source-note">(Who determines if the "expert" is actually an expert?)</span></span>
-        <div class="source-bar-wrap"><div class="source-bar" style="width:34%;background:var(--navy);"></div></div>
-        <span class="source-pct">34%</span>
-      </div>
-      <div class="source-item">
-        <span class="source-label">Review Platforms <span class="source-note">(Think Yelp, but for everything)</span></span>
-        <div class="source-bar-wrap"><div class="source-bar" style="width:18%;background:var(--teal);"></div></div>
-        <span class="source-pct">18%</span>
-      </div>
-      <div class="source-item">
-        <span class="source-label">Wikipedia <span class="source-note">(Anyone can edit this, by the way)</span></span>
-        <div class="source-bar-wrap"><div class="source-bar" style="width:15%;background:var(--teal);"></div></div>
-        <span class="source-pct">15%</span>
-      </div>
-      <div class="source-item">
-        <span class="source-label">News &amp; Industry Publications</span>
-        <div class="source-bar-wrap"><div class="source-bar" style="width:15%;background:var(--gold);"></div></div>
-        <span class="source-pct">15%</span>
-      </div>
-      <div class="source-item">
-        <span class="source-label">Vendor Product Pages <span class="source-note">(Companies selling you stuff)</span></span>
-        <div class="source-bar-wrap"><div class="source-bar" style="width:6%;background:#E07A5F;"></div></div>
-        <span class="source-pct">6%</span>
-      </div>
-      <div class="source-item">
-        <span class="source-label">Product-Specific Blogs</span>
-        <div class="source-bar-wrap"><div class="source-bar" style="width:5%;background:#E07A5F;"></div></div>
-        <span class="source-pct">5%</span>
-      </div>
-      <div class="source-item">
-        <span class="source-label">Reddit &amp; Community Threads <span class="source-note">(Same place that debates whether hot dogs are sandwiches)</span></span>
-        <div class="source-bar-wrap"><div class="source-bar" style="width:4%;background:#DC2626;"></div></div>
-        <span class="source-pct">4%</span>
-      </div>
-      <div class="source-item">
-        <span class="source-label">YouTube Review Videos <span class="source-note">(Home of cat videos and "doctors" with strong opinions)</span></span>
-        <div class="source-bar-wrap"><div class="source-bar" style="width:3%;background:#DC2626;"></div></div>
-        <span class="source-pct">3%</span>
-      </div>
-
-      <p style="margin-top:18px;font-size:0.85rem;color:var(--muted);font-style:italic;margin-bottom:0;">Notice what's missing? Peer-reviewed medical journals. Evidence-based guidelines. Actual medical textbooks. Source: Concurate.com</p>
-    </div>
-
-    <p>Would you trust medical advice based mostly on blogs and review sites? I hope not! But that's essentially what you might be getting when you ask AI for health advice.</p>
-
-    <h2>When AI Goes Dangerously Wrong ⚠️</h2>
+    <h2>When AI Goes Dangerously Wrong</h2>
 
     <p>Still think AI medical advice is harmless? Let me share a terrifying real-life example.</p>
 
-    <div class="warning-box" data-aos="fade-up">
+    <div class="warning-box">
       <div class="warning-label">⚠️ Real Patient Case</div>
-      <p>A 60-year-old man wanted to reduce the amount of salt in his diet — a perfectly reasonable health goal. So he asked ChatGPT for advice. The AI recommended he take <strong>sodium bromate</strong>. Here's the problem: sodium bromate is <strong>toxic to humans</strong>. The man ended up in the emergency department with bromate toxicity, suffering from paranoid delusions and other serious symptoms. All because he trusted AI advice without checking with a real doctor.</p>
+      <p>A 60-year-old man wanted to cut back on table salt, a perfectly reasonable health goal. After asking ChatGPT, he swapped it for <strong>sodium bromide</strong> and used it for about three months. Here's the problem: bromide builds up in the body and is <strong>toxic</strong>. He ended up in the emergency department with bromide poisoning (doctors call it bromism), with paranoia and hallucinations, and spent about three weeks in the hospital. All because he trusted AI advice without checking with a real doctor. The case was published in <em>Annals of Internal Medicine: Clinical Cases</em> in 2025.</p>
     </div>
 
     <p>This isn't just a "whoops" moment. This was life-threatening.</p>
 
-    <h2>Why AI Makes a Terrible Doctor 🩺</h2>
+    <h2>Why AI Makes a Terrible Doctor</h2>
 
     <p>AI chatbots have some serious limitations when it comes to healthcare:</p>
 
@@ -218,14 +182,14 @@
 
     <p><strong>They don't know YOU.</strong> AI can't account for your personal health history, medications, allergies, or living situation. Good healthcare is personal.</p>
 
-    <p><strong>They make mistakes with real consequences.</strong> Such as recommending toxic substances for salt reduction. Need I say more?</p>
+    <p><strong>They make mistakes with real consequences.</strong> Like swapping table salt for a toxic chemical. Need I say more?</p>
 
-    <h2>Where You Should Actually Get Health Info ✅</h2>
+    <h2>Where You Should Actually Get Health Info</h2>
 
     <p>The internet has great health resources — you just need to know where to look.</p>
 
-    <div class="trusted-sources" data-aos="fade-up">
-      <h3>🏥 Your Trusted Health Sources</h3>
+    <div class="trusted-sources">
+      <h3>Your Trusted Health Sources</h3>
       <div class="source-link-item"><span class="source-check">✅</span><span><strong>MedlinePlus</strong> — Run by the National Library of Medicine with reliable, up-to-date information</span></div>
       <div class="source-link-item"><span class="source-check">✅</span><span><strong>National Institutes of Health (NIH)</strong> — The gold standard for medical research</span></div>
       <div class="source-link-item"><span class="source-check">✅</span><span><strong>Centers for Disease Control and Prevention (CDC)</strong> — Your go-to for diseases, vaccines, and public health</span></div>
@@ -235,13 +199,13 @@
 
     <p>These sites are written and reviewed by real medical professionals — not Reddit users with strong opinions.</p>
 
-    <h2>Can You Ever Use AI for Health Stuff? 🤔</h2>
+    <h2>Can You Ever Use AI for Health Stuff?</h2>
 
     <p>Yes — but think of AI as a helpful starting point, not a final answer. It can explain medical words, help you organize questions for your doctor, or translate confusing discharge instructions into plain English. That can be useful.</p>
 
     <p>What it should not do is diagnose you, tell you whether to skip the ED, tell you to stop a prescribed medication, or replace the advice of someone who can actually examine you.</p>
 
-    <div class="do-dont-grid" data-aos="fade-up">
+    <div class="do-dont-grid">
       <div class="do-box">
         <h4>Reasonable Uses</h4>
         <div class="do-dont-item"><span class="do-icon">✓</span><span>Ask it to explain a medical term in plain language.</span></div>
@@ -262,7 +226,7 @@
 
     <p>Use AI to get better prepared for a real conversation. Do not use it as the conversation.</p>
 
-    <div class="closing-box" data-aos="fade-up">
+    <div class="closing-box">
       <p>AI can be a great tool for curiosity. It is not a substitute for judgment, context, or a human being who can look you in the eye and say, "Something about this does not feel right."</p>
       <p class="closing-sig">— Dr. Eric Cummins, MD</p>
     </div>
@@ -296,7 +260,6 @@
     </div>
   </footer>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

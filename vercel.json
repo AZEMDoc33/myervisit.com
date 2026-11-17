@@ -11,14 +11,37 @@
     {
       "source": "/ed-metrics",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
       ]
     },
     {
       "source": "/ed-metrics/(.*)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/contact",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/contact.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/what-patients-really-remember-the-swedish-bus-crash-that-changed-how-i-think-about-healthcare",
+      "destination": "/blog",
+      "permanent": false
     }
   ]
 }
