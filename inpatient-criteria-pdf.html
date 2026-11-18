@@ -636,7 +636,7 @@ body {
   <div class="testimonial-wrap">
     <div class="section-label" style="margin-bottom:10px;">💬 What Our Patients Are Saying</div>
     <div class="testimonial-card" id="testimonialCard">
-      <p class="testimonial-quote" id="testimonialQuote">I truly believe this ER doctor and staff are the best in the business when it comes to customer care.</p>
+      <p class="testimonial-quote" id="testimonialQuote">Dr. Ann Andonyan was one of the most pleasant, professional doctors I have ever met. She took the time to answer all my questions. A great asset to your staff.</p>
     </div>
     <div class="testimonial-nav">
       <button type="button" class="testimonial-arrow" id="testimonialPrev" aria-label="Previous testimonial">‹</button>
@@ -666,51 +666,50 @@ body {
 <p class="footer-note">For clinical staff use only · Not for patient distribution · © 2025 Eric Cummins, MD</p>
 
 <script>
-// Patient testimonial carousel — cycles every ~75 seconds with fade transition
+// Patient testimonial carousel — named Doc/PA comments only (roster-verified), 8-second cycle with fade
 (function() {
   var quotes = [
-    "Doctor Winter was amazing and explained everything well.",
-    "I was especially impressed with Dr. Besh. His analysis was exactly what I needed. Very professional, knowledgeable and pleasant doctor.",
+    "Dr. Ann Andonyan was one of the most pleasant, professional doctors I have ever met. She took the time to answer all my questions. A great asset to your staff.",
+    "With a kind, soft voice Dr. Boesch explained my blood and urine results, and also asked what brought me to the ER. Very sympathetic and understanding.",
+    "David Rigby, PA, was top of the line. Very kind and considerate.",
+    "Dr. Winter has excellent bedside manner and is an efficient, informative physician. She keeps me informed and couldn't be any nicer.",
+    "PA Dan McCullough listened to me, spoke louder because I'm hard of hearing, and explained his treatment plan and why. He was exceptional!",
+    "Dr. Justin Andes was phenomenal. He stayed calm, connected with my 4-year-old, and made sure dad and I were aware of every step.",
+    "My ER provider was PA Brian Pavlue. I was fortunate to have him and the nurses involved with my care.",
+    "Dr. Hunter was so naturally nice and thorough. I'm 77 and alone, and I felt like he was my private physician.",
+    "Andrea McKelvy, PA, is very efficient and knowledgeable.",
+    "Dr. Berman was simply a gem! He was thorough, listened intently to my husband, and built a plan that managed his pain in the ED and after discharge.",
+    "Dr. Hamblin listened to my concerns about pain medicine and let me choose. He did a great job explaining my CT results and the plan of care.",
+    "Alejandro Figueroa, PA, was very caring and explained everything. He made recommendations for follow-up when I return home since I was not local.",
+    "Dr. Brett Hapeman had a very caring attitude. He was the most positive part of our experience.",
+    "Sara Jones, PA, should be commended for her professionalism and bedside manner.",
+    "Dr. Hamblin was great about advocating for further testing while staying attentive to my needs. He validated my pain and treated it.",
+    "Dr. Winter was amazing and explained everything well.",
+    "I was especially impressed with Dr. Boesch. His analysis was exactly what I needed. Very professional, knowledgeable and pleasant doctor.",
+    "Kathryn Lombardi, PA, was super attentive and kind. Very good bedside manner.",
+    "Dr. Justin Andes was excellent. His professionalism, bedside manner and communication were the best I have experienced in a very long time.",
     "Dr. Hamblin was awesome.",
-    "Lombardi was super attentive and kind. Very good bedside manner.",
-    "Dr Boesch was so kind, thorough and informative! I really liked him a lot!",
-    "Dr. Justin Andes was excellent. His professionalism, bedside manner and communications were, honestly, the best I have experienced in a very long time.",
-    "Dr. Care was outstanding and so kind.",
-    "He was very compassionate and took care of my pain almost immediately.",
-    "Dr Hunter did a great job controlling the pain.",
-    "I believe Justin was my doctor. He was also great. Very thorough and easy to understand.",
+    "Dr. Jordan Hunter was very compassionate and took care of my pain almost immediately.",
     "Dr. Winter is amazing. She has cared for my family two times and both times I have been very impressed.",
-    "With Dr. Gunzy and Banner Gateway, my life was saved.",
-    "Dr Andes was absolutely wonderful. He explained all tests, answered my questions clearly, and presented himself as caring.",
+    "Dr. Boesch was so kind, thorough and informative! I really liked him a lot!",
+    "Robert Fakler, PA, was amazing. He listened to me and prescribed the medications I needed.",
+    "Dr. Andes was absolutely wonderful. He explained all tests, answered my questions clearly, and presented himself as caring.",
+    "Dr. Winter was amazing. She got straight to the point and did not wait, knowing I was in great pain.",
+    "Justin Clark, PA, went above and beyond to make our visit easier.",
+    "Dr. David Boesch was very attentive to my medical needs. He even gave me a follow-up phone call the next day.",
     "Dr. Hamblin was very attentive and caring.",
-    "Dr Wincher was amazing. She got straight to the point and did not wait knowing I was in great pain.",
-    "Dr. David Boesch was very attentive to my medical needs. He even gave me a follow up phone call the next day.",
-    "Dr. Williams departed and returned, informing me that there was no blockage in my leg. I felt an overwhelming sense of relief.",
-    "Dr Hamblin was great in all aspects of his time with me.",
-    "Dr. Hunter was very kind.",
-    "Dr. Boesch was incredibly amazing. Very attentive, actively listened, checked in with me and my mother several times.",
-    "Dr Besh was great. He sat down next to me, asked questions and listened.",
-    "Sara Jones was efficient and very kind to me!",
-    "Dr. McDowell did an excellent job.",
-    "Dr. Winters provided me with exceptional care and understanding. She listened and was detailed in her examination.",
-    "Dr Winter was fantastic. Very caring and informative. Best I have ever seen.",
-    "Dr. Hapeman was great! Everything you would want in an ER doctor.",
-    "Dr. Burnham and my nurse were empathetic and very competent.",
-    "I love Dr Egbert. He's the type of doctor all doctors should strive to be. He set the bar very high.",
-    "Robert Fakler was amazing. He listened to me and prescribed the medications I needed.",
-    "Doctor Brian Pavlue is one of the best doctors as far as knowledge, skills and compassion.",
     "PA Sara Jones was what you hope for when using an emergency room. Exceptional.",
-    "Justin Clark went above and beyond to make our visit easier.",
-    "My doctor was exceptional. He was down to earth, kind, and caring. I trusted him 100%.",
-    "The PA expressed a genuine desire to keep me comfortable.",
-    "The Physician was amazing. He was informative and explained why he was ordering tests as well as explaining results.",
-    "The provider was knowledgeable and assessed me well.",
-    "The nurse practitioner was excellent. Understood my issue and provided guidance and a prescription.",
-    "The ER doc was great, made sure I was well numbed before stitches and thoroughly went through all of the follow up instructions.",
-    "The physician covered every base which I am thankful for. He was very kind and listened to everything I had to say.",
-    "PA took time to hear the history.",
-    "The doctor was very knowledgeable and checked all the boxes. I felt very safe and in good hands.",
-    "Nurses, techs, and doctor were all kind and took great care of me."
+    "I love Dr. Egbert. He's the type of doctor all doctors should strive to be. He set the bar very high.",
+    "Dr. Hunter did a great job controlling the pain.",
+    "Dr. Boesch was incredibly amazing. Very attentive, actively listened, and checked in with me and my mother several times.",
+    "PA Brian Pavlue is one of the best as far as knowledge, skills and compassion.",
+    "Dr. Winter provided me with exceptional care and understanding. She listened and was detailed in her examination.",
+    "Dr. Hapeman was great! Everything you would want in an ER doctor.",
+    "Sara Jones was efficient and very kind to me!",
+    "Dr. Boesch was great. He sat down next to me, asked questions and listened.",
+    "Dr. Hamblin was great in all aspects of his time with me.",
+    "Dr. Winter was fantastic. Very caring and informative. Best I have ever seen.",
+    "Dr. Hunter was very kind."
   ];
 
   var quoteEl = document.getElementById('testimonialQuote');
